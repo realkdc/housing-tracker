@@ -23,7 +23,20 @@
     .stat-value { font-size: 1.3rem; font-weight: 700; }
     .stat-label { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
 
-    .legend { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.72rem; color: var(--text-muted); line-height: 1.6; }
+    .legend { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.72rem; line-height: 1.6; }
+    .legend .legend-row { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+    .legend-row:last-child { margin-bottom: 0; }
+    .legend-label { color: var(--text-muted); font-weight: 600; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.3px; min-width: 70px; }
+    .legend-range { color: var(--text); font-weight: 600; }
+    .legend .legend-row { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; padding: 4px 0; border-bottom: 1px solid var(--border); }
+    .legend-row:last-child { margin-bottom: 0; border-bottom: none; }
+    .prop-icon { font-size: 1.1rem; margin-right: 2px; }
+    .price-pips { display: inline-flex; gap: 2px; }
+    .pip { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+    .pip.on { background: var(--success); }
+    .must-have { color: var(--success); font-weight: 600; }
+    .must-have + .must-have::before { content: " · "; color: var(--border); }
+    .area-badge.area-b { color: var(--warning); }
     .legend strong { color: var(--text); }
     .score-badge { display: inline-block; width: 26px; height: 26px; line-height: 26px; text-align: center; border-radius: 4px; font-weight: 700; font-size: 0.8rem; margin-right: 3px; }
     .s-a { background: rgba(63,185,80,0.2); color: var(--success); border: 1px solid rgba(63,185,80,0.4); }
@@ -102,16 +115,33 @@
   </div>
 
   <div class="legend">
-    <strong>Score</strong> (your prefs, 0–16+): &nbsp;
-    <span class="score-badge s-a">A</span>14+ &nbsp;
-    <span class="score-badge s-b">B</span>10–13 &nbsp;
-    <span class="score-badge s-c">C</span>6–9 &nbsp;
-    <span class="score-badge s-d">D</span>&lt;6 &nbsp;|&nbsp;
-    <strong>Area safety</strong>: <span class="area-badge area-a">A+</span> 57108/57110/57106 &nbsp;
-    <span class="area-badge area-b">B-</span> 57104 (avoid) &nbsp;|&nbsp;
-    Type: Townhouse +3, Apt +1 &nbsp;|&nbsp;
-    Price (alone): ≤$900 +4, ≤$1.1k +3, ≤$1.3k +2, ≤$1.4k +1 &nbsp;|&nbsp;
-    W/D: In-unit +3 &nbsp;|&nbsp; Garage +2 &nbsp;|&nbsp; Deposit alt +2–3 &nbsp;|&nbsp; All links → new tab
+    <div class="legend-row">
+      <span class="legend-label">Score</span>
+      <span class="score-badge s-a">A</span><span class="legend-range">14+</span>
+      <span class="score-badge s-b">B</span><span class="legend-range">10–13</span>
+      <span class="score-badge s-c">C</span><span class="legend-range">6–9</span>
+      <span class="score-badge s-d">D</span><span class="legend-range">&lt;6</span>
+    </div>
+    <div class="legend-row">
+      <span class="legend-label">Area</span>
+      <span class="area-badge area-a">A+</span><span class="legend-range">57108/57110/57106</span>
+      <span class="area-badge area-b">B- ⚠</span><span class="legend-range">57104</span>
+    </div>
+    <div class="legend-row">
+      <span class="legend-label">Type</span>
+      <span class="prop-icon">🏠</span>Townhouse +3
+      <span class="prop-icon">🏢</span>Apartment +1
+    </div>
+    <div class="legend-row">
+      <span class="legend-label">Budget</span>
+      <span class="price-pips"><span class="pip on"></span><span class="pip on"></span><span class="pip on"></span><span class="pip on"></span></span> ≤$900 +4
+    </div>
+    <div class="legend-row">
+      <span class="legend-label">Must-haves</span>
+      <span class="must-have">✓ W/D +3</span>
+      <span class="must-have">✓ Garage +2</span>
+      <span class="must-have">✓ Dep alt +2</span>
+    </div>
   </div>
 
   <!-- DESKTOP -->
