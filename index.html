@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>C43 Housing Tracker — Sioux Falls / Tea SD</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --bg-elevated: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --accent-hover: #79c0ff;
+      --success: #3fb950;
+      --warning: #d29922;
+      --danger: #f85149;
+      --info: #a371f7;
+      --code-bg: #1f2428;
+      --row-hover: #1f2428;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 24px; line-height: 1.5; }
+    .container { max-width: 1400px; margin: 0 auto; }
+    h1 { font-size: 1.5rem; font-weight: 600; margin: 0 0 8px; }
+    .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 24px; }
+    .stats { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+    .stat { background: var(--bg-elevated); border: 1px solid var(--border); padding: 12px 16px; border-radius: 6px; min-width: 140px; }
+    .stat-value { font-size: 1.5rem; font-weight: 700; }
+    .stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat.new { border-left: 3px solid var(--success); }
+    .stat.email { border-left: 3px solid var(--accent); }
+    .stat.reply { border-left: 3px solid var(--info); }
+    .stat.dropped { border-left: 3px solid var(--danger); }
+    table { width: 100%; border-collapse: collapse; background: var(--bg-elevated); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+    th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+    th { background: var(--code-bg); font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.7rem; position: sticky; top: 0; z-index: 1; }
+    tr:hover { background: var(--row-hover); }
+    tr:last-child td { border-bottom: none; }
+    .status { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+    .status-new { background: rgba(63,185,80,0.15); color: var(--success); border: 1px solid rgba(63,185,80,0.3); }
+    .status-contacted { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
+    .status-replied { background: rgba(163,113,247,0.15); color: var(--info); border: 1px solid rgba(163,113,247,0.3); }
+    .status-tour { background: rgba(210,153,34,0.15); color: var(--warning); border: 1px solid rgba(210,153,34,0.3); }
+    .status-disqualified { background: rgba(248,81,73,0.15); color: var(--danger); border: 1px solid rgba(248,81,73,0.3); }
+    .status-watching { background: rgba(139,148,158,0.15); color: var(--text-muted); border: 1px solid rgba(139,148,158,0.3); }
+    .property-name { font-weight: 600; color: var(--text); }
+    .property-name a { color: var(--accent); text-decoration: none; }
+    .property-name a:hover { text-decoration: underline; }
+    .property-meta { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+    .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 0.65rem; font-weight: 600; margin-right: 4px; }
+    .badge-bender { background: rgba(88,166,255,0.2); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
+    .badge-pointguard { background: rgba(163,113,247,0.2); color: var(--info); border: 1px solid rgba(163,113,247,0.3); }
+    .badge-cresten { background: rgba(63,185,80,0.2); color: var(--success); border: 1px solid rgba(63,185,80,0.3); }
+    .badge-penkert { background: rgba(210,153,34,0.2); color: var(--warning); border: 1px solid rgba(210,153,34,0.3); }
+    .badge-solutions { background: rgba(248,81,73,0.2); color: var(--danger); border: 1px solid rgba(248,81,73,0.3); }
+    .price { font-family: 'SF Mono', 'Fira Code', monospace; font-weight: 600; }
+    .price.in-budget { color: var(--success); }
+    .price.over-budget { color: var(--warning); }
+    .email-log { font-size: 0.75rem; color: var(--text-muted); font-family: 'SF Mono', 'Fira Code', monospace; }
+    .section { margin-top: 32px; }
+    .section h2 { font-size: 1rem; font-weight: 600; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+    .note { font-size: 0.8rem; color: var(--text-muted); background: var(--code-bg); padding: 12px; border-radius: 6px; border: 1px solid var(--border); margin-top: 16px; }
+    .footer { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.8rem; text-align: center; }
+    @media (max-width: 900px) {
+      table { display: block; overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>C43 Housing Tracker</h1>
+    <p class="subtitle">Sioux Falls / Tea, SD — 2BR Townhouse ≤$1,400/mo • In-unit W/D • Parking • 6–9mo lease • A+ Zips (57108/57106/57110/57105/57064)</p>
+
+    <div class="stats">
+      <div class="stat new"><div class="stat-value">1</div><div class="stat-label">New Leads</div></div>
+      <div class="stat email"><div class="stat-value">8</div><div class="stat-label">Emails Sent</div></div>
+      <div class="stat reply"><div class="stat-value">1</div><div class="stat-label">Real Replies</div></div>
+      <div class="stat dropped"><div class="stat-value">1</div><div class="stat-label">Disqualified</div></div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 280px;">Property / Manager</th>
+          <th style="width: 80px;">Zip</th>
+          <th style="width: 100px;">Rent</th>
+          <th style="width: 120px;">Specs</th>
+          <th style="width: 140px;">Status</th>
+          <th style="width: 200px;">Contact / Notes</th>
+          <th style="width: 200px;">Email Log</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- REAL REPLY: Alpine -->
+        <tr>
+          <td>
+            <div class="property-name">4307 S Locust Dr (Tuthill)</div>
+            <div class="property-meta">Alpine Property Management — Brandon</div>
+          </td>
+          <td>57108</td>
+          <td class="price">—</td>
+          <td>2BR townhome</td>
+          <td><span class="status status-disqualified">Rented</span></td>
+          <td>
+            <span class="badge">Alpine</span>
+            <div class="property-meta">Brandon: "rented awhile ago" — check website for others</div>
+          </td>
+          <td class="email-log">Aug 28 — Reply received ✓<br>Aug 28 — Follow-up sent</td>
+        </tr>
+
+        <!-- KIRKWOOD: ALIVE -->
+        <tr style="border-left: 3px solid var(--success);">
+          <td>
+            <div class="property-name"><a href="#" >4907 W Kirkwood Cir #4</a></div>
+            <div class="property-meta">Joann — Pegasus of SD</div>
+          </td>
+          <td>57106</td>
+          <td class="price in-budget">$1,299</td>
+          <td>2BR • Attached 1-car garage INCL • Lawn+snow by landlord • Lease → end of March, then month-to-month (45-day notice) • W/D unconfirmed ⚠️</td>
+          <td><span class="status status-replied">Full terms — HOT</span></td>
+          <td>
+            <span class="badge">Pegasus</span>
+            <div class="property-meta">Deposit $800 • $35/adult app fee • Tenant pays gas/elec/water/trash • 2BR ready mid-Sept; <strong>KeShaun targets Nov 1 move-in — asked Joann to confirm</strong></td>
+          </td>
+          <td class="email-log">Aug 29 — Full terms ✓ / Nov 1 + W/D questions sent ✓</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="property-name">6033 S Kerry Ave</div>
+            <div class="property-meta">PointGuard (Carter)</div>
+          </td>
+          <td>—</td>
+          <td class="price">—</td>
+          <td>—</td>
+          <td><span class="status status-disqualified">Dead</span></td>
+          <td>
+            <span class="badge">PointGuard</span>
+            <div class="property-meta">Carter: "do not manage this property"</div>
+          </td>
+          <td class="email-log">Aug 29 — Reply: not theirs</td>
+        </tr>
+
+        <!-- ALPINE SHORTLIST from vacancy scrape -->
+        <tr>
+          <td>
+            <div class="property-name"><a href="https://alpinepropmgmt.appfolio.com/listings" target="_blank">Lincoln Heights — 413 S Cliff Ave #4</a></div>
+            <div class="property-meta">Alpine Property Management (Harrisburg/Tea-adjacent)</div>
+          </td>
+          <td>57032</td>
+          <td class="price in-budget">$1,145</td>
+          <td>2BR / 1.5BA • 960 sqft • <strong>In-unit W/D</strong> • Off-street parking</td>
+          <td><span class="status status-replied">Replied — ask STL</span></td>
+          <td>
+            <span class="badge">Alpine</span>
+            <div class="property-meta">$1000 off 1st mo (12mo) — ask short-term price</div>
+          </td>
+          <td class="email-log">Aug 28 — Follow-up sent</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="property-name"><a href="https://alpinepropmgmt.appfolio.com/listings" target="_blank">4601 E 3rd St #10 (Townhome)</a></div>
+            <div class="property-meta">Alpine Property Management</div>
+          </td>
+          <td>57110</td>
+          <td class="price in-budget">$895</td>
+          <td>2BR / 1BA • <strong>Cheapest qualify</strong> • On-site laundry (not in-unit) ⚠️</td>
+          <td><span class="status status-replied">Replied — ask STL</span></td>
+          <td>
+            <span class="badge">Alpine</span>
+            <div class="property-meta">$895 off 1st mo! • Lawn+snow incl.</div>
+          </td>
+          <td class="email-log">Aug 28 — Follow-up sent</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="property-name"><a href="https://alpinepropmgmt.appfolio.com/listings" target="_blank">2917 S Purdue Ave (Townhome)</a></div>
+            <div class="property-meta">Alpine Property Management</div>
+          </td>
+          <td>57106</td>
+          <td class="price over-budget">$1,750</td>
+          <td>3BR / 2.5BA • 1,525 sqft • <strong>In-unit W/D</strong> • 2-car garage</td>
+          <td><span class="status status-watching">Over budget — watching</span></td>
+          <td>
+            <span class="badge">Alpine</span>
+            <div class="property-meta">$350 over • Perfect spec otherwise</div>
+          </td>
+          <td class="email-log">—</td>
+        </tr>
+
+        <!-- NEW LEADS (found Aug 28) -->
+        <tr>
+          <td>
+            <div class="property-name"><a href="https://leasepointguard.com/unit/boulder-pointe-townhomes-7601-3/" target="_blank">Boulder Pointe Townhomes</a></div>
+            <div class="property-meta">PointGuard Management</div>
+          </td>
+          <td>57106</td>
+          <td class="price in-budget">$1,295</td>
+          <td>2BR / 1.5BA • 1,081 sqft • In-unit W/D • Attached Garage</td>
+          <td><span class="status status-contacted">Contacted</span></td>
+          <td>
+            <span class="badge badge-pointguard">PointGuard</span>
+            <div class="property-meta">7601 S 3rd St • (605) 988-8496</div>
+          </td>
+          <td class="email-log">Aug 30 — 5Q script sent ✓</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="property-name"><a href="https://www.cresten.com/our-properties/prairies-edge" target="_blank">Prairies Edge Townhomes</a></div>
+            <div class="property-meta">Cresten Properties</div>
+          </td>
+          <td>57108</td>
+          <td class="price over-budget">$1,435</td>
+          <td>2BR / 1.5BA • 1,081 sqft • In-unit W/D • Attached Garage</td>
+          <td><span class="status status-contacted">Contacted</span></td>
+          <td>
+            <span class="badge badge-cresten">Cresten</span>
+            <div class="property-meta">7400 S Homan Pl • (605) 800-7201</div>
+          </td>
+          <td class="email-log">Aug 30 — 5Q script sent ✓</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="property-name"><a href="https://penkertproperties.com/rentals/stoney-creek-townhomes/" target="_blank">Stoney Creek Townhomes</a></div>
+            <div class="property-meta">Penkert Properties</div>
+          </td>
+          <td>57106</td>
+          <td class="price in-budget">TBD</td>
+          <td>2BR • In-unit W/D • Garage • Pet-friendly</td>
+          <td><span class="status status-contacted">Contacted</span></td>
+          <td>
+            <span class="badge badge-penkert">Penkert</span>
+            <div class="property-meta">Need pricing confirmation</div>
+          </td>
+          <td class="email-log">Aug 30 — 5Q script sent ✓</td>
+        </tr>
+
+        <!-- NEW LEAD ADDED AUG 30 -->
+        <tr>
+          <td>
+            <div class="property-name"><a href="https://www.zillow.com/apartments/sioux-falls-sd/hosta-townhomes-1/BZS2Sx/" target="_blank">Hosta Townhomes</a></div>
+            <div class="property-meta">4802–4822 S Hosta Ave (private mgmt)</div>
+          </td>
+          <td>57110</td>
+          <td class="price in-budget">$1,295</td>
+          <td>2BR • In-unit W/D • Attached garage • Pet-friendly</td>
+          <td><span class="status status-new">New</span></td>
+          <td>
+            <span class="badge">Hosta</span>
+            <div class="property-meta">Phone (605) 501-6917 • No direct email — outreach via listing form/phone</div>
+          </td>
+          <td class="email-log">Aug 30 — Added (no PM email; call (605) 501-6917)</td>
+        </tr>
+
+        <!-- EXISTING QUALIFYING LEADS -->
+        <tr>
+          <td>
+            <div class="property-name"><a href="https://www.bendermidwestproperties.com/listings/detail/e1656063-e9b1-44cf-ad2b-b52b2d2384de" target="_blank">Willow Creek Townhomes</a></div>
+            <div class="property-meta">Bender Midwest Properties</div>
+          </td>
+          <td>57106</td>
+          <td class="price in-budget">$1,237+</td>
+          <td>2BR / 2BA • 1,086 sqft • In-unit W/D • Garage included</td>
+          <td><span class="status status-contacted">Contacted</span></td>
+          <td>
+            <span class="badge badge-bender">Bender</span>
+            <div class="property-meta">920 S Willow Creek Pl • (605) 799-0035</div>
+          </td>
+          <td class="email-log">Aug 27 — Sent 5Q script</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="property-name"><a href="https://www.bendermidwestproperties.com/listings/detail/461fdd65-a23a-4440-a481-ea5c5355d83f" target="_blank">East Briar Estates</a></div>
+            <div class="property-meta">Bender Midwest Properties</div>
+          </td>
+          <td>57110</td>
+          <td class="price in-budget">$895</td>
+          <td>2BR / 1BA • 1,100 sqft • In-unit W/D • Garages available</td>
+          <td><span class="status status-contacted">Contacted</span></td>
+          <td>
+            <span class="badge badge-bender">Bender</span>
+            <div class="property-meta">4707 E Clark St • (605) 937-7814</div>
+          </td>
+          <td class="email-log">Aug 27 — Sent 5Q script</td>
+        </tr>
+
+        <!-- WATCHING / NEED VERIFICATION -->
+        <tr>
+          <td>
+            <div class="property-name"><a href="https://www.apartments.com/edgewater-villas-sioux-falls-sd/jk158q6/" target="_blank">Edgewater Villas (Apts)</a></div>
+            <div class="property-meta">Apartments.com</div>
+          </td>
+          <td>57108</td>
+          <td class="price in-budget">$1,195</td>
+          <td>2BR / 2BA • 913 sqft • In-unit W/D • Parking</td>
+          <td><span class="status status-watching">Watching</span></td>
+          <td>
+            <span class="badge">Apartments</span>
+            <div class="property-meta">Apartment not townhouse • 516 E Clearwater Pl</div>
+          </td>
+          <td class="email-log">—</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="property-name"><a href="https://www.theexperiencerentals.com/listings/detail/64213222-f690-4bd9-8af9-418adb92ff67" target="_blank">Experience Rentals Condo</a></div>
+            <div class="property-meta">Experience Rentals</div>
+          </td>
+          <td>57106</td>
+          <td class="price in-budget">$1,250</td>
+          <td>2BR / 2BA • 1,150 sqft • Coin laundry • Garage</td>
+          <td><span class="status status-disqualified">Disqualified</span></td>
+          <td>
+            <span class="badge">Exp Rentals</span>
+            <div class="property-meta">Coin-op laundry (not in-unit)</div>
+          </td>
+          <td class="email-log">—</td>
+        </tr>
+
+        <!-- DROPPED / DISQUALIFIED -->
+        <tr>
+          <td>
+            <div class="property-name">2412 Copalis Pl (Solutions PM)</div>
+            <div class="property-meta">Solutions Property Mgmt</div>
+          </td>
+          <td>57108</td>
+          <td class="price over-budget">$1,995</td>
+          <td>3BR / 2.5BA • 1,646 sqft • In-unit W/D • Double garage</td>
+          <td><span class="status status-disqualified">Dropped</span></td>
+          <td>
+            <span class="badge badge-solutions">Solutions PM</span>
+            <div class="property-meta">Over budget • 3BR not 2BR</div>
+          </td>
+          <td class="email-log">—</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="property-name">The Concorde (Bender)</div>
+            <div class="property-meta">Bender Midwest Properties</div>
+          </td>
+          <td>57105</td>
+          <td class="price in-budget">$1,005+</td>
+          <td>2BR / 1BA • 1,020 sqft • In-unit W/D (some) • Garage</td>
+          <td><span class="status status-disqualified">Dropped</span></td>
+          <td>
+            <span class="badge badge-bender">Bender</span>
+            <div class="property-meta">Apartment not townhouse • 14+ mo lease for free rent</div>
+          </td>
+          <td class="email-log">—</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="property-name">Saddle Creek (Bender)</div>
+            <div class="property-meta">Bender Midwest Properties</div>
+          </td>
+          <td>57106</td>
+          <td class="price in-budget">$1,225+</td>
+          <td>2BR / 2BA • 1,130 sqft • In-unit W/D</td>
+          <td><span class="status status-disqualified">Dropped</span></td>
+          <td>
+            <span class="badge badge-bender">Bender</span>
+            <div class="property-meta">Apartment not townhouse</div>
+          </td>
+          <td class="email-log">—</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="property-name">West Pointe Commons</div>
+            <div class="property-meta">Cornerstone Residential</div>
+          </td>
+          <td>57106</td>
+          <td class="price in-budget">$955</td>
+          <td>2BR • Laundry hookups only • Garage</td>
+          <td><span class="status status-disqualified">Dropped</span></td>
+          <td>
+            <span class="badge">Cornerstone</span>
+            <div class="property-meta">Hookups ≠ in-unit W/D</div>
+          </td>
+          <td class="email-log">—</td>
+        </tr>
+        <tr>
+          <td>
+            <div class="property-name">Graystone Townhomes</div>
+            <div class="property-meta">Campbell Properties</div>
+          </td>
+          <td>57108</td>
+          <td class="price over-budget">$1,360</td>
+          <td>2BR • Details TBD</td>
+          <td><span class="status status-watching">Watching</span></td>
+          <td>
+            <span class="badge">Campbell</span>
+            <div class="property-meta">5400 S Graystone Ave • Need W/D confirmation</div>
+          </td>
+          <td class="email-log">—</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="section">
+      <h2>Search Coverage (through Aug 30)</h2>
+      <div class="note">
+        <strong>Sources checked:</strong> Zillow, Apartments.com, Homes.com, Avail, Rent.com, Facebook Marketplace (public groups), Bender Midwest Properties, PointGuard Management, Penkert Properties, Solutions Property Management, Cresten Properties, Experience Rentals, Charisma Properties. <strong>Re-scraped Aug 30:</strong> Alpine appfolio feed (no new qualifying 2BR leads — all 3BR / wrong zip / W/D-hookup apts); ThinkAlpine.com = same Alpine appfolio feed; Hosta Townhomes (57110) found via Zillow/Trulia as new qualifying lead.
+        <br><br>
+        <strong>Non-negotiables enforced:</strong> 2BR townhouse • ≤$1,400 base rent • In-unit washer/dryer • Parking/garage • Lawn/snow by landlord • 6–9mo lease (no 12mo lock-in) • A+ zips only (57108, 57106, 57110, 57105, 57064) • Avoid Tzadik & RPM • Bender = trusted
+        <br><br>
+        <strong>Gmail status:</strong> kdcxmusic@gmail.com at 84.87 GB / 15 GB — OVER STORAGE (warning banner; sends STILL work — hard stop Sep 17, 2026). Verified Aug 30: 3 landlord emails sent successfully despite the warning. Free storage or buy $1.99/mo before Sep 17 to avoid send lockout.
+        <br><br>
+        <strong>Next actions:</strong> (1) Free Gmail storage or buy $1.99/mo before Sep 17 (sends still work now); (2) AWAIT replies — Boulder Pointe / Prairies Edge / Stoney Creek (5Q sent Aug 30); (3) Hosta Townhomes — no PM email found, call (605) 501-6917 or listing form; (4) Kirkwood/Joann (Pegasus) — awaiting her Nov 1 + in-unit W/D confirmation; (5) Willow Creek & East Briar (Bender, sent Aug 27) still no reply; (6) Aug 30 Gmail scan: 0 new landlord replies (all keyword hits were job/billing false positives or already-tracked threads).
+      </div>
+    </div>
+
+    <div class="footer">
+      Board v8 • Updated Aug 30, 2026 • Hermes C43 Daily Cycle
+    </div>
+  </div>
+</body>
+</html>
