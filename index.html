@@ -94,6 +94,17 @@
     .badge-depalt { background: rgba(88,166,255,0.2); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
     .badge-trusted { background: rgba(163,113,247,0.2); color: var(--info); border: 1px solid rgba(163,113,247,0.3); }
 
+    /* Voting system */
+    .vote-section { display: flex; align-items: center; gap: 4px; margin-top: 4px; }
+    .vote-label { font-size: 0.55rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+    .vote-btn { background: var(--bg); border: 1px solid var(--border); color: var(--text-muted); width: 24px; height: 24px; border-radius: 4px; cursor: pointer; font-size: 0.7rem; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .vote-btn:hover { border-color: var(--accent); color: var(--text); }
+    .vote-btn.like-active { background: rgba(63,185,80,0.2); border-color: var(--success); color: var(--success); }
+    .vote-btn.dislike-active { background: rgba(248,81,73,0.2); border-color: var(--danger); color: var(--danger); }
+    .vote-person { font-size: 0.6rem; font-weight: 700; padding: 2px 4px; border-radius: 3px; }
+    .vote-person.amira { background: rgba(163,113,247,0.15); color: var(--info); border: 1px solid rgba(163,113,247,0.3); }
+    .vote-person.kishun { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
+
     .note { font-size: 0.76rem; color: var(--text-muted); background: var(--code-bg); padding: 10px; border-radius: 6px; border: 1px solid var(--border); margin-top: 12px; line-height: 1.5; }
     .footer { margin-top: 20px; padding-top: 10px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.72rem; text-align: center; }
 
@@ -114,7 +125,7 @@
   <p class="subtitle">Sioux Falls / Tea — 2BR ≤$1,400 • In-unit W/D • Parking • 6–9mo lease • A+ zips • Townhouses prioritized, apartments only if no TH</p>
 
   <div class="stats">
-    <div class="stat"><div class="stat-value">5</div><div class="stat-label">New Leads</div></div>
+    <div class="stat"><div class="stat-value">12</div><div class="stat-label">New Leads</div></div>
     <div class="stat"><div class="stat-value">8</div><div class="stat-label">Sent</div></div>
     <div class="stat"><div class="stat-value">1</div><div class="stat-label">Replies</div></div>
   </div>
@@ -147,6 +158,13 @@
       <span class="must-have">✓ Garage +2</span>
       <span class="must-have">✓ Dep alt +2</span>
     </div>
+    <div class="legend-row">
+      <span class="legend-label">Vote</span>
+      <span class="vote-person amira">A</span> = Amira &nbsp;
+      <span class="vote-person kishun">K</span> = Kishun &nbsp;
+      <span class="must-have">👍</span> Like &nbsp;
+      <span style="color:var(--danger);">👎</span> Dislike
+    </div>
   </div>
 
   <div class="sort-bar">
@@ -164,7 +182,7 @@
     <table>
       <thead>
         <tr>
-          <th>Score</th><th>Property / Type / Manager</th><th>Area</th><th>Zip</th><th>Rent</th><th>Key Specs</th><th>Status</th><th>Contact/Notes</th><th>Log</th>
+          <th>Score</th><th>Property / Type / Manager</th><th>Area</th><th>Zip</th><th>Rent</th><th>Key Specs</th><th>Status</th><th>Contact/Notes</th><th>Vote</th>
         </tr>
       </thead>
       <tbody>
@@ -182,7 +200,18 @@
           <td>In-unit W/D • 2BR/1.5BA • Det. garage • 999sf • Pet-friendly • Trash/sewer incl.</td>
           <td><span class="status status-new">New — BEST</span></td>
           <td>15-20 min to SF</td>
-          <td class="email-log">Aug 30: Added ✓</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="arrow-ridge" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="arrow-ridge" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="arrow-ridge" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="arrow-ridge" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
         </tr>
 
         <!-- KIRKWOOD A -->
@@ -199,7 +228,18 @@
           <td>Att. garage • Lawn+snow incl. • Lease → Mar M-to-M • W/D TBD</td>
           <td><span class="status status-hot">HOT</span></td>
           <td>Deposit $800 • $35/app</td>
-          <td class="email-log">Aug 29: Q's<br>Aug 30: Follow-up ✓</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="kirkwood" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="kirkwood" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="kirkwood" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="kirkwood" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
         </tr>
 
         <!-- PARK PLACE: B -->
@@ -216,7 +256,18 @@
           <td>In-unit W/D • 2BR/1BA • Garage incl. • 950sf • Pet-friendly • Balcony</td>
           <td><span class="status status-new">New</span></td>
           <td><span class="badge badge-trusted">FB find</span></td>
-          <td class="email-log">Aug 31: Added ✓</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="park-place" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="park-place" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="park-place" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="park-place" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
         </tr>
 
         <!-- LUKE SYCAMORE: B -->
@@ -233,10 +284,21 @@
           <td>Off-street • <strong>Deposit alt built-in</strong> • No move-in fees • W/D TBD</td>
           <td><span class="status status-new">New</span></td>
           <td><span class="badge badge-depalt">Dep. alt</span></td>
-          <td class="email-log">Aug 30: Added ✓</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="luke-sycamore" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="luke-sycamore" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="luke-sycamore" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="luke-sycamore" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
         </tr>
 
-        <!-- 412 N SIOUX BLVD #12: B — NEW -->
+        <!-- 412 N SIOUX BLVD #12: B -->
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
           <td>
@@ -250,10 +312,21 @@
           <td>In-unit W/D • 2BR/1BA • Att. garage • 1,000sf • Lawn+snow+trash incl. • Pet-friendly</td>
           <td><span class="status status-new">New</span></td>
           <td>Available Sep 1</td>
-          <td class="email-log">Sep 1: Added ✓</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="412-n-sioux" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="412-n-sioux" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="412-n-sioux" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="412-n-sioux" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
         </tr>
 
-        <!-- DBK BRANDON: B — NEW -->
+        <!-- DBK BRANDON: B -->
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
           <td>
@@ -267,7 +340,18 @@
           <td>In-unit W/D (verify) • 2BR/1BA • Att. garage • 1,185sf • Pet-friendly</td>
           <td><span class="status status-new">New</span></td>
           <td>W/D: verify • Available Now</td>
-          <td class="email-log">Sep 1: Added ✓</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="dbk-brandon" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="dbk-brandon" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="dbk-brandon" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="dbk-brandon" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
         </tr>
 
         <!-- BENDER WILLOW: B -->
@@ -284,7 +368,18 @@
           <td>In-unit W/D • 2BR/2BA • Garage • 1,086sf</td>
           <td><span class="status status-contacted">Contacted</span></td>
           <td><span class="badge badge-trusted">Trusted</span></td>
-          <td class="email-log">Aug 27: 5Q sent</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="willow-creek" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="willow-creek" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="willow-creek" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="willow-creek" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
         </tr>
 
         <!-- BENDER EAST BRIAR: B -->
@@ -301,7 +396,18 @@
           <td>In-unit W/D • 2BR/1BA • Garage • 1,100sf</td>
           <td><span class="status status-contacted">Contacted</span></td>
           <td><span class="badge badge-trusted">Trusted</span></td>
-          <td class="email-log">Aug 27: 5Q sent</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="east-briar" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="east-briar" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="east-briar" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="east-briar" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
         </tr>
 
         <!-- BOULDER POINTE: B -->
@@ -318,7 +424,186 @@
           <td>In-unit W/D • Att. garage • 2BR/1.5BA • 1,081sf</td>
           <td><span class="status status-contacted">Contacted</span></td>
           <td>&nbsp;</td>
-          <td class="email-log">Aug 30: 5Q sent ✓</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="boulder-pointe" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="boulder-pointe" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="boulder-pointe" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="boulder-pointe" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
+        </tr>
+
+        <!-- OAKWOOD ESTATES: B — NEW $700-800 RANGE -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.apartments.com/oakwood-estates-sioux-falls-sd/ghk534z/" target="_blank" rel="noopener">Oakwood Estates</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Oakwood Estates (712) 746-6437</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57106</td>
+          <td class="price in-budget"><strong>$753</strong></td>
+          <td>2BR/1BA • 750+sf • Pets ok • On-site laundry • Off-street parking</td>
+          <td><span class="status status-new">New — $700-800</span></td>
+          <td>Dog park • Playground</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="oakwood-estates" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="oakwood-estates" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="oakwood-estates" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="oakwood-estates" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
+        </tr>
+
+        <!-- TURNING LEAF: B — NEW $700-800 RANGE -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.zillow.com/apartments/sioux-falls-sd/turning-leaf/CkCdwJ/" target="_blank" rel="noopener">Turning Leaf</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Turning Leaf (605) 777-7886</div>
+          </td>
+          <td><span class="area-badge area-a">A</span></td>
+          <td>57103</td>
+          <td class="price in-budget"><strong>$700</strong></td>
+          <td>2BR/1BA • 900sf • Off-street • Pet-friendly</td>
+          <td><span class="status status-new">New — $700-800</span></td>
+          <td>2 units available</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="turning-leaf" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="turning-leaf" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="turning-leaf" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="turning-leaf" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
+        </tr>
+
+        <!-- CLEVELAND HEIGHTS: B — NEW $700-800 RANGE -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.apartments.com/221-n-cleveland-ave-sioux-falls-sd/5tw8v3m/" target="_blank" rel="noopener">Cleveland Heights</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Cleveland Heights (605) 799-3741</div>
+          </td>
+          <td><span class="area-badge area-a">A</span></td>
+          <td>57103</td>
+          <td class="price in-budget"><strong>$750</strong></td>
+          <td>2BR/1BA • 775sf • Off-street • Pet-friendly</td>
+          <td><span class="status status-new">New — $700-800</span></td>
+          <td>3 units available</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="cleveland-heights" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="cleveland-heights" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="cleveland-heights" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="cleveland-heights" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
+        </tr>
+
+        <!-- HOLIDAY MANOR: B — NEW $700-800 RANGE -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.zillow.com/apartments/sioux-falls-sd/holiday-manor-(hol4205)/CkGGxv/" target="_blank" rel="noopener">Holiday Manor</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Holiday Manor (605) 250-2135</div>
+          </td>
+          <td><span class="area-badge area-a">A</span></td>
+          <td>57103</td>
+          <td class="price in-budget"><strong>$774</strong></td>
+          <td>2BR/1BA • 900sf • Off-street • Pet-friendly</td>
+          <td><span class="status status-new">New — $700-800</span></td>
+          <td>West side</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="holiday-manor" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="holiday-manor" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="holiday-manor" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="holiday-manor" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
+        </tr>
+
+        <!-- TAYLOR'S PLACE: B — NEW $700-800 RANGE -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.apartments.com/4213-e-12th-st-sioux-falls-sd/k8vwtkc/" target="_blank" rel="noopener">Taylor's Place</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Taylor's Place (605) 501-6490</div>
+          </td>
+          <td><span class="area-badge area-a">A</span></td>
+          <td>57103</td>
+          <td class="price in-budget"><strong>$790</strong></td>
+          <td>2BR/1BA • Off-street • Pet-friendly • A/C</td>
+          <td><span class="status status-new">New — $700-800</span></td>
+          <td>4 units available</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="taylors-place" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="taylors-place" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="taylors-place" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="taylors-place" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
+        </tr>
+
+        <!-- HIDDEN HILLS: B — NEW $700-800 RANGE -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.apartments.com/hidden-hills-sioux-falls-sd/ecynsmp/" target="_blank" rel="noopener">Hidden Hills</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Hidden Hills (605) 777-7886</div>
+          </td>
+          <td><span class="area-badge area-a">A</span></td>
+          <td>57103</td>
+          <td class="price in-budget"><strong>$799</strong></td>
+          <td>2BR/1BA • 785-1156sf • Off-street • Pet-friendly</td>
+          <td><span class="status status-new">New — $700-800</span></td>
+          <td>3 units available</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="hidden-hills" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="hidden-hills" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="hidden-hills" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="hidden-hills" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
         </tr>
 
         <!-- ALPINE LINCOLN HEIGHTS: B -->
@@ -335,7 +620,18 @@
           <td>In-unit W/D • 2BR/1.5BA • 960sf • Off-street</td>
           <td><span class="status status-replied">Replied — ask STL</span></td>
           <td>$1k off 1st (12mo ask)</td>
-          <td class="email-log">Aug 28: Follow-up</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="lincoln-heights" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="lincoln-heights" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="lincoln-heights" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="lincoln-heights" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
         </tr>
 
         <!-- ALPINE 4601: C -->
@@ -352,7 +648,18 @@
           <td><strong>On-site laundry ⚠️</strong> • 2BR/1BA • Lawn+snow incl.</td>
           <td><span class="status status-replied">Replied — ask STL</span></td>
           <td>Cheapest qualify</td>
-          <td class="email-log">Aug 28: Follow-up</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="alpine-4601" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="alpine-4601" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="alpine-4601" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="alpine-4601" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
         </tr>
 
         <!-- FOSS FIELDS: C -->
@@ -369,7 +676,18 @@
           <td>Garage • <strong>Jetty-eligible</strong> • 1 mo free • W/D TBD</td>
           <td><span class="status status-new">New</span></td>
           <td><span class="badge badge-jetty">Jetty</span></td>
-          <td class="email-log">Aug 30: Added ✓</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="foss-fields" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="foss-fields" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="foss-fields" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="foss-fields" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
         </tr>
 
         <!-- PRAIRIES EDGE: C -->
@@ -386,7 +704,18 @@
           <td>In-unit W/D • Att. garage • 2BR/1.5BA • 1,081sf</td>
           <td><span class="status status-contacted">Contacted</span></td>
           <td>$35 over</td>
-          <td class="email-log">Aug 30: 5Q sent ✓</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="prairies-edge" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="prairies-edge" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="prairies-edge" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="prairies-edge" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
         </tr>
 
         <!-- STONEY CREEK: C -->
@@ -403,7 +732,46 @@
           <td>In-unit W/D • Garage • Pet-friendly</td>
           <td><span class="status status-contacted">Contacted</span></td>
           <td>Pricing TBD</td>
-          <td class="email-log">Aug 30: 5Q sent ✓</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="stoney-creek" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="stoney-creek" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="stoney-creek" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="stoney-creek" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
+        </tr>
+
+        <!-- ARNOLD'S PARK: DROPPED (B- ZIP) -->
+        <tr style="opacity:0.5;">
+          <td><span class="score-badge s-d">D</span></td>
+          <td>
+            <div class="property-name" style="text-decoration:line-through;">Arnold's Park Apartments</div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Arnold's Park</div>
+          </td>
+          <td><span class="area-badge" style="background:rgba(248,81,73,0.15);color:var(--danger);border:1px solid rgba(248,81,73,0.3);">B- ⚠</span></td>
+          <td>57104</td>
+          <td class="in-budget">$700</td>
+          <td>2BR/1BA • 775sf • Off-street</td>
+          <td><span class="status status-dropped">Dropped</span></td>
+          <td>B- north side</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="arnolds-park" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="arnolds-park" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="arnolds-park" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="arnolds-park" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
         </tr>
 
         <!-- HOSTA: UNAVAILABLE -->
@@ -420,7 +788,18 @@
           <td>No available units found on Zillow</td>
           <td><span class="status status-unavailable">Unavailable</span></td>
           <td>Dropped</td>
-          <td class="email-log">Aug 30: None listed</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="hosta" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="hosta" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="hosta" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="hosta" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
         </tr>
 
         <!-- 409 HOLLY: DROPPED -->
@@ -437,7 +816,18 @@
           <td>2BR/1BA • 900sf • Nov 28</td>
           <td><span class="status status-dropped">Dropped</span></td>
           <td>B- north side</td>
-          <td class="email-log">Aug 30: Dropped</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="409-holly" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="409-holly" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="409-holly" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="409-holly" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -445,6 +835,7 @@
 
   <!-- MOBILE CARDS -->
   <div class="mobile-only">
+    <!-- Arrow Ridge -->
     <div class="card">
       <div class="card-top">
         <div>
@@ -458,8 +849,17 @@
       <div class="card-detail">In-unit W/D • 2BR/1.5BA • Det. garage • 999sf • Pet-friendly</div>
       <span class="status status-new">New — BEST</span>
       <div class="card-log">Aug 30: Added ✓</div>
+      <div class="vote-section" style="margin-top:6px;">
+        <span class="vote-person amira">A</span>
+        <button class="vote-btn" data-prop="arrow-ridge" data-person="amira" data-type="like">👍</button>
+        <button class="vote-btn" data-prop="arrow-ridge" data-person="amira" data-type="dislike">👎</button>
+        <span class="vote-person kishun">K</span>
+        <button class="vote-btn" data-prop="arrow-ridge" data-person="kishun" data-type="like">👍</button>
+        <button class="vote-btn" data-prop="arrow-ridge" data-person="kishun" data-type="dislike">👎</button>
+      </div>
     </div>
 
+    <!-- Kirkwood -->
     <div class="card">
       <div class="card-top">
         <div>
@@ -474,207 +874,198 @@
       <div class="card-detail">W/D <strong>TBD</strong> • Deposit $800</div>
       <span class="status status-hot">HOT</span>
       <div class="card-log">Aug 30: Follow-up sent ✓</div>
+      <div class="vote-section" style="margin-top:6px;">
+        <span class="vote-person amira">A</span>
+        <button class="vote-btn" data-prop="kirkwood" data-person="amira" data-type="like">👍</button>
+        <button class="vote-btn" data-prop="kirkwood" data-person="amira" data-type="dislike">👎</button>
+        <span class="vote-person kishun">K</span>
+        <button class="vote-btn" data-prop="kirkwood" data-person="kishun" data-type="like">👍</button>
+        <button class="vote-btn" data-prop="kirkwood" data-person="kishun" data-type="dislike">👎</button>
+      </div>
     </div>
 
+    <!-- Oakwood Estates -->
     <div class="card">
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://www.zillow.com/apartments/sioux-falls-sd/park-place-condominiums-7003/5jCD82/" target="_blank" rel="noopener">Park Place Condominiums</a></div>
-          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span><span class="badge badge-trusted">FB find</span></div>
-          <div class="card-manager">Park Place Mgmt • 57106</div>
+          <div class="card-title"><a href="https://www.apartments.com/oakwood-estates-sioux-falls-sd/ghk534z/" target="_blank" rel="noopener">Oakwood Estates</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span></div>
+          <div class="card-manager">Oakwood Estates • 57106</div>
         </div>
-        <div class="card-price in-budget">$1,099</div>
+        <div class="card-price in-budget">$753</div>
       </div>
-      <div class="card-detail">In-unit W/D • 2BR/1BA • Garage incl. • 950sf • Balcony</div>
-      <span class="status status-new">New</span>
-      <div class="card-log">Aug 31: Added ✓</div>
-    </div>
-
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://showmojo.com/l/6ca5f3a07c" target="_blank" rel="noopener">401 S Sycamore #206</a></div>
-          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span><span class="badge badge-depalt">Dep. alt</span></div>
-          <div class="card-manager">Luke Properties • 57110</div>
-        </div>
-        <div class="card-price in-budget">$725</div>
-      </div>
-      <div class="card-detail">Off-street • Deposit alt built-in • No move-in fees</div>
-      <span class="status status-new">New</span>
-      <div class="card-log">Aug 30: Added ✓</div>
-    </div>
-
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://www.rent.com/r/412-n-sioux-blvd-brandon-sd-lv1444436977" target="_blank" rel="noopener">412 N Sioux Blvd #12</a></div>
-          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A</span></div>
-          <div class="card-manager">Private • 57005</div>
-        </div>
-        <div class="card-price in-budget">$1,300</div>
-      </div>
-      <div class="card-detail">In-unit W/D • 2BR/1BA • Att. garage • 1,000sf</div>
-      <div class="card-detail">Lawn+snow+trash incl. • Pet-friendly</div>
-      <span class="status status-new">New</span>
+      <div class="card-detail">2BR/1BA • Pets ok • On-site laundry • Off-street</div>
+      <span class="status status-new">New — $700-800</span>
       <div class="card-log">Sep 1: Added ✓</div>
-    </div>
-
-    <!-- DBK BRANDON: B — NEW -->
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://www.rent.com/apartment/dbk-brandon-townhomes-brandon-sd-lc6755616" target="_blank" rel="noopener">DBK Brandon Townhomes</a></div>
-          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A</span></div>
-          <div class="card-manager">DBK Brandon • 57005</div>
-        </div>
-        <div class="card-price in-budget">$1,299</div>
+      <div class="vote-section" style="margin-top:6px;">
+        <span class="vote-person amira">A</span>
+        <button class="vote-btn" data-prop="oakwood-estates" data-person="amira" data-type="like">👍</button>
+        <button class="vote-btn" data-prop="oakwood-estates" data-person="amira" data-type="dislike">👎</button>
+        <span class="vote-person kishun">K</span>
+        <button class="vote-btn" data-prop="oakwood-estates" data-person="kishun" data-type="like">👍</button>
+        <button class="vote-btn" data-prop="oakwood-estates" data-person="kishun" data-type="dislike">👎</button>
       </div>
-      <div class="card-detail">In-unit W/D (verify) • 2BR/1BA • Att. garage • 1,185sf</div>
-      <div class="card-detail">Pet-friendly • Available Now</div>
-      <span class="status status-new">New</span>
-      <div class="card-log">Sep 1: Added ✓</div>
     </div>
 
+    <!-- Turning Leaf -->
     <div class="card">
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://www.bendermidwestproperties.com/listings/detail/e1656063-e9b1-44cf-ad2b-b52b2d2384de" target="_blank" rel="noopener">Willow Creek TH</a></div>
-          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span><span class="badge badge-trusted">Trusted</span></div>
-          <div class="card-manager">Bender Midwest • 57106</div>
-        </div>
-        <div class="card-price in-budget">$1,237+</div>
-      </div>
-      <div class="card-detail">In-unit W/D • 2BR/2BA • Garage • 1,086sf</div>
-      <span class="status status-contacted">Contacted</span>
-      <div class="card-log">Aug 27: 5Q sent</div>
-    </div>
-
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://www.bendermidwestproperties.com/listings/detail/461fdd65-a23a-4440-a481-ea5c5355d83f" target="_blank" rel="noopener">East Briar Estates</a></div>
-          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span><span class="badge badge-trusted">Trusted</span></div>
-          <div class="card-manager">Bender Midwest • 57110</div>
-        </div>
-        <div class="card-price in-budget">$895</div>
-      </div>
-      <div class="card-detail">In-unit W/D • 2BR/1BA • Garage • 1,100sf</div>
-      <span class="status status-contacted">Contacted</span>
-      <div class="card-log">Aug 27: 5Q sent</div>
-    </div>
-
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://leasepointguard.com/unit/boulder-pointe-townhomes-7601-3/" target="_blank" rel="noopener">Boulder Pointe TH</a></div>
-          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span></div>
-          <div class="card-manager">PointGuard • 57106</div>
-        </div>
-        <div class="card-price in-budget">$1,295</div>
-      </div>
-      <div class="card-detail">In-unit W/D • Att. garage • 2BR/1.5BA • 1,081sf</div>
-      <span class="status status-contacted">Contacted</span>
-      <div class="card-log">Aug 30: 5Q sent ✓</div>
-    </div>
-
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://alpinepropmgmt.appfolio.com/listings" target="_blank" rel="noopener">Lincoln Heights #4</a></div>
+          <div class="card-title"><a href="https://www.zillow.com/apartments/sioux-falls-sd/turning-leaf/CkCdwJ/" target="_blank" rel="noopener">Turning Leaf</a></div>
           <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A</span></div>
-          <div class="card-manager">Alpine • 57032</div>
+          <div class="card-manager">Turning Leaf • 57103</div>
         </div>
-        <div class="card-price in-budget">$1,145</div>
+        <div class="card-price in-budget">$700</div>
       </div>
-      <div class="card-detail">In-unit W/D • 2BR/1.5BA • 960sf • Off-street</div>
-      <span class="status status-replied">Replied — ask STL</span>
-      <div class="card-log">Aug 28: Follow-up</div>
+      <div class="card-detail">2BR/1BA • 900sf • Off-street • Pet-friendly</div>
+      <span class="status status-new">New — $700-800</span>
+      <div class="card-log">Sep 1: Added ✓</div>
+      <div class="vote-section" style="margin-top:6px;">
+        <span class="vote-person amira">A</span>
+        <button class="vote-btn" data-prop="turning-leaf" data-person="amira" data-type="like">👍</button>
+        <button class="vote-btn" data-prop="turning-leaf" data-person="amira" data-type="dislike">👎</button>
+        <span class="vote-person kishun">K</span>
+        <button class="vote-btn" data-prop="turning-leaf" data-person="kishun" data-type="like">👍</button>
+        <button class="vote-btn" data-prop="turning-leaf" data-person="kishun" data-type="dislike">👎</button>
+      </div>
     </div>
 
+    <!-- Cleveland Heights -->
     <div class="card">
       <div class="card-top">
         <div>
-          <span class="score-badge s-c">C</span>
-          <div class="card-title"><a href="https://www.apartments.com/foss-fields-ascent-sioux-falls-sd/9sdsmv7/" target="_blank" rel="noopener">Foss Fields "Hollow"</a></div>
-          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span><span class="badge badge-jetty">Jetty</span></div>
-          <div class="card-manager">RPM Express • 57110</div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://www.apartments.com/221-n-cleveland-ave-sioux-falls-sd/5tw8v3m/" target="_blank" rel="noopener">Cleveland Heights</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A</span></div>
+          <div class="card-manager">Cleveland Heights • 57103</div>
         </div>
-        <div class="card-price in-budget">$1,120</div>
+        <div class="card-price in-budget">$750</div>
       </div>
-      <div class="card-detail">Garage • Jetty-eligible • 1 mo free • New const.</div>
-      <span class="status status-new">New</span>
-      <div class="card-log">Aug 30: Added ✓</div>
+      <div class="card-detail">2BR/1BA • 775sf • Off-street • Pet-friendly</div>
+      <span class="status status-new">New — $700-800</span>
+      <div class="card-log">Sep 1: Added ✓</div>
+      <div class="vote-section" style="margin-top:6px;">
+        <span class="vote-person amira">A</span>
+        <button class="vote-btn" data-prop="cleveland-heights" data-person="amira" data-type="like">👍</button>
+        <button class="vote-btn" data-prop="cleveland-heights" data-person="amira" data-type="dislike">👎</button>
+        <span class="vote-person kishun">K</span>
+        <button class="vote-btn" data-prop="cleveland-heights" data-person="kishun" data-type="like">👍</button>
+        <button class="vote-btn" data-prop="cleveland-heights" data-person="kishun" data-type="dislike">👎</button>
+      </div>
     </div>
 
+    <!-- Holiday Manor -->
     <div class="card">
       <div class="card-top">
         <div>
-          <span class="score-badge s-c">C</span>
-          <div class="card-title"><a href="https://alpinepropmgmt.appfolio.com/listings" target="_blank" rel="noopener">4601 E 3rd St #10</a></div>
-          <div class="card-badges"><span class="property-type type-th">Townhome</span><span class="area-badge area-a">A+</span></div>
-          <div class="card-manager">Alpine • 57110</div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://www.zillow.com/apartments/sioux-falls-sd/holiday-manor-(hol4205)/CkGGxv/" target="_blank" rel="noopener">Holiday Manor</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A</span></div>
+          <div class="card-manager">Holiday Manor • 57103</div>
         </div>
-        <div class="card-price in-budget">$895</div>
+        <div class="card-price in-budget">$774</div>
       </div>
-      <div class="card-detail"><strong>On-site laundry only ⚠️</strong> • 2BR/1BA • Lawn+snow incl.</div>
-      <span class="status status-replied">Replied — ask STL</span>
-      <div class="card-log">Aug 28: Follow-up</div>
+      <div class="card-detail">2BR/1BA • 900sf • Off-street • Pet-friendly</div>
+      <span class="status status-new">New — $700-800</span>
+      <div class="card-log">Sep 1: Added ✓</div>
+      <div class="vote-section" style="margin-top:6px;">
+        <span class="vote-person amira">A</span>
+        <button class="vote-btn" data-prop="holiday-manor" data-person="amira" data-type="like">👍</button>
+        <button class="vote-btn" data-prop="holiday-manor" data-person="amira" data-type="dislike">👎</button>
+        <span class="vote-person kishun">K</span>
+        <button class="vote-btn" data-prop="holiday-manor" data-person="kishun" data-type="like">👍</button>
+        <button class="vote-btn" data-prop="holiday-manor" data-person="kishun" data-type="dislike">👎</button>
+      </div>
     </div>
 
-    <div class="card" style="opacity:0.55;">
+    <!-- Taylor's Place -->
+    <div class="card">
       <div class="card-top">
         <div>
-          <div class="card-title" style="text-decoration:line-through;">Hosta Townhomes</div>
-          <div class="card-manager">Private • 57110</div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://www.apartments.com/4213-e-12th-st-sioux-falls-sd/k8vwtkc/" target="_blank" rel="noopener">Taylor's Place</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A</span></div>
+          <div class="card-manager">Taylor's Place • 57103</div>
         </div>
-        <div class="card-price in-budget">$1,295</div>
+        <div class="card-price in-budget">$790</div>
       </div>
-      <span class="status status-unavailable">No units available</span>
+      <div class="card-detail">2BR/1BA • Off-street • Pet-friendly • A/C</div>
+      <span class="status status-new">New — $700-800</span>
+      <div class="card-log">Sep 1: Added ✓</div>
+      <div class="vote-section" style="margin-top:6px;">
+        <span class="vote-person amira">A</span>
+        <button class="vote-btn" data-prop="taylors-place" data-person="amira" data-type="like">👍</button>
+        <button class="vote-btn" data-prop="taylors-place" data-person="amira" data-type="dislike">👎</button>
+        <span class="vote-person kishun">K</span>
+        <button class="vote-btn" data-prop="taylors-place" data-person="kishun" data-type="like">👍</button>
+        <button class="vote-btn" data-prop="taylors-place" data-person="kishun" data-type="dislike">👎</button>
+      </div>
     </div>
 
+    <!-- Hidden Hills -->
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://www.apartments.com/hidden-hills-sioux-falls-sd/ecynsmp/" target="_blank" rel="noopener">Hidden Hills</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A</span></div>
+          <div class="card-manager">Hidden Hills • 57103</div>
+        </div>
+        <div class="card-price in-budget">$799</div>
+      </div>
+      <div class="card-detail">2BR/1BA • 785-1156sf • Off-street • Pet-friendly</div>
+      <span class="status status-new">New — $700-800</span>
+      <div class="card-log">Sep 1: Added ✓</div>
+      <div class="vote-section" style="margin-top:6px;">
+        <span class="vote-person amira">A</span>
+        <button class="vote-btn" data-prop="hidden-hills" data-person="amira" data-type="like">👍</button>
+        <button class="vote-btn" data-prop="hidden-hills" data-person="amira" data-type="dislike">👎</button>
+        <span class="vote-person kishun">K</span>
+        <button class="vote-btn" data-prop="hidden-hills" data-person="kishun" data-type="like">👍</button>
+        <button class="vote-btn" data-prop="hidden-hills" data-person="kishun" data-type="dislike">👎</button>
+      </div>
+    </div>
+
+    <!-- Arnold's Park - DROPPED -->
     <div class="card" style="opacity:0.5;">
       <div class="card-top">
         <div>
-          <span class="score-badge s-d">D</span>
-          <div class="card-title" style="text-decoration:line-through;">409 S Holly Ave</div>
-          <div class="card-manager">Luke Properties • 57104</div>
+          <div class="card-title" style="text-decoration:line-through;">Arnold's Park Apartments</div>
+          <div class="card-manager">Arnold's Park • 57104</div>
         </div>
-        <div class="card-price in-budget">$1,150</div>
+        <div class="card-price in-budget">$700</div>
       </div>
       <span class="status status-dropped">Dropped — B- north side</span>
     </div>
   </div>
 
   <div class="note">
-    <strong>1. Await replies (priority)</strong> — Willow Creek, East Briar (Bender, sent Aug 27), Boulder Pointe, Prairies Edge, Stoney Creek (5Q sent Aug 30), Alpine Lincoln Heights & 4601 (replied — follow-up sent).
+    <strong>1. NEW: $700-800 range properties added (6 found, 5 safe)</strong> — Oakwood Estates ($753, A+), Turning Leaf ($700, A), Cleveland Heights ($750, A), Holiday Manor ($774, A), Taylor's Place ($790, A), Hidden Hills ($799, A). Arnold's Park ($700) DROPPED — B- zip 57104.
     <br><br>
-    <strong>2. Kirkwood (HOT)</strong> — Follow-up sent Aug 30. Awaiting Nov 1 + in-unit W/D confirmation from Joann. If W/D is NO, downgrade to B. If she doesn't reply by Sept 2, drop or re-ask.
+    <strong>2. VOTING SYSTEM</strong> — Click 👍 or 👎 for each person (A=Amira, K=Kishun). Votes saved in browser localStorage.
     <br><br>
-    <strong>3. NEW: 412 N Sioux Blvd #12 (Brandon)</strong> — $1,300, in-unit W/D, attached garage, landlord pays lawn/snow/trash. Available Sep 1. Strong lead — matches all criteria. Call (605) 799-3741.
+    <strong>3. Await replies (priority)</strong> — Willow Creek, East Briar (Bender, sent Aug 27), Boulder Pointe, Prairies Edge, Stoney Creek (5Q sent Aug 30), Alpine Lincoln Heights & 4601 (replied — follow-up sent).
     <br><br>
-    <strong>4. Email sends BLOCKED</strong> — Gmail profile (9227) not authenticated; himalaya not configured. Drafts for Kirkwood, Luke Sycamore, Foss Fields ready at /Users/drippo/Desktop/. Need to send manually or configure email relay.
+    <strong>4. Kirkwood (HOT)</strong> — Follow-up sent Aug 30. Awaiting Nov 1 + in-unit W/D confirmation from Joann.
     <br><br>
-    <strong>5. Foss Fields managed by RPM Express</strong> — On avoid list but explicitly requested in brief. Sending email but flagging.
+    <strong>5. Email sends BLOCKED</strong> — Gmail profile (9227) not authenticated; himalaya not configured. Drafts at /Users/drippo/Desktop/.
     <br><br>
-    <strong>6. Free Gmail storage or buy $1.99/mo</strong> — Hard send-stop Sep 17, 2026. 84.87 GB / 15 GB used.
+    <strong>6. Foss Fields managed by RPM Express</strong> — On avoid list but explicitly requested in brief.
     <br><br>
-    <strong>7. Area safety</strong> — All active properties in A or A+ zips. No B- properties in queue.
+    <strong>7. Free Gmail storage or buy $1.99/mo</strong> — Hard send-stop Sep 17, 2026. 84.87 GB / 15 GB used.
     <br><br>
-    <strong>8. Reality check</strong> — At ≤$1,400 with in-unit W/D + garage in A+ zips, townhouses are scarce. 412 N Sioux (Brandon) is the strongest new townhouse lead. If current batch doesn't land, expand radius or accept apartment with deposit alt.
+    <strong>8. Area safety</strong> — All active properties in A or A+ zips. No B- properties in queue (Arnold's Park dropped).
+    <br><br>
+    <strong>9. Reality check</strong> — At $700-800, townhouses are scarce. These are mostly apartments. Arrow Ridge ($762) remains best townhouse value.
   </div>
 
-  <div class="footer">v14 • Sep 1 2026 • SF Housing Tracker</div>
+  <div class="footer">v15 • Sep 1 2026 • SF Housing Tracker</div>
 </div>
 
 <script>
+  // Sorting
   document.querySelectorAll('.sort-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const key = btn.dataset.key;
@@ -701,8 +1092,8 @@
           aVal = a.querySelector('.status-hot') ? 5 : a.querySelector('.status-new') ? 4 : a.querySelector('.status-replied') ? 3 : a.querySelector('.status-contacted') ? 2 : 1;
           bVal = b.querySelector('.status-hot') ? 5 : b.querySelector('.status-new') ? 4 : b.querySelector('.status-replied') ? 3 : b.querySelector('.status-contacted') ? 2 : 1;
         } else if (key === 'zip') {
-          aVal = a:nth-child(4)?.textContent || '';
-          bVal = b:nth-child(4)?.textContent || '';
+          aVal = a.querySelector('td:nth-child(4)')?.textContent || '';
+          bVal = b.querySelector('td:nth-child(4)')?.textContent || '';
         }
         if (dir === 'desc') return bVal - aVal;
         return aVal - bVal;
@@ -710,6 +1101,57 @@
       rows.forEach(r => tbody.appendChild(r));
     });
   });
+
+  // Voting system
+  function getVotes() {
+    try {
+      return JSON.parse(localStorage.getItem('housing_votes') || '{}');
+    } catch(e) {
+      return {};
+    }
+  }
+
+  function saveVotes(votes) {
+    localStorage.setItem('housing_votes', JSON.stringify(votes));
+  }
+
+  function updateVote(prop, person, type) {
+    const votes = getVotes();
+    if (!votes[prop]) votes[prop] = { amira: {}, kishun: {} };
+    // Toggle: if already set to same value, clear it
+    if (votes[prop][person] === type) {
+      delete votes[prop][person];
+    } else {
+      votes[prop][person] = type;
+    }
+    saveVotes(votes);
+    updateVoteButtons();
+  }
+
+  function updateVoteButtons() {
+    const votes = getVotes();
+    document.querySelectorAll('.vote-btn').forEach(btn => {
+      const prop = btn.dataset.prop;
+      const person = btn.dataset.person;
+      const type = btn.dataset.type;
+      // Reset all states
+      btn.classList.remove('like-active', 'dislike-active');
+      // Set active if matches
+      if (votes[prop] && votes[prop][person] === type) {
+        if (type === 'like') btn.classList.add('like-active');
+        else btn.classList.add('dislike-active');
+      }
+    });
+  }
+
+  document.querySelectorAll('.vote-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      updateVote(btn.dataset.prop, btn.dataset.person, btn.dataset.type);
+    });
+  });
+
+  // Initialize
+  updateVoteButtons();
 </script>
 </body>
 </html>
