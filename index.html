@@ -47,6 +47,15 @@
     .area-a { background: rgba(63,185,80,0.15); color: var(--success); border: 1px solid rgba(63,185,80,0.3); }
     .area-b { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
 
+    /* SORT CONTROLS */
+    .sort-bar { display: flex; align-items: center; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+    .sort-label { font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-right: 2px; }
+    .sort-btn { background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text-muted); padding: 5px 10px; border-radius: 5px; font-size: 0.68rem; font-weight: 600; cursor: pointer; transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.3px; }
+    .sort-btn:hover { border-color: var(--accent); color: var(--text); }
+    .sort-btn.active { background: rgba(88,166,255,0.15); border-color: var(--accent); color: var(--accent); }
+    .sort-btn .arrow { font-size: 0.55rem; margin-left: 3px; }
+    .sort-btn.active .arrow { color: var(--accent); }
+
     /* Desktop table */
     .desktop-only { display: block; }
     table { width: 100%; border-collapse: collapse; background: var(--bg-elevated); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
@@ -100,6 +109,8 @@
       .mobile-only { display: block; }
       .stats { grid-template-columns: repeat(3, 1fr); }
       .legend { font-size: 0.68rem; }
+      .sort-bar { gap: 4px; }
+      .sort-btn { padding: 4px 7px; font-size: 0.62rem; }
     }
   </style>
 </head>
@@ -142,6 +153,17 @@
       <span class="must-have">✓ Garage +2</span>
       <span class="must-have">✓ Dep alt +2</span>
     </div>
+  </div>
+
+  <!-- SORT BAR -->
+  <div class="sort-bar">
+    <span class="sort-label">Sort:</span>
+    <button class="sort-btn active" data-key="score" data-dir="desc">Score<span class="arrow">▼</span></button>
+    <button class="sort-btn" data-key="price" data-dir="asc">Price<span class="arrow"></span></button>
+    <button class="sort-btn" data-key="area" data-dir="asc">Area<span class="arrow"></span></button>
+    <button class="sort-btn" data-key="type" data-dir="asc">Type<span class="arrow"></span></button>
+    <button class="sort-btn" data-key="status" data-dir="asc">Status<span class="arrow"></span></button>
+    <button class="sort-btn" data-key="zip" data-dir="asc">Zip<span class="arrow"></span></button>
   </div>
 
   <!-- DESKTOP -->
@@ -259,7 +281,7 @@
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
           <td>
-            <div class="property-name"><a href="https://www.bendermidwestproperties.com/listings/detail/461fdd65-a23a-4440-a481-ea5c5355d83f" target="_blank" rel="noopener">East Briar Estates</a></div>
+            <div class="property-name"><a href="https://www.bendermidwestproperties.com/listings/detail/461fdd65-a23a-4481-ea5c5355d83f" target="_blank" rel="noopener">East Briar Estates</a></div>
             <div class="property-type type-th">Townhouse</div>
             <div class="manager">Bender Midwest</div>
           </td>
@@ -396,7 +418,7 @@
 
   <!-- MOBILE CARDS -->
   <div class="mobile-only">
-    <div class="card">
+    <div class="card" data-score="4" data-price="1299" data-area="A+" data-type="th" data-status="hot" data-zip="57106">
       <div class="card-top">
         <div>
           <span class="score-badge s-a">A</span>
@@ -412,7 +434,22 @@
       <div class="card-log">Aug 30: Follow-up sent ✓</div>
     </div>
 
-    <div class="card">
+    <div class="card" data-score="4" data-price="762" data-area="A" data-type="th" data-status="new" data-zip="57005">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-a">A+</span>
+          <div class="card-title"><a href="https://www.rent.com/apartment/arrow-ridge-townhomes-brandon-sd-brandon-sd-lc6221589" target="_blank" rel="noopener">Arrow Ridge Townhomes</a></div>
+          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A</span></div>
+          <div class="card-manager">J&M Real Estate • 57005</div>
+        </div>
+        <div class="card-price in-budget">$762</div>
+      </div>
+      <div class="card-detail">In-unit W/D • 2BR/1.5BA • Det. garage • 999sf • Pet-friendly</div>
+      <span class="status status-new">New — BEST</span>
+      <div class="card-log">Aug 30: Added ✓</div>
+    </div>
+
+    <div class="card" data-score="3" data-price="1099" data-area="A+" data-type="apt" data-status="new" data-zip="57106">
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
@@ -427,7 +464,7 @@
       <div class="card-log">Aug 31: Added ✓</div>
     </div>
 
-    <div class="card">
+    <div class="card" data-score="3" data-price="725" data-area="A+" data-type="apt" data-status="new" data-zip="57110">
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
@@ -442,22 +479,7 @@
       <div class="card-log">Aug 30: Added ✓</div>
     </div>
 
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-c">C</span>
-          <div class="card-title"><a href="https://www.apartments.com/foss-fields-ascent-sioux-falls-sd/9sdsmv7/" target="_blank" rel="noopener">Foss Fields "Hollow"</a></div>
-          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span><span class="badge badge-jetty">Jetty</span></div>
-          <div class="card-manager">Foss Fields Mgmt • 57110</div>
-        </div>
-        <div class="card-price in-budget">$1,120</div>
-      </div>
-      <div class="card-detail">Garage • Jetty-eligible • 1 mo free • New const.</div>
-      <span class="status status-new">New</span>
-      <div class="card-log">Aug 30: Added ✓</div>
-    </div>
-
-    <div class="card">
+    <div class="card" data-score="3" data-price="1237" data-area="A+" data-type="th" data-status="contacted" data-zip="57106">
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
@@ -472,11 +494,11 @@
       <div class="card-log">Aug 27: 5Q sent</div>
     </div>
 
-    <div class="card">
+    <div class="card" data-score="3" data-price="895" data-area="A+" data-type="th" data-status="contacted" data-zip="57110">
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://www.bendermidwestproperties.com/listings/detail/461fdd65-a23a-4440-a481-ea5c5355d83f" target="_blank" rel="noopener">East Briar Estates</a></div>
+          <div class="card-title"><a href="https://www.bendermidwestproperties.com/listings/detail/461fdd65-a23a-4481-ea5c5355d83f" target="_blank" rel="noopener">East Briar Estates</a></div>
           <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span><span class="badge badge-trusted">Trusted</span></div>
           <div class="card-manager">Bender Midwest • 57110</div>
         </div>
@@ -487,7 +509,7 @@
       <div class="card-log">Aug 27: 5Q sent</div>
     </div>
 
-    <div class="card">
+    <div class="card" data-score="3" data-price="1295" data-area="A+" data-type="th" data-status="contacted" data-zip="57106">
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
@@ -502,7 +524,37 @@
       <div class="card-log">Aug 30: 5Q sent ✓</div>
     </div>
 
-    <div class="card">
+    <div class="card" data-score="3" data-price="1145" data-area="A" data-type="apt" data-status="replied" data-zip="57032">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://alpinepropmgmt.appfolio.com/listings" target="_blank" rel="noopener">Lincoln Heights #4</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A</span></div>
+          <div class="card-manager">Alpine • 57032</div>
+        </div>
+        <div class="card-price in-budget">$1,145</div>
+      </div>
+      <div class="card-detail">In-unit W/D • 2BR/1.5BA • 960sf • Off-street</div>
+      <span class="status status-replied">Replied — ask STL</span>
+      <div class="card-log">Aug 28: Follow-up</div>
+    </div>
+
+    <div class="card" data-score="2" data-price="1120" data-area="A+" data-type="apt" data-status="new" data-zip="57110">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-c">C</span>
+          <div class="card-title"><a href="https://www.apartments.com/foss-fields-ascent-sioux-falls-sd/9sdsmv7/" target="_blank" rel="noopener">Foss Fields "Hollow"</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span><span class="badge badge-jetty">Jetty</span></div>
+          <div class="card-manager">Foss Fields Mgmt • 57110</div>
+        </div>
+        <div class="card-price in-budget">$1,120</div>
+      </div>
+      <div class="card-detail">Garage • Jetty-eligible • 1 mo free • New const.</div>
+      <span class="status status-new">New</span>
+      <div class="card-log">Aug 30: Added ✓</div>
+    </div>
+
+    <div class="card" data-score="2" data-price="895" data-area="A+" data-type="th" data-status="replied" data-zip="57110">
       <div class="card-top">
         <div>
           <span class="score-badge s-c">C</span>
@@ -517,7 +569,37 @@
       <div class="card-log">Aug 28: Follow-up</div>
     </div>
 
-    <div class="card" style="opacity:0.55;">
+    <div class="card" data-score="2" data-price="1435" data-area="A+" data-type="th" data-status="contacted" data-zip="57108">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-c">C</span>
+          <div class="card-title"><a href="https://www.cresten.com/our-properties/prairies-edge" target="_blank" rel="noopener">Prairies Edge TH</a></div>
+          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span></div>
+          <div class="card-manager">Cresten • 57108</div>
+        </div>
+        <div class="card-price over-budget">$1,435</div>
+      </div>
+      <div class="card-detail">In-unit W/D • Att. garage • 2BR/1.5BA • 1,081sf</div>
+      <span class="status status-contacted">Contacted</span>
+      <div class="card-log">Aug 30: 5Q sent ✓</div>
+    </div>
+
+    <div class="card" data-score="2" data-price="0" data-area="A+" data-type="th" data-status="contacted" data-zip="57106">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-c">C</span>
+          <div class="card-title"><a href="https://penkertproperties.com/rentals/stoney-creek-townhomes/" target="_blank" rel="noopener">Stoney Creek TH</a></div>
+          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span></div>
+          <div class="card-manager">Penkert • 57106</div>
+        </div>
+        <div class="card-price in-budget">TBD</div>
+      </div>
+      <div class="card-detail">In-unit W/D • Garage • Pet-friendly</div>
+      <span class="status status-contacted">Contacted</span>
+      <div class="card-log">Aug 30: 5Q sent ✓</div>
+    </div>
+
+    <div class="card" data-score="0" data-price="1295" data-area="A+" data-type="th" data-status="unavailable" data-zip="57110" style="opacity:0.55;">
       <div class="card-top">
         <div>
           <div class="card-title" style="text-decoration:line-through;">Hosta Townhomes</div>
@@ -528,7 +610,7 @@
       <span class="status status-unavailable">No units available</span>
     </div>
 
-    <div class="card" style="opacity:0.5;">
+    <div class="card" data-score="1" data-price="1150" data-area="B-" data-type="apt" data-status="dropped" data-zip="57104" style="opacity:0.5;">
       <div class="card-top">
         <div>
           <span class="score-badge s-d">D</span>
@@ -564,5 +646,174 @@
 
   <div class="footer">v11 • Aug 30 2026 • SF Housing Tracker</div>
 </div>
+
+<script>
+(function() {
+  // Score mapping: A+=4, A=3, B=2, C=1, D/–=0
+  var SCORE_MAP = { 'A+': 4, 'A': 3, 'B': 2, 'C': 1, 'D': 0, '–': 0 };
+  // Status priority (lower = more important)
+  var STATUS_MAP = { 'hot': 0, 'new': 1, 'contacted': 2, 'replied': 3, 'dropped': 4, 'unavailable': 5 };
+  // Area priority
+  var AREA_MAP = { 'A+': 0, 'A': 1, 'B-': 2 };
+  // Type priority
+  var TYPE_MAP = { 'th': 0, 'apt': 1, 'duplex': 2 };
+
+  function getScore(row) {
+    var badge = row.querySelector('.score-badge');
+    if (!badge) return 0;
+    var text = badge.textContent.trim();
+    return SCORE_MAP[text] !== undefined ? SCORE_MAP[text] : 0;
+  }
+
+  function getPrice(row) {
+    var priceCell = row.querySelector('.price');
+    if (!priceCell) {
+      // mobile card
+      var cardPrice = row.querySelector('.card-price');
+      if (!cardPrice) return 0;
+      var txt = cardPrice.textContent.replace(/[^0-9]/g, '');
+      return parseInt(txt) || 0;
+    }
+    var txt = priceCell.textContent.replace(/[^0-9]/g, '');
+    return parseInt(txt) || 0;
+  }
+
+  function getArea(row) {
+    var badge = row.querySelector('.area-badge');
+    if (!badge) return 99;
+    var text = badge.textContent.trim();
+    return AREA_MAP[text] !== undefined ? AREA_MAP[text] : 99;
+  }
+
+  function getType(row) {
+    var badge = row.querySelector('.property-type');
+    if (!badge) {
+      // mobile card
+      var typeBadge = row.querySelector('.property-type');
+      if (!typeBadge) return 99;
+      var t = typeBadge.textContent.trim().toLowerCase();
+      if (t.indexOf('town') >= 0) return TYPE_MAP['th'];
+      if (t.indexOf('duplex') >= 0) return TYPE_MAP['duplex'];
+      return TYPE_MAP['apt'];
+    }
+    var text = badge.textContent.trim().toLowerCase();
+    if (text.indexOf('town') >= 0) return TYPE_MAP['th'];
+    if (text.indexOf('duplex') >= 0) return TYPE_MAP['duplex'];
+    return TYPE_MAP['apt'];
+  }
+
+  function getStatus(row) {
+    var status = row.querySelector('.status');
+    if (!status) return 99;
+    var text = status.textContent.trim().toLowerCase();
+    if (text.indexOf('hot') >= 0) return STATUS_MAP['hot'];
+    if (text.indexOf('new') >= 0) return STATUS_MAP['new'];
+    if (text.indexOf('contacted') >= 0) return STATUS_MAP['contacted'];
+    if (text.indexOf('replied') >= 0) return STATUS_MAP['replied'];
+    if (text.indexOf('dropped') >= 0) return STATUS_MAP['dropped'];
+    if (text.indexOf('unavailable') >= 0) return STATUS_MAP['unavailable'];
+    return 99;
+  }
+
+  function getZip(row) {
+    // desktop: 4th td
+    var tds = row.querySelectorAll('td');
+    if (tds.length >= 4) {
+      return tds[3].textContent.trim();
+    }
+    // mobile: data attribute
+    return row.getAttribute('data-zip') || '99999';
+  }
+
+  var GETTERS = {
+    score: getScore,
+    price: getPrice,
+    area: getArea,
+    type: getType,
+    status: getStatus,
+    zip: getZip
+  };
+
+  var currentKey = 'score';
+  var currentDir = 'desc';
+
+  function sortTable(key, dir) {
+    var tbody = document.querySelector('tbody');
+    var rows = Array.from(tbody.querySelectorAll('tr'));
+    rows.sort(function(a, b) {
+      var va = GETTERS[key](a);
+      var vb = GETTERS[key](b);
+      if (va < vb) return dir === 'asc' ? -1 : 1;
+      if (va > vb) return dir === 'asc' ? 1 : -1;
+      return 0;
+    });
+    rows.forEach(function(r) { tbody.appendChild(r); });
+  }
+
+  function sortCards(key, dir) {
+    var container = document.querySelector('.mobile-only');
+    var cards = Array.from(container.querySelectorAll('.card'));
+    cards.sort(function(a, b) {
+      var va, vb;
+      if (key === 'score') {
+        va = parseInt(a.getAttribute('data-score')) || 0;
+        vb = parseInt(b.getAttribute('data-score')) || 0;
+      } else if (key === 'price') {
+        va = parseInt(a.getAttribute('data-price')) || 0;
+        vb = parseInt(b.getAttribute('data-price')) || 0;
+      } else if (key === 'area') {
+        va = AREA_MAP[a.getAttribute('data-area')] || 99;
+        vb = AREA_MAP[b.getAttribute('data-area')] || 99;
+      } else if (key === 'type') {
+        va = TYPE_MAP[a.getAttribute('data-type')] || 99;
+        vb = TYPE_MAP[b.getAttribute('data-type')] || 99;
+      } else if (key === 'status') {
+        va = STATUS_MAP[a.getAttribute('data-status')] || 99;
+        vb = STATUS_MAP[b.getAttribute('data-status')] || 99;
+      } else if (key === 'zip') {
+        va = a.getAttribute('data-zip') || '99999';
+        vb = b.getAttribute('data-zip') || '99999';
+      }
+      if (va < vb) return dir === 'asc' ? -1 : 1;
+      if (va > vb) return dir === 'asc' ? 1 : -1;
+      return 0;
+    });
+    cards.forEach(function(c) { container.appendChild(c); });
+  }
+
+  function applySort(key, dir) {
+    currentKey = key;
+    currentDir = dir;
+    sortTable(key, dir);
+    sortCards(key, dir);
+    // update buttons
+    document.querySelectorAll('.sort-btn').forEach(function(btn) {
+      btn.classList.remove('active');
+      btn.querySelector('.arrow').textContent = '';
+      if (btn.getAttribute('data-key') === key) {
+        btn.classList.add('active');
+        btn.querySelector('.arrow').textContent = dir === 'asc' ? '▲' : '▼';
+      }
+    });
+  }
+
+  document.querySelectorAll('.sort-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var key = btn.getAttribute('data-key');
+      var dir = btn.getAttribute('data-dir');
+      if (currentKey === key) {
+        // toggle direction
+        dir = dir === 'asc' ? 'desc' : 'asc';
+      }
+      applySort(key, dir);
+      // update data-dir for next toggle
+      btn.setAttribute('data-dir', dir);
+    });
+  });
+
+  // initial sort
+  applySort('score', 'desc');
+})();
+</script>
 </body>
 </html>
