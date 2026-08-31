@@ -606,6 +606,62 @@
           </td>
         </tr>
 
+        <!-- BRISTOL COURT: B — $700-750 RANGE -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.zillow.com/apartments/sioux-falls-sd/bristol-court/Cs8SVk/" target="_blank" rel="noopener">Bristol Court</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Bristol Court (712) 746-0954</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57110</td>
+          <td class="price in-budget"><strong>$637</strong></td>
+          <td>2BR/1.5BA • 1,023sf • Off-street • Pet-friendly</td>
+          <td><span class="status status-new">New — $700-750</span></td>
+          <td>A+ zip • 1.5 baths</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="bristol-court" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="bristol-court" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="bristol-court" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="bristol-court" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
+        </tr>
+
+        <!-- 9622 W TUNIS DR: B — $700-750 RANGE -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.apartments.com/9622-w-tunis-dr-sioux-falls-sd-unit-9614-tunis-drive/zwc4qhx/" target="_blank" rel="noopener">9622 W Tunis Dr</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Tunis Drive (605) 501-6912</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57106</td>
+          <td class="price in-budget"><strong>$599</strong></td>
+          <td>3BR/1.5BA • 1,253sf • Off-street • Pet-friendly</td>
+          <td><span class="status status-new">New — $700-750</span></td>
+          <td>A+ zip • 3bd deal!</td>
+          <td>
+            <div class="vote-section">
+              <span class="vote-person amira">A</span>
+              <button class="vote-btn" data-prop="tunis-dr" data-person="amira" data-type="like" title="Amira likes">👍</button>
+              <button class="vote-btn" data-prop="tunis-dr" data-person="amira" data-type="dislike" title="Amira dislikes">👎</button>
+            </div>
+            <div class="vote-section">
+              <span class="vote-person kishun">K</span>
+              <button class="vote-btn" data-prop="tunis-dr" data-person="kishun" data-type="like" title="Kishun likes">👍</button>
+              <button class="vote-btn" data-prop="tunis-dr" data-person="kishun" data-type="dislike" title="Kishun dislikes">👎</button>
+            </div>
+          </td>
+        </tr>
+
         <!-- ALPINE LINCOLN HEIGHTS: B -->
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
@@ -1066,41 +1122,111 @@
 
 <script>
   // Sorting
+  let currentSort = { key: 'score', dir: 'desc' };
   document.querySelectorAll('.sort-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const key = btn.dataset.key;
-      const dir = btn.dataset.dir;
+      // Toggle direction if same key clicked again
+      if (currentSort.key === key) {
+        currentSort.dir = currentSort.dir === 'desc' ? 'asc' : 'desc';
+      } else {
+        currentSort.key = key;
+        currentSort.dir = btn.dataset.dir;
+      }
       document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const tbody = document.querySelector('tbody');
-      const rows = Array.from(tbody.querySelectorAll('tr'));
-      rows.sort((a, b) => {
-        let aVal, bVal;
-        if (key === 'score') {
-          aVal = a.querySelector('.score-badge')?.className.includes('s-a') ? 4 : a.querySelector('.score-badge')?.className.includes('s-b') ? 3 : a.querySelector('.score-badge')?.className.includes('s-c') ? 2 : 1;
-          bVal = b.querySelector('.score-badge')?.className.includes('s-a') ? 4 : b.querySelector('.score-badge')?.className.includes('s-b') ? 3 : b.querySelector('.score-badge')?.className.includes('s-c') ? 2 : 1;
-        } else if (key === 'price') {
-          aVal = parseInt(a.querySelector('.price')?.textContent.replace(/[^0-9]/g, '')) || 9999;
-          bVal = parseInt(b.querySelector('.price')?.textContent.replace(/[^0-9]/g, '')) || 9999;
-        } else if (key === 'area') {
-          aVal = a.querySelector('.area-badge')?.textContent.includes('A+') ? 2 : 1;
-          bVal = b.querySelector('.area-badge')?.textContent.includes('A+') ? 2 : 1;
-        } else if (key === 'type') {
-          aVal = a.querySelector('.type-th') ? 2 : 1;
-          bVal = b.querySelector('.type-th') ? 2 : 1;
-        } else if (key === 'status') {
-          aVal = a.querySelector('.status-hot') ? 5 : a.querySelector('.status-new') ? 4 : a.querySelector('.status-replied') ? 3 : a.querySelector('.status-contacted') ? 2 : 1;
-          bVal = b.querySelector('.status-hot') ? 5 : b.querySelector('.status-new') ? 4 : b.querySelector('.status-replied') ? 3 : b.querySelector('.status-contacted') ? 2 : 1;
-        } else if (key === 'zip') {
-          aVal = a.querySelector('td:nth-child(4)')?.textContent || '';
-          bVal = b.querySelector('td:nth-child(4)')?.textContent || '';
-        }
-        if (dir === 'desc') return bVal - aVal;
-        return aVal - bVal;
-      });
-      rows.forEach(r => tbody.appendChild(r));
+      // Update arrow indicators
+      document.querySelectorAll('.sort-btn').forEach(b => b.querySelector('.arrow').textContent = '');
+      const arrow = currentSort.dir === 'desc' ? '▼' : '▲';
+      btn.querySelector('.arrow').textContent = arrow;
+      
+      sortAll(currentSort.key, currentSort.dir);
     });
   });
+
+  function sortAll(key, dir) {
+    // Sort desktop table
+    const tbody = document.querySelector('tbody');
+    if (tbody) {
+      const rows = Array.from(tbody.querySelectorAll('tr'));
+      sortRows(rows, key, dir);
+      rows.forEach(r => tbody.appendChild(r));
+    }
+    // Sort mobile cards
+    const mobileContainer = document.querySelector('.mobile-only');
+    if (mobileContainer) {
+      const cards = Array.from(mobileContainer.querySelectorAll('.card'));
+      sortCards(cards, key, dir);
+      cards.forEach(c => mobileContainer.appendChild(c));
+    }
+  }
+
+  function sortRows(rows, key, dir) {
+    rows.sort((a, b) => {
+      let aVal, bVal;
+      if (key === 'score') {
+        aVal = getScoreValue(a);
+        bVal = getScoreValue(b);
+      } else if (key === 'price') {
+        aVal = parseInt(a.querySelector('.price')?.textContent.replace(/[^0-9]/g, '')) || 9999;
+        bVal = parseInt(b.querySelector('.price')?.textContent.replace(/[^0-9]/g, '')) || 9999;
+      } else if (key === 'area') {
+        aVal = a.querySelector('.area-badge')?.textContent.includes('A+') ? 2 : 1;
+        bVal = b.querySelector('.area-badge')?.textContent.includes('A+') ? 2 : 1;
+      } else if (key === 'type') {
+        aVal = a.querySelector('.type-th') ? 2 : 1;
+        bVal = b.querySelector('.type-th') ? 2 : 1;
+      } else if (key === 'status') {
+        aVal = a.querySelector('.status-hot') ? 5 : a.querySelector('.status-new') ? 4 : a.querySelector('.status-replied') ? 3 : a.querySelector('.status-contacted') ? 2 : 1;
+        bVal = b.querySelector('.status-hot') ? 5 : b.querySelector('.status-new') ? 4 : b.querySelector('.status-replied') ? 3 : b.querySelector('.status-contacted') ? 2 : 1;
+      } else if (key === 'zip') {
+        aVal = a.querySelector('td:nth-child(4)')?.textContent || '';
+        bVal = b.querySelector('td:nth-child(4)')?.textContent || '';
+      }
+      if (dir === 'desc') return bVal > aVal ? 1 : bVal < aVal ? -1 : 0;
+      return aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
+    });
+  }
+
+  function sortCards(cards, key, dir) {
+    cards.sort((a, b) => {
+      let aVal, bVal;
+      if (key === 'score') {
+        aVal = getScoreValue(a);
+        bVal = getScoreValue(b);
+      } else if (key === 'price') {
+        aVal = parseInt(a.querySelector('.card-price')?.textContent.replace(/[^0-9]/g, '')) || 9999;
+        bVal = parseInt(b.querySelector('.card-price')?.textContent.replace(/[^0-9]/g, '')) || 9999;
+      } else if (key === 'area') {
+        aVal = a.querySelector('.area-badge')?.textContent.includes('A+') ? 2 : 1;
+        bVal = b.querySelector('.area-badge')?.textContent.includes('A+') ? 2 : 1;
+      } else if (key === 'type') {
+        aVal = a.querySelector('.type-th') ? 2 : 1;
+        bVal = b.querySelector('.type-th') ? 2 : 1;
+      } else if (key === 'status') {
+        aVal = a.querySelector('.status-hot') ? 5 : a.querySelector('.status-new') ? 4 : a.querySelector('.status-replied') ? 3 : a.querySelector('.status-contacted') ? 2 : 1;
+        bVal = b.querySelector('.status-hot') ? 5 : b.querySelector('.status-new') ? 4 : b.querySelector('.status-replied') ? 3 : b.querySelector('.status-contacted') ? 2 : 1;
+      } else if (key === 'zip') {
+        const aManager = a.querySelector('.card-manager')?.textContent || '';
+        const bManager = b.querySelector('.card-manager')?.textContent || '';
+        aVal = aManager.match(/\d{5}/)?.[0] || '';
+        bVal = bManager.match(/\d{5}/)?.[0] || '';
+      }
+      if (dir === 'desc') return bVal > aVal ? 1 : bVal < aVal ? -1 : 0;
+      return aVal > bVal ? 1 : aVal < bVal ? -1 : 0;
+    });
+  }
+
+  function getScoreValue(el) {
+    const badge = el.querySelector('.score-badge');
+    if (!badge) return 0;
+    const cls = badge.className;
+    if (cls.includes('s-a')) return 4;
+    if (cls.includes('s-b')) return 3;
+    if (cls.includes('s-c')) return 2;
+    if (cls.includes('s-d')) return 1;
+    return 0;
+  }
 
   // Voting system
   function getVotes() {
