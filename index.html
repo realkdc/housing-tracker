@@ -1,0 +1,3682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ctext y='14'%3E%F0%9F%8F%A0%3C/text%3E%3C/svg%3E">
+  <title>SF Housing Tracker — Sioux Falls / Tea SD</title>
+  <style>
+    :root {
+      --bg: #0d1117; --bg-elevated: #161b22; --border: #30363d;
+      --text: #e6edf3; --text-muted: #8b949e;
+      --accent: #58a6ff; --accent-hover: #79c0ff;
+      --success: #3fb950; --warning: #d29922; --danger: #f85149; --info: #a371f7;
+      --code-bg: #1f2428; --row-hover: #1f2428;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    .container { max-width: 1400px; margin: 0 auto; }
+    h1 { font-size: 1.4rem; font-weight: 600; margin: 0 0 4px; }
+    @media (max-width: 768px) { h1 { font-size: 1.1rem; } }
+    .subtitle { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; line-height: 1.4; }
+    @media (max-width: 768px) { .subtitle { font-size: 0.72rem; margin-bottom: 12px; } }
+
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, min-width: 90px, 1fr)); gap: 8px; margin-bottom: 16px; }
+    .stat { background: var(--bg-elevated); border: 1px solid var(--border); padding: 10px; border-radius: 6px; text-align: center; }
+    .stat-value { font-size: 1.3rem; font-weight: 700; }
+    .stat-label { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    .legend { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 6px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.72rem; line-height: 1.6; }
+    .legend .legend-row { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; padding: 4px 0; border-bottom: 1px solid var(--border); }
+    .legend-row:last-child { margin-bottom: 0; border-bottom: none; }
+    .legend-label { color: var(--text-muted); font-weight: 600; font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.3px; min-width: 70px; }
+    .legend-range { color: var(--text); font-weight: 600; }
+    .prop-icon { font-size: 1.1rem; margin-right: 2px; }
+    .price-pips { display: inline-flex; gap: 2px; }
+    .pip { width: 10px; height: 10px; border-radius: 50%; background: var(--border); }
+    .pip.on { background: var(--success); }
+    .must-have { color: var(--success); font-weight: 600; }
+    .must-have + .must-have::before { content: " · "; color: var(--border); }
+    .area-badge.area-b { color: var(--warning); }
+    .legend strong { color: var(--text); }
+    .score-badge { display: inline-block; width: 26px; height: 26px; line-height: 26px; text-align: center; border-radius: 4px; font-weight: 700; font-size: 0.8rem; margin-right: 3px; }
+    .s-a { background: rgba(63,185,80,0.2); color: var(--success); border: 1px solid rgba(63,185,80,0.4); }
+    .s-b { background: rgba(88,166,255,0.2); color: var(--accent); border: 1px solid rgba(88,166,255,0.4); }
+    .s-c { background: rgba(210,153,34,0.2); color: var(--warning); border: 1px solid rgba(210,153,34,0.4); }
+    .s-d { background: rgba(248,81,73,0.2); color: var(--danger); border: 1px solid rgba(248,81,73,0.4); }
+    .area-badge { font-size: 0.6rem; padding: 2px 5px; border-radius: 3px; font-weight: 600; }
+    .area-a { background: rgba(63,185,80,0.15); color: var(--success); border: 1px solid rgba(63,185,80,0.3); }
+    .area-b { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
+
+    .sort-bar { display: flex; align-items: center; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+    .sort-label { font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-right: 2px; }
+    .sort-btn { background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text-muted); padding: 5px 10px; border-radius: 5px; font-size: 0.68rem; font-weight: 600; cursor: pointer; transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.3px; }
+    .sort-btn:hover { border-color: var(--accent); color: var(--text); }
+    .sort-btn.active { background: rgba(88,166,255,0.15); border-color: var(--accent); color: var(--accent); }
+    .sort-btn .arrow { font-size: 0.55rem; margin-left: 3px; }
+
+    .desktop-only { display: block; }
+    table { width: 100%; border-collapse: collapse; background: var(--bg-elevated); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+    th, td { padding: 9px 11px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.76rem; vertical-align: top; }
+    th { background: var(--code-bg); font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.62rem; position: sticky; top: 0; z-index: 1; }
+    tr:hover { background: var(--row-hover); }
+    tr:last-child td { border-bottom: none; }
+    .property-name { font-weight: 600; }
+    .property-name a { color: var(--accent); text-decoration: none; }
+    .property-name a:hover { text-decoration: underline; }
+    .property-type { font-size: 0.6rem; padding: 2px 5px; border-radius: 3px; font-weight: 600; display: inline-block; margin-bottom: 2px; }
+    .type-th { background: rgba(63,185,80,0.15); color: var(--success); border: 1px solid rgba(63,185,80,0.3); }
+    .type-apt { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
+    .type-duplex { background: rgba(210,153,34,0.15); color: var(--warning); border: 1px solid rgba(210,153,34,0.3); }
+    .manager { font-size: 0.68rem; color: var(--text-muted); margin-top: 1px; }
+
+    .mobile-only { display: none; }
+    .card { background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 10px; }
+    .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 4px; }
+    .card-title { font-weight: 600; font-size: 0.9rem; }
+    .card-title a { color: var(--accent); text-decoration: none; }
+    @media (max-width: 768px) { .card-title a { display: inline-block; padding: 2px 0; } }
+    .card-badges { display: flex; gap: 4px; flex-wrap: wrap; margin: 4px 0; }
+    .card-manager { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 4px; }
+    .card-price { font-family: 'SF Mono', monospace; font-weight: 600; font-size: 1rem; white-space: nowrap; }
+    .in-budget { color: var(--success); }
+    .over-budget { color: var(--warning); }
+    .card-detail { font-size: 0.72rem; color: var(--text-muted); margin: 1px 0; }
+    .card-detail strong { color: var(--text); font-weight: 500; }
+    .card-log { font-size: 0.65rem; color: var(--text-muted); margin-top: 4px; font-family: 'SF Mono', monospace; }
+
+    .status { display: inline-block; padding: 2px 6px; border-radius: 999px; font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+    .status-hot { background: rgba(63,185,80,0.15); color: var(--success); border: 1px solid rgba(63,185,80,0.3); }
+    .status-new { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
+    .status-contacted { background: rgba(139,148,158,0.12); color: var(--text-muted); border: 1px solid rgba(139,148,158,0.3); }
+    .status-replied { background: rgba(163,113,247,0.15); color: var(--info); border: 1px solid rgba(163,113,247,0.3); }
+    .status-dropped { background: rgba(248,81,73,0.15); color: var(--danger); border: 1px solid rgba(248,81,73,0.3); opacity: 0.6; }
+    /* A/K vote system */
+    tr.both-yes { box-shadow: inset 0 0 0 1px rgba(63,185,80,0.5); }
+    .vote-cell { white-space: nowrap; }
+    .vote-group { margin: 1px 0; }
+    .vote-tag { display:inline-block; width:13px; font-size:0.6rem; font-weight:700; color: var(--text-muted); }
+    .vote-btn { display:inline-block; width:20px; height:18px; line-height:16px; text-align:center;
+                border-radius:3px; border:1px solid var(--border); background:transparent;
+                color: var(--text-muted); font-size:0.7rem; cursor:pointer; padding:0; margin:0 1px; }
+    @media (max-width: 768px) { .vote-btn { width: 28px; height: 28px; line-height: 26px; font-size: 0.9rem; } }
+    .vote-btn:hover { border-color: var(--accent); color: var(--text); }
+    .vote-btn.on-up { background: rgba(63,185,80,0.25); border-color: #3fb950; color: #3fb950; font-weight:700; }
+    .vote-btn.on-down { background: rgba(248,81,73,0.25); border-color: #f85149; color: #f85149; font-weight:700; }
+    .vote-clear { font-size:0.55rem; color: var(--text-muted); text-decoration:underline; cursor:pointer;
+                  border:none; background:none; padding:0; }
+    .share-bar { margin: 10px 0; display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+    .share-btn { min-height: 44px; }
+    .share-btn { background: var(--accent); color:#0d1117; border:none; border-radius:5px;
+                 padding:5px 11px; font-size:0.75rem; font-weight:600; cursor:pointer; }
+    .share-btn:hover { opacity:0.88; }
+    .share-hint { font-size:0.68rem; color: var(--text-muted); }
+
+    .status-avoid { background: rgba(248,81,73,0.25); color: var(--danger); border: 1px solid rgba(248,81,73,0.5); font-weight: 600; }
+    .status-unavailable { background: rgba(248,81,73,0.15); color: var(--danger); border: 1px solid rgba(248,81,73,0.3); opacity: 0.5; }
+
+    .badge { display: inline-block; padding: 1px 4px; border-radius: 3px; font-size: 0.55rem; font-weight: 600; margin-right: 2px; }
+    .badge-jetty { background: rgba(63,185,80,0.2); color: var(--success); border: 1px solid rgba(63,185,80,0.3); }
+    .badge-depalt { background: rgba(88,166,255,0.2); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
+    .badge-trusted { background: rgba(163,113,247,0.2); color: var(--info); border: 1px solid rgba(163,113,247,0.3); }
+
+    .note { font-size: 0.76rem; color: var(--text-muted); background: var(--code-bg); padding: 10px; border-radius: 6px; border: 1px solid var(--border); margin-top: 12px; line-height: 1.5; }
+    .footer { margin-top: 20px; padding-top: 10px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.72rem; text-align: center; }
+
+    @media (max-width: 768px) {
+      body { padding: 12px; }
+      .desktop-only { display: none; }
+      .mobile-only { display: block; }
+      .stats { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+      .legend { font-size: 0.68rem; }
+      .sort-bar { gap: 4px; flex-wrap: wrap; padding: 6px 0; }
+      .sort-btn { padding: 8px 12px; font-size: 0.7rem; min-width: 44px; min-height: 36px; }
+      .sort-label { width: 100%; margin-bottom: 4px; }
+    }
+
+    /* Modal system */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      width: 100%;
+      max-width: 600px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      margin: auto;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .modal-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      background: var(--bg-elevated);
+      z-index: 2;
+      border-radius: 10px 10px 0 0;
+    }
+    .modal-title { font-weight: 700; font-size: 1rem; flex: 1; min-width: 0; }
+    .modal-close {
+      background: none; border: 1px solid var(--border); color: var(--text-muted);
+      width: 30px; height: 30px; border-radius: 6px; cursor: pointer;
+      font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .modal-close:hover { border-color: var(--danger); color: var(--danger); }
+    .modal-body { padding: 16px 18px; overflow-y: auto; flex: 1; }
+    .modal-section { margin-bottom: 18px; }
+    .modal-section:last-child { margin-bottom: 0; }
+    .modal-section-title {
+      font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.5px;
+      color: var(--text-muted); font-weight: 600; margin-bottom: 8px;
+      border-bottom: 1px solid var(--border); padding-bottom: 4px;
+    }
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .stat-item { background: var(--code-bg); padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border); }
+    .stat-item-label { font-size: 0.55rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
+    .stat-item-value { font-size: 0.95rem; font-weight: 600; margin-top: 2px; }
+    .stat-item-value.large { font-size: 1.3rem; color: var(--success); }
+    .amenity-tag {
+      display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.65rem;
+      font-weight: 600; margin: 2px 3px 2px 0;
+      background: rgba(88,166,255,0.1); color: var(--accent);
+      border: 1px solid rgba(88,166,255,0.25);
+    }
+    .score-breakdown-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 4px 0; font-size: 0.78rem; border-bottom: 1px solid rgba(48,54,61,0.5);
+    }
+    .score-breakdown-item:last-child { border-bottom: none; }
+    .score-breakdown-item .points { font-weight: 700; font-family: 'SF Mono', monospace; }
+    .score-breakdown-item.pro .points { color: var(--success); }
+    .score-breakdown-item.con .points { color: var(--danger); }
+    .score-total {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 0; font-size: 0.95rem; font-weight: 700;
+      border-top: 2px solid var(--border); margin-top: 6px;
+    }
+    .pros-cons-list { list-style: none; padding: 0; margin: 0; }
+    .pros-cons-list li { padding: 3px 0; font-size: 0.76rem; display: flex; align-items: center; gap: 6px; }
+    .pros-cons-list li::before { font-weight: 700; width: 14px; text-align: center; flex-shrink: 0; }
+    .pros-cons-list.pros li::before { content: '+'; color: var(--success); }
+    .pros-cons-list.cons li::before { content: '\2212'; color: var(--danger); }
+    .verdict {
+      text-align: center; padding: 12px; border-radius: 8px; font-weight: 700;
+      font-size: 1.05rem; margin-top: 10px; border: 1px solid;
+    }
+    .verdict-a { background: rgba(63,185,80,0.15); color: var(--success); border-color: rgba(63,185,80,0.4); }
+    .verdict-b { background: rgba(88,166,255,0.15); color: var(--accent); border-color: rgba(88,166,255,0.4); }
+    .verdict-c { background: rgba(210,153,34,0.15); color: var(--warning); border-color: rgba(210,153,34,0.4); }
+    .verdict-d { background: rgba(248,81,73,0.15); color: var(--danger); border-color: rgba(248,81,73,0.4); }
+    .modal-footer {
+      padding: 12px 18px; border-top: 1px solid var(--border);
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      position: sticky; bottom: 0; background: var(--bg-elevated);
+      border-radius: 0 0 10px 10px;
+    }
+    .modal-footer .vote-cell { display: flex; align-items: center; gap: 8px; }
+    @media (max-width: 768px) {
+      .stat-grid { grid-template-columns: repeat(2, 1fr); }
+      .modal { max-height: 90vh; }
+      .modal-overlay { padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>SF Housing Tracker</h1>
+  <p class="subtitle">Sioux Falls / Tea — budget ≤$800 LOCKED • 6–9mo lease • A+ zips • Townhouse preferred, apartments fine • Any lead over $800 is dropped, no exceptions</p>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-value" id="stat-inbudget">--</div><div class="stat-label">In Budget</div></div>
+    <div class="stat"><div class="stat-value" id="stat-contacted">--</div><div class="stat-label">Contacted</div></div>
+    <div class="stat"><div class="stat-value" id="stat-replied">--</div><div class="stat-label">Replied</div></div>
+    <div class="stat"><div class="stat-value" id="stat-dropped">--</div><div class="stat-label">Dropped</div></div>
+  </div>
+
+  <div class="share-bar">
+    <button class="share-btn" id="share-btn">Copy share link for Amira</button>
+    <button class="share-btn" id="clear-btn" style="background:transparent;border:1px solid var(--border);color:var(--text-muted);">Clear my votes</button>
+    <span class="share-hint">Votes save in this browser. The link carries them, so whoever opens it sees the same board.</span>
+  </div>
+
+  <div class="legend">
+    <div class="legend-row">
+      <span class="legend-label">Score</span>
+      <span class="score-badge s-a">A</span><span class="legend-range">14+</span>
+      <span class="score-badge s-b">B</span><span class="legend-range">10–13</span>
+      <span class="score-badge s-c">C</span><span class="legend-range">6–9</span>
+      <span class="score-badge s-d">D</span><span class="legend-range">&lt;6</span>
+    </div>
+    <div class="legend-row">
+      <span class="legend-label">Area</span>
+      <span class="area-badge area-a">A+</span><span class="legend-range">57108/57110/57106</span>
+      <span class="area-badge area-b">B- ⚠</span><span class="legend-range">57104</span>
+    </div>
+    <div class="legend-row">
+      <span class="legend-label">Type</span>
+      <span class="prop-icon">🏠</span>Townhouse +3
+      <span class="prop-icon">🏢</span>Apartment +1
+    </div>
+    <div class="legend-row">
+      <span class="legend-label">Budget</span>
+      <span class="price-pips"><span class="pip on"></span><span class="pip on"></span><span class="pip on"></span><span class="pip on"></span></span> ≤$800 +4
+    </div>
+    <div class="legend-row">
+      <span class="legend-label">Must-haves</span>
+      <span class="must-have">✓ W/D +3</span>
+      <span class="must-have">✓ Garage +2</span>
+      <span class="must-have">✓ Dep alt +2</span>
+    </div>
+  </div>
+
+  <div class="sort-bar">
+    <span class="sort-label">Sort:</span>
+    <button class="sort-btn active" data-key="score" data-dir="desc">Score<span class="arrow">▼</span></button>
+    <button class="sort-btn" data-key="price" data-dir="asc">Price<span class="arrow"></span></button>
+    <button class="sort-btn" data-key="area" data-dir="asc">Area<span class="arrow"></span></button>
+    <button class="sort-btn" data-key="type" data-dir="asc">Type<span class="arrow"></span></button>
+    <button class="sort-btn" data-key="status" data-dir="asc">Status<span class="arrow"></span></button>
+    <button class="sort-btn" data-key="zip" data-dir="asc">Zip<span class="arrow"></span></button>
+  </div>
+
+  <!-- DESKTOP -->
+  <div class="desktop-only">
+    <table>
+      <thead>
+        <tr>
+          <th>Score</th><th>Property / Type / Manager</th><th>Area</th><th>Zip</th><th>Rent</th><th>Key Specs</th><th>Status</th><th>Contact/Notes</th><th>Log</th><th>Votes</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- 3505 S WILLOW: C -->
+        <tr>
+          <td><span class="score-badge s-c">C</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.rent.com/apartment/3505-s-willow-ave-sioux-falls-sd-lc5902838" target="_blank" rel="noopener">3505 S Willow Ave</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Private — (605) 275-6393</div>
+          </td>
+          <td><span class="area-badge area-a">A</span></td>
+          <td>57105</td>
+          <td class="price in-budget"><strong>TBD</strong></td>
+          <td>In-house laundry • 2BR/1BA • 600sf • $400 deposit • Garage $50/mo • Quiet street</td>
+          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,300)</span></td>
+          <td>Price TBD • Near Western Centre</td>
+          <td class="email-log">Sep 10: Added ✓</td>
+        <td class="vote-cell" data-property="3505-s-willow-ave"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- AUTUMN PARK: C -->
+        <tr>
+          <td><span class="score-badge s-c">C</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.apartments.com/autumn-park-sioux-falls-sd/k6pc4rb/" target="_blank" rel="noopener">Autumn Park</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Autumn Park — (605) 250-2135</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57106</td>
+          <td class="price over-budget"><strong>$835+</strong></td>
+          <td>2BR/1BA • 850sf • 1 Month Free • Pet-friendly • Shared laundry • Parking</td>
+          <td><span class="status status-dropped">DROPPED — over $800 budget</span></td>
+          <td>$35 over • No in-unit W/D • Shared laundry</td>
+          <td class="email-log">Sep 10: Added ✓</td>
+        <td class="vote-cell" data-property="autumn-park"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- WILLOWS SOUTH COMMONS: C -->
+        <tr>
+          <td><span class="score-badge s-c">C</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.apartments.com/willows-south-commons-sioux-falls-sd/b0c8wwb/" target="_blank" rel="noopener">Willows South Commons</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Willows South Commons — (605) 501-6175</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57110</td>
+          <td class="price over-budget"><strong>$825+</strong></td>
+          <td>In-unit W/D ✓ • 2BR/1BA • 940sf • Pet-friendly • Elevator • Fitness center</td>
+          <td><span class="status status-dropped">DROPPED — over $800 budget</span></td>
+          <td>$25 over • In-unit W/D • 57110 zip</td>
+          <td class="email-log">Sep 10: Added ✓</td>
+        <td class="vote-cell" data-property="willows-south-commons"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- MAPLE ROCK RESERVE: C -->
+        <tr>
+          <td><span class="score-badge s-c">C</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.apartmentlist.com/sd/sioux-falls/maple-rock" target="_blank" rel="noopener">Maple Rock Reserve</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Maple Rock — (605) 501-6175</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57108</td>
+          <td class="price over-budget"><strong>$815+</strong></td>
+          <td>2BR/1BA • 597sf • Modern finishes • Floor-to-ceiling windows • 57110 zip</td>
+          <td><span class="status status-dropped">DROPPED — over $800 budget</span></td>
+          <td>$15 over • 57108 zip • W/D TBD</td>
+          <td class="email-log">Sep 10: Added ✓</td>
+        <td class="vote-cell" data-property="maple-rock-reserve"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- MORGAN LANE TOWNS: C -->
+        <tr>
+          <td><span class="score-badge s-c">C</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.zillow.com/apartments/tea-sd/morgan-lane-townhomes/CYDNdn/" target="_blank" rel="noopener">Morgan Lane Townhomes</a></div>
+            <div class="property-type type-th">Townhouse</div>
+            <div class="manager">Private — Appfolio</div>
+          </td>
+          <td><span class="area-badge area-a">A</span></td>
+          <td>57064</td>
+          <td class="price over-budget"><strong>$1,375</strong></td>
+          <td>In-unit W/D ✓ • 2BR/1BA • 1,483sf • Att. garage • Pet-friendly • Lawn/snow incl.</td>
+          <td><span class="status status-dropped">DROPPED — over $800 budget</span></td>
+          <td>OVER BUDGET • $575 over • HighPointe area</td>
+          <td class="email-log">Sep 10: Added ✓</td>
+        <td class="vote-cell" data-property="morgan-lane-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- HERITAGE TOWNS: C -->
+        <tr>
+          <td><span class="score-badge s-c">C</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.apartments.com/heritage-townhomes-tea-sd/2w2w57b/" target="_blank" rel="noopener">Heritage Townhomes</a></div>
+            <div class="property-type type-th">Townhouse</div>
+            <div class="manager">Heritage — (605) 525-4743</div>
+          </td>
+          <td><span class="area-badge area-a">A</span></td>
+          <td>57064</td>
+          <td class="price over-budget"><strong>$1,495–1,645</strong></td>
+          <td>W/D ✓ • 2BR/1.5BA • 1,070sf • Water/sewer/trash incl. • Pet-friendly • Vaulted ceiling</td>
+          <td><span class="status status-dropped">DROPPED — over $800 budget</span></td>
+          <td>OVER BUDGET • $695+ over • Multi-level</td>
+          <td class="email-log">Sep 10: Added ✓</td>
+        <td class="vote-cell" data-property="heritage-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- ARROW RIDGE: A+ -->
+        <tr style="border-left:3px solid var(--success);">
+          <td><span class="score-badge s-a">A+</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.rent.com/apartment/arrow-ridge-townhomes-brandon-sd-brandon-sd-lc6221589" target="_blank" rel="noopener">Arrow Ridge Townhomes</a></div>
+            <div class="property-type type-th">Townhouse</div>
+            <div class="manager">J&M Real Estate — (605) 501-5090</div>
+          </td>
+          <td><span class="area-badge area-a">A</span></td>
+          <td>57005</td>
+          <td class="price in-budget"><strong>$762</strong></td>
+          <td>In-unit W/D • 2BR/1.5BA • Det. garage • 999sf • Pet-friendly • Trash/sewer incl.</td>
+          <td><span class="status status-dropped">DROPPED — landlord: no short-term lease — Sep 4 ✓</span></td>
+          <td>15-20 min to SF</td>
+          <td class="email-log">Aug 30: Added ✓<br>Sep 4: Email sent to J&M ✓<br>Sep 11: Landlord replied — no short-term lease at Arrow Ridge, offered Marion Park instead</td>
+        <td class="vote-cell" data-property="arrow-ridge-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- SOUTH RIDGE: A+ (NEW Sep 2) -->
+        <tr style="border-left:3px solid var(--success);">
+          <td><span class="score-badge s-a">A+</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.redfin.com/SD/Sioux-Falls/South-Ridge-Apartments-Townhomes/apartment/195165736" target="_blank" rel="noopener">South Ridge Townhomes</a></div>
+            <div class="property-type type-th">Townhouse</div>
+            <div class="manager">South Ridge — (605) 937-7278</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57108</td>
+          <td class="price in-budget"><strong>$768–783</strong></td>
+          <td>In-unit W/D ✓ • 2BR/1BA • 923sf • Off-street parking • Townhome • No pets</td>
+          <td><span class="status status-contacted">Contacted — nudge sent Sep 11 — nudge sent Sep 11 — nudge sent Sep 11 — Sep 4 ✓</span></td>
+          <td>Available now • 2-3 bed TH</td>
+          <td class="email-log">Sep 2: Added ✓<br>Sep 4: Email sent to Costello ✓<br>Sep 11: Follow-up nudge sent (7+ days silent)</td>
+        <td class="vote-cell" data-property="south-ridge-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- GRANT SQUARE: A (NEW Sep 2) -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.costelloco.com/property_locations/grant-square/" target="_blank" rel="noopener">Grant Square Apartments</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Grant Square — Income restricted</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57106</td>
+          <td class="price in-budget"><strong>$662+</strong></td>
+          <td>In-unit W/D ✓ • 2BR/2BA • 1,026sf • Garage + covered parking • Water/sewer/garbage incl. • ⚠ Income restricted</td>
+          <td><span class="status status-contacted">Contacted — nudge sent Sep 11 — nudge sent Sep 11 — Sep 3 ✓</span></td>
+          <td>Income restricted — verify eligibility</td>
+          <td class="email-log">Sep 2: Added ✓ • Sep 3: Email sent ✓ (grantsquare@costelloco.com)<br>Sep 11: Follow-up nudge sent (7+ days silent)</td>
+        <td class="vote-cell" data-property="grant-square-apartments"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+        <!-- 4908 W KIRKWOOD: C — NEW Sep 4 -->
+        <tr>
+          <td><span class="score-badge s-c">C</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.realtor.com/rentals/details/4908-W-Kirkwood-Cir_Sioux-Falls_SD_57106_M95208-49763" target="_blank" rel="noopener">4908 W Kirkwood Cir</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Private landlord</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57106</td>
+          <td class="price in-budget"><strong>$749</strong></td>
+          <td>2BR/1BA • 750sf • Newly renovated • Pet-friendly • <strong>W/D TBD (unverified)</strong></td>
+          <td><span class="status status-contacted">Contacted — Sep 10 ✓</span></td>
+          <td>Private landlord • West side</td>
+          <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓</td>
+        <td class="vote-cell" data-property="4908-w-kirkwood-cir"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- KIRKWOOD A -->
+        <tr style="border-left:3px solid var(--success);">
+          <td><span class="score-badge s-a">A</span></td>
+          <td>
+            <div class="property-name">4907 W Kirkwood Cir #4 <span style="font-size:0.65rem;color:var(--text-muted);">(no public listing — contact Joann directly)</span></div>
+            <div class="property-type type-th">Townhouse</div>
+            <div class="manager">Pegasus of SD (Joann) — (605) 951-6584</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57106</td>
+          <td class="price in-budget">$1,299</td>
+          <td>Att. garage • Lawn+snow incl. • Lease → Mar M-to-M • W/D TBD</td>
+          <td><span class="status status-replied">Replied — W/D ✓</span></td>
+          <td>Oct 1 unit 1 offer • user needs Nov • 4wk hold max</td>
+          <td class="email-log">Aug 29: Q's<br>Aug 30: Follow-up ✓<br>Sep 3: Joann replied (W/D ✓, unit 1 Oct 1) — replied w/ Nov timing ✓</td>
+        <td class="vote-cell" data-property="4907-w-kirkwood-cir-4"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- PARK PLACE: B -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.zillow.com/apartments/sioux-falls-sd/park-place-condominiums-7003/5jCD82/" target="_blank" rel="noopener">Park Place Condominiums</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Park Place Mgmt</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57106</td>
+          <td class="price in-budget">$1,099</td>
+          <td>In-unit W/D • 2BR/1BA • Garage incl. • 950sf • Pet-friendly • Balcony</td>
+          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,300)</span></td>
+          <td><span class="badge badge-trusted">FB find</span></td>
+          <td class="email-log">Aug 31: Added ✓</td>
+        <td class="vote-cell" data-property="park-place-condominiums"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- LUKE SYCAMORE: B -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://luke.properties/rent/l/6ca5f3a07c/401-s-sycamore-ave-206-sioux-falls-sd-57110" target="_blank" rel="noopener">401 S Sycamore #206</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Luke Properties</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57110</td>
+          <td class="price in-budget">$725</td>
+          <td>Off-street • <strong>Deposit alt built-in</strong> • No move-in fees • <strong>Shared laundry (NOT in-unit)</strong> • No pets</td>
+          <td><span class="status status-contacted">Contacted — nudge sent Sep 11 — Sep 3 ✓</span></td>
+          <td><span class="badge badge-depalt">Dep. alt</span></td>
+          <td class="email-log">Aug 30: Added ✓<br>Sep 3: Email sent ✓<br>Sep 11: Follow-up nudge sent (7+ days silent)</td>
+        <td class="vote-cell" data-property="401-s-sycamore-206"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- 412 N SIOUX BLVD #12: B — NEW -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.rent.com/r/412-n-sioux-blvd-brandon-sd-lv1444436977" target="_blank" rel="noopener">412 N Sioux Blvd #12</a></div>
+            <div class="property-type type-th">Townhouse</div>
+            <div class="manager">Private (605) 799-3741</div>
+          </td>
+          <td><span class="area-badge area-a">A</span></td>
+          <td>57005</td>
+          <td class="price in-budget">$1,300</td>
+          <td>In-unit W/D • 2BR/1BA • Att. garage • 1,000sf • Lawn+snow+trash incl. • Pet-friendly</td>
+          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,300)</span></td>
+          <td>Available Sep 1</td>
+          <td class="email-log">Sep 1: Added ✓</td>
+        <td class="vote-cell" data-property="412-n-sioux-blvd-12"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- DBK BRANDON: B — NEW -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.rent.com/apartment/dbk-brandon-townhomes-brandon-sd-lc6755616" target="_blank" rel="noopener">DBK Brandon Townhomes</a></div>
+            <div class="property-type type-th">Townhouse</div>
+            <div class="manager">DBK Brandon (605) 961-6871</div>
+          </td>
+          <td><span class="area-badge area-a">A</span></td>
+          <td>57005</td>
+          <td class="price in-budget">$1,299</td>
+          <td>In-unit W/D (verify) • 2BR/1BA • Att. garage • 1,185sf • Pet-friendly</td>
+          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,299)</span></td>
+          <td>W/D: verify with landlord • Available Now</td>
+          <td class="email-log">Sep 1: Added ✓</td>
+        <td class="vote-cell" data-property="dbk-brandon-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- BENDER WILLOW: B -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.bendermidwestproperties.com/listings/detail/e1656063-e9b1-44cf-ad2b-b52b2d2384de" target="_blank" rel="noopener">Willow Creek Townhomes</a></div>
+            <div class="property-type type-th">Townhouse</div>
+            <div class="manager">Bender Midwest</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57106</td>
+          <td class="price in-budget">$1,237+</td>
+          <td>In-unit W/D • 2BR/2BA • Garage • 1,086sf</td>
+          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,435)</span></td>
+          <td><span class="badge badge-trusted">Trusted</span></td>
+          <td class="email-log">Aug 27: 5Q sent</td>
+        <td class="vote-cell" data-property="willow-creek-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- BENDER EAST BRIAR: B -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.bendermidwestproperties.com/listings/detail/461fdd65-a23a-4440-a481-ea5c5355d83f" target="_blank" rel="noopener">East Briar Estates</a></div>
+            <div class="property-type type-th">Townhouse</div>
+            <div class="manager">Bender Midwest</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57110</td>
+          <td class="price in-budget">$895</td>
+          <td>In-unit W/D • 2BR/1BA • Garage • 1,100sf</td>
+          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,435)</span></td>
+          <td><span class="badge badge-trusted">Trusted</span></td>
+          <td class="email-log">Aug 27: 5Q sent</td>
+        <td class="vote-cell" data-property="east-briar-estates"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- BOULDER POINTE: B -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://leasepointguard.com/unit/boulder-pointe-townhomes-7601-3/" target="_blank" rel="noopener">Boulder Pointe TH</a></div>
+            <div class="property-type type-th">Townhouse</div>
+            <div class="manager">PointGuard</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57106</td>
+          <td class="price in-budget">$1,295</td>
+          <td>In-unit W/D • Att. garage • 2BR/1.5BA • 1,081sf</td>
+          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,435)</span></td>
+          <td>&nbsp;</td>
+          <td class="email-log">Aug 30: 5Q sent ✓</td>
+        <td class="vote-cell" data-property="boulder-pointe-th"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- ALPINE LINCOLN HEIGHTS: B -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://alpinepropmgmt.appfolio.com/listings" target="_blank" rel="noopener">Lincoln Heights #4</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Alpine</div>
+          </td>
+          <td><span class="area-badge area-a">A</span></td>
+          <td>57032</td>
+          <td class="price in-budget">$1,145</td>
+          <td>In-unit W/D • 2BR/1.5BA • 960sf • Off-street</td>
+          <td><span class="status status-replied">Replied — ask STL</span></td>
+          <td>$1k off 1st (12mo ask)</td>
+          <td class="email-log">Aug 28: Follow-up</td>
+        <td class="vote-cell" data-property="lincoln-heights-4"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- ALPINE 4601: C -->
+        <tr>
+          <td><span class="score-badge s-c">C</span></td>
+          <td>
+            <div class="property-name"><a href="https://alpinepropmgmt.appfolio.com/listings" target="_blank" rel="noopener">4601 E 3rd St #10</a></div>
+            <div class="property-type type-th">Townhome</div>
+            <div class="manager">Alpine</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57110</td>
+          <td class="price in-budget">$895</td>
+          <td><strong>On-site laundry ⚠️</strong> • 2BR/1BA • Lawn+snow incl.</td>
+          <td><span class="status status-replied">Replied — ask STL</span></td>
+          <td>Cheapest qualify</td>
+          <td class="email-log">Aug 28: Follow-up</td>
+        <td class="vote-cell" data-property="4601-e-3rd-st-10"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- FOSS FIELDS: C -->
+        <tr style="border-left:3px solid var(--warning);">
+          <td><span class="score-badge s-c">C</span></td>
+          <td>
+            <div class="property-name"><a href="https://rpmxpress.com/available-rentals" target="_blank" rel="noopener">Foss Fields "Hollow"</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Real Property Mgmt Express</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57110</td>
+          <td class="price in-budget">$1,120</td>
+          <td>Garage • <strong>Jetty-eligible</strong> • 1 mo free • <strong>In-unit W/D</strong> ✓ (confirmed Sep 11)</td>
+          <td><span class="status status-contacted">Contacted — Sep 3 ✓</span></td>
+          <td><span class="badge badge-jetty">Jetty</span></td>
+          <td class="email-log">Aug 30: Added ✓<br>Sep 3: Email sent ✓</td>
+        <td class="vote-cell" data-property="foss-fields-hollow"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- PRAIRIES EDGE: C -->
+        <tr>
+          <td><span class="score-badge s-c">C</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.cresten.com/our-properties/prairies-edge" target="_blank" rel="noopener">Prairies Edge TH</a></div>
+            <div class="property-type type-th">Townhouse</div>
+            <div class="manager">Cresten</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57108</td>
+          <td class="price over-budget">$1,435</td>
+          <td>In-unit W/D • Att. garage • 2BR/1.5BA • 1,081sf</td>
+          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,435)</span></td>
+          <td>$35 over</td>
+          <td class="email-log">Aug 30: 5Q sent ✓</td>
+        <td class="vote-cell" data-property="prairies-edge-th"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- STONEY CREEK: C -->
+        <tr>
+          <td><span class="score-badge s-c">C</span></td>
+          <td>
+            <div class="property-name"><a href="https://penkertproperties.com/rentals/stoney-creek-townhomes/" target="_blank" rel="noopener">Stoney Creek TH</a></div>
+            <div class="property-type type-th">Townhouse</div>
+            <div class="manager">Penkert</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57106</td>
+          <td class="price in-budget">TBD</td>
+          <td>In-unit W/D • Garage • Pet-friendly</td>
+          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,237+)</span></td>
+          <td>Pricing TBD</td>
+          <td class="email-log">Aug 30: 5Q sent ✓</td>
+        <td class="vote-cell" data-property="stoney-creek-th"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- CHASING WILLOWS: B — NEW Sep 4 -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.costelloco.com/property_locations/chasing-willows/" target="_blank" rel="noopener">Chasing Willows Apartments</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Costello Companies — (605) 553-7542</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57110</td>
+          <td class="price in-budget"><strong>$684</strong></td>
+          <td>In-unit W/D ✓ • 2BR/2BA • 935sf • Pool • Clubhouse • Pet-friendly • Same complex as Chasing Willows II</td>
+          <td><span class="status status-contacted">Contacted — Sep 10 ✓</span></td>
+          <td><span class="badge badge-trusted">Trusted</span></td>
+          <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓<br>Sep 10 6:06pm: Inquiry email sent (chasingwillows@costelloco.com) - DUPLICATE, availability email already went 1:55pm</td>
+        <td class="vote-cell" data-property="chasing-willows-apartments"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- WILLIAMSBURG: B — NEW Sep 4 -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.rent.com/apartment/williamsburg-townhomes-sioux-falls-sd-lc5902838" target="_blank" rel="noopener">Williamsburg Townhomes</a></div>
+            <div class="property-type type-th">Townhouse</div>
+            <div class="manager">Costello Companies — (605) 937-0339</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57106</td>
+          <td class="price in-budget"><strong>$768</strong></td>
+          <td>2BR/1.5BA • 999-1190sf • Playground • Picnic area • On-site mgmt • <strong>W/D TBD (unverified)</strong></td>
+          <td><span class="status status-contacted">Contacted — Sep 10 ✓</span></td>
+          <td>$18 over • Townhouse</td>
+          <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓</td>
+        <td class="vote-cell" data-property="williamsburg-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- HIGHPOINTE: B — NEW Sep 4 -->
+        <tr style="border-left:3px solid var(--accent);">
+          <td><span class="score-badge s-b">B</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.costelloco.com/property_locations/highpointe/" target="_blank" rel="noopener">HighPointe Townhomes</a></div>
+            <div class="property-type type-th">Townhouse</div>
+            <div class="manager">Costello Companies — (712) 746-9558</div>
+          </td>
+          <td><span class="area-badge area-a">A</span></td>
+          <td>57064</td>
+          <td class="price in-budget"><strong>$487</strong></td>
+          <td>2BR/1.5BA • 965-1008sf • Playground • On-site mgmt • Storage • <strong>Shared laundry (not in-unit)</strong></td>
+          <td><span class="status status-contacted">Contacted — Sep 10 ✓</span></td>
+          <td>Tea SD • Best price</td>
+          <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓<br>Sep 10 6:07pm: Inquiry email sent (highpointe@costelloco.com) - DUPLICATE, availability email already went 1:56pm</td>
+        <td class="vote-cell" data-property="highpointe-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- OAKWOOD: C — NEW Sep 4 -->
+        <tr style="border-left:3px solid var(--warning);">
+          <td><span class="score-badge s-c">C</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.apartments.com/oakwood-estates-sioux-falls-sd/ghk534z/" target="_blank" rel="noopener">Oakwood Estates</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Elevate Property Mgmt — (712) 746-6437</div>
+          </td>
+          <td><span class="area-badge area-a">A+</span></td>
+          <td>57106</td>
+          <td class="price in-budget"><strong>$744</strong></td>
+          <td>2BR/1BA • 972sf • Pet-friendly • Bark park • 6-15 mo leases • <strong>W/D TBD (unverified)</strong></td>
+          <td><span class="status status-contacted">Contacted — Sep 10 ✓</span></td>
+          <td>$400 deposit • Near Sertoma Park</td>
+          <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓</td>
+        <td class="vote-cell" data-property="oakwood-estates"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- 340 N MAIN: C — NEW Sep 4 -->
+        <tr>
+          <td><span class="score-badge s-c">C</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.realtor.com/rentals/details/340-N-Main-Ave-Apt-13_Tea_SD_57064_M91935-67827" target="_blank" rel="noopener">340 N Main Ave Apt 13</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Private (Appfolio)</div>
+          </td>
+          <td><span class="area-badge area-a">A</span></td>
+          <td>57064</td>
+          <td class="price in-budget"><strong>$499</strong></td>
+          <td>2BR/1BA • 900sf • Pet-friendly • Best price in Tea • <strong>W/D TBD (unverified)</strong></td>
+          <td><span class="status status-contacted">Contacted — Sep 10 ✓</span></td>
+          <td>Tea SD • Private landlord</td>
+          <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓</td>
+        <td class="vote-cell" data-property="340-n-main-ave-apt-13"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- CHASING WILLOWS II: C — NEW Sep 4 -->
+        
+
+        <!-- 350 N MAIN: C — NEW Sep 4 -->
+        <tr>
+          <td><span class="score-badge s-c">C</span></td>
+          <td>
+            <div class="property-name"><a href="https://www.realtor.com/rentals/details/350-and-360-N-Main-St_Tea_SD_57064_M91701-03282" target="_blank" rel="noopener">350 N Main St</a></div>
+            <div class="property-type type-apt">Apartment</div>
+            <div class="manager">Private (Appfolio)</div>
+          </td>
+          <td><span class="area-badge area-a">A</span></td>
+          <td>57064</td>
+          <td class="price in-budget"><strong>$525–549</strong></td>
+          <td>2-3BR • 856-920sf • New units • <strong>W/D TBD (unverified)</strong></td>
+          <td><span class="status status-contacted">Contacted — Sep 10 ✓</span></td>
+          <td>Tea SD • New units</td>
+          <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓</td>
+        <td class="vote-cell" data-property="350-n-main-st"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+        <!-- GRAND TETON: C — NEW Sep 4 -->
+                <tr style="border-left:3px solid var(--warning);">
+                  <td><span class="score-badge s-c">C</span></td>
+                  <td>
+                    <div class="property-name"><a href="https://www.apartments.com/grand-teton-estates-apartments-brandon-sd/et17prm/" target="_blank" rel="noopener">Grand Teton Estates</a></div>
+                    <div class="property-type type-apt">Apartment</div>
+                    <div class="manager">Grand Teton Estates — (605) 705-1831</div>
+                  </td>
+                  <td><span class="area-badge area-a">A</span></td>
+                  <td>57005</td>
+                  <td class="price over-budget"><strong>$800</strong></td>
+                  <td>2BR/1BA • 775+sf • Pet-friendly • Off-street • Electric heat • <strong>W/D TBD (unverified)</strong></td>
+                  <td><span class="status status-contacted">Contacted — Sep 10 ✓</span></td>
+                  <td>$50 over • Brandon</td>
+                  <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓</td>
+                <td class="vote-cell" data-property="grand-teton-estates"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+                <!-- AUBURN APARTMENTS: B — NEW Sep 5 -->
+                <tr style="border-left:3px solid var(--accent);">
+                  <td><span class="score-badge s-b">B</span></td>
+                  <td>
+                    <div class="property-name"><a href="https://www.costelloco.com/property_locations/auburn/" target="_blank" rel="noopener">Auburn Apartments</a></div>
+                    <div class="property-type type-apt">Apartment</div>
+                    <div class="manager">Costello Companies — (605) 215-2120</div>
+                  </td>
+                  <td><span class="area-badge area-a">A+</span></td>
+                  <td>57064</td>
+                  <td class="price in-budget"><strong>$495+</strong></td>
+                  <td>In-unit W/D ✓ • 2BR/2BA • 936sf • Garage avail. • Pet-friendly • 57064 zip</td>
+                  <td><span class="status status-contacted">Contacted — Sep 5 ✓</span></td>
+                  <td>Tea SD • Costello • $400 dep</td>
+                  <td class="email-log">Sep 5: Added ✓ • Sep 5: Email sent to auburn@costelloco.com ✓</td>
+                <td class="vote-cell" data-property="auburn-apartments"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
+
+                <!-- HOSTA: UNAVAILABLE -->
+        
+
+        <!-- 409 HOLLY: DROPPED -->
+        
+      </tbody>
+    </table>
+  </div>
+
+  <!-- MOBILE CARDS -->
+  <div class="mobile-only">
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-a">A+</span>
+          <div class="card-title"><a href="https://www.rent.com/apartment/arrow-ridge-townhomes-brandon-sd-brandon-sd-lc6221589" target="_blank" rel="noopener">Arrow Ridge Townhomes</a></div>
+          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A</span></div>
+          <div class="card-manager">J&M Real Estate • 57005</div>
+        </div>
+        <div class="card-price in-budget">$762</div>
+      </div>
+      <div class="card-detail">In-unit W/D • 2BR/1.5BA • Det. garage • 999sf • Pet-friendly</div>
+      <span class="status status-contacted">Contacted — Sep 4 ✓</span>
+                <div class="card-log">Aug 30: Added ✓<br>Sep 4: Email sent to J&M ✓</div>
+    </div>
+
+    <!-- SOUTH RIDGE: A+ (NEW Sep 2) -->
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-a">A+</span>
+          <div class="card-title"><a href="https://www.redfin.com/SD/Sioux-Falls/South-Ridge-Apartments-Townhomes/apartment/195165736" target="_blank" rel="noopener">South Ridge Townhomes</a></div>
+          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span></div>
+          <div class="card-manager">South Ridge • 57108</div>
+        </div>
+        <div class="card-price in-budget">$768–783</div>
+      </div>
+      <div class="card-detail">In-unit W/D • 2BR/1BA • 923sf • Off-street • Townhome • No pets</div>
+      <span class="status status-contacted">Contacted — Sep 4 ✓</span>
+      <div class="card-log">Sep 2: Added ✓ • Sep 4: Email sent to Costello ✓</div>
+    </div>
+
+    <!-- GRANT SQUARE: B (NEW Sep 2) -->
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://www.costelloco.com/property_locations/grant-square/" target="_blank" rel="noopener">Grant Square Apartments</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span></div>
+          <div class="card-manager">Grant Square • 57106</div>
+        </div>
+        <div class="card-price in-budget">$662+</div>
+      </div>
+      <div class="card-detail">In-unit W/D • 2BR/2BA • 1,026sf • Garage + covered parking • Utilities incl.</div>
+      <div class="card-detail"><strong>⚠ Income restricted — verify eligibility</strong></div>
+      <span class="status status-new">New</span>
+      <div class="card-log">Sep 2: Added ✓ • Email drafted to Desktop (grantsquare@costelloco.com)</div>
+    </div>
+    <!-- 4908 W KIRKWOOD: C — NEW Sep 4 -->
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-c">C</span>
+          <div class="card-title"><a href="https://www.realtor.com/rentals/details/4908-W-Kirkwood-Cir_Sioux-Falls_SD_57106_M95208-49763" target="_blank" rel="noopener">4908 W Kirkwood Cir</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span></div>
+          <div class="card-manager">Private landlord • 57106</div>
+        </div>
+        <div class="card-price in-budget">$749</div>
+      </div>
+      <div class="card-detail">2BR/1BA • 750sf • Newly renovated • Pet-friendly</div>
+      <span class="status status-new">New</span>
+      <div class="card-log">Sep 4: Added ✓</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-a">A</span>
+          <div class="card-title">4907 W Kirkwood Cir #4 <span style="font-size:0.65rem;color:var(--text-muted);">(call Joann)</span></div>
+          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span></div>
+          <div class="card-manager">Pegasus of SD (Joann) • 57106</div>
+        </div>
+        <div class="card-price in-budget">$1,299</div>
+      </div>
+      <div class="card-detail">Att. garage • Lawn+snow incl. • Lease → Mar M-to-M</div>
+      <div class="card-detail">W/D <strong>TBD</strong> • Deposit $800</div>
+      <span class="status status-replied">Replied — W/D ✓</span>
+      <div class="card-log">Sep 3: Joann replied (W/D ✓, unit 1 Oct 1) • replied w/ Nov timing ✓</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://www.zillow.com/apartments/sioux-falls-sd/park-place-condominiums-7003/5jCD82/" target="_blank" rel="noopener">Park Place Condominiums</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span><span class="badge badge-trusted">FB find</span></div>
+          <div class="card-manager">Park Place Mgmt • 57106</div>
+        </div>
+        <div class="card-price in-budget">$1,099</div>
+      </div>
+      <div class="card-detail">In-unit W/D • 2BR/1BA • Garage incl. • 950sf • Balcony</div>
+      <span class="status status-new">New</span>
+      <div class="card-log">Aug 31: Added ✓</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://luke.properties/rent/l/6ca5f3a07c/401-s-sycamore-ave-206-sioux-falls-sd-57110" target="_blank" rel="noopener">401 S Sycamore #206</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span><span class="badge badge-depalt">Dep. alt</span></div>
+          <div class="card-manager">Luke Properties • 57110</div>
+        </div>
+        <div class="card-price in-budget">$725</div>
+      </div>
+      <div class="card-detail">Off-street • Deposit alt built-in • No move-in fees</div>
+      <span class="status status-new">New</span>
+      <div class="card-log">Aug 30: Added ✓</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://www.rent.com/r/412-n-sioux-blvd-brandon-sd-lv1444436977" target="_blank" rel="noopener">412 N Sioux Blvd #12</a></div>
+          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A</span></div>
+          <div class="card-manager">Private • 57005</div>
+        </div>
+        <div class="card-price in-budget">$1,300</div>
+      </div>
+      <div class="card-detail">In-unit W/D • 2BR/1BA • Att. garage • 1,000sf</div>
+      <div class="card-detail">Lawn+snow+trash incl. • Pet-friendly</div>
+      <span class="status status-new">New</span>
+      <div class="card-log">Sep 1: Added ✓</div>
+    </div>
+
+    <!-- DBK BRANDON: B — NEW -->
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://www.rent.com/apartment/dbk-brandon-townhomes-brandon-sd-lc6755616" target="_blank" rel="noopener">DBK Brandon Townhomes</a></div>
+          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A</span></div>
+          <div class="card-manager">DBK Brandon • 57005</div>
+        </div>
+        <div class="card-price in-budget">$1,299</div>
+      </div>
+      <div class="card-detail">In-unit W/D (verify) • 2BR/1BA • Att. garage • 1,185sf</div>
+      <div class="card-detail">Pet-friendly • Available Now</div>
+      <span class="status status-new">New</span>
+      <div class="card-log">Sep 1: Added ✓</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://www.bendermidwestproperties.com/listings/detail/e1656063-e9b1-44cf-ad2b-b52b2d2384de" target="_blank" rel="noopener">Willow Creek TH</a></div>
+          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span><span class="badge badge-trusted">Trusted</span></div>
+          <div class="card-manager">Bender Midwest • 57106</div>
+        </div>
+        <div class="card-price in-budget">$1,237+</div>
+      </div>
+      <div class="card-detail">In-unit W/D • 2BR/2BA • Garage • 1,086sf</div>
+      <span class="status status-contacted">Contacted</span>
+      <div class="card-log">Aug 27: 5Q sent</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://www.bendermidwestproperties.com/listings/detail/461fdd65-a23a-4440-a481-ea5c5355d83f" target="_blank" rel="noopener">East Briar Estates</a></div>
+          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span><span class="badge badge-trusted">Trusted</span></div>
+          <div class="card-manager">Bender Midwest • 57110</div>
+        </div>
+        <div class="card-price in-budget">$895</div>
+      </div>
+      <div class="card-detail">In-unit W/D • 2BR/1BA • Garage • 1,100sf</div>
+      <span class="status status-contacted">Contacted</span>
+      <div class="card-log">Aug 27: 5Q sent</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://leasepointguard.com/unit/boulder-pointe-townhomes-7601-3/" target="_blank" rel="noopener">Boulder Pointe TH</a></div>
+          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span></div>
+          <div class="card-manager">PointGuard • 57106</div>
+        </div>
+        <div class="card-price in-budget">$1,295</div>
+      </div>
+      <div class="card-detail">In-unit W/D • Att. garage • 2BR/1.5BA • 1,081sf</div>
+      <span class="status status-contacted">Contacted</span>
+      <div class="card-log">Aug 30: 5Q sent ✓</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://alpinepropmgmt.appfolio.com/listings" target="_blank" rel="noopener">Lincoln Heights #4</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A</span></div>
+          <div class="card-manager">Alpine • 57032</div>
+        </div>
+        <div class="card-price in-budget">$1,145</div>
+      </div>
+      <div class="card-detail">In-unit W/D • 2BR/1.5BA • 960sf • Off-street</div>
+      <span class="status status-replied">Replied — ask STL</span>
+      <div class="card-log">Aug 28: Follow-up</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-c">C</span>
+          <div class="card-title"><a href="https://rpmxpress.com/available-rentals" target="_blank" rel="noopener">Foss Fields "Hollow"</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span><span class="badge badge-jetty">Jetty</span></div>
+          <div class="card-manager">RPM Express • 57110</div>
+        </div>
+        <div class="card-price in-budget">$1,120</div>
+      </div>
+      <div class="card-detail">Garage • Jetty-eligible • 1 mo free • <strong>In-unit W/D ✓</strong></div>
+      <span class="status status-new">New</span>
+      <div class="card-log">Aug 30: Added ✓</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-c">C</span>
+          <div class="card-title"><a href="https://alpinepropmgmt.appfolio.com/listings" target="_blank" rel="noopener">4601 E 3rd St #10</a></div>
+          <div class="card-badges"><span class="property-type type-th">Townhome</span><span class="area-badge area-a">A+</span></div>
+          <div class="card-manager">Alpine • 57110</div>
+        </div>
+        <div class="card-price over-budget">$1,000+</div>
+      </div>
+      <div class="card-detail"><strong>On-site laundry only ⚠️</strong> • 2BR/1BA • Lawn+snow incl.</div>
+      <span class="status status-replied">Replied — ask STL</span>
+      <div class="card-log">Aug 28: Follow-up<br>Sep 11: Price increased $895→$1,000+ (Alpine AppFolio)</div>
+    </div>
+
+    <!-- CHASING WILLOWS: B — NEW Sep 4 -->
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://www.costelloco.com/property_locations/chasing-willows/" target="_blank" rel="noopener">Chasing Willows Apartments</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span><span class="badge badge-trusted">Trusted</span></div>
+          <div class="card-manager">Costello Companies • 57110</div>
+        </div>
+        <div class="card-price in-budget">$684</div>
+      </div>
+      <div class="card-detail">In-unit W/D ✓ • 2BR/2BA • 935sf • Pool • Clubhouse • Pet-friendly</div>
+      <span class="status status-new">New</span>
+      <div class="card-log">Sep 4: Added ✓</div>
+    </div>
+
+    <!-- WILLIAMSBURG: B — NEW Sep 4 -->
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://www.rent.com/apartment/williamsburg-townhomes-sioux-falls-sd-lc5902838" target="_blank" rel="noopener">Williamsburg Townhomes</a></div>
+          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span></div>
+          <div class="card-manager">Costello Companies • 57106</div>
+        </div>
+        <div class="card-price in-budget">$768</div>
+      </div>
+      <div class="card-detail">2BR/1.5BA • 999-1190sf • Playground • Picnic area • On-site mgmt • <strong>W/D TBD</strong></div>
+      <span class="status status-new">New</span>
+      <div class="card-log">Sep 4: Added ✓</div>
+    </div>
+
+    <!-- HIGHPOINTE: B — NEW Sep 4 -->
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-b">B</span>
+          <div class="card-title"><a href="https://www.costelloco.com/property_locations/highpointe/" target="_blank" rel="noopener">HighPointe Townhomes</a></div>
+          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A</span></div>
+          <div class="card-manager">Costello Companies • 57064</div>
+        </div>
+        <div class="card-price in-budget">$668-$815</div>
+      </div>
+      <div class="card-detail">2BR/1.5BA • 965-1008sf • Playground • On-site mgmt • Storage • <strong>Shared laundry</strong></div>
+      <span class="status status-new">New</span>
+      <div class="card-log">Sep 4: Added ✓<br>Sep 11: Price corrected $487→$668-$815 (live page)</div>
+    </div>
+
+    <!-- OAKWOOD: C — NEW Sep 4 -->
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-c">C</span>
+          <div class="card-title"><a href="https://www.apartments.com/oakwood-estates-sioux-falls-sd/ghk534z/" target="_blank" rel="noopener">Oakwood Estates</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span></div>
+          <div class="card-manager">Elevate Property Mgmt • 57106</div>
+        </div>
+        <div class="card-price in-budget">$744</div>
+      </div>
+      <div class="card-detail">2BR/1BA • 972sf • Pet-friendly • Bark park • 6-15 mo leases</div>
+      <span class="status status-new">New</span>
+      <div class="card-log">Sep 4: Added ✓</div>
+    </div>
+
+
+    <!-- 340 N MAIN: C — NEW Sep 4 -->
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-c">C</span>
+          <div class="card-title"><a href="https://www.realtor.com/rentals/details/340-N-Main-Ave-Apt-13_Tea_SD_57064_M91935-67827" target="_blank" rel="noopener">340 N Main Ave Apt 13</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A</span></div>
+          <div class="card-manager">Private (Appfolio) • 57064</div>
+        </div>
+        <div class="card-price in-budget">$499→$899</div>
+      </div>
+      <div class="card-detail">2BR/1BA • 900sf • Pet-friendly • <strong>Promo: $499 first 2mo, then $899/mo + $50 util</strong></div>
+      <span class="status status-new">New</span>
+      <div class="card-log">Sep 4: Added ✓<br>Sep 11: Promo rate disclosed (true cost $899/mo)</div>
+    </div>
+        
+
+    <!-- CHASING WILLOWS II: C — NEW Sep 4 -->
+    
+
+    <!-- 350 N MAIN: C — NEW Sep 4 -->
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-c">C</span>
+          <div class="card-title"><a href="https://www.realtor.com/rentals/details/350-and-360-N-Main-St_Tea_SD_57064_M91701-03282" target="_blank" rel="noopener">350 N Main St</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A</span></div>
+          <div class="card-manager">Private (Appfolio) • 57064</div>
+        </div>
+        <div class="card-price in-budget">$525–549</div>
+      </div>
+      <div class="card-detail">2-3BR • 856-920sf • New units</div>
+      <span class="status status-new">New</span>
+      <div class="card-log">Sep 4: Added ✓</div>
+    </div>
+
+    <!-- GRAND TETON: C — NEW Sep 4 -->
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <span class="score-badge s-c">C</span>
+          <div class="card-title"><a href="https://www.apartments.com/grand-teton-estates-apartments-brandon-sd/et17prm/" target="_blank" rel="noopener">Grand Teton Estates</a></div>
+          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A</span></div>
+          <div class="card-manager">Grand Teton Estates • 57005</div>
+        </div>
+        <div class="card-price over-budget">$800</div>
+      </div>
+      <div class="card-detail">2BR/1BA • 775+sf • Pet-friendly • Off-street • Electric heat</div>
+      <span class="status status-new">New</span>
+      <div class="card-log">Sep 4: Added ✓</div>
+    </div>
+
+    
+
+    
+  </div>
+
+  <div class="note">
+    <strong>1. LANDLORD REPLY — Sep 11</strong> — Dyan@jandmrealestate.com (Arrow Ridge): "We would not do a short-term lease at Arrow Ridge in Brandon but we would be willing to at Marion Park if you're interested in its off of Marion road in SF." → Arrow Ridge DROPPED. Marion Park is $1,150-1,250 (over budget).
+    <br><br>
+    <strong>2. NUDGES SENT — Sep 11</strong> — 4 in-budget leads with 7+ days silence: South Ridge TH, Grant Square, 401 S Sycamore, Stoney Creek TH. One short in-thread follow-up each.
+    <br><br>
+    <strong>3. OVER-BUDGET CLEANUP — Sep 11</strong> — 8 rows moved to DROPPED: Prairies Edge ($1,435), Willow Creek ($1,237+), East Briar ($895), Boulder Pointe ($1,295), Foss Fields ($1,120), 412 N Sioux Blvd ($1,300), DBK Brandon ($1,299), Park Place ($1,099). Also Kirkwood $1,299 (replied) and 4601 E 3rd St $895 (replied) flagged.
+    <br><br>
+    <strong>4. NEW IN-BUDGET LEAD EMAILED — Sep 11</strong> — 3505 S Willow Ave (57105, TBD price, in-house laundry, 2BR/1BA, $400 deposit, garage $50/mo). Inquiry sent to private landlord (605) 275-6393.
+    <br><br>
+    <strong>5. Awaiting replies</strong> — Chasing Willows, Williamsburg, HighPointe, Oakwood, 340 N Main, 4908 W Kirkwood, 350 N Main, Grand Teton ($800), Auburn (all emailed Sep 10/5). Bender properties (Willow Creek, East Briar) now dropped.
+    <br><br>
+    <strong>6. Gmail storage</strong> — Still 84.87 GB / 15 GB. Hard send-stop Sep 17. Free up space or buy Google One.
+    <br><br>
+    <strong>7. Area safety</strong> — All active in-budget properties in A or A+ zips (57105, 57106, 57108, 57110, 57064). No B- properties in queue.
+  </div>
+
+  <div class="footer">v21 • Sep 11 2026 • SF Housing Tracker</div>
+</div>
+
+<script>
+  // ---- A/K vote system -------------------------------------------------
+  var VKEY = 'housing-votes-v1';
+  var votes = {};
+  try { votes = JSON.parse(localStorage.getItem(VKEY) || '{}'); } catch (e) { votes = {}; }
+
+  function fromHash() {
+    var h = location.hash.replace(/^#/, '');
+    if (!h) return null;
+    var out = {};
+    h.split(';').forEach(function (part) {
+      var m = part.match(/^([AK]):([+-])(.*)$/);
+      if (!m) return;
+      var who = m[1], dir = m[2] === '+' ? 1 : -1;
+      m[3].split(',').forEach(function (k) { if (k) out[k] = out[k] || {}, out[k][who] = dir; });
+    });
+    return out;
+  }
+  function applyShared() {
+    var shared = fromHash();
+    if (!shared) return false;
+    if (Object.keys(votes).length === 0) { votes = shared; }
+    else {
+      Object.keys(shared).forEach(function (k) {
+        votes[k] = votes[k] || {};
+        Object.keys(shared[k]).forEach(function (w) {
+          if (votes[k][w] === undefined) votes[k][w] = shared[k][w];
+        });
+      });
+    }
+    save();
+    return true;
+  }
+  applyShared();
+  window.addEventListener('hashchange', function () {
+    if (applyShared()) { paint(); counts(); }
+  });
+
+  function save() { try { localStorage.setItem(VKEY, JSON.stringify(votes)); } catch (e) {} }
+
+  function paint() {
+    document.querySelectorAll('.vote-cell').forEach(function (cell) {
+      var key = cell.dataset.property;
+      var v = votes[key] || {};
+      cell.querySelectorAll('.vote-btn').forEach(function (b) {
+        var who = b.dataset.who, dir = parseInt(b.dataset.dir, 10);
+        b.classList.remove('on-up', 'on-down');
+        if (v[who] === dir) b.classList.add(dir > 0 ? 'on-up' : 'on-down');
+      });
+    });
+  }
+
+  document.querySelectorAll('.vote-btn').forEach(function (b) {
+    b.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var cell = b.closest('.vote-cell');
+      var key = cell.dataset.property;
+      var who = b.dataset.who, dir = parseInt(b.dataset.dir, 10);
+      votes[key] = votes[key] || {};
+      votes[key][who] = (votes[key][who] === dir) ? 0 : dir;
+      save(); paint(); counts();
+    });
+  });
+
+  function atLeastOne(k, dir) {
+    var v = votes[k] || {};
+    return (v.A === dir) || (v.K === dir);
+  }
+
+  document.getElementById('share-btn').addEventListener('click', function () {
+    var parts = [];
+    ['A', 'K'].forEach(function (who) {
+      [1, -1].forEach(function (dir) {
+        var keys = Object.keys(votes).filter(function (k) {
+          return (votes[k] || {})[who] === dir;
+        });
+        if (keys.length) parts.push(who + ':' + (dir > 0 ? '+' : '-') + keys.join(','));
+      });
+    });
+    var hash = parts.length ? '#' + parts.join(';') : '';
+    var url = location.origin + location.pathname + hash;
+    try { history.replaceState(null, '', location.pathname + hash); } catch (e) {}
+    var btn = this;
+    navigator.clipboard.writeText(url).then(function () {
+      btn.textContent = 'Copied \u2713';
+      setTimeout(function () { btn.textContent = 'Copy share link for Amira'; }, 1800);
+    }).catch(function () { window.prompt('Copy this link:', url); });
+  });
+
+  document.getElementById('clear-btn').addEventListener('click', function () {
+    votes = {}; save(); paint(); counts();
+  });
+
+  // ---- live counts -----------------------------------------------------
+  function counts() {
+    var rows = Array.from(document.querySelectorAll('tbody tr')).filter(function (r) {
+      return r.querySelector('.price');
+    });
+    function num(r) {
+      var t = r.querySelector('.price strong');
+      if (!t) return null;
+      var m = t.textContent.match(/[\d,]+/);
+      return m ? parseInt(m[0].replace(/,/g, ''), 10) : null;
+    }
+    var inb = rows.filter(function (r) { var n = num(r); return n !== null && n <= 800; });
+    var con = rows.filter(function (r) { return r.querySelector('.status-contacted, .status-hot'); });
+    var rep = rows.filter(function (r) { return r.querySelector('.status-replied'); });
+    var dro = rows.filter(function (r) { return r.querySelector('.status-dropped, .status-avoid'); });
+    var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
+    set('stat-inbudget', inb.length);
+    set('stat-contacted', con.length);
+    set('stat-replied', rep.length);
+    set('stat-dropped', dro.length);
+
+    // float both-agreed-up rows to the top? mark them instead
+    rows.forEach(function (r) {
+      var cell = r.querySelector('.vote-cell');
+      if (!cell) return;
+      var v = votes[cell.dataset.property] || {};
+      r.classList.toggle('both-yes', v.A === 1 && v.K === 1);
+    });
+  }
+
+  // fix the zip-sort typo in the existing sort handler
+  document.querySelector('tbody') && paint();
+  counts();
+
+  function safeSelector(el, sel) {
+    if (!el) return null;
+    return el.querySelector(sel);
+}
+function safeText(el, sel) {
+    var found = safeSelector(el, sel);
+    return found ? found.textContent : '';
+}
+function safeClassName(el, sel) {
+    var found = safeSelector(el, sel);
+    return found ? found.className : '';
+}
+function getScoreRank(el) {
+    var cls = safeClassName(el, '.score-badge');
+    if (cls.indexOf('s-a') !== -1) return 4;
+    if (cls.indexOf('s-b') !== -1) return 3;
+    if (cls.indexOf('s-c') !== -1) return 2;
+    return 1;
+}
+function getPriceVal(el) {
+    var txt = safeText(el, '.price') || safeText(el, '.card-price');
+    if (!txt) return 9999;
+    var m = txt.match(/[0-9,]+/);
+    return m ? parseInt(m[0].replace(/,/g, ''), 10) : 9999;
+}
+function getAreaRank(el) {
+    return safeText(el, '.area-badge').indexOf('A+') !== -1 ? 2 : 1;
+}
+function getTypeRank(el) {
+    return safeSelector(el, '.type-th') ? 2 : 1;
+}
+function getStatusRank(el) {
+    if (safeSelector(el, '.status-hot')) return 5;
+    if (safeSelector(el, '.status-new')) return 4;
+    if (safeSelector(el, '.status-replied')) return 3;
+    if (safeSelector(el, '.status-contacted')) return 2;
+    return 1;
+}
+function getZipVal(el) {
+    // Try mobile card first (.card-manager contains zip)
+    var manager = safeText(el, '.card-manager');
+    if (manager) {
+        var match = manager.match(/\d{5}/);
+        if (match) return match[0];
+    }
+    // Try desktop table: zip is the 4th td in the row (index 3)
+    var row = el.closest ? el.closest('tr') : null;
+    if (row) {
+        var tds = row.querySelectorAll('td');
+        if (tds.length >= 4) {
+            var zipText = tds[3].textContent.trim();
+            var m = zipText.match(/\d{5}/);
+            if (m) return m[0];
+        }
+    }
+    return '';
+}
+function sortItems(items, key, dir) {
+    var rankFn;
+    if (key === 'score') rankFn = getScoreRank;
+    else if (key === 'price') rankFn = getPriceVal;
+    else if (key === 'area') rankFn = getAreaRank;
+    else if (key === 'type') rankFn = getTypeRank;
+    else if (key === 'status') rankFn = getStatusRank;
+    else if (key === 'zip') rankFn = getZipVal;
+    else rankFn = getScoreRank;
+    
+    items.sort(function(a, b) {
+        var aVal = rankFn(a), bVal = rankFn(b);
+        if (dir === 'desc') {
+            if (aVal < bVal) return 1;
+            if (aVal > bVal) return -1;
+            return 0;
+        }
+        if (aVal < bVal) return -1;
+        if (aVal > bVal) return 1;
+        return 0;
+    });
+    return items;
+}
+
+document.querySelectorAll('.sort-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        var key = btn.dataset.key;
+        var dir = btn.dataset.dir;
+        
+        // Toggle direction
+        var newDir = (dir === 'asc') ? 'desc' : 'asc';
+        btn.dataset.dir = newDir;
+        
+        // Update active state
+        document.querySelectorAll('.sort-btn').forEach(function(b) {
+            b.classList.remove('active');
+            var arrow = b.querySelector('.arrow');
+            if (arrow) arrow.textContent = '';
+        });
+        btn.classList.add('active');
+        var btnArrow = btn.querySelector('.arrow');
+        if (btnArrow) btnArrow.textContent = newDir === 'desc' ? '▼' : '▲';
+        
+        // Sort desktop table rows
+        var tbody = document.querySelector('tbody');
+        if (tbody) {
+            var rows = Array.from(tbody.querySelectorAll('tr'));
+            sortItems(rows, key, newDir);
+            rows.forEach(function(r) { tbody.appendChild(r); });
+        }
+        
+        // Sort mobile cards
+        var mobileContainer = document.querySelector('.mobile-only');
+        if (mobileContainer) {
+            var cards = Array.from(mobileContainer.querySelectorAll('.card'));
+            sortItems(cards, key, newDir);
+            cards.forEach(function(c) { mobileContainer.appendChild(c); });
+        }
+    });
+});
+</script>
+
+<!-- MODAL OVERLAY -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Property Name</div>
+      <span id="modal-score-badge"></span>
+      <span id="modal-type-badge"></span>
+      <span id="modal-area-badge"></span>
+      <button class="modal-close" id="modal-close" title="Close">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <!-- Filled by JS -->
+    </div>
+    <div class="modal-footer" id="modal-footer">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+</div>
+
+<script>
+  // Extended property data
+  var PROP_DATA = {
+  "3505-s-willow-ave": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 600,
+    "address": "3505 S Willow Ave, Sioux Falls, SD 57105",
+    "amenities": [
+      "In-house laundry",
+      "Garage $50/mo",
+      "Quiet street"
+    ],
+    "deposit": "$400",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "(605) 275-6393",
+    "notes": "Price TBD \u2022 Near Western Centre",
+    "breakdown": {
+      "Area (57105 - A)": 1,
+      "Type (apartment)": 1,
+      "Budget (\u2264$800)": 4,
+      "W/D (shared laundry)": 0,
+      "Garage (extra $50/mo)": 0,
+      "Deposit (standard)": 0,
+      "Size (600sf)": -1,
+      "Utilities (none incl)": 0
+    }
+  },
+  "autumn-park": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 850,
+    "address": "Autumn Park, Sioux Falls, SD 57106",
+    "amenities": [
+      "1 Month Free",
+      "Pet-friendly",
+      "Shared laundry",
+      "Parking"
+    ],
+    "deposit": "1 month rent",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "(605) 250-2135",
+    "notes": "$35 over \u2022 No in-unit W/D \u2022 Shared laundry",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($835 - $35 over)": -1,
+      "W/D (shared laundry)": 0,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (850sf)": 0,
+      "1 Month Free": 2
+    }
+  },
+  "willows-south-commons": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 940,
+    "address": "Willows South Commons, Sioux Falls, SD 57110",
+    "amenities": [
+      "In-unit W/D",
+      "Pet-friendly",
+      "Elevator",
+      "Fitness center"
+    ],
+    "deposit": "1 month rent",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "(605) 501-6175",
+    "notes": "$25 over \u2022 In-unit W/D \u2022 57110 zip",
+    "breakdown": {
+      "Area (57110 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($825 - $25 over)": -1,
+      "W/D (in-unit)": 3,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (940sf)": 1,
+      "Amenities (elevator+fitness)": 1
+    }
+  },
+  "maple-rock-reserve": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 597,
+    "address": "Maple Rock Reserve, Sioux Falls, SD 57108",
+    "amenities": [
+      "Modern finishes",
+      "Floor-to-ceiling windows"
+    ],
+    "deposit": "1 month rent",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "(605) 501-6175",
+    "notes": "$15 over \u2022 57108 zip \u2022 W/D TBD",
+    "breakdown": {
+      "Area (57108 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($815 - $15 over)": -1,
+      "W/D (unknown)": -1,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (597sf - small)": -1,
+      "Modern finishes": 1
+    }
+  },
+  "morgan-lane-townhomes": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 1483,
+    "address": "Morgan Lane Townhomes, Tea, SD 57064",
+    "amenities": [
+      "In-unit W/D",
+      "Attached garage",
+      "Pet-friendly",
+      "Lawn/snow incl."
+    ],
+    "deposit": "$1,375",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "Lawn/snow",
+    "phone": "Appfolio",
+    "notes": "OVER BUDGET \u2022 $575 over \u2022 HighPointe area",
+    "breakdown": {
+      "Area (57064 - A)": 1,
+      "Type (townhouse)": 3,
+      "Budget ($1,375 - $575 over)": -4,
+      "W/D (in-unit)": 3,
+      "Garage (attached)": 2,
+      "Deposit (standard)": 0,
+      "Size (1483sf)": 2,
+      "Lawn/snow incl": 1
+    }
+  },
+  "heritage-townhomes": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 1070,
+    "address": "Heritage Townhomes, Tea, SD 57064",
+    "amenities": [
+      "W/D",
+      "Water/sewer/trash incl.",
+      "Pet-friendly",
+      "Vaulted ceiling"
+    ],
+    "deposit": "$1,495",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "Water/sewer/trash",
+    "phone": "(605) 525-4743",
+    "notes": "OVER BUDGET \u2022 $695+ over \u2022 Multi-level",
+    "breakdown": {
+      "Area (57064 - A)": 1,
+      "Type (townhouse)": 3,
+      "Budget ($1,495+ - $695 over)": -4,
+      "W/D (in-unit)": 3,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (1070sf)": 1,
+      "Utilities incl": 2
+    }
+  },
+  "arrow-ridge-townhomes": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 999,
+    "address": "Arrow Ridge Townhomes, Brandon, SD 57005",
+    "amenities": [
+      "In-unit W/D",
+      "Det. garage",
+      "Pet-friendly",
+      "Trash/sewer incl."
+    ],
+    "deposit": "$762",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "Trash/sewer",
+    "phone": "(605) 501-5090",
+    "notes": "15-20 min to SF \u2022 Landlord: no short-term lease",
+    "breakdown": {
+      "Area (57005 - A)": 1,
+      "Type (townhouse)": 3,
+      "Budget ($762 - in budget)": 4,
+      "W/D (in-unit)": 3,
+      "Garage (detached)": 2,
+      "Deposit (standard)": 0,
+      "Size (999sf)": 1,
+      "Trash/sewer incl": 1,
+      "No short-term lease": -3
+    }
+  },
+  "south-ridge-townhomes": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 923,
+    "address": "South Ridge Townhomes, Sioux Falls, SD 57108",
+    "amenities": [
+      "In-unit W/D",
+      "Off-street parking",
+      "Townhome"
+    ],
+    "deposit": "$768",
+    "lease_length": "6-9 mo negotiable",
+    "pet_policy": "No pets",
+    "utilities_included": "None",
+    "phone": "(605) 937-7278",
+    "notes": "Available now \u2022 2-3 bed TH \u2022 No pets",
+    "breakdown": {
+      "Area (57108 - A+)": 2,
+      "Type (townhouse)": 3,
+      "Budget ($768-$783 - in budget)": 4,
+      "W/D (in-unit)": 3,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (923sf)": 1,
+      "No pets": -2
+    }
+  },
+  "grant-square-apartments": {
+    "beds": 2,
+    "baths": 2,
+    "sqft": 1026,
+    "address": "Grant Square Apartments, Sioux Falls, SD 57106",
+    "amenities": [
+      "In-unit W/D",
+      "Garage + covered parking",
+      "Water/sewer/garbage incl."
+    ],
+    "deposit": "$662",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "Water/sewer/garbage",
+    "phone": "grantsquare@costelloco.com",
+    "notes": "Income restricted \u2014 verify eligibility",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($662+ - in budget)": 4,
+      "W/D (in-unit)": 3,
+      "Garage (included)": 2,
+      "Deposit (standard)": 0,
+      "Size (1026sf)": 1,
+      "Utilities incl": 2,
+      "Income restricted": -1
+    }
+  },
+  "4907-w-kirkwood-cir-4": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 1100,
+    "address": "4907 W Kirkwood Cir #4, Sioux Falls, SD 57106",
+    "amenities": [
+      "Attached garage",
+      "Lawn+snow incl.",
+      "Lease \u2192 Mar M-to-M"
+    ],
+    "deposit": "$800",
+    "lease_length": "M-to-M available",
+    "pet_policy": "TBD",
+    "utilities_included": "Lawn/snow",
+    "phone": "(605) 951-6584",
+    "notes": "Oct 1 unit 1 offer \u2022 user needs Nov \u2022 4wk hold max",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (townhouse)": 3,
+      "Budget ($1,299 - $500 over)": -4,
+      "W/D (TBD/confirmed)": 1,
+      "Garage (attached)": 2,
+      "Deposit (standard)": 0,
+      "Size (1100sf)": 1,
+      "M-to-M lease": 3,
+      "Lawn/snow incl": 1
+    }
+  },
+  "park-place-condominiums": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 950,
+    "address": "Park Place Condominiums, Sioux Falls, SD 57106",
+    "amenities": [
+      "In-unit W/D",
+      "Garage incl.",
+      "Pet-friendly",
+      "Balcony"
+    ],
+    "deposit": "$1,099",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "Park Place Mgmt",
+    "notes": "FB find",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($1,099 - $299 over)": -3,
+      "W/D (in-unit)": 3,
+      "Garage (included)": 2,
+      "Deposit (standard)": 0,
+      "Size (950sf)": 1,
+      "Balcony": 1
+    }
+  },
+  "401-s-sycamore-206": {
+    "beds": 1,
+    "baths": 1,
+    "sqft": 650,
+    "address": "401 S Sycamore #206, Sioux Falls, SD 57110",
+    "amenities": [
+      "Off-street",
+      "Deposit alt built-in",
+      "No move-in fees"
+    ],
+    "deposit": "Alternative",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "Luke Properties",
+    "notes": "Deposit alt \u2022 No move-in fees",
+    "breakdown": {
+      "Area (57110 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($725 - in budget)": 4,
+      "W/D (unknown)": -1,
+      "Garage (none)": -1,
+      "Deposit (alternative)": 2,
+      "Size (650sf)": -1,
+      "No move-in fees": 1
+    }
+  },
+  "412-n-sioux-blvd-12": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 1000,
+    "address": "412 N Sioux Blvd #12, Brandon, SD 57005",
+    "amenities": [
+      "In-unit W/D",
+      "Attached garage",
+      "Lawn+snow+trash incl.",
+      "Pet-friendly"
+    ],
+    "deposit": "$1,300",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "Lawn/snow/trash",
+    "phone": "(605) 799-3741",
+    "notes": "Available Sep 1",
+    "breakdown": {
+      "Area (57005 - A)": 1,
+      "Type (townhouse)": 3,
+      "Budget ($1,300 - $500 over)": -4,
+      "W/D (in-unit)": 3,
+      "Garage (attached)": 2,
+      "Deposit (standard)": 0,
+      "Size (1000sf)": 1,
+      "Lawn/snow/trash incl": 2
+    }
+  },
+  "dbk-brandon-townhomes": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 1185,
+    "address": "DBK Brandon Townhomes, Brandon, SD 57005",
+    "amenities": [
+      "In-unit W/D (verify)",
+      "Attached garage",
+      "Pet-friendly"
+    ],
+    "deposit": "$1,299",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "(605) 961-6871",
+    "notes": "W/D: verify \u2022 Available Now",
+    "breakdown": {
+      "Area (57005 - A)": 1,
+      "Type (townhouse)": 3,
+      "Budget ($1,299 - $499 over)": -4,
+      "W/D (in-unit, verify)": 2,
+      "Garage (attached)": 2,
+      "Deposit (standard)": 0,
+      "Size (1185sf)": 1
+    }
+  },
+  "willow-creek-townhomes": {
+    "beds": 2,
+    "baths": 2,
+    "sqft": 1086,
+    "address": "Willow Creek Townhomes, Sioux Falls, SD 57106",
+    "amenities": [
+      "In-unit W/D",
+      "Garage"
+    ],
+    "deposit": "$1,237",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "Bender Midwest",
+    "notes": "Trusted landlord \u2022 Over budget",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (townhouse)": 3,
+      "Budget ($1,237 - $437 over)": -4,
+      "W/D (in-unit)": 3,
+      "Garage (included)": 2,
+      "Deposit (standard)": 0,
+      "Size (1086sf)": 1,
+      "Trusted mgmt": 1
+    }
+  },
+  "east-briar-estates": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 1100,
+    "address": "East Briar Estates, Sioux Falls, SD 57110",
+    "amenities": [
+      "In-unit W/D",
+      "Garage"
+    ],
+    "deposit": "$895",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "Bender Midwest",
+    "notes": "Trusted landlord",
+    "breakdown": {
+      "Area (57110 - A+)": 2,
+      "Type (townhouse)": 3,
+      "Budget ($895 - $95 over)": -1,
+      "W/D (in-unit)": 3,
+      "Garage (included)": 2,
+      "Deposit (standard)": 0,
+      "Size (1100sf)": 1,
+      "Trusted mgmt": 1
+    }
+  },
+  "boulder-pointe-th": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 1081,
+    "address": "Boulder Pointe Townhomes, Sioux Falls, SD 57106",
+    "amenities": [
+      "In-unit W/D",
+      "Attached garage"
+    ],
+    "deposit": "$1,295",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "PointGuard",
+    "notes": "Over budget",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (townhouse)": 3,
+      "Budget ($1,295 - $495 over)": -4,
+      "W/D (in-unit)": 3,
+      "Garage (attached)": 2,
+      "Deposit (standard)": 0,
+      "Size (1081sf)": 1
+    }
+  },
+  "lincoln-heights-4": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 960,
+    "address": "Lincoln Heights #4, Harrisburg, SD 57032",
+    "amenities": [
+      "In-unit W/D",
+      "Off-street"
+    ],
+    "deposit": "$1,145",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "Alpine",
+    "notes": "$1k off 1st (12mo ask)",
+    "breakdown": {
+      "Area (57032 - A)": 1,
+      "Type (apartment)": 1,
+      "Budget ($1,145 - $345 over)": -3,
+      "W/D (in-unit)": 3,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (960sf)": 1,
+      "$k off 1st month": 1
+    }
+  },
+  "4601-e-3rd-st-10": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 900,
+    "address": "4601 E 3rd St #10, Sioux Falls, SD 57110",
+    "amenities": [
+      "On-site laundry",
+      "Lawn+snow incl."
+    ],
+    "deposit": "$895",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "Lawn/snow",
+    "phone": "Alpine",
+    "notes": "Cheapest qualify",
+    "breakdown": {
+      "Area (57110 - A+)": 2,
+      "Type (townhome)": 3,
+      "Budget ($895 - $95 over)": -1,
+      "W/D (on-site only)": -3,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (900sf)": 0,
+      "Lawn/snow incl": 1
+    }
+  },
+  "foss-fields-hollow": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 950,
+    "address": "Foss Fields Hollow, Sioux Falls, SD 57110",
+    "amenities": [
+      "Garage",
+      "Jetty-eligible",
+      "1 mo free",
+      "In-unit W/D ✓"
+    ],
+    "deposit": "$1,120",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "Real Property Mgmt Express",
+    "notes": "Jetty eligible",
+    "breakdown": {
+      "Area (57110 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($1,120 - $320 over)": -3,
+      "W/D (in-unit)": 3,
+      "Garage (included)": 2,
+      "Deposit (standard)": 0,
+      "Size (950sf)": 1,
+      "Jetty-eligible": 2,
+      "1 Month Free": 2
+    }
+  },
+  "prairies-edge-th": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 1081,
+    "address": "Prairies Edge Townhomes, Sioux Falls, SD 57108",
+    "amenities": [
+      "In-unit W/D",
+      "Attached garage"
+    ],
+    "deposit": "$1,435",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "Cresten",
+    "notes": "$35 over",
+    "breakdown": {
+      "Area (57108 - A+)": 2,
+      "Type (townhouse)": 3,
+      "Budget ($1,435 - $635 over)": -4,
+      "W/D (in-unit)": 3,
+      "Garage (attached)": 2,
+      "Deposit (standard)": 0,
+      "Size (1081sf)": 1
+    }
+  },
+  "stoney-creek-th": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 1050,
+    "address": "Stoney Creek Townhomes, Sioux Falls, SD 57106",
+    "amenities": [
+      "In-unit W/D",
+      "Garage",
+      "Pet-friendly"
+    ],
+    "deposit": "TBD",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "Penkert",
+    "notes": "Pricing TBD",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (townhouse)": 3,
+      "Budget (TBD)": 0,
+      "W/D (in-unit)": 3,
+      "Garage (included)": 2,
+      "Deposit (unknown)": 0,
+      "Size (1050sf)": 1,
+      "Pet-friendly": 1
+    }
+  },
+  "chasing-willows-apartments": {
+    "beds": 2,
+    "baths": 2,
+    "sqft": 935,
+    "address": "Chasing Willows Apartments, Sioux Falls, SD 57110",
+    "amenities": [
+      "In-unit W/D",
+      "Pool",
+      "Clubhouse",
+      "Pet-friendly"
+    ],
+    "deposit": "$684",
+    "lease_length": "6-12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "(605) 553-7542",
+    "notes": "Trusted \u2022 Nov 30/Dec 1 inquiry sent",
+    "breakdown": {
+      "Area (57110 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($684 - in budget)": 4,
+      "W/D (in-unit)": 3,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (935sf)": 1,
+      "Pool+clubhouse": 1,
+      "Pet-friendly": 1,
+      "Trusted mgmt": 1
+    }
+  },
+  "williamsburg-townhomes": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 1095,
+    "address": "Williamsburg Townhomes, Sioux Falls, SD 57106",
+    "amenities": [
+      "Playground",
+      "Picnic area",
+      "On-site mgmt"
+    ],
+    "deposit": "$768",
+    "lease_length": "6-12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "(605) 937-0339",
+    "notes": "Townhouse \u2022 Nov 30/Dec 1 inquiry sent",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (townhouse)": 3,
+      "Budget ($768 - in budget)": 4,
+      "W/D (unknown)": -1,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (999-1190sf)": 1,
+      "On-site mgmt": 1,
+      "Trusted mgmt": 1
+    }
+  },
+  "highpointe-townhomes": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 987,
+    "address": "HighPointe Townhomes, Tea, SD 57064",
+    "amenities": [
+      "Playground",
+      "On-site mgmt",
+      "Storage"
+    ],
+    "deposit": "$487",
+    "lease_length": "6-12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "(712) 746-9558",
+    "notes": "Tea SD \u2022 Best price \u2022 Nov 30/Dec 1 inquiry sent",
+    "breakdown": {
+      "Area (57064 - A)": 1,
+      "Type (townhouse)": 3,
+      "Budget ($487 - in budget)": 4,
+      "W/D (unknown)": -1,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (965-1008sf)": 1,
+      "On-site mgmt": 1,
+      "Storage": 1,
+      "Trusted mgmt": 1
+    }
+  },
+  "oakwood-estates": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 972,
+    "address": "Oakwood Estates, Sioux Falls, SD 57106",
+    "amenities": [
+      "Pet-friendly",
+      "Bark park",
+      "6-15 mo leases"
+    ],
+    "deposit": "$400",
+    "lease_length": "6-15 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "(712) 746-6437",
+    "notes": "Near Sertoma Park \u2022 Nov 30/Dec 1 inquiry sent",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($744 - in budget)": 4,
+      "W/D (unknown)": -1,
+      "Garage (none)": -1,
+      "Deposit (low $400)": 1,
+      "Size (972sf)": 1,
+      "Pet-friendly+bark park": 1,
+      "Flexible lease": 2
+    }
+  },
+  "340-n-main-ave-apt-13": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 900,
+    "address": "340 N Main Ave Apt 13, Tea, SD 57064",
+    "amenities": [
+      "Pet-friendly"
+    ],
+    "deposit": "$499",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "Private (Appfolio)",
+    "notes": "Tea SD \u2022 Private landlord \u2022 Best price in Tea",
+    "breakdown": {
+      "Area (57064 - A)": 1,
+      "Type (apartment)": 1,
+      "Budget ($499 - in budget)": 4,
+      "W/D (unknown)": -1,
+      "Garage (none)": -1,
+      "Deposit (low)": 1,
+      "Size (900sf)": 0,
+      "Pet-friendly": 1,
+      "Best price": 1
+    }
+  },
+  
+  "350-n-main-st": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 888,
+    "address": "350 N Main St, Tea, SD 57064",
+    "amenities": [
+      "New units"
+    ],
+    "deposit": "$525",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "Private (Appfolio)",
+    "notes": "Tea SD \u2022 New units",
+    "breakdown": {
+      "Area (57064 - A)": 1,
+      "Type (apartment)": 1,
+      "Budget ($525-$549 - in budget)": 4,
+      "W/D (unknown)": -1,
+      "Garage (none)": -1,
+      "Deposit (low)": 1,
+      "Size (856-920sf)": 0,
+      "New construction": 2
+    }
+  },
+  "grand-teton-estates": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 775,
+    "address": "Grand Teton Estates, Brandon, SD 57005",
+    "amenities": [
+      "Pet-friendly",
+      "Off-street",
+      "Electric heat"
+    ],
+    "deposit": "$800",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "(605) 705-1831",
+    "notes": "Brandon \u2022 Nov 30/Dec 1 inquiry sent",
+    "breakdown": {
+      "Area (57005 - A)": 1,
+      "Type (apartment)": 1,
+      "Budget ($800 - at limit)": 3,
+      "W/D (unknown)": -1,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (775sf)": 0,
+      "Pet-friendly": 1,
+      "Electric heat (cheap util)": 1
+    }
+  },
+  "auburn-apartments": {
+    "beds": 2,
+    "baths": 2,
+    "sqft": 936,
+    "address": "Auburn Apartments, Tea, SD 57064",
+    "amenities": [
+      "In-unit W/D",
+      "Garage avail.",
+      "Pet-friendly"
+    ],
+    "deposit": "$400",
+    "lease_length": "6-12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "(605) 215-2120",
+    "notes": "Tea SD \u2022 Costello \u2022 $400 dep",
+    "breakdown": {
+      "Area (57064 - A)": 1,
+      "Type (apartment)": 1,
+      "Budget ($495+ - in budget)": 4,
+      "W/D (in-unit)": 3,
+      "Garage (available)": 2,
+      "Deposit (low $400)": 1,
+      "Size (936sf)": 1,
+      "Pet-friendly": 1,
+      "Trusted mgmt": 1
+    }
+  }
+};
+
+  // Modal elements
+  var modalOverlay = document.getElementById('modal-overlay');
+  var modal = document.getElementById('modal');
+  var modalTitle = document.getElementById('modal-title');
+  var modalBody = document.getElementById('modal-body');
+  var modalFooter = document.getElementById('modal-footer');
+  var modalScoreBadge = document.getElementById('modal-score-badge');
+  var modalTypeBadge = document.getElementById('modal-type-badge');
+  var modalAreaBadge = document.getElementById('modal-area-badge');
+
+  function openModal(propertyKey) {
+    var data = PROP_DATA[propertyKey];
+    if (!data) return;
+
+    // Find the row/card to extract display info
+    var row = document.querySelector('.vote-cell[data-property="' + propertyKey + '"]');
+    var cell = row ? row.closest('tr') : null;
+    var card = row ? row.closest('.card') : null;
+
+    // Get display values from the row/card
+    var displayName = propertyKey;
+    var scoreClass = 's-c';
+    var typeClass = 'type-apt';
+    var areaClass = 'area-a';
+    var areaLabel = 'A';
+    var typeLabel = 'Apartment';
+    var priceText = 'TBD';
+    var statusText = '';
+    var logText = '';
+    var contactText = '';
+
+    if (cell) {
+      var nameEl = cell.querySelector('.property-name');
+      if (nameEl) displayName = nameEl.textContent.trim();
+      var scoreEl = cell.querySelector('.score-badge');
+      if (scoreEl) {
+        scoreClass = scoreEl.className.replace('score-badge ', '').trim();
+        // Get letter
+      }
+      var typeEl = cell.querySelector('.property-type');
+      if (typeEl) {
+        typeClass = typeEl.className.replace('property-type ', '').trim();
+        typeLabel = typeEl.textContent.trim();
+      }
+      var areaEl = cell.querySelector('.area-badge');
+      if (areaEl) {
+        areaClass = areaEl.className.replace('area-badge ', '').trim();
+        areaLabel = areaEl.textContent.trim();
+      }
+      var priceEl = cell.querySelector('.price');
+      if (priceEl) priceText = priceEl.textContent.trim();
+      var statusEl = cell.querySelector('.status');
+      if (statusEl) statusText = statusEl.outerHTML;
+      var logEl = cell.querySelector('.email-log');
+      if (logEl) logText = logEl.innerHTML;
+      var contactEl = cell.querySelectorAll('td');
+      if (contactEl && contactEl.length > 7) contactText = contactEl[7].textContent.trim();
+    } else if (card) {
+      var nameEl = card.querySelector('.card-title');
+      if (nameEl) displayName = nameEl.textContent.trim();
+      var scoreEl = card.querySelector('.score-badge');
+      if (scoreEl) scoreClass = scoreEl.className.replace('score-badge ', '').trim();
+      var typeEl = card.querySelector('.property-type');
+      if (typeEl) {
+        typeClass = typeEl.className.replace('property-type ', '').trim();
+        typeLabel = typeEl.textContent.trim();
+      }
+      var areaEl = card.querySelector('.area-badge');
+      if (areaEl) {
+        areaClass = areaEl.className.replace('area-badge ', '').trim();
+        areaLabel = areaEl.textContent.trim();
+      }
+      var priceEl = card.querySelector('.card-price');
+      if (priceEl) priceText = priceEl.textContent.trim();
+      var statusEl = card.querySelector('.status');
+      if (statusEl) statusText = statusEl.outerHTML;
+      var logEl = card.querySelector('.card-log');
+      if (logEl) logText = logEl.innerHTML;
+    }
+
+    // Set header
+    modalTitle.textContent = displayName;
+    var scoreLetter = scoreClass === 's-a' ? 'A' : scoreClass === 's-b' ? 'B' : scoreClass === 's-c' ? 'C' : 'D';
+    modalScoreBadge.className = 'score-badge ' + scoreClass;
+    modalScoreBadge.textContent = scoreLetter;
+    modalTypeBadge.className = 'property-type ' + typeClass;
+    modalTypeBadge.textContent = typeLabel;
+    modalAreaBadge.className = 'area-badge ' + areaClass;
+    modalAreaBadge.textContent = areaLabel;
+
+    // Compute score breakdown
+    var breakdown = data.breakdown;
+    var total = 0;
+    var pros = [];
+    var cons = [];
+    for (var key in breakdown) {
+      var val = breakdown[key];
+      total += val;
+      if (val > 0) pros.push(key + ' (+' + val + ')');
+      else if (val < 0) cons.push(key + ' (' + val + ')');
+    }
+
+    // Determine verdict
+    var verdictClass, verdictText;
+    if (total >= 14) {
+      verdictClass = 'verdict-a';
+      verdictText = 'Strong A — apply now';
+    } else if (total >= 10) {
+      verdictClass = 'verdict-b';
+      verdictText = 'Solid B — worth a tour';
+    } else if (total >= 6) {
+      verdictClass = 'verdict-c';
+      verdictText = 'C — has tradeoffs';
+    } else {
+      verdictClass = 'verdict-d';
+      verdictText = 'D — skip';
+    }
+
+    // Build body
+    var body = '';
+
+    // KEY STATS
+    body += '<div class="modal-section">';
+    body += '<div class="modal-section-title">KEY STATS</div>';
+    body += '<div class="stat-grid">';
+    body += '<div class="stat-item"><div class="stat-item-label">Rent</div><div class="stat-item-value large">' + priceText + '</div></div>';
+    body += '<div class="stat-item"><div class="stat-item-label">Beds</div><div class="stat-item-value">' + data.beds + '</div></div>';
+    body += '<div class="stat-item"><div class="stat-item-label">Baths</div><div class="stat-item-value">' + data.baths + '</div></div>';
+    body += '<div class="stat-item"><div class="stat-item-label">Sq Ft</div><div class="stat-item-value">' + data.sqft + '</div></div>';
+    body += '<div class="stat-item"><div class="stat-item-label">Type</div><div class="stat-item-value">' + typeLabel + '</div></div>';
+    body += '<div class="stat-item"><div class="stat-item-label">Area</div><div class="stat-item-value">' + areaLabel + '</div></div>';
+    body += '</div>';
+    body += '<div style="margin-top:8px;font-size:0.78rem;color:var(--text-muted);">' + data.address + '</div>';
+    body += '<div style="margin-top:4px;font-size:0.72rem;color:var(--text-muted);">Phone: ' + data.phone + '</div>';
+    body += '</div>';
+
+    // AMENITIES
+    body += '<div class="modal-section">';
+    body += '<div class="modal-section-title">AMENITIES</div>';
+    data.amenities.forEach(function(a) {
+      body += '<span class="amenity-tag">' + a + '</span>';
+    });
+    body += '</div>';
+
+    // LEASE TERMS
+    body += '<div class="modal-section">';
+    body += '<div class="modal-section-title">LEASE TERMS</div>';
+    body += '<div class="stat-grid">';
+    body += '<div class="stat-item"><div class="stat-item-label">Deposit</div><div class="stat-item-value">' + data.deposit + '</div></div>';
+    body += '<div class="stat-item"><div class="stat-item-label">Lease</div><div class="stat-item-value">' + data.lease_length + '</div></div>';
+    body += '<div class="stat-item"><div class="stat-item-label">Pets</div><div class="stat-item-value">' + data.pet_policy + '</div></div>';
+    body += '</div>';
+    body += '<div style="margin-top:6px;font-size:0.74rem;color:var(--text-muted);">Utilities included: ' + data.utilities_included + '</div>';
+    body += '</div>';
+
+    // LOG
+    body += '<div class="modal-section">';
+    body += '<div class="modal-section-title">LOG</div>';
+    body += '<div style="font-size:0.72rem;color:var(--text-muted);font-family:'SF Mono',monospace;">' + (logText || 'No activity logged') + '</div>';
+    body += '</div>';
+
+    // AI ANALYSIS
+    body += '<div class="modal-section">';
+    body += '<div class="modal-section-title">AI ANALYSIS — Score Breakdown</div>';
+
+    // Breakdown items
+    for (var key in breakdown) {
+      var val = breakdown[key];
+      var cls = val >= 0 ? 'pro' : 'con';
+      body += '<div class="score-breakdown-item ' + cls + '"><span>' + key + '</span><span class="points">' + (val >= 0 ? '+' : '') + val + '</span></div>';
+    }
+    body += '<div class="score-total"><span>TOTAL</span><span>' + total + '</span></div>';
+
+    // Pros
+    if (pros.length > 0) {
+      body += '<div style="margin-top:10px;"><div class="modal-section-title">PROS</div><ul class="pros-cons-list pros">';
+      pros.forEach(function(p) {
+        body += '<li>' + p + '</li>';
+      });
+      body += '</ul></div>';
+    }
+
+    // Cons
+    if (cons.length > 0) {
+      body += '<div style="margin-top:10px;"><div class="modal-section-title">CONS</div><ul class="pros-cons-list cons">';
+      cons.forEach(function(c) {
+        body += '<li>' + c + '</li>';
+      });
+      body += '</ul></div>';
+    }
+
+    // Verdict
+    body += '<div class="verdict ' + verdictClass + '">' + verdictText + ' (' + total + ' pts)</div>';
+    body += '</div>';
+
+    modalBody.innerHTML = body;
+
+    // Footer
+    var footer = '';
+    footer += '<div class="vote-cell" data-property="' + propertyKey + '">';
+    footer += '<div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1" title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div>';
+    footer += '<div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1" title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div>';
+    footer += '</div>';
+    footer += '<div id="modal-status">' + (statusText || '') + '</div>';
+    footer += '<div style="margin-left:auto;font-size:0.72rem;color:var(--text-muted);">' + (data.notes || '') + '</div>';
+    modalFooter.innerHTML = footer;
+
+    // Re-bind vote buttons in modal
+    modalFooter.querySelectorAll('.vote-btn').forEach(function(b) {
+      b.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var cell = b.closest('.vote-cell');
+        var key = cell.dataset.property;
+        var who = b.dataset.who, dir = parseInt(b.dataset.dir, 10);
+        votes[key] = votes[key] || {};
+        votes[key][who] = (votes[key][who] === dir) ? 0 : dir;
+        save(); paint(); counts();
+      });
+    });
+    // Paint modal votes
+    var modalVotes = modalFooter.querySelector('.vote-cell');
+    if (modalVotes) {
+      var key = modalVotes.dataset.property;
+      var v = votes[key] || {};
+      modalVotes.querySelectorAll('.vote-btn').forEach(function(b) {
+        var who = b.dataset.who, dir = parseInt(b.dataset.dir, 10);
+        b.classList.remove('on-up', 'on-down');
+        if (v[who] === dir) b.classList.add(dir > 0 ? 'on-up' : 'on-down');
+      });
+    }
+
+    // Show modal
+    modalOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Close on X click
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+
+  // Close on backdrop click
+  modalOverlay.addEventListener('click', function(e) {
+    if (e.target === modalOverlay) closeModal();
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal();
+  });
+
+  // Add click handlers to table rows
+  document.querySelectorAll('tbody tr').forEach(function(row) {
+    var cell = row.querySelector('.vote-cell');
+    if (!cell) return;
+    var key = cell.dataset.property;
+    row.style.cursor = 'pointer';
+    row.addEventListener('click', function(e) {
+      // Don't open modal if clicking vote buttons or links
+      if (e.target.closest('.vote-btn') || e.target.closest('a')) return;
+      openModal(key);
+    });
+  });
+
+  // Add click handlers to mobile cards
+  document.querySelectorAll('.mobile-only .card').forEach(function(card) {
+    var cell = card.querySelector('.vote-cell');
+    if (!cell) return;
+    var key = cell.dataset.property;
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', function(e) {
+      if (e.target.closest('.vote-btn') || e.target.closest('a')) return;
+      openModal(key);
+    });
+  });
+</script>
+
+<!-- MODAL OVERLAY -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Property Name</div>
+      <span id="modal-score-badge"></span>
+      <span id="modal-type-badge"></span>
+      <span id="modal-area-badge"></span>
+      <button class="modal-close" id="modal-close" title="Close">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body">
+      <!-- Filled by JS -->
+    </div>
+    <div class="modal-footer" id="modal-footer">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+</div>
+
+<script>
+  var PROP_DATA = {
+  "3505-s-willow-ave": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 600,
+    "address": "3505 S Willow Ave, Sioux Falls, SD 57105",
+    "amenities": [
+      "In-house laundry",
+      "Garage $50/mo",
+      "Quiet street"
+    ],
+    "deposit": "$400",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "(605) 275-6393",
+    "notes": "Price TBD \u2022 Near Western Centre",
+    "breakdown": {
+      "Area (57105 - A)": 1,
+      "Type (apartment)": 1,
+      "Budget (\u2264$800)": 4,
+      "W/D (shared laundry)": 0,
+      "Garage (extra $50/mo)": 0,
+      "Deposit (standard)": 0,
+      "Size (600sf)": -1,
+      "Utilities (none incl)": 0
+    }
+  },
+  "autumn-park": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 850,
+    "address": "Autumn Park, Sioux Falls, SD 57106",
+    "amenities": [
+      "1 Month Free",
+      "Pet-friendly",
+      "Shared laundry",
+      "Parking"
+    ],
+    "deposit": "1 month rent",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "(605) 250-2135",
+    "notes": "$35 over \u2022 No in-unit W/D \u2022 Shared laundry",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($835 - $35 over)": -1,
+      "W/D (shared laundry)": 0,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (850sf)": 0,
+      "1 Month Free": 2
+    }
+  },
+  "willows-south-commons": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 940,
+    "address": "Willows South Commons, Sioux Falls, SD 57110",
+    "amenities": [
+      "In-unit W/D",
+      "Pet-friendly",
+      "Elevator",
+      "Fitness center"
+    ],
+    "deposit": "1 month rent",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "(605) 501-6175",
+    "notes": "$25 over \u2022 In-unit W/D \u2022 57110 zip",
+    "breakdown": {
+      "Area (57110 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($825 - $25 over)": -1,
+      "W/D (in-unit)": 3,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (940sf)": 1,
+      "Amenities (elevator+fitness)": 1
+    }
+  },
+  "maple-rock-reserve": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 597,
+    "address": "Maple Rock Reserve, Sioux Falls, SD 57108",
+    "amenities": [
+      "Modern finishes",
+      "Floor-to-ceiling windows"
+    ],
+    "deposit": "1 month rent",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "(605) 501-6175",
+    "notes": "$15 over \u2022 57108 zip \u2022 W/D TBD",
+    "breakdown": {
+      "Area (57108 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($815 - $15 over)": -1,
+      "W/D (unknown)": -1,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (597sf - small)": -1,
+      "Modern finishes": 1
+    }
+  },
+  "morgan-lane-townhomes": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 1483,
+    "address": "Morgan Lane Townhomes, Tea, SD 57064",
+    "amenities": [
+      "In-unit W/D",
+      "Attached garage",
+      "Pet-friendly",
+      "Lawn/snow incl."
+    ],
+    "deposit": "$1,375",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "Lawn/snow",
+    "phone": "Appfolio",
+    "notes": "OVER BUDGET \u2022 $575 over \u2022 HighPointe area",
+    "breakdown": {
+      "Area (57064 - A)": 1,
+      "Type (townhouse)": 3,
+      "Budget ($1,375 - $575 over)": -4,
+      "W/D (in-unit)": 3,
+      "Garage (attached)": 2,
+      "Deposit (standard)": 0,
+      "Size (1483sf)": 2,
+      "Lawn/snow incl": 1
+    }
+  },
+  "heritage-townhomes": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 1070,
+    "address": "Heritage Townhomes, Tea, SD 57064",
+    "amenities": [
+      "W/D",
+      "Water/sewer/trash incl.",
+      "Pet-friendly",
+      "Vaulted ceiling"
+    ],
+    "deposit": "$1,495",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "Water/sewer/trash",
+    "phone": "(605) 525-4743",
+    "notes": "OVER BUDGET \u2022 $695+ over \u2022 Multi-level",
+    "breakdown": {
+      "Area (57064 - A)": 1,
+      "Type (townhouse)": 3,
+      "Budget ($1,495+ - $695 over)": -4,
+      "W/D (in-unit)": 3,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (1070sf)": 1,
+      "Utilities incl": 2
+    }
+  },
+  "arrow-ridge-townhomes": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 999,
+    "address": "Arrow Ridge Townhomes, Brandon, SD 57005",
+    "amenities": [
+      "In-unit W/D",
+      "Det. garage",
+      "Pet-friendly",
+      "Trash/sewer incl."
+    ],
+    "deposit": "$762",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "Trash/sewer",
+    "phone": "(605) 501-5090",
+    "notes": "15-20 min to SF \u2022 Landlord: no short-term lease",
+    "breakdown": {
+      "Area (57005 - A)": 1,
+      "Type (townhouse)": 3,
+      "Budget ($762 - in budget)": 4,
+      "W/D (in-unit)": 3,
+      "Garage (detached)": 2,
+      "Deposit (standard)": 0,
+      "Size (999sf)": 1,
+      "Trash/sewer incl": 1,
+      "No short-term lease": -3
+    }
+  },
+  "south-ridge-townhomes": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 923,
+    "address": "South Ridge Townhomes, Sioux Falls, SD 57108",
+    "amenities": [
+      "In-unit W/D",
+      "Off-street parking",
+      "Townhome"
+    ],
+    "deposit": "$768",
+    "lease_length": "6-9 mo negotiable",
+    "pet_policy": "No pets",
+    "utilities_included": "None",
+    "phone": "(605) 937-7278",
+    "notes": "Available now \u2022 2-3 bed TH \u2022 No pets",
+    "breakdown": {
+      "Area (57108 - A+)": 2,
+      "Type (townhouse)": 3,
+      "Budget ($768-$783 - in budget)": 4,
+      "W/D (in-unit)": 3,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (923sf)": 1,
+      "No pets": -2
+    }
+  },
+  "grant-square-apartments": {
+    "beds": 2,
+    "baths": 2,
+    "sqft": 1026,
+    "address": "Grant Square Apartments, Sioux Falls, SD 57106",
+    "amenities": [
+      "In-unit W/D",
+      "Garage + covered parking",
+      "Water/sewer/garbage incl."
+    ],
+    "deposit": "$662",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "Water/sewer/garbage",
+    "phone": "grantsquare@costelloco.com",
+    "notes": "Income restricted \u2014 verify eligibility",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($662+ - in budget)": 4,
+      "W/D (in-unit)": 3,
+      "Garage (included)": 2,
+      "Deposit (standard)": 0,
+      "Size (1026sf)": 1,
+      "Utilities incl": 2,
+      "Income restricted": -1
+    }
+  },
+  "4907-w-kirkwood-cir-4": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 1100,
+    "address": "4907 W Kirkwood Cir #4, Sioux Falls, SD 57106",
+    "amenities": [
+      "Attached garage",
+      "Lawn+snow incl.",
+      "Lease \u2192 Mar M-to-M"
+    ],
+    "deposit": "$800",
+    "lease_length": "M-to-M available",
+    "pet_policy": "TBD",
+    "utilities_included": "Lawn/snow",
+    "phone": "(605) 951-6584",
+    "notes": "Oct 1 unit 1 offer \u2022 user needs Nov \u2022 4wk hold max",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (townhouse)": 3,
+      "Budget ($1,299 - $500 over)": -4,
+      "W/D (TBD/confirmed)": 1,
+      "Garage (attached)": 2,
+      "Deposit (standard)": 0,
+      "Size (1100sf)": 1,
+      "M-to-M lease": 3,
+      "Lawn/snow incl": 1
+    }
+  },
+  "park-place-condominiums": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 950,
+    "address": "Park Place Condominiums, Sioux Falls, SD 57106",
+    "amenities": [
+      "In-unit W/D",
+      "Garage incl.",
+      "Pet-friendly",
+      "Balcony"
+    ],
+    "deposit": "$1,099",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "Park Place Mgmt",
+    "notes": "FB find",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($1,099 - $299 over)": -3,
+      "W/D (in-unit)": 3,
+      "Garage (included)": 2,
+      "Deposit (standard)": 0,
+      "Size (950sf)": 1,
+      "Balcony": 1
+    }
+  },
+  "401-s-sycamore-206": {
+    "beds": 1,
+    "baths": 1,
+    "sqft": 650,
+    "address": "401 S Sycamore #206, Sioux Falls, SD 57110",
+    "amenities": [
+      "Off-street",
+      "Deposit alt built-in",
+      "No move-in fees"
+    ],
+    "deposit": "Alternative",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "Luke Properties",
+    "notes": "Deposit alt \u2022 No move-in fees",
+    "breakdown": {
+      "Area (57110 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($725 - in budget)": 4,
+      "W/D (unknown)": -1,
+      "Garage (none)": -1,
+      "Deposit (alternative)": 2,
+      "Size (650sf)": -1,
+      "No move-in fees": 1
+    }
+  },
+  "412-n-sioux-blvd-12": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 1000,
+    "address": "412 N Sioux Blvd #12, Brandon, SD 57005",
+    "amenities": [
+      "In-unit W/D",
+      "Attached garage",
+      "Lawn+snow+trash incl.",
+      "Pet-friendly"
+    ],
+    "deposit": "$1,300",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "Lawn/snow/trash",
+    "phone": "(605) 799-3741",
+    "notes": "Available Sep 1",
+    "breakdown": {
+      "Area (57005 - A)": 1,
+      "Type (townhouse)": 3,
+      "Budget ($1,300 - $500 over)": -4,
+      "W/D (in-unit)": 3,
+      "Garage (attached)": 2,
+      "Deposit (standard)": 0,
+      "Size (1000sf)": 1,
+      "Lawn/snow/trash incl": 2
+    }
+  },
+  "dbk-brandon-townhomes": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 1185,
+    "address": "DBK Brandon Townhomes, Brandon, SD 57005",
+    "amenities": [
+      "In-unit W/D (verify)",
+      "Attached garage",
+      "Pet-friendly"
+    ],
+    "deposit": "$1,299",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "(605) 961-6871",
+    "notes": "W/D: verify \u2022 Available Now",
+    "breakdown": {
+      "Area (57005 - A)": 1,
+      "Type (townhouse)": 3,
+      "Budget ($1,299 - $499 over)": -4,
+      "W/D (in-unit, verify)": 2,
+      "Garage (attached)": 2,
+      "Deposit (standard)": 0,
+      "Size (1185sf)": 1
+    }
+  },
+  "willow-creek-townhomes": {
+    "beds": 2,
+    "baths": 2,
+    "sqft": 1086,
+    "address": "Willow Creek Townhomes, Sioux Falls, SD 57106",
+    "amenities": [
+      "In-unit W/D",
+      "Garage"
+    ],
+    "deposit": "$1,237",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "Bender Midwest",
+    "notes": "Trusted landlord \u2022 Over budget",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (townhouse)": 3,
+      "Budget ($1,237 - $437 over)": -4,
+      "W/D (in-unit)": 3,
+      "Garage (included)": 2,
+      "Deposit (standard)": 0,
+      "Size (1086sf)": 1,
+      "Trusted mgmt": 1
+    }
+  },
+  "east-briar-estates": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 1100,
+    "address": "East Briar Estates, Sioux Falls, SD 57110",
+    "amenities": [
+      "In-unit W/D",
+      "Garage"
+    ],
+    "deposit": "$895",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "Bender Midwest",
+    "notes": "Trusted landlord",
+    "breakdown": {
+      "Area (57110 - A+)": 2,
+      "Type (townhouse)": 3,
+      "Budget ($895 - $95 over)": -1,
+      "W/D (in-unit)": 3,
+      "Garage (included)": 2,
+      "Deposit (standard)": 0,
+      "Size (1100sf)": 1,
+      "Trusted mgmt": 1
+    }
+  },
+  "boulder-pointe-th": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 1081,
+    "address": "Boulder Pointe Townhomes, Sioux Falls, SD 57106",
+    "amenities": [
+      "In-unit W/D",
+      "Attached garage"
+    ],
+    "deposit": "$1,295",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "PointGuard",
+    "notes": "Over budget",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (townhouse)": 3,
+      "Budget ($1,295 - $495 over)": -4,
+      "W/D (in-unit)": 3,
+      "Garage (attached)": 2,
+      "Deposit (standard)": 0,
+      "Size (1081sf)": 1
+    }
+  },
+  "lincoln-heights-4": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 960,
+    "address": "Lincoln Heights #4, Harrisburg, SD 57032",
+    "amenities": [
+      "In-unit W/D",
+      "Off-street"
+    ],
+    "deposit": "$1,145",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "Alpine",
+    "notes": "$1k off 1st (12mo ask)",
+    "breakdown": {
+      "Area (57032 - A)": 1,
+      "Type (apartment)": 1,
+      "Budget ($1,145 - $345 over)": -3,
+      "W/D (in-unit)": 3,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (960sf)": 1,
+      "$k off 1st month": 1
+    }
+  },
+  "4601-e-3rd-st-10": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 900,
+    "address": "4601 E 3rd St #10, Sioux Falls, SD 57110",
+    "amenities": [
+      "On-site laundry",
+      "Lawn+snow incl."
+    ],
+    "deposit": "$895",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "Lawn/snow",
+    "phone": "Alpine",
+    "notes": "Cheapest qualify",
+    "breakdown": {
+      "Area (57110 - A+)": 2,
+      "Type (townhome)": 3,
+      "Budget ($895 - $95 over)": -1,
+      "W/D (on-site only)": -3,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (900sf)": 0,
+      "Lawn/snow incl": 1
+    }
+  },
+  "foss-fields-hollow": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 950,
+    "address": "Foss Fields Hollow, Sioux Falls, SD 57110",
+    "amenities": [
+      "Garage",
+      "Jetty-eligible",
+      "1 mo free",
+      "In-unit W/D ✓"
+    ],
+    "deposit": "$1,120",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "Real Property Mgmt Express",
+    "notes": "Jetty eligible",
+    "breakdown": {
+      "Area (57110 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($1,120 - $320 over)": -3,
+      "W/D (in-unit)": 3,
+      "Garage (included)": 2,
+      "Deposit (standard)": 0,
+      "Size (950sf)": 1,
+      "Jetty-eligible": 2,
+      "1 Month Free": 2
+    }
+  },
+  "prairies-edge-th": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 1081,
+    "address": "Prairies Edge Townhomes, Sioux Falls, SD 57108",
+    "amenities": [
+      "In-unit W/D",
+      "Attached garage"
+    ],
+    "deposit": "$1,435",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "Cresten",
+    "notes": "$35 over",
+    "breakdown": {
+      "Area (57108 - A+)": 2,
+      "Type (townhouse)": 3,
+      "Budget ($1,435 - $635 over)": -4,
+      "W/D (in-unit)": 3,
+      "Garage (attached)": 2,
+      "Deposit (standard)": 0,
+      "Size (1081sf)": 1
+    }
+  },
+  "stoney-creek-th": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 1050,
+    "address": "Stoney Creek Townhomes, Sioux Falls, SD 57106",
+    "amenities": [
+      "In-unit W/D",
+      "Garage",
+      "Pet-friendly"
+    ],
+    "deposit": "TBD",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "Penkert",
+    "notes": "Pricing TBD",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (townhouse)": 3,
+      "Budget (TBD)": 0,
+      "W/D (in-unit)": 3,
+      "Garage (included)": 2,
+      "Deposit (unknown)": 0,
+      "Size (1050sf)": 1,
+      "Pet-friendly": 1
+    }
+  },
+  "chasing-willows-apartments": {
+    "beds": 2,
+    "baths": 2,
+    "sqft": 935,
+    "address": "Chasing Willows Apartments, Sioux Falls, SD 57110",
+    "amenities": [
+      "In-unit W/D",
+      "Pool",
+      "Clubhouse",
+      "Pet-friendly"
+    ],
+    "deposit": "$684",
+    "lease_length": "6-12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "(605) 553-7542",
+    "notes": "Trusted \u2022 Nov 30/Dec 1 inquiry sent",
+    "breakdown": {
+      "Area (57110 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($684 - in budget)": 4,
+      "W/D (in-unit)": 3,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (935sf)": 1,
+      "Pool+clubhouse": 1,
+      "Pet-friendly": 1,
+      "Trusted mgmt": 1
+    }
+  },
+  "williamsburg-townhomes": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 1095,
+    "address": "Williamsburg Townhomes, Sioux Falls, SD 57106",
+    "amenities": [
+      "Playground",
+      "Picnic area",
+      "On-site mgmt"
+    ],
+    "deposit": "$768",
+    "lease_length": "6-12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "(605) 937-0339",
+    "notes": "Townhouse \u2022 Nov 30/Dec 1 inquiry sent",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (townhouse)": 3,
+      "Budget ($768 - in budget)": 4,
+      "W/D (unknown)": -1,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (999-1190sf)": 1,
+      "On-site mgmt": 1,
+      "Trusted mgmt": 1
+    }
+  },
+  "highpointe-townhomes": {
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 987,
+    "address": "HighPointe Townhomes, Tea, SD 57064",
+    "amenities": [
+      "Playground",
+      "On-site mgmt",
+      "Storage"
+    ],
+    "deposit": "$487",
+    "lease_length": "6-12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "(712) 746-9558",
+    "notes": "Tea SD \u2022 Best price \u2022 Nov 30/Dec 1 inquiry sent",
+    "breakdown": {
+      "Area (57064 - A)": 1,
+      "Type (townhouse)": 3,
+      "Budget ($487 - in budget)": 4,
+      "W/D (unknown)": -1,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (965-1008sf)": 1,
+      "On-site mgmt": 1,
+      "Storage": 1,
+      "Trusted mgmt": 1
+    }
+  },
+  "oakwood-estates": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 972,
+    "address": "Oakwood Estates, Sioux Falls, SD 57106",
+    "amenities": [
+      "Pet-friendly",
+      "Bark park",
+      "6-15 mo leases"
+    ],
+    "deposit": "$400",
+    "lease_length": "6-15 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "(712) 746-6437",
+    "notes": "Near Sertoma Park \u2022 Nov 30/Dec 1 inquiry sent",
+    "breakdown": {
+      "Area (57106 - A+)": 2,
+      "Type (apartment)": 1,
+      "Budget ($744 - in budget)": 4,
+      "W/D (unknown)": -1,
+      "Garage (none)": -1,
+      "Deposit (low $400)": 1,
+      "Size (972sf)": 1,
+      "Pet-friendly+bark park": 1,
+      "Flexible lease": 2
+    }
+  },
+  "340-n-main-ave-apt-13": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 900,
+    "address": "340 N Main Ave Apt 13, Tea, SD 57064",
+    "amenities": [
+      "Pet-friendly"
+    ],
+    "deposit": "$499",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "Private (Appfolio)",
+    "notes": "Tea SD \u2022 Private landlord \u2022 Best price in Tea",
+    "breakdown": {
+      "Area (57064 - A)": 1,
+      "Type (apartment)": 1,
+      "Budget ($499 - in budget)": 4,
+      "W/D (unknown)": -1,
+      "Garage (none)": -1,
+      "Deposit (low)": 1,
+      "Size (900sf)": 0,
+      "Pet-friendly": 1,
+      "Best price": 1
+    }
+  },
+  "350-n-main-st": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 888,
+    "address": "350 N Main St, Tea, SD 57064",
+    "amenities": [
+      "New units"
+    ],
+    "deposit": "$525",
+    "lease_length": "12 mo",
+    "pet_policy": "TBD",
+    "utilities_included": "None",
+    "phone": "Private (Appfolio)",
+    "notes": "Tea SD \u2022 New units",
+    "breakdown": {
+      "Area (57064 - A)": 1,
+      "Type (apartment)": 1,
+      "Budget ($525-$549 - in budget)": 4,
+      "W/D (unknown)": -1,
+      "Garage (none)": -1,
+      "Deposit (low)": 1,
+      "Size (856-920sf)": 0,
+      "New construction": 2
+    }
+  },
+  "grand-teton-estates": {
+    "beds": 2,
+    "baths": 1,
+    "sqft": 775,
+    "address": "Grand Teton Estates, Brandon, SD 57005",
+    "amenities": [
+      "Pet-friendly",
+      "Off-street",
+      "Electric heat"
+    ],
+    "deposit": "$800",
+    "lease_length": "12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "(605) 705-1831",
+    "notes": "Brandon \u2022 Nov 30/Dec 1 inquiry sent",
+    "breakdown": {
+      "Area (57005 - A)": 1,
+      "Type (apartment)": 1,
+      "Budget ($800 - at limit)": 3,
+      "W/D (unknown)": -1,
+      "Garage (none)": -1,
+      "Deposit (standard)": 0,
+      "Size (775sf)": 0,
+      "Pet-friendly": 1,
+      "Electric heat (cheap util)": 1
+    }
+  },
+  "auburn-apartments": {
+    "beds": 2,
+    "baths": 2,
+    "sqft": 936,
+    "address": "Auburn Apartments, Tea, SD 57064",
+    "amenities": [
+      "In-unit W/D",
+      "Garage avail.",
+      "Pet-friendly"
+    ],
+    "deposit": "$400",
+    "lease_length": "6-12 mo",
+    "pet_policy": "Friendly",
+    "utilities_included": "None",
+    "phone": "(605) 215-2120",
+    "notes": "Tea SD \u2022 Costello \u2022 $400 dep",
+    "breakdown": {
+      "Area (57064 - A)": 1,
+      "Type (apartment)": 1,
+      "Budget ($495+ - in budget)": 4,
+      "W/D (in-unit)": 3,
+      "Garage (available)": 2,
+      "Deposit (low $400)": 1,
+      "Size (936sf)": 1,
+      "Pet-friendly": 1,
+      "Trusted mgmt": 1
+    }
+  }
+};
+
+  var modalOverlay = document.getElementById('modal-overlay');
+  var modal = document.getElementById('modal');
+  var modalTitle = document.getElementById('modal-title');
+  var modalBody = document.getElementById('modal-body');
+  var modalFooter = document.getElementById('modal-footer');
+  var modalScoreBadge = document.getElementById('modal-score-badge');
+  var modalTypeBadge = document.getElementById('modal-type-badge');
+  var modalAreaBadge = document.getElementById('modal-area-badge');
+
+  function openModal(propertyKey) {
+    var data = PROP_DATA[propertyKey];
+    if (!data) return;
+
+    var row = document.querySelector('.vote-cell[data-property="' + propertyKey + '"]');
+    var cell = row ? row.closest('tr') : null;
+    var card = row ? row.closest('.card') : null;
+
+    var displayName = propertyKey;
+    var scoreClass = 's-c';
+    var typeClass = 'type-apt';
+    var areaClass = 'area-a';
+    var areaLabel = 'A';
+    var typeLabel = 'Apartment';
+    var priceText = 'TBD';
+    var statusText = '';
+    var logText = '';
+
+    if (cell) {
+      var nameEl = cell.querySelector('.property-name');
+      if (nameEl) displayName = nameEl.textContent.trim();
+      var scoreEl = cell.querySelector('.score-badge');
+      if (scoreEl) scoreClass = scoreEl.className.replace('score-badge ', '').trim();
+      var typeEl = cell.querySelector('.property-type');
+      if (typeEl) {
+        typeClass = typeEl.className.replace('property-type ', '').trim();
+        typeLabel = typeEl.textContent.trim();
+      }
+      var areaEl = cell.querySelector('.area-badge');
+      if (areaEl) {
+        areaClass = areaEl.className.replace('area-badge ', '').trim();
+        areaLabel = areaEl.textContent.trim();
+      }
+      var priceEl = cell.querySelector('.price');
+      if (priceEl) priceText = priceEl.textContent.trim();
+      var statusEl = cell.querySelector('.status');
+      if (statusEl) statusText = statusEl.outerHTML;
+      var logEl = cell.querySelector('.email-log');
+      if (logEl) logText = logEl.innerHTML;
+    } else if (card) {
+      var nameEl = card.querySelector('.card-title');
+      if (nameEl) displayName = nameEl.textContent.trim();
+      var scoreEl = card.querySelector('.score-badge');
+      if (scoreEl) scoreClass = scoreEl.className.replace('score-badge ', '').trim();
+      var typeEl = card.querySelector('.property-type');
+      if (typeEl) {
+        typeClass = typeEl.className.replace('property-type ', '').trim();
+        typeLabel = typeEl.textContent.trim();
+      }
+      var areaEl = card.querySelector('.area-badge');
+      if (areaEl) {
+        areaClass = areaEl.className.replace('area-badge ', '').trim();
+        areaLabel = areaEl.textContent.trim();
+      }
+      var priceEl = card.querySelector('.card-price');
+      if (priceEl) priceText = priceEl.textContent.trim();
+      var statusEl = card.querySelector('.status');
+      if (statusEl) statusText = statusEl.outerHTML;
+      var logEl = card.querySelector('.card-log');
+      if (logEl) logText = logEl.innerHTML;
+    }
+
+    modalTitle.textContent = displayName;
+    var scoreLetter = scoreClass === 's-a' ? 'A' : scoreClass === 's-b' ? 'B' : scoreClass === 's-c' ? 'C' : 'D';
+    modalScoreBadge.className = 'score-badge ' + scoreClass;
+    modalScoreBadge.textContent = scoreLetter;
+    modalTypeBadge.className = 'property-type ' + typeClass;
+    modalTypeBadge.textContent = typeLabel;
+    modalAreaBadge.className = 'area-badge ' + areaClass;
+    modalAreaBadge.textContent = areaLabel;
+
+    var breakdown = data.breakdown;
+    var total = 0;
+    var pros = [];
+    var cons = [];
+    for (var key in breakdown) {
+      var val = breakdown[key];
+      total += val;
+      if (val > 0) pros.push(key + ' (+' + val + ')');
+      else if (val < 0) cons.push(key + ' (' + val + ')');
+    }
+
+    var verdictClass, verdictText;
+    if (total >= 14) {
+      verdictClass = 'verdict-a';
+      verdictText = 'Strong A \u2014 apply now';
+    } else if (total >= 10) {
+      verdictClass = 'verdict-b';
+      verdictText = 'Solid B \u2014 worth a tour';
+    } else if (total >= 6) {
+      verdictClass = 'verdict-c';
+      verdictText = 'C \u2014 has tradeoffs';
+    } else {
+      verdictClass = 'verdict-d';
+      verdictText = 'D \u2014 skip';
+    }
+
+    var body = '';
+
+    body += '<div class="modal-section">';
+    body += '<div class="modal-section-title">KEY STATS</div>';
+    body += '<div class="stat-grid">';
+    body += '<div class="stat-item"><div class="stat-item-label">Rent</div><div class="stat-item-value large">' + priceText + '</div></div>';
+    body += '<div class="stat-item"><div class="stat-item-label">Beds</div><div class="stat-item-value">' + data.beds + '</div></div>';
+    body += '<div class="stat-item"><div class="stat-item-label">Baths</div><div class="stat-item-value">' + data.baths + '</div></div>';
+    body += '<div class="stat-item"><div class="stat-item-label">Sq Ft</div><div class="stat-item-value">' + data.sqft + '</div></div>';
+    body += '<div class="stat-item"><div class="stat-item-label">Type</div><div class="stat-item-value">' + typeLabel + '</div></div>';
+    body += '<div class="stat-item"><div class="stat-item-label">Area</div><div class="stat-item-value">' + areaLabel + '</div></div>';
+    body += '</div>';
+    body += '<div style="margin-top:8px;font-size:0.78rem;color:var(--text-muted);">' + data.address + '</div>';
+    body += '<div style="margin-top:4px;font-size:0.72rem;color:var(--text-muted);">Phone: ' + data.phone + '</div>';
+    body += '</div>';
+
+    body += '<div class="modal-section">';
+    body += '<div class="modal-section-title">AMENITIES</div>';
+    data.amenities.forEach(function(a) {
+      body += '<span class="amenity-tag">' + a + '</span>';
+    });
+    body += '</div>';
+
+    body += '<div class="modal-section">';
+    body += '<div class="modal-section-title">LEASE TERMS</div>';
+    body += '<div class="stat-grid">';
+    body += '<div class="stat-item"><div class="stat-item-label">Deposit</div><div class="stat-item-value">' + data.deposit + '</div></div>';
+    body += '<div class="stat-item"><div class="stat-item-label">Lease</div><div class="stat-item-value">' + data.lease_length + '</div></div>';
+    body += '<div class="stat-item"><div class="stat-item-label">Pets</div><div class="stat-item-value">' + data.pet_policy + '</div></div>';
+    body += '</div>';
+    body += '<div style="margin-top:6px;font-size:0.74rem;color:var(--text-muted);">Utilities included: ' + data.utilities_included + '</div>';
+    body += '</div>';
+
+    body += '<div class="modal-section">';
+    body += '<div class="modal-section-title">LOG</div>';
+    body += '<div style="font-size:0.72rem;color:var(--text-muted);font-family:\'SF Mono\',monospace;">' + (logText || 'No activity logged') + '</div>';
+    body += '</div>';
+
+    body += '<div class="modal-section">';
+    body += '<div class="modal-section-title">AI ANALYSIS \u2014 Score Breakdown</div>';
+
+    for (var key in breakdown) {
+      var val = breakdown[key];
+      var cls = val >= 0 ? 'pro' : 'con';
+      body += '<div class="score-breakdown-item ' + cls + '"><span>' + key + '</span><span class="points">' + (val >= 0 ? '+' : '') + val + '</span></div>';
+    }
+    body += '<div class="score-total"><span>TOTAL</span><span>' + total + '</span></div>';
+
+    if (pros.length > 0) {
+      body += '<div style="margin-top:10px;"><div class="modal-section-title">PROS</div><ul class="pros-cons-list pros">';
+      pros.forEach(function(p) {
+        body += '<li>' + p + '</li>';
+      });
+      body += '</ul></div>';
+    }
+
+    if (cons.length > 0) {
+      body += '<div style="margin-top:10px;"><div class="modal-section-title">CONS</div><ul class="pros-cons-list cons">';
+      cons.forEach(function(c) {
+        body += '<li>' + c + '</li>';
+      });
+      body += '</ul></div>';
+    }
+
+    body += '<div class="verdict ' + verdictClass + '">' + verdictText + ' (' + total + ' pts)</div>';
+    body += '</div>';
+
+    modalBody.innerHTML = body;
+
+    var footer = '';
+    footer += '<div class="vote-cell" data-property="' + propertyKey + '">';
+    footer += '<div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1" title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">\u2212</button></div>';
+    footer += '<div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1" title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">\u2212</button></div>';
+    footer += '</div>';
+    footer += '<div id="modal-status">' + (statusText || '') + '</div>';
+    footer += '<div style="margin-left:auto;font-size:0.72rem;color:var(--text-muted);">' + (data.notes || '') + '</div>';
+    modalFooter.innerHTML = footer;
+
+    modalFooter.querySelectorAll('.vote-btn').forEach(function(b) {
+      b.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var cell = b.closest('.vote-cell');
+        var key = cell.dataset.property;
+        var who = b.dataset.who, dir = parseInt(b.dataset.dir, 10);
+        votes[key] = votes[key] || {};
+        votes[key][who] = (votes[key][who] === dir) ? 0 : dir;
+        save(); paint(); counts();
+      });
+    });
+    var modalVotes = modalFooter.querySelector('.vote-cell');
+    if (modalVotes) {
+      var key = modalVotes.dataset.property;
+      var v = votes[key] || {};
+      modalVotes.querySelectorAll('.vote-btn').forEach(function(b) {
+        var who = b.dataset.who, dir = parseInt(b.dataset.dir, 10);
+        b.classList.remove('on-up', 'on-down');
+        if (v[who] === dir) b.classList.add(dir > 0 ? 'on-up' : 'on-down');
+      });
+    }
+
+    modalOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modalOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', function(e) {
+    if (e.target === modalOverlay) closeModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && modalOverlay.classList.contains('active')) closeModal();
+  });
+
+  document.querySelectorAll('tbody tr').forEach(function(row) {
+    var cell = row.querySelector('.vote-cell');
+    if (!cell) return;
+    var key = cell.dataset.property;
+    row.style.cursor = 'pointer';
+    row.addEventListener('click', function(e) {
+      if (e.target.closest('.vote-btn') || e.target.closest('a')) return;
+      openModal(key);
+    });
+  });
+
+  document.querySelectorAll('.mobile-only .card').forEach(function(card) {
+    var cell = card.querySelector('.vote-cell');
+    if (!cell) return;
+    var key = cell.dataset.property;
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', function(e) {
+      if (e.target.closest('.vote-btn') || e.target.closest('a')) return;
+      openModal(key);
+    });
+  });
+</script>
+</body>
+</html>
