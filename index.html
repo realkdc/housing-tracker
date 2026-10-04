@@ -97,6 +97,25 @@
     .note { font-size: 0.76rem; color: var(--text-muted); background: var(--code-bg); padding: 10px; border-radius: 6px; border: 1px solid var(--border); margin-top: 12px; line-height: 1.5; }
     .footer { margin-top: 20px; padding-top: 10px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.72rem; text-align: center; }
 
+    .photo-cell { width: 70px; }
+    .photo-thumb { width: 64px; height: 48px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); cursor: pointer; transition: transform 0.15s; }
+    .photo-thumb:hover { transform: scale(1.05); }
+    .photo-placeholder { width: 64px; height: 48px; border-radius: 4px; border: 1px solid var(--border); background: var(--code-bg); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--text-muted); }
+
+    .card-photo { width: 100%; height: 140px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; border: 1px solid var(--border); cursor: pointer; }
+    .card-photo-placeholder { width: 100%; height: 100px; border-radius: 6px; margin-bottom: 8px; border: 1px solid var(--border); background: var(--code-bg); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--text-muted); }
+
+    .vote-section { display: flex; align-items: center; gap: 8px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+    .vote-btn { background: var(--bg); border: 1px solid var(--border); color: var(--text-muted); padding: 4px 10px; border-radius: 5px; font-size: 0.7rem; font-weight: 600; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 4px; }
+    .vote-btn:hover { border-color: var(--accent); color: var(--text); }
+    .vote-btn.up.active { background: rgba(63,185,80,0.15); border-color: var(--success); color: var(--success); }
+    .vote-btn.down.active { background: rgba(248,81,73,0.15); border-color: var(--danger); color: var(--danger); }
+    .vote-count { font-size: 0.7rem; color: var(--text-muted); min-width: 20px; text-align: center; }
+
+    .lightbox { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; align-items: center; justify-content: center; cursor: zoom-out; }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 90%; max-height: 90%; border-radius: 8px; }
+
     @media (max-width: 768px) {
       body { padding: 12px; }
       .desktop-only { display: none; }
@@ -105,6 +124,8 @@
       .legend { font-size: 0.68rem; }
       .sort-bar { gap: 4px; }
       .sort-btn { padding: 4px 7px; font-size: 0.62rem; }
+      .card-photo { height: 120px; }
+      .card-photo-placeholder { height: 80px; }
     }
   </style>
 </head>
@@ -164,13 +185,14 @@
     <table>
       <thead>
         <tr>
-          <th>Score</th><th>Property / Type / Manager</th><th>Area</th><th>Zip</th><th>Rent</th><th>Key Specs</th><th>Status</th><th>Contact/Notes</th><th>Log</th>
+          <th>Score</th><th>Photo</th><th>Property / Type / Manager</th><th>Area</th><th>Zip</th><th>Rent</th><th>Key Specs</th><th>Status</th><th>Contact/Notes</th><th>Log</th>
         </tr>
       </thead>
       <tbody>
         <!-- ARROW RIDGE: A+ -->
         <tr style="border-left:3px solid var(--success);">
           <td><span class="score-badge s-a">A+</span></td>
+          <td class="photo-cell"><img class="photo-thumb" src="https://i.rent.com/t_3x2_fixed_webp_w1440/2723c6ad7332cac50d38cbe2850c962b" onclick="openLightbox(this.src)" alt="Arrow Ridge"></td>
           <td>
             <div class="property-name"><a href="https://www.rent.com/apartment/arrow-ridge-townhomes-brandon-sd-brandon-sd-lc6221589" target="_blank" rel="noopener">Arrow Ridge Townhomes</a></div>
             <div class="property-type type-th">Townhouse</div>
@@ -188,6 +210,7 @@
         <!-- KIRKWOOD A -->
         <tr style="border-left:3px solid var(--success);">
           <td><span class="score-badge s-a">A</span></td>
+          <td class="photo-cell"><div class="photo-placeholder">🏠</div></td>
           <td>
             <div class="property-name">4907 W Kirkwood Cir #4 <span style="font-size:0.65rem;color:var(--text-muted);">(no public listing — contact Joann directly)</span></div>
             <div class="property-type type-th">Townhouse</div>
@@ -205,6 +228,7 @@
         <!-- PARK PLACE: B -->
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
+          <td class="photo-cell"><div class="photo-placeholder">🏢</div></td>
           <td>
             <div class="property-name"><a href="https://www.zillow.com/apartments/sioux-falls-sd/park-place-condominiums-7003/5jCD82/" target="_blank" rel="noopener">Park Place Condominiums</a></div>
             <div class="property-type type-apt">Apartment</div>
@@ -222,6 +246,7 @@
         <!-- LUKE SYCAMORE: B -->
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
+          <td class="photo-cell"><img class="photo-thumb" src="https://s3.amazonaws.com/ShowMojo-Dev/64027791/large/large.jpg?1787154553" onclick="openLightbox(this.src)" alt="401 S Sycamore"></td>
           <td>
             <div class="property-name"><a href="https://showmojo.com/l/6ca5f3a07c" target="_blank" rel="noopener">401 S Sycamore #206</a></div>
             <div class="property-type type-apt">Apartment</div>
@@ -239,6 +264,7 @@
         <!-- 412 N SIOUX BLVD #12: B — NEW -->
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
+          <td class="photo-cell"><img class="photo-thumb" src="https://i.rent.com/t_3x2_fixed_webp_w1440/870446a98b4e8f2c7f4552be80161364" onclick="openLightbox(this.src)" alt="412 N Sioux Blvd"></td>
           <td>
             <div class="property-name"><a href="https://www.rent.com/r/412-n-sioux-blvd-brandon-sd-lv1444436977" target="_blank" rel="noopener">412 N Sioux Blvd #12</a></div>
             <div class="property-type type-th">Townhouse</div>
@@ -256,6 +282,7 @@
         <!-- DBK BRANDON: B — NEW -->
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
+          <td class="photo-cell"><img class="photo-thumb" src="https://i.rent.com/t_3x2_fixed_webp_w1440/29844b528a940073a37247c1bc6f9c03" onclick="openLightbox(this.src)" alt="DBK Brandon"></td>
           <td>
             <div class="property-name"><a href="https://www.rent.com/apartment/dbk-brandon-townhomes-brandon-sd-lc6755616" target="_blank" rel="noopener">DBK Brandon Townhomes</a></div>
             <div class="property-type type-th">Townhouse</div>
@@ -273,6 +300,7 @@
         <!-- BENDER WILLOW: B -->
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
+          <td class="photo-cell"><div class="photo-placeholder">🏠</div></td>
           <td>
             <div class="property-name"><a href="https://www.bendermidwestproperties.com/listings/detail/e1656063-e9b1-44cf-ad2b-b52b2d2384de" target="_blank" rel="noopener">Willow Creek Townhomes</a></div>
             <div class="property-type type-th">Townhouse</div>
@@ -290,6 +318,7 @@
         <!-- BENDER EAST BRIAR: B -->
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
+          <td class="photo-cell"><img class="photo-thumb" src="https://irp.cdn-website.com/9f40881b/dms3rep/multi/opt/white-cfb86454-1920w.png" onclick="openLightbox(this.src)" alt="East Briar"></td>
           <td>
             <div class="property-name"><a href="https://www.bendermidwestproperties.com/listings/detail/461fdd65-a23a-4440-a481-ea5c5355d83f" target="_blank" rel="noopener">East Briar Estates</a></div>
             <div class="property-type type-th">Townhouse</div>
@@ -307,6 +336,7 @@
         <!-- BOULDER POINTE: B -->
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
+          <td class="photo-cell"><div class="photo-placeholder">🏠</div></td>
           <td>
             <div class="property-name"><a href="https://leasepointguard.com/unit/boulder-pointe-townhomes-7601-3/" target="_blank" rel="noopener">Boulder Pointe TH</a></div>
             <div class="property-type type-th">Townhouse</div>
@@ -324,6 +354,7 @@
         <!-- ALPINE LINCOLN HEIGHTS: B -->
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
+          <td class="photo-cell"><div class="photo-placeholder">🏢</div></td>
           <td>
             <div class="property-name"><a href="https://alpinepropmgmt.appfolio.com/listings" target="_blank" rel="noopener">Lincoln Heights #4</a></div>
             <div class="property-type type-apt">Apartment</div>
@@ -341,6 +372,7 @@
         <!-- ALPINE 4601: C -->
         <tr>
           <td><span class="score-badge s-c">C</span></td>
+          <td class="photo-cell"><div class="photo-placeholder">🏠</div></td>
           <td>
             <div class="property-name"><a href="https://alpinepropmgmt.appfolio.com/listings" target="_blank" rel="noopener">4601 E 3rd St #10</a></div>
             <div class="property-type type-th">Townhome</div>
@@ -358,6 +390,7 @@
         <!-- FOSS FIELDS: C -->
         <tr style="border-left:3px solid var(--warning);">
           <td><span class="score-badge s-c">C</span></td>
+          <td class="photo-cell"><div class="photo-placeholder">🏢</div></td>
           <td>
             <div class="property-name"><a href="https://www.apartments.com/foss-fields-ascent-sioux-falls-sd/9sdsmv7/" target="_blank" rel="noopener">Foss Fields "Hollow"</a></div>
             <div class="property-type type-apt">Apartment</div>
@@ -375,6 +408,7 @@
         <!-- PRAIRIES EDGE: C -->
         <tr>
           <td><span class="score-badge s-c">C</span></td>
+          <td class="photo-cell"><img class="photo-thumb" src="https://irp.cdn-website.com/d7f40f94/dms3rep/multi/opt/IMG_6529-1920w.JPG" onclick="openLightbox(this.src)" alt="Prairies Edge"></td>
           <td>
             <div class="property-name"><a href="https://www.cresten.com/our-properties/prairies-edge" target="_blank" rel="noopener">Prairies Edge TH</a></div>
             <div class="property-type type-th">Townhouse</div>
@@ -392,6 +426,7 @@
         <!-- STONEY CREEK: C -->
         <tr>
           <td><span class="score-badge s-c">C</span></td>
+          <td class="photo-cell"><img class="photo-thumb" src="https://penkertproperties.com/wp-content/uploads/2024/04/stoney-creek-townhomes-sioux-falls-sd-building-photo-1-500x326.jpg" onclick="openLightbox(this.src)" alt="Stoney Creek"></td>
           <td>
             <div class="property-name"><a href="https://penkertproperties.com/rentals/stoney-creek-townhomes/" target="_blank" rel="noopener">Stoney Creek TH</a></div>
             <div class="property-type type-th">Townhouse</div>
@@ -409,6 +444,7 @@
         <!-- HOSTA: UNAVAILABLE -->
         <tr style="opacity:0.5;">
           <td><span class="score-badge s-d">–</span></td>
+          <td class="photo-cell"><div class="photo-placeholder">🏠</div></td>
           <td>
             <div class="property-name" style="text-decoration:line-through;">Hosta Townhomes</div>
             <div class="property-type type-th">Townhouse</div>
@@ -426,6 +462,7 @@
         <!-- 409 HOLLY: DROPPED -->
         <tr style="opacity:0.45;">
           <td><span class="score-badge s-d">D</span></td>
+          <td class="photo-cell"><div class="photo-placeholder">🏢</div></td>
           <td>
             <div class="property-name" style="text-decoration:line-through;">409 S Holly Ave</div>
             <div class="property-type type-apt">Apartment</div>
@@ -446,6 +483,7 @@
   <!-- MOBILE CARDS -->
   <div class="mobile-only">
     <div class="card">
+      <img class="card-photo" src="https://i.rent.com/t_3x2_fixed_webp_w1440/2723c6ad7332cac50d38cbe2850c962b" onclick="openLightbox(this.src)" alt="Arrow Ridge">
       <div class="card-top">
         <div>
           <span class="score-badge s-a">A+</span>
@@ -461,6 +499,7 @@
     </div>
 
     <div class="card">
+      <div class="card-photo-placeholder">🏠</div>
       <div class="card-top">
         <div>
           <span class="score-badge s-a">A</span>
@@ -477,6 +516,7 @@
     </div>
 
     <div class="card">
+      <div class="card-photo-placeholder">🏢</div>
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
@@ -492,6 +532,7 @@
     </div>
 
     <div class="card">
+      <img class="card-photo" src="https://s3.amazonaws.com/ShowMojo-Dev/64027791/large/large.jpg?1787154553" onclick="openLightbox(this.src)" alt="401 S Sycamore">
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
@@ -507,6 +548,7 @@
     </div>
 
     <div class="card">
+      <img class="card-photo" src="https://i.rent.com/t_3x2_fixed_webp_w1440/870446a98b4e8f2c7f4552be80161364" onclick="openLightbox(this.src)" alt="412 N Sioux">
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
@@ -520,10 +562,16 @@
       <div class="card-detail">Lawn+snow+trash incl. • Pet-friendly</div>
       <span class="status status-new">New</span>
       <div class="card-log">Sep 1: Added ✓</div>
+      <div class="vote-section">
+        <button class="vote-btn up">👍</button>
+        <span class="vote-count">0</span>
+        <button class="vote-btn down">👎</button>
+      </div>
     </div>
 
     <!-- DBK BRANDON: B — NEW -->
     <div class="card">
+      <img class="card-photo" src="https://i.rent.com/t_3x2_fixed_webp_w1440/29844b528a940073a37247c1bc6f9c03" onclick="openLightbox(this.src)" alt="DBK Brandon">
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
@@ -540,6 +588,7 @@
     </div>
 
     <div class="card">
+      <div class="card-photo-placeholder">🏠</div>
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
@@ -555,6 +604,7 @@
     </div>
 
     <div class="card">
+      <img class="card-photo" src="https://irp.cdn-website.com/9f40881b/dms3rep/multi/opt/white-cfb86454-1920w.png" onclick="openLightbox(this.src)" alt="East Briar">
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
@@ -570,6 +620,7 @@
     </div>
 
     <div class="card">
+      <div class="card-photo-placeholder">🏠</div>
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
@@ -585,6 +636,7 @@
     </div>
 
     <div class="card">
+      <div class="card-photo-placeholder">🏢</div>
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
@@ -600,6 +652,7 @@
     </div>
 
     <div class="card">
+      <div class="card-photo-placeholder">🏢</div>
       <div class="card-top">
         <div>
           <span class="score-badge s-c">C</span>
@@ -615,6 +668,7 @@
     </div>
 
     <div class="card">
+      <div class="card-photo-placeholder">🏠</div>
       <div class="card-top">
         <div>
           <span class="score-badge s-c">C</span>
@@ -627,9 +681,15 @@
       <div class="card-detail"><strong>On-site laundry only ⚠️</strong> • 2BR/1BA • Lawn+snow incl.</div>
       <span class="status status-replied">Replied — ask STL</span>
       <div class="card-log">Aug 28: Follow-up</div>
+      <div class="vote-section">
+        <button class="vote-btn up">👍</button>
+        <span class="vote-count">0</span>
+        <button class="vote-btn down">👎</button>
+      </div>
     </div>
 
     <div class="card" style="opacity:0.55;">
+      <div class="card-photo-placeholder">🏠</div>
       <div class="card-top">
         <div>
           <div class="card-title" style="text-decoration:line-through;">Hosta Townhomes</div>
@@ -638,9 +698,15 @@
         <div class="card-price in-budget">$1,295</div>
       </div>
       <span class="status status-unavailable">No units available</span>
+      <div class="vote-section">
+        <button class="vote-btn up">👍</button>
+        <span class="vote-count">0</span>
+        <button class="vote-btn down">👎</button>
+      </div>
     </div>
 
     <div class="card" style="opacity:0.5;">
+      <div class="card-photo-placeholder">🏢</div>
       <div class="card-top">
         <div>
           <span class="score-badge s-d">D</span>
@@ -650,6 +716,11 @@
         <div class="card-price in-budget">$1,150</div>
       </div>
       <span class="status status-dropped">Dropped — B- north side</span>
+      <div class="vote-section">
+        <button class="vote-btn up">👍</button>
+        <span class="vote-count">0</span>
+        <button class="vote-btn down">👎</button>
+      </div>
     </div>
   </div>
 
@@ -671,10 +742,83 @@
     <strong>8. Reality check</strong> — At ≤$1,400 with in-unit W/D + garage in A+ zips, townhouses are scarce. 412 N Sioux (Brandon) is the strongest new townhouse lead. If current batch doesn't land, expand radius or accept apartment with deposit alt.
   </div>
 
-  <div class="footer">v14 • Sep 1 2026 • SF Housing Tracker</div>
+  <div class="footer">v16 • Oct 3 2026 • SF Housing Tracker • Photos + Mobile Voting</div>
 </div>
 
 <script>
+  // Lightbox
+  function openLightbox(src) {
+    const lb = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    img.src = src;
+    lb.classList.add('active');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+  }
+
+  // Voting
+  function getVoteKey(card) {
+    const title = card.querySelector('.card-title');
+    return title ? title.textContent.trim().substring(0, 40) : 'unknown';
+  }
+
+  function getVotes(card) {
+    const key = getVoteKey(card);
+    try {
+      const all = JSON.parse(localStorage.getItem('housing_votes') || '{}');
+      return all[key] || {up: 0, down: 0, user: null};
+    } catch(e) { return {up: 0, down: 0, user: null}; }
+  }
+
+  function saveVotes(card, votes) {
+    const key = getVoteKey(card);
+    try {
+      const all = JSON.parse(localStorage.getItem('housing_votes') || '{}');
+      all[key] = votes;
+      localStorage.setItem('housing_votes', JSON.stringify(all));
+    } catch(e) {}
+  }
+
+  function renderVotes(card) {
+    const votes = getVotes(card);
+    const upBtn = card.querySelector('.vote-btn.up');
+    const downBtn = card.querySelector('.vote-btn.down');
+    const countEl = card.querySelector('.vote-count');
+    if (upBtn) upBtn.classList.toggle('active', votes.user === 'up');
+    if (downBtn) downBtn.classList.toggle('active', votes.user === 'down');
+    if (countEl) countEl.textContent = (votes.up - votes.down) > 0 ? '+' + (votes.up - votes.down) : (votes.up - votes.down);
+  }
+
+  function handleVote(card, type) {
+    const votes = getVotes(card);
+    if (votes.user === type) {
+      // Toggle off
+      if (type === 'up') votes.up--;
+      else votes.down--;
+      votes.user = null;
+    } else {
+      // Switch vote
+      if (votes.user === 'up') votes.up--;
+      if (votes.user === 'down') votes.down--;
+      if (type === 'up') votes.up++;
+      else votes.down++;
+      votes.user = type;
+    }
+    saveVotes(card, votes);
+    renderVotes(card);
+  }
+
+  // Initialize votes on page load
+  document.querySelectorAll('.card').forEach(card => {
+    renderVotes(card);
+    const upBtn = card.querySelector('.vote-btn.up');
+    const downBtn = card.querySelector('.vote-btn.down');
+    if (upBtn) upBtn.addEventListener('click', () => handleVote(card, 'up'));
+    if (downBtn) downBtn.addEventListener('click', () => handleVote(card, 'down'));
+  });
+
+  // Sort
   document.querySelectorAll('.sort-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const key = btn.dataset.key;
@@ -701,8 +845,8 @@
           aVal = a.querySelector('.status-hot') ? 5 : a.querySelector('.status-new') ? 4 : a.querySelector('.status-replied') ? 3 : a.querySelector('.status-contacted') ? 2 : 1;
           bVal = b.querySelector('.status-hot') ? 5 : b.querySelector('.status-new') ? 4 : b.querySelector('.status-replied') ? 3 : b.querySelector('.status-contacted') ? 2 : 1;
         } else if (key === 'zip') {
-          aVal = a:nth-child(4)?.textContent || '';
-          bVal = b:nth-child(4)?.textContent || '';
+          aVal = a.querySelector('td:nth-child(5)')?.textContent || '';
+          bVal = b.querySelector('td:nth-child(5)')?.textContent || '';
         }
         if (dir === 'desc') return bVal - aVal;
         return aVal - bVal;
@@ -711,5 +855,9 @@
     });
   });
 </script>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="Preview">
+</div>
 </body>
 </html>
