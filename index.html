@@ -47,6 +47,8 @@
     .area-badge { font-size: 0.6rem; padding: 2px 5px; border-radius: 3px; font-weight: 600; }
     .area-a { background: rgba(63,185,80,0.15); color: var(--success); border: 1px solid rgba(63,185,80,0.3); }
     .area-b { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
+    .area-c { background: rgba(210,153,34,0.15); color: var(--warning); border: 1px solid rgba(210,153,34,0.3); }
+    .area-d { background: rgba(248,81,73,0.15); color: var(--danger); border: 1px solid rgba(248,81,73,0.3); }
 
     .sort-bar { display: flex; align-items: center; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
     .sort-label { font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-right: 2px; }
@@ -245,7 +247,7 @@
 <body>
 <div class="container">
   <h1>SF Housing Tracker</h1>
-  <p class="subtitle">Sioux Falls / Tea / Brandon — rent ceiling $700–$800 until income improves • 6–9mo lease • Dec 1, 2026 move-in • 2BR minimum • <strong>Apartments in scope (Oct 8)</strong> • 0 confirmed • Last synced Oct 8, 2026 • Market: 2BR avg $1,092-1,105</p>
+  <p class="subtitle">Sioux Falls / Tea / Brandon — rent ceiling $700–$800 until income improves • 6–9mo lease • Dec 1, 2026 move-in • 2BR minimum • <strong>Address-level SFPD safety scoring (Oct 10)</strong> • 0 confirmed • Last synced Oct 10, 2026 • Market: 2BR avg $1,092-1,105</p>
 
   <div class="stats">
     <div class="stat"><div class="stat-value" id="stat-inbudget">--</div><div class="stat-label">In Budget</div></div>
@@ -253,7 +255,7 @@
     <div class="stat"><div class="stat-value" id="stat-replied">--</div><div class="stat-label">Replied</div></div>
     <div class="stat"><div class="stat-value" id="stat-dropped">--</div><div class="stat-label">Dropped</div></div>
     <div class="stat"><div class="stat-value">10%</div><div class="stat-label">Outcome Progress</div></div>
-    <div class="stat"><div class="stat-value">24</div><div class="stat-label">Days to Nov 1 Lock</div></div>
+    <div class="stat"><div class="stat-value">22</div><div class="stat-label">Days to Nov 1 Lock</div></div>
   </div>
 
   <div class="share-bar">
@@ -272,8 +274,8 @@
     </div>
     <div class="legend-row">
       <span class="legend-label">Area</span>
-      <span class="area-badge area-a">A+</span><span class="legend-range">57108/57110/57106</span>
-      <span class="area-badge area-b">B- ⚠</span><span class="legend-range">57104</span>
+      <span class="area-badge area-a">A/B</span><span class="legend-range">SFPD safe (≤50 calls/0.25mi/90d)</span>
+      <span class="area-badge area-d">C/D</span><span class="legend-range">SFPD high volume (>120 calls/0.25mi/90d)</span>
     </div>
     <div class="legend-row">
       <span class="legend-label">Type</span>
@@ -312,16 +314,14 @@
         </tr>
       </thead>
       <tbody>
-
-        <!-- RPM JETTY UNITS: A — ADDED Oct 8 (apartments now in scope) -->
-        <tr style="border-left:3px solid var(--success);">
+        <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-a">A</span></td>
           <td>
             <div class="property-name"><a href="https://expressrpm.com/rentals-mmf/rental-listing-details/?lid=7cf7c297-b9ed-4fa7-91e4-a1eb4acad803" target="_blank" rel="noopener">4908 W Kirkwood Cir #01</a></div>
             <div class="property-type type-apt">Apartment</div>
             <div class="manager">RPM Express — (605) 501-5194</div>
           </td>
-          <td><span class="area-badge area-a">A+</span></td>
+          <td><span class="area-badge area-d">D</span><br><span style="font-size:0.7rem;color:var(--text-muted);">SFPD 294c/0.25mi/90d</span></td>
           <td>57106</td>
           <td class="price in-budget"><strong>$749</strong></td>
           <td>2BR/1BA • 750sf • Available NOW • ONE MONTH FREE • A/C • Dishwasher • <strong>$0 deposit via Jetty</strong></td>
@@ -329,15 +329,14 @@
           <td><span class="badge badge-jetty">Jetty $0 deposit</span> App fee $69</td>
           <td class="email-log">Oct 8: Staged from RPM public listing ✓</td>
         <td class="vote-cell" data-property="rpm-kirkwood-4908-01"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <tr style="border-left:3px solid var(--success);">
+        <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-a">A</span></td>
           <td>
             <div class="property-name"><a href="https://expressrpm.com/rentals-mmf/rental-listing-details/?lid=6e4f5ce6-13e9-4ea3-abd7-20e9471ad1eb" target="_blank" rel="noopener">4908 W Kirkwood Cir #02</a></div>
             <div class="property-type type-apt">Apartment</div>
             <div class="manager">RPM Express — (605) 501-5194</div>
           </td>
-          <td><span class="area-badge area-a">A+</span></td>
+          <td><span class="area-badge area-d">D</span><br><span style="font-size:0.7rem;color:var(--text-muted);">SFPD 294c/0.25mi/90d</span></td>
           <td>57106</td>
           <td class="price in-budget"><strong>$749</strong></td>
           <td>2BR/1BA • Available NOW • A/C • Dishwasher • <strong>$0 deposit via Jetty</strong></td>
@@ -345,15 +344,14 @@
           <td><span class="badge badge-jetty">Jetty $0 deposit</span> App fee $69</td>
           <td class="email-log">Oct 8: Staged from RPM public listing ✓</td>
         <td class="vote-cell" data-property="rpm-kirkwood-4908-02"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <tr style="border-left:3px solid var(--success);">
+        <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-a">A</span></td>
           <td>
             <div class="property-name"><a href="https://expressrpm.com/rentals-mmf/rental-listing-details/?lid=26629910-120e-4d56-9fd8-bd834a537282" target="_blank" rel="noopener">3705 S Cathy Ave #01</a></div>
             <div class="property-type type-apt">Apartment</div>
             <div class="manager">RPM Express — (605) 501-5943</div>
           </td>
-          <td><span class="area-badge area-a">A+</span></td>
+          <td><span class="area-badge area-d">D</span><br><span style="font-size:0.7rem;color:var(--text-muted);">SFPD 251c/0.25mi/90d</span></td>
           <td>57106</td>
           <td class="price in-budget"><strong>$799</strong></td>
           <td>2BR/1BA • 821sf • Detached garage • On-site laundry • <strong>$0 deposit via Jetty</strong></td>
@@ -361,15 +359,14 @@
           <td><span class="badge badge-jetty">Jetty $0 deposit</span> App fee $69</td>
           <td class="email-log">Oct 8: Staged from RPM public listing ✓</td>
         <td class="vote-cell" data-property="rpm-cathy-3705-01"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <tr style="border-left:3px solid var(--warning);">
+        <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
           <td>
             <div class="property-name"><a href="https://expressrpm.com/rentals-mmf/rental-listing-details/?lid=fdaf782c-0a77-4dab-a35c-455a51aadd22" target="_blank" rel="noopener">3225 N Lewis Ave #01</a></div>
             <div class="property-type type-apt">Apartment</div>
             <div class="manager">RPM Express — (605) 274-7373</div>
           </td>
-          <td><span class="area-badge area-b">B-</span></td>
+          <td><span class="area-badge area-b">B</span><br><span style="font-size:0.7rem;color:var(--text-muted);">SFPD 25c/0.25mi/90d</span></td>
           <td>57104</td>
           <td class="price in-budget"><strong>$650</strong></td>
           <td>2BR/1BA • 780sf • <strong>UTILITIES INCLUDED</strong> • Available NOW • HALF OFF MOVE IN • <strong>$0 deposit via Jetty</strong></td>
@@ -377,135 +374,14 @@
           <td><span class="badge badge-jetty">Jetty $0 deposit</span> ⚠ 57104 excluded zip</td>
           <td class="email-log">Oct 8: Staged from RPM public listing ✓</td>
         <td class="vote-cell" data-property="rpm-lewis-3225-01"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- 3505 S WILLOW: C -->
-        <tr>
-          <td><span class="score-badge s-c">C</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.rent.com/apartment/3505-s-willow-ave-sioux-falls-sd-lc5902838" target="_blank" rel="noopener">3505 S Willow Ave</a></div>
-            <div class="property-type type-apt">Apartment</div>
-            <div class="manager">Private — (605) 275-6393</div>
-          </td>
-          <td><span class="area-badge area-a">A</span></td>
-          <td>57105</td>
-          <td class="price in-budget"><strong>TBD</strong></td>
-          <td>In-house laundry • 2BR/1BA • 600sf • $400 deposit • Garage $50/mo • Quiet street</td>
-          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,300)</span></td>
-          <td>Price TBD • Near Western Centre</td>
-          <td class="email-log">Sep 10: Added ✓</td>
-        <td class="vote-cell" data-property="3505-s-willow-ave"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- AUTUMN PARK: C -->
-        <tr>
-          <td><span class="score-badge s-c">C</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.apartments.com/autumn-park-sioux-falls-sd/k6pc4rb/" target="_blank" rel="noopener">Autumn Park</a></div>
-            <div class="property-type type-apt">Apartment</div>
-            <div class="manager">Autumn Park — (605) 250-2135</div>
-          </td>
-          <td><span class="area-badge area-a">A+</span></td>
-          <td>57106</td>
-          <td class="price over-budget"><strong>$835+</strong></td>
-          <td>2BR/1BA • 850sf • 1 Month Free • Pet-friendly • Shared laundry • Parking</td>
-          <td><span class="status status-dropped">DROPPED — over $800 budget</span></td>
-          <td>$35 over • No in-unit W/D • Shared laundry</td>
-          <td class="email-log">Sep 10: Added ✓</td>
-        <td class="vote-cell" data-property="autumn-park"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- WILLOWS SOUTH COMMONS: C -->
-        <tr>
-          <td><span class="score-badge s-c">C</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.apartments.com/willows-south-commons-sioux-falls-sd/b0c8wwb/" target="_blank" rel="noopener">Willows South Commons</a></div>
-            <div class="property-type type-apt">Apartment</div>
-            <div class="manager">Willows South Commons — (605) 501-6175</div>
-          </td>
-          <td><span class="area-badge area-a">A+</span></td>
-          <td>57110</td>
-          <td class="price over-budget"><strong>$825+</strong></td>
-          <td>In-unit W/D ✓ • 2BR/1BA • 940sf • Pet-friendly • Elevator • Fitness center</td>
-          <td><span class="status status-dropped">DROPPED — over $800 budget</span></td>
-          <td>$25 over • In-unit W/D • 57110 zip</td>
-          <td class="email-log">Sep 10: Added ✓</td>
-        <td class="vote-cell" data-property="willows-south-commons"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- MAPLE ROCK RESERVE: C -->
-        <tr>
-          <td><span class="score-badge s-c">C</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.apartmentlist.com/sd/sioux-falls/maple-rock" target="_blank" rel="noopener">Maple Rock Reserve</a></div>
-            <div class="property-type type-apt">Apartment</div>
-            <div class="manager">Maple Rock — (605) 501-6175</div>
-          </td>
-          <td><span class="area-badge area-a">A+</span></td>
-          <td>57108</td>
-          <td class="price over-budget"><strong>$815+</strong></td>
-          <td>2BR/1BA • 597sf • Modern finishes • Floor-to-ceiling windows • 57110 zip</td>
-          <td><span class="status status-dropped">DROPPED — over $800 budget</span></td>
-          <td>$15 over • 57108 zip • W/D TBD</td>
-          <td class="email-log">Sep 10: Added ✓</td>
-        <td class="vote-cell" data-property="maple-rock-reserve"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- MORGAN LANE TOWNS: C -->
-        <tr>
-          <td><span class="score-badge s-c">C</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.zillow.com/apartments/tea-sd/morgan-lane-townhomes/CYDNdn/" target="_blank" rel="noopener">Morgan Lane Townhomes</a></div>
-            <div class="property-type type-th">Townhouse</div>
-            <div class="manager">Private — Appfolio</div>
-          </td>
-          <td><span class="area-badge area-a">A</span></td>
-          <td>57064</td>
-          <td class="price over-budget"><strong>$1,375</strong></td>
-          <td>In-unit W/D ✓ • 2BR/1BA • 1,483sf • Att. garage • Pet-friendly • Lawn/snow incl.</td>
-          <td><span class="status status-dropped">DROPPED — over $800 budget</span></td>
-          <td>OVER BUDGET • $575 over • HighPointe area</td>
-          <td class="email-log">Sep 10: Added ✓</td>
-        <td class="vote-cell" data-property="morgan-lane-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- HERITAGE TOWNS: C -->
-        <tr>
-          <td><span class="score-badge s-c">C</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.apartments.com/heritage-townhomes-tea-sd/2w2w57b/" target="_blank" rel="noopener">Heritage Townhomes</a></div>
-            <div class="property-type type-th">Townhouse</div>
-            <div class="manager">Heritage — (605) 525-4743</div>
-          </td>
-          <td><span class="area-badge area-a">A</span></td>
-          <td>57064</td>
-          <td class="price over-budget"><strong>$1,495–1,645</strong></td>
-          <td>W/D ✓ • 2BR/1.5BA • 1,070sf • Water/sewer/trash incl. • Pet-friendly • Vaulted ceiling</td>
-          <td><span class="status status-dropped">DROPPED — over $800 budget</span></td>
-          <td>OVER BUDGET • $695+ over • Multi-level</td>
-          <td class="email-log">Sep 10: Added ✓</td>
-        <td class="vote-cell" data-property="heritage-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- ARROW RIDGE: A+ -->
-        <tr style="border-left:3px solid var(--success);">
-          <td><span class="score-badge s-a">A+</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.rent.com/apartment/arrow-ridge-townhomes-brandon-sd-brandon-sd-lc6221589" target="_blank" rel="noopener">Arrow Ridge Townhomes</a></div>
-            <div class="property-type type-th">Townhouse</div>
-            <div class="manager">J&M Real Estate — (605) 501-5090</div>
-          </td>
-          <td><span class="area-badge area-a">A</span></td>
-          <td>57005</td>
-          <td class="price in-budget"><strong>$762</strong></td>
-          <td>In-unit W/D • 2BR/1.5BA • Det. garage • 999sf • Pet-friendly • Trash/sewer incl.</td>
-          <td><span class="status status-dropped">DROPPED — landlord: no short-term lease — Sep 4 ✓</span></td>
-          <td>15-20 min to SF</td>
-          <td class="email-log">Aug 30: Added ✓<br>Sep 4: Email sent to J&M ✓<br>Sep 11: Landlord replied — no short-term lease at Arrow Ridge, offered Marion Park instead</td>
-        <td class="vote-cell" data-property="arrow-ridge-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- SOUTH RIDGE: A+ (NEW Sep 2) -->
-        <tr style="border-left:3px solid var(--success);">
+        <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-a">A+</span></td>
           <td>
             <div class="property-name"><a href="https://www.redfin.com/SD/Sioux-Falls/South-Ridge-Apartments-Townhomes/apartment/195165736" target="_blank" rel="noopener">South Ridge Townhomes</a></div>
             <div class="property-type type-th">Townhouse</div>
             <div class="manager">South Ridge — (605) 937-7278</div>
           </td>
-          <td><span class="area-badge area-a">A+</span></td>
+          <td><span class="area-badge area-b">B</span><br><span style="font-size:0.7rem;color:var(--text-muted);">SFPD Nonec/0.25mi/90d</span></td>
           <td>57108</td>
           <td class="price in-budget"><strong>$768–783</strong></td>
           <td>In-unit W/D ✓ • 2BR/1BA • 923sf • Off-street parking • Townhome • No pets</td>
@@ -513,49 +389,14 @@
           <td>Available now • 2-3 bed TH</td>
           <td class="email-log">Sep 2: Added ✓<br>Sep 4: Email sent to Costello ✓<br>Sep 11: Follow-up nudge sent (7+ days silent)</td>
         <td class="vote-cell" data-property="south-ridge-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- GRANT SQUARE: A (NEW Sep 2) -->
         <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-b">B</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.costelloco.com/property_locations/grant-square/" target="_blank" rel="noopener">Grant Square Apartments</a></div>
-            <div class="property-type type-apt">Apartment</div>
-            <div class="manager">Grant Square — Income restricted</div>
-          </td>
-          <td><span class="area-badge area-a">A+</span></td>
-          <td>57106</td>
-          <td class="price in-budget"><strong>$662+</strong></td>
-          <td>In-unit W/D ✓ • 2BR/2BA • 1,026sf • Garage + covered parking • Water/sewer/garbage incl. • ⚠ Income restricted</td>
-          <td><span class="status status-dropped">DROPPED — restricted housing</span></td>
-          <td>Income restricted — verify eligibility</td>
-          <td class="email-log">Sep 2: Added ✓ • Sep 3: Email sent ✓ (grantsquare@costelloco.com)<br>Sep 11: Follow-up nudge sent (7+ days silent)</td>
-        <td class="vote-cell" data-property="grant-square-apartments"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-        <!-- 4908 W KIRKWOOD: C — NEW Sep 4 -->
-        <tr>
-          <td><span class="score-badge s-c">C</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.realtor.com/rentals/details/4908-W-Kirkwood-Cir_Sioux-Falls_SD_57106_M95208-49763" target="_blank" rel="noopener">4908 W Kirkwood Cir</a></div>
-            <div class="property-type type-apt">Apartment</div>
-            <div class="manager">Private landlord</div>
-          </td>
-          <td><span class="area-badge area-a">A+</span></td>
-          <td>57106</td>
-          <td class="price in-budget"><strong>$749</strong></td>
-          <td>2BR/1BA • 750sf • Newly renovated • Pet-friendly • <strong>W/D TBD (unverified)</strong></td>
-          <td><span class="status status-dropped">DROPPED — off-market, verified Oct 1</span></td>
-          <td>Private landlord • West side</td>
-          <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓<br>Oct 1: Realtor.com verified off-market; no further outreach</td>
-        <td class="vote-cell" data-property="4908-w-kirkwood-cir"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- KIRKWOOD A -->
-        <tr style="border-left:3px solid var(--success);">
           <td><span class="score-badge s-a">A</span></td>
           <td>
             <div class="property-name">4907 W Kirkwood Cir #4 <span style="font-size:0.65rem;color:var(--text-muted);">(no public listing — contact Joann directly)</span></div>
             <div class="property-type type-th">Townhouse</div>
             <div class="manager">Pegasus of SD (Joann) — (605) 951-6584</div>
           </td>
-          <td><span class="area-badge area-a">A+</span></td>
+          <td><span class="area-badge area-d">D</span><br><span style="font-size:0.7rem;color:var(--text-muted);">SFPD 294c/0.25mi/90d</span></td>
           <td>57106</td>
           <td class="price in-budget">$1,299</td>
           <td>Att. garage • Lawn+snow incl. • Lease → Mar M-to-M • W/D TBD</td>
@@ -563,25 +404,6 @@
           <td>Oct 1 unit 1 offer • user needs Nov • 4wk hold max</td>
           <td class="email-log">Aug 29: Q's<br>Aug 30: Follow-up ✓<br>Sep 3: Joann replied (W/D ✓, unit 1 Oct 1) — replied w/ Nov timing ✓</td>
         <td class="vote-cell" data-property="4907-w-kirkwood-cir-4"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- PARK PLACE: B -->
-        <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-b">B</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.zillow.com/apartments/sioux-falls-sd/park-place-condominiums-7003/5jCD82/" target="_blank" rel="noopener">Park Place Condominiums</a></div>
-            <div class="property-type type-apt">Apartment</div>
-            <div class="manager">Park Place Mgmt</div>
-          </td>
-          <td><span class="area-badge area-a">A+</span></td>
-          <td>57106</td>
-          <td class="price in-budget">$1,099</td>
-          <td>In-unit W/D • 2BR/1BA • Garage incl. • 950sf • Pet-friendly • Balcony</td>
-          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,300)</span></td>
-          <td><span class="badge badge-trusted">FB find</span></td>
-          <td class="email-log">Aug 31: Added ✓</td>
-        <td class="vote-cell" data-property="park-place-condominiums"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- LUKE SYCAMORE: B -->
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
           <td>
@@ -597,93 +419,6 @@
           <td><span class="badge badge-depalt">Dep. alt</span></td>
           <td class="email-log">Aug 30: Added ✓<br>Sep 3: Email sent ✓<br>Sep 11: Follow-up nudge sent<br>Oct 1: Replied in existing Gmail thread asking about Nov 30/Dec 1, 6–9mo term, and full monthly cost ✓</td>
         <td class="vote-cell" data-property="401-s-sycamore-206"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- 412 N SIOUX BLVD #12: B — NEW -->
-        <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-b">B</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.rent.com/r/412-n-sioux-blvd-brandon-sd-lv1444436977" target="_blank" rel="noopener">412 N Sioux Blvd #12</a></div>
-            <div class="property-type type-th">Townhouse</div>
-            <div class="manager">Private (605) 799-3741</div>
-          </td>
-          <td><span class="area-badge area-a">A</span></td>
-          <td>57005</td>
-          <td class="price in-budget">$1,300</td>
-          <td>In-unit W/D • 2BR/1BA • Att. garage • 1,000sf • Lawn+snow+trash incl. • Pet-friendly</td>
-          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,300)</span></td>
-          <td>Available Sep 1</td>
-          <td class="email-log">Sep 1: Added ✓</td>
-        <td class="vote-cell" data-property="412-n-sioux-blvd-12"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- DBK BRANDON: B — NEW -->
-        <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-b">B</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.rent.com/apartment/dbk-brandon-townhomes-brandon-sd-lc6755616" target="_blank" rel="noopener">DBK Brandon Townhomes</a></div>
-            <div class="property-type type-th">Townhouse</div>
-            <div class="manager">DBK Brandon (605) 961-6871</div>
-          </td>
-          <td><span class="area-badge area-a">A</span></td>
-          <td>57005</td>
-          <td class="price in-budget">$1,299</td>
-          <td>In-unit W/D (verify) • 2BR/1BA • Att. garage • 1,185sf • Pet-friendly</td>
-          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,299)</span></td>
-          <td>W/D: verify with landlord • Available Now</td>
-          <td class="email-log">Sep 1: Added ✓</td>
-        <td class="vote-cell" data-property="dbk-brandon-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- BENDER WILLOW: B -->
-        <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-b">B</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.bendermidwestproperties.com/listings/detail/e1656063-e9b1-44cf-ad2b-b52b2d2384de" target="_blank" rel="noopener">Willow Creek Townhomes</a></div>
-            <div class="property-type type-th">Townhouse</div>
-            <div class="manager">Bender Midwest</div>
-          </td>
-          <td><span class="area-badge area-a">A+</span></td>
-          <td>57106</td>
-          <td class="price in-budget">$1,237+</td>
-          <td>In-unit W/D • 2BR/2BA • Garage • 1,086sf</td>
-          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,435)</span></td>
-          <td><span class="badge badge-trusted">Trusted</span></td>
-          <td class="email-log">Aug 27: 5Q sent</td>
-        <td class="vote-cell" data-property="willow-creek-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- BENDER EAST BRIAR: B -->
-        <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-b">B</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.bendermidwestproperties.com/listings/detail/461fdd65-a23a-4440-a481-ea5c5355d83f" target="_blank" rel="noopener">East Briar Estates</a></div>
-            <div class="property-type type-th">Townhouse</div>
-            <div class="manager">Bender Midwest</div>
-          </td>
-          <td><span class="area-badge area-a">A+</span></td>
-          <td>57110</td>
-          <td class="price in-budget">$895</td>
-          <td>In-unit W/D • 2BR/1BA • Garage • 1,100sf</td>
-          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,435)</span></td>
-          <td><span class="badge badge-trusted">Trusted</span></td>
-          <td class="email-log">Aug 27: 5Q sent</td>
-        <td class="vote-cell" data-property="east-briar-estates"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- BOULDER POINTE: B -->
-        <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-b">B</span></td>
-          <td>
-            <div class="property-name"><a href="https://leasepointguard.com/unit/boulder-pointe-townhomes-7601-3/" target="_blank" rel="noopener">Boulder Pointe TH</a></div>
-            <div class="property-type type-th">Townhouse</div>
-            <div class="manager">PointGuard</div>
-          </td>
-          <td><span class="area-badge area-a">A+</span></td>
-          <td>57106</td>
-          <td class="price in-budget">$1,295</td>
-          <td>In-unit W/D • Att. garage • 2BR/1.5BA • 1,081sf</td>
-          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,435)</span></td>
-          <td>&nbsp;</td>
-          <td class="email-log">Aug 30: 5Q sent ✓</td>
-        <td class="vote-cell" data-property="boulder-pointe-th"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- ALPINE LINCOLN HEIGHTS: B -->
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
           <td>
@@ -699,26 +434,7 @@
           <td>$1k off 1st (12mo ask)</td>
           <td class="email-log">Aug 28: Follow-up</td>
         <td class="vote-cell" data-property="lincoln-heights-4"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- ALPINE 4601: C -->
-        <tr>
-          <td><span class="score-badge s-c">C</span></td>
-          <td>
-            <div class="property-name"><a href="https://alpinepropmgmt.appfolio.com/listings" target="_blank" rel="noopener">4601 E 3rd St #10</a></div>
-            <div class="property-type type-th">Townhome</div>
-            <div class="manager">Alpine</div>
-          </td>
-          <td><span class="area-badge area-a">A+</span></td>
-          <td>57110</td>
-          <td class="price in-budget">$895</td>
-          <td><strong>On-site laundry ⚠️</strong> • 2BR/1BA • Lawn+snow incl.</td>
-          <td><span class="status status-replied">Replied — ask STL</span></td>
-          <td>Cheapest qualify</td>
-          <td class="email-log">Aug 28: Follow-up</td>
-        <td class="vote-cell" data-property="4601-e-3rd-st-10"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- FOSS FIELDS: C -->
-        <tr style="border-left:3px solid var(--warning);">
+        <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-c">C</span></td>
           <td>
             <div class="property-name"><a href="https://rpmxpress.com/available-rentals" target="_blank" rel="noopener">Foss Fields "Hollow"</a></div>
@@ -733,101 +449,14 @@
           <td><span class="badge badge-jetty">Jetty</span></td>
           <td class="email-log">Aug 30: Added ✓<br>Sep 3: Email sent ✓</td>
         <td class="vote-cell" data-property="foss-fields-hollow"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- PRAIRIES EDGE: C -->
-        <tr>
-          <td><span class="score-badge s-c">C</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.cresten.com/our-properties/prairies-edge" target="_blank" rel="noopener">Prairies Edge TH</a></div>
-            <div class="property-type type-th">Townhouse</div>
-            <div class="manager">Cresten</div>
-          </td>
-          <td><span class="area-badge area-a">A+</span></td>
-          <td>57108</td>
-          <td class="price over-budget">$1,435</td>
-          <td>In-unit W/D • Att. garage • 2BR/1.5BA • 1,081sf</td>
-          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,435)</span></td>
-          <td>$35 over</td>
-          <td class="email-log">Aug 30: 5Q sent ✓</td>
-        <td class="vote-cell" data-property="prairies-edge-th"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- STONEY CREEK: C -->
-        <tr>
-          <td><span class="score-badge s-c">C</span></td>
-          <td>
-            <div class="property-name"><a href="https://penkertproperties.com/rentals/stoney-creek-townhomes/" target="_blank" rel="noopener">Stoney Creek TH</a></div>
-            <div class="property-type type-th">Townhouse</div>
-            <div class="manager">Penkert</div>
-          </td>
-          <td><span class="area-badge area-a">A+</span></td>
-          <td>57106</td>
-          <td class="price in-budget">TBD</td>
-          <td>In-unit W/D • Garage • Pet-friendly</td>
-          <td><span class="status status-dropped">DROPPED — over $800 budget ($1,237+)</span></td>
-          <td>Pricing TBD</td>
-          <td class="email-log">Aug 30: 5Q sent ✓</td>
-        <td class="vote-cell" data-property="stoney-creek-th"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- CHASING WILLOWS: B — NEW Sep 4 -->
         <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-b">B</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.costelloco.com/property_locations/chasing-willows/" target="_blank" rel="noopener">Chasing Willows Apartments</a></div>
-            <div class="property-type type-apt">Apartment</div>
-            <div class="manager">Costello Companies — (605) 553-7542</div>
-          </td>
-          <td><span class="area-badge area-a">A+</span></td>
-          <td>57110</td>
-          <td class="price in-budget"><strong>$684</strong></td>
-          <td>In-unit W/D ✓ • 2BR/2BA • 935sf • Pool • Clubhouse • Pet-friendly • Same complex as Chasing Willows II</td>
-          <td><span class="status status-dropped">DROPPED — $980 + utilities and 12-month term</span></td>
-          <td><span class="badge badge-trusted">Trusted</span></td>
-          <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓<br>Sep 24: Follow-up nudge sent<br>Oct 1: Replied in existing Gmail thread that rent/term are outside requirements; closed ✓</td>
-        <td class="vote-cell" data-property="chasing-willows-apartments"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- WILLIAMSBURG: B — NEW Sep 4 -->
-        <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-b">B</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.costelloco.com/property_locations/williamsburg/" target="_blank" rel="noopener">Williamsburg Townhomes</a></div>
-                        <div class="property-type type-th">Townhouse</div>
-                        <div class="manager">Costello Companies — (605) 799-5202</div>
-                      </td>
-                      <td><span class="area-badge area-a">A+</span></td>
-                      <td>57106</td>
-                      <td class="price over-budget"><strong>$985</strong></td>
-                      <td>2BR/1.5BA • 999-1190sf • Playground • Picnic area • On-site mgmt • <strong>W/D TBD (unverified)</strong></td>
-                      <td><span class="status status-dropped">DROPPED — landlord replied $985/mo, over budget (Oct 3 correction)</span></td>
-          <td>$185 over • Oct 3 correction: was $768</td>
-          <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓<br>Sep 24: Follow-up nudge sent</td>
-        <td class="vote-cell" data-property="williamsburg-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- HIGHPOINTE: B — NEW Sep 4 -->
-        <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-b">B</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.costelloco.com/property_locations/highpointe/" target="_blank" rel="noopener">HighPointe Townhomes</a></div>
-                        <div class="property-type type-th">Townhouse</div>
-                        <div class="manager">Costello Companies — (605) 250-0868</div>
-                      </td>
-                      <td><span class="area-badge area-a">A+</span></td>
-                      <td>57110</td>
-                      <td class="price in-budget"><strong>$487</strong></td>
-                      <td>2BR/1.5BA • 850sf • In-unit W/D ✓ • Garage + pool • <strong>W/D status verified</strong></td>
-                      <td><span class="status status-dropped">DROPPED — landlord confirmed 12-month-only term</span></td>
-          <td>12-month term does not fit the 6–9mo requirement</td>
-          <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓<br>Sep 24: Follow-up nudge sent<br>Oct 1: Replied in existing Gmail thread that 12-month lease does not work; closed ✓</td>
-        <td class="vote-cell" data-property="highpointe-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- OAKWOOD: C — NEW Sep 4 -->
-        <tr style="border-left:3px solid var(--warning);">
           <td><span class="score-badge s-c">C</span></td>
           <td>
             <div class="property-name"><a href="https://www.apartments.com/oakwood-estates-sioux-falls-sd/ghk534z/" target="_blank" rel="noopener">Oakwood Estates</a></div>
             <div class="property-type type-apt">Apartment</div>
             <div class="manager">Elevate Property Mgmt — (712) 746-6437</div>
           </td>
-          <td><span class="area-badge area-a">A+</span></td>
+          <td><span class="area-badge area-c">C</span><br><span style="font-size:0.7rem;color:var(--text-muted);">SFPD 102c/0.25mi/90d</span></td>
           <td>57106</td>
           <td class="price in-budget"><strong>$744</strong></td>
           <td>2BR/1BA • 972sf • Pet-friendly • Bark park • 6-15 mo leases • <strong>W/D TBD (unverified)</strong></td>
@@ -835,46 +464,7 @@
           <td>$400 deposit • Near Sertoma Park</td>
           <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓</td>
         <td class="vote-cell" data-property="oakwood-estates"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- 340 N MAIN: C — NEW Sep 4 -->
-        <tr>
-          <td><span class="score-badge s-c">C</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.realtor.com/rentals/details/340-N-Main-Ave-Apt-13_Tea_SD_57064_M91935-67827" target="_blank" rel="noopener">340 N Main Ave Apt 13</a></div>
-            <div class="property-type type-apt">Apartment</div>
-            <div class="manager">Private (Appfolio)</div>
-          </td>
-          <td><span class="area-badge area-a">A</span></td>
-          <td>57064</td>
-          <td class="price in-budget"><strong>$499</strong></td>
-          <td>2BR/1BA • 900sf • Pet-friendly • Best price in Tea • <strong>W/D TBD (unverified)</strong></td>
-          <td><span class="status status-dropped">DROPPED — off-market, verified Oct 1</span></td>
-          <td>Tea SD • Private landlord</td>
-          <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓<br>Oct 1: Realtor.com/search verified off-market; no further outreach</td>
-        <td class="vote-cell" data-property="340-n-main-ave-apt-13"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- CHASING WILLOWS II: C — NEW Sep 4 -->
-        
-
-        <!-- 350 N MAIN: C — NEW Sep 4 -->
-        <tr>
-          <td><span class="score-badge s-c">C</span></td>
-          <td>
-            <div class="property-name"><a href="https://www.realtor.com/rentals/details/350-and-360-N-Main-St_Tea_SD_57064_M91701-03282" target="_blank" rel="noopener">350 N Main St</a></div>
-            <div class="property-type type-apt">Apartment</div>
-            <div class="manager">Private (Appfolio)</div>
-          </td>
-          <td><span class="area-badge area-a">A</span></td>
-          <td>57064</td>
-          <td class="price in-budget"><strong>$525–549</strong></td>
-          <td>2-3BR • 856-920sf • New units • <strong>W/D TBD (unverified)</strong></td>
-          <td><span class="status status-contacted">Contacted — Sep 10 ✓</span></td>
-          <td>Tea SD • New units</td>
-          <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓</td>
-        <td class="vote-cell" data-property="350-n-main-st"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- GRAND TETON: C — NEW Sep 4 -->
-                <tr style="border-left:3px solid var(--warning);">
+        <tr style="border-left:3px solid var(--accent);">
                   <td><span class="score-badge s-c">C</span></td>
                   <td>
                     <div class="property-name"><a href="https://www.apartments.com/grand-teton-estates-apartments-brandon-sd/et17prm/" target="_blank" rel="noopener">Grand Teton Estates</a></div>
@@ -889,25 +479,6 @@
                   <td>$50 over • Brandon</td>
                   <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓</td>
                 <td class="vote-cell" data-property="grand-teton-estates"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-                <!-- AUBURN APARTMENTS: B — NEW Sep 5 -->
-                <tr style="border-left:3px solid var(--accent);">
-                  <td><span class="score-badge s-b">B</span></td>
-                  <td>
-                    <div class="property-name"><a href="https://www.costelloco.com/property_locations/auburn/" target="_blank" rel="noopener">Auburn Apartments</a></div>
-                    <div class="property-type type-apt">Apartment</div>
-                    <div class="manager">Costello Companies — (605) 215-2120</div>
-                  </td>
-                  <td><span class="area-badge area-a">A+</span></td>
-                  <td>57064</td>
-                  <td class="price in-budget"><strong>$495+</strong></td>
-                  <td>In-unit W/D ✓ • 2BR/2BA • 936sf • Garage avail. • Pet-friendly • 57064 zip</td>
-                  <td><span class="status status-dropped">DROPPED — 12-month term does not fit</span></td>
-                  <td>Tea SD • Costello • $400 dep • 3rd-floor walk-up</td>
-                  <td class="email-log">Sep 5: Added ✓ • Sep 5: Email sent ✓<br>Sep 21: Landlord replied with availability and 12-month term<br>Sep 30: Replied in existing Gmail thread that 12-month term does not fit; closed ✓</td>
-                <td class="vote-cell" data-property="auburn-apartments"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- 1317 E SYLVAN: B — PUBLIC LEAD Oct 1 -->
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
           <td>
@@ -915,7 +486,7 @@
             <div class="property-type type-apt">Apartment</div>
             <div class="manager">Metastone Properties — (605) 513-6875</div>
           </td>
-          <td><span class="area-badge area-a">A</span></td>
+          <td><span class="area-badge area-c">C</span><br><span style="font-size:0.7rem;color:var(--text-muted);">SFPD 84c/0.25mi/90d</span></td>
           <td>57005</td>
           <td class="price in-budget"><strong>$800</strong></td>
           <td>2BR/1BA • 830sf • Shared laundry • Parking • A/C • Tenant pays electric • <strong>13mo promo shown; 6–9mo term unverified</strong></td>
@@ -923,8 +494,6 @@
           <td>Brandon • 13mo promo posted; only pursue if 6–9mo is available</td>
           <td class="email-log">Oct 1: Public listing verified ✓<br>Oct 1: Public page shows 13mo promo; no outbound contact sent</td>
         <td class="vote-cell" data-property="1317-e-sylvan-cir-5"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- ARNOLD'S PARK: C — PUBLIC LEAD Oct 1 -->
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-c">C</span></td>
           <td>
@@ -940,8 +509,6 @@
           <td>Sioux Falls • lower-priority B- area • no outreach sent</td>
           <td class="email-log">Oct 1: Direct Zillow property page verified ✓<br>Oct 1: 6–9mo term and fees still unverified</td>
         <td class="vote-cell" data-property="arnolds-park"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1" title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1" title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-        <!-- BRIDGEWOOD ESTATES: B — PUBLIC LEAD Oct 1 -->
         <tr style="border-left:3px solid var(--accent);">
           <td><span class="score-badge s-b">B</span></td>
           <td>
@@ -957,17 +524,10 @@
           <td>57106 • direct Zillow page shows current availability • no outreach sent</td>
           <td class="email-log">Oct 1: Direct Zillow property page verified ✓<br>Oct 1: 6–9mo term and fees still unverified</td>
         <td class="vote-cell" data-property="bridgewood-estates"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1" title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1" title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
-
-                <!-- HOSTA: UNAVAILABLE -->
-        
-
-        <!-- 409 HOLLY: DROPPED -->
-        
       
-
 <details style="margin-top:1rem;border:1px solid var(--border);border-radius:8px;padding:0.75rem;background:var(--card);">
 <summary style="cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--text-muted);user-select:none;">
-  📁 Archived: 22 dropped/closed leads (click to expand)
+  📁 Archived: 12 dropped/closed leads (click to expand)
 </summary>
 <table style="width:100%;border-collapse:collapse;margin-top:0.75rem;font-size:0.85rem;">
 <thead>
@@ -1264,7 +824,7 @@
                       </td>
                       <td><span class="area-badge area-a">A+</span></td>
                       <td>57106</td>
-                      <td class="price over-budget"><strong>$985</strong></td>
+                      <td class="price over-budget"><strong>$768</strong></td>
                       <td>2BR/1.5BA • 999-1190sf • Playground • Picnic area • On-site mgmt • <strong>W/D TBD (unverified)</strong></td>
                       <td><span class="status status-dropped">DROPPED — landlord replied $985/mo, over budget (Oct 3 correction)</span></td>
           <td>$185 over • Oct 3 correction: was $768</td>
@@ -1392,22 +952,6 @@
       <div class="card-top">
         <div>
           <span class="score-badge s-a">A+</span>
-          <div class="card-title"><a href="https://www.rent.com/apartment/arrow-ridge-townhomes-brandon-sd-brandon-sd-lc6221589" target="_blank" rel="noopener">Arrow Ridge Townhomes</a></div>
-          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A</span></div>
-          <div class="card-manager">J&M Real Estate • 57005</div>
-        </div>
-        <div class="card-price in-budget">$762</div>
-      </div>
-      <div class="card-detail">In-unit W/D • 2BR/1.5BA • Det. garage • 999sf • Pet-friendly</div>
-      <span class="status status-contacted">Contacted — Sep 4 ✓</span>
-                <div class="card-log">Aug 30: Added ✓<br>Sep 4: Email sent to J&M ✓</div>
-    </div>
-
-    <!-- SOUTH RIDGE: A+ (NEW Sep 2) -->
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-a">A+</span>
           <div class="card-title"><a href="https://www.redfin.com/SD/Sioux-Falls/South-Ridge-Apartments-Townhomes/apartment/195165736" target="_blank" rel="noopener">South Ridge Townhomes</a></div>
           <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span></div>
           <div class="card-manager">South Ridge • 57108</div>
@@ -1420,37 +964,6 @@
     </div>
 
     <!-- GRANT SQUARE: B (NEW Sep 2) -->
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://www.costelloco.com/property_locations/grant-square/" target="_blank" rel="noopener">Grant Square Apartments</a></div>
-          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span></div>
-          <div class="card-manager">Grant Square • 57106</div>
-        </div>
-        <div class="card-price in-budget">$662+</div>
-      </div>
-      <div class="card-detail">In-unit W/D • 2BR/2BA • 1,026sf • Garage + covered parking • Utilities incl.</div>
-      <div class="card-detail"><strong>⚠ Income restricted — verify eligibility</strong></div>
-      <span class="status status-dropped">Dropped — income-restricted (excluded)</span>
-      <div class="card-log">Sep 2: Added ✓ • Income restricted — excluded per policy</div>
-    </div>
-    <!-- 4908 W KIRKWOOD: C — NEW Sep 4 -->
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-c">C</span>
-          <div class="card-title"><a href="https://www.realtor.com/rentals/details/4908-W-Kirkwood-Cir_Sioux-Falls_SD_57106_M95208-49763" target="_blank" rel="noopener">4908 W Kirkwood Cir</a></div>
-          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span></div>
-          <div class="card-manager">Private landlord • 57106</div>
-        </div>
-        <div class="card-price in-budget">$749</div>
-      </div>
-      <div class="card-detail">2BR/1BA • 750sf • Newly renovated • Pet-friendly</div>
-      <span class="status status-dropped">DROPPED — off-market, verified Oct 1</span>
-      <div class="card-log">Sep 4: Added ✓<br>Oct 1: Realtor.com verified off-market; no further outreach</div>
-    </div>
-
     <div class="card">
       <div class="card-top">
         <div>
@@ -1471,21 +984,6 @@
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://www.zillow.com/apartments/sioux-falls-sd/park-place-condominiums-7003/5jCD82/" target="_blank" rel="noopener">Park Place Condominiums</a></div>
-          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span><span class="badge badge-trusted">FB find</span></div>
-          <div class="card-manager">Park Place Mgmt • 57106</div>
-        </div>
-        <div class="card-price in-budget">$1,099</div>
-      </div>
-      <div class="card-detail">In-unit W/D • 2BR/1BA • Garage incl. • 950sf • Balcony</div>
-      <span class="status status-new">New</span>
-      <div class="card-log">Aug 31: Added ✓</div>
-    </div>
-
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-b">B</span>
           <div class="card-title"><a href="https://luke.properties/rent/l/6ca5f3a07c/401-s-sycamore-ave-206-sioux-falls-sd-57110" target="_blank" rel="noopener">401 S Sycamore #206</a></div>
           <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span><span class="badge badge-depalt">Dep. alt</span></div>
           <div class="card-manager">Luke Properties • 57110</div>
@@ -1495,84 +993,6 @@
       <div class="card-detail">Off-street • Deposit alt built-in • No move-in fees</div>
       <span class="status status-replied">Thread reply sent Oct 1</span>
       <div class="card-log">Oct 1: Replied in existing Gmail thread; awaiting availability/term/full-cost confirmation</div>
-    </div>
-
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://www.rent.com/r/412-n-sioux-blvd-brandon-sd-lv1444436977" target="_blank" rel="noopener">412 N Sioux Blvd #12</a></div>
-          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A</span></div>
-          <div class="card-manager">Private • 57005</div>
-        </div>
-        <div class="card-price in-budget">$1,300</div>
-      </div>
-      <div class="card-detail">In-unit W/D • 2BR/1BA • Att. garage • 1,000sf</div>
-      <div class="card-detail">Lawn+snow+trash incl. • Pet-friendly</div>
-      <span class="status status-new">New</span>
-      <div class="card-log">Sep 1: Added ✓</div>
-    </div>
-
-    <!-- DBK BRANDON: B — NEW -->
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://www.rent.com/apartment/dbk-brandon-townhomes-brandon-sd-lc6755616" target="_blank" rel="noopener">DBK Brandon Townhomes</a></div>
-          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A</span></div>
-          <div class="card-manager">DBK Brandon • 57005</div>
-        </div>
-        <div class="card-price in-budget">$1,299</div>
-      </div>
-      <div class="card-detail">In-unit W/D (verify) • 2BR/1BA • Att. garage • 1,185sf</div>
-      <div class="card-detail">Pet-friendly • Available Now</div>
-      <span class="status status-new">New</span>
-      <div class="card-log">Sep 1: Added ✓</div>
-    </div>
-
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://www.bendermidwestproperties.com/listings/detail/e1656063-e9b1-44cf-ad2b-b52b2d2384de" target="_blank" rel="noopener">Willow Creek TH</a></div>
-          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span><span class="badge badge-trusted">Trusted</span></div>
-          <div class="card-manager">Bender Midwest • 57106</div>
-        </div>
-        <div class="card-price in-budget">$1,237+</div>
-      </div>
-      <div class="card-detail">In-unit W/D • 2BR/2BA • Garage • 1,086sf</div>
-      <span class="status status-contacted">Contacted</span>
-      <div class="card-log">Aug 27: 5Q sent</div>
-    </div>
-
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://www.bendermidwestproperties.com/listings/detail/461fdd65-a23a-4440-a481-ea5c5355d83f" target="_blank" rel="noopener">East Briar Estates</a></div>
-          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span><span class="badge badge-trusted">Trusted</span></div>
-          <div class="card-manager">Bender Midwest • 57110</div>
-        </div>
-        <div class="card-price in-budget">$895</div>
-      </div>
-      <div class="card-detail">In-unit W/D • 2BR/1BA • Garage • 1,100sf</div>
-      <span class="status status-contacted">Contacted</span>
-      <div class="card-log">Aug 27: 5Q sent</div>
-    </div>
-
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://leasepointguard.com/unit/boulder-pointe-townhomes-7601-3/" target="_blank" rel="noopener">Boulder Pointe TH</a></div>
-          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span></div>
-          <div class="card-manager">PointGuard • 57106</div>
-        </div>
-        <div class="card-price in-budget">$1,295</div>
-      </div>
-      <div class="card-detail">In-unit W/D • Att. garage • 2BR/1.5BA • 1,081sf</div>
-      <span class="status status-contacted">Contacted</span>
-      <div class="card-log">Aug 30: 5Q sent ✓</div>
     </div>
 
     <div class="card">
@@ -1601,74 +1021,10 @@
         <div class="card-price in-budget">$1,120</div>
       </div>
       <div class="card-detail">Garage • Jetty-eligible • 1 mo free • <strong>In-unit W/D ✓</strong></div>
-      <span class="status status-new">New</span>
+      <span class="status status-contacted">New</span>
       <div class="card-log">Aug 30: Added ✓</div>
     </div>
 
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-c">C</span>
-          <div class="card-title"><a href="https://alpinepropmgmt.appfolio.com/listings" target="_blank" rel="noopener">4601 E 3rd St #10</a></div>
-          <div class="card-badges"><span class="property-type type-th">Townhome</span><span class="area-badge area-a">A+</span></div>
-          <div class="card-manager">Alpine • 57110</div>
-        </div>
-        <div class="card-price over-budget">$1,000+</div>
-      </div>
-      <div class="card-detail"><strong>On-site laundry only ⚠️</strong> • 2BR/1BA • Lawn+snow incl.</div>
-      <span class="status status-replied">Replied — ask STL</span>
-      <div class="card-log">Aug 28: Follow-up<br>Sep 11: Price increased $895→$1,000+ (Alpine AppFolio)</div>
-    </div>
-
-    <!-- CHASING WILLOWS: B — NEW Sep 4 -->
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://www.costelloco.com/property_locations/chasing-willows/" target="_blank" rel="noopener">Chasing Willows Apartments</a></div>
-          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span><span class="badge badge-trusted">Trusted</span></div>
-          <div class="card-manager">Costello Companies • 57110</div>
-        </div>
-        <div class="card-price in-budget">$684</div>
-      </div>
-      <div class="card-detail">In-unit W/D ✓ • 2BR/2BA • 935sf • Pool • Clubhouse • Pet-friendly</div>
-      <span class="status status-dropped">Dropped — $980 + utilities and 12-month term</span>
-      <div class="card-log">Oct 1: Replied in existing Gmail thread; closed ✓</div>
-    </div>
-
-    <!-- WILLIAMSBURG: B — NEW Sep 4 -->
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://www.rent.com/apartment/williamsburg-townhomes-sioux-falls-sd-lc5902838" target="_blank" rel="noopener">Williamsburg Townhomes</a></div>
-          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A+</span></div>
-          <div class="card-manager">Costello Companies • 57106</div>
-        </div>
-        <div class="card-price over-budget">$985</div>
-      </div>
-      <div class="card-detail">2BR/1.5BA • 999-1190sf • Playground • Picnic area • On-site mgmt • <strong>W/D TBD</strong></div>
-      <span class="status status-dropped">Dropped — $985/mo (Oct 3 correction)</span>
-      <div class="card-log">Sep 4: Added ✓ • Oct 3: Landlord replied $985 — over budget</div>
-    </div>
-
-    <!-- HIGHPOINTE: B — NEW Sep 4 -->
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://www.costelloco.com/property_locations/highpointe/" target="_blank" rel="noopener">HighPointe Townhomes</a></div>
-          <div class="card-badges"><span class="property-type type-th">Townhouse</span><span class="area-badge area-a">A</span></div>
-          <div class="card-manager">Costello Companies • 57064</div>
-        </div>
-        <div class="card-price in-budget">$668-$815</div>
-      </div>
-      <div class="card-detail">2BR/1.5BA • 965-1008sf • Playground • On-site mgmt • Storage • <strong>Shared laundry</strong></div>
-      <span class="status status-dropped">Dropped — 12-month-only term</span>
-      <div class="card-log">Oct 1: Replied in existing Gmail thread; closed ✓</div>
-    </div>
-
-    <!-- OAKWOOD: C — NEW Sep 4 -->
     <div class="card">
       <div class="card-top">
         <div>
@@ -1680,48 +1036,12 @@
         <div class="card-price in-budget">$744</div>
       </div>
       <div class="card-detail">2BR/1BA • 972sf • Pet-friendly • Bark park • 6-15 mo leases</div>
-      <span class="status status-new">New</span>
+      <span class="status status-contacted">New</span>
       <div class="card-log">Sep 4: Added ✓</div>
     </div>
 
 
     <!-- 340 N MAIN: C — NEW Sep 4 -->
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-c">C</span>
-          <div class="card-title"><a href="https://www.realtor.com/rentals/details/340-N-Main-Ave-Apt-13_Tea_SD_57064_M91935-67827" target="_blank" rel="noopener">340 N Main Ave Apt 13</a></div>
-          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A</span></div>
-          <div class="card-manager">Private (Appfolio) • 57064</div>
-        </div>
-        <div class="card-price in-budget">$499→$899</div>
-      </div>
-      <div class="card-detail">2BR/1BA • 900sf • Pet-friendly • <strong>Promo: $499 first 2mo, then $899/mo + $50 util</strong></div>
-      <span class="status status-dropped">DROPPED — off-market, verified Oct 1</span>
-      <div class="card-log">Sep 4: Added ✓<br>Sep 11: Promo rate disclosed (true cost $899/mo)<br>Oct 1: Realtor.com/search verified off-market; no further outreach</div>
-    </div>
-        
-
-    <!-- CHASING WILLOWS II: C — NEW Sep 4 -->
-    
-
-    <!-- 350 N MAIN: C — NEW Sep 4 -->
-    <div class="card">
-      <div class="card-top">
-        <div>
-          <span class="score-badge s-c">C</span>
-          <div class="card-title"><a href="https://www.realtor.com/rentals/details/350-and-360-N-Main-St_Tea_SD_57064_M91701-03282" target="_blank" rel="noopener">350 N Main St</a></div>
-          <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A</span></div>
-          <div class="card-manager">Private (Appfolio) • 57064</div>
-        </div>
-        <div class="card-price in-budget">$525–549</div>
-      </div>
-      <div class="card-detail">2-3BR • 856-920sf • New units</div>
-      <span class="status status-new">New</span>
-      <div class="card-log">Sep 4: Added ✓</div>
-    </div>
-
-    <!-- GRAND TETON: C — NEW Sep 4 -->
     <div class="card">
       <div class="card-top">
         <div>
