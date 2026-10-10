@@ -49,6 +49,14 @@
     .area-b { background: rgba(88,166,255,0.15); color: var(--accent); border: 1px solid rgba(88,166,255,0.3); }
     .area-c { background: rgba(210,153,34,0.15); color: var(--warning); border: 1px solid rgba(210,153,34,0.3); }
     .area-d { background: rgba(248,81,73,0.15); color: var(--danger); border: 1px solid rgba(248,81,73,0.3); }
+    .photo-cell { width: 72px; }
+    .photo-thumb { width: 64px; height: 48px; object-fit: cover; border-radius: 4px; border: 1px solid var(--border); cursor: zoom-in; transition: transform 0.15s; display: block; }
+    .photo-thumb:hover { transform: scale(1.06); border-color: var(--accent); }
+    .card-photo { width: 100%; height: 120px; object-fit: cover; border-radius: 6px; margin-bottom: 8px; border: 1px solid var(--border); cursor: zoom-in; display: block; }
+    .card-photo-placeholder { width: 100%; height: 80px; border-radius: 6px; margin-bottom: 8px; border: 1px dashed var(--border); background: var(--bg-elevated); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--text-muted); }
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1000; align-items: center; justify-content: center; cursor: zoom-out; }
+    .lightbox.active { display: flex; }
+    .lightbox img { max-width: 92%; max-height: 92%; border-radius: 8px; }
 
     .sort-bar { display: flex; align-items: center; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
     .sort-label { font-size: 0.62rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; margin-right: 2px; }
@@ -247,7 +255,7 @@
 <body>
 <div class="container">
   <h1>SF Housing Tracker</h1>
-  <p class="subtitle">Sioux Falls / Tea / Brandon — rent ceiling $700–$800 until income improves • 6–9mo lease • Dec 1, 2026 move-in • 2BR minimum • <strong>Address-level SFPD safety scoring (Oct 10)</strong> • 0 confirmed • Last synced Oct 10, 2026 • Market: 2BR avg $1,092-1,105</p>
+  <p class="subtitle">Sioux Falls / Tea / Brandon — rent ceiling $700–$800 until income improves • 6–9mo lease • Dec 1, 2026 move-in • 2BR minimum • <strong>Address-level SFPD safety scoring + Fit vs Targets (Oct 10)</strong> • 0 confirmed • 1 of 14 listings currently passes every target • Last synced Oct 10, 2026 • Market: 2BR avg $1,092-1,105</p>
 
   <div class="stats">
     <div class="stat"><div class="stat-value" id="stat-inbudget">--</div><div class="stat-label">In Budget</div></div>
@@ -310,12 +318,12 @@
     <table>
       <thead>
         <tr>
-          <th>Score</th><th>Property / Type / Manager</th><th>Area</th><th>Zip</th><th>Rent</th><th>Key Specs</th><th>Status</th><th>Contact/Notes</th><th>Log</th><th>Votes</th>
+          <th>Score</th><th>Photo</th><th>Property / Type / Manager</th><th>Area</th><th>Zip</th><th>Rent</th><th>Key Specs</th><th>Fit vs Targets</th><th>Status</th><th>Contact/Notes</th><th>Log</th><th>Votes</th>
         </tr>
       </thead>
       <tbody>
         <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-a">A</span></td>
+          <td><span class="score-badge s-a">A</span></td><td class="photo-cell"><img class="photo-thumb" src="https://images.cdn.appfolio.com/rpmsd001/images/e8a34496-b104-417e-8ef1-1280287a45a5/large.jpg" onclick="openLightbox(this.src)" alt="listing" loading="lazy"></td>
           <td>
             <div class="property-name"><a href="https://expressrpm.com/rentals-mmf/rental-listing-details/?lid=7cf7c297-b9ed-4fa7-91e4-a1eb4acad803" target="_blank" rel="noopener">4908 W Kirkwood Cir #01</a></div>
             <div class="property-type type-apt">Apartment</div>
@@ -325,12 +333,12 @@
           <td>57106</td>
           <td class="price in-budget"><strong>$749</strong></td>
           <td>2BR/1BA • 750sf • Available NOW • ONE MONTH FREE • A/C • Dishwasher • <strong>$0 deposit via Jetty</strong></td>
-          <td><span class="status status-new">New — $0 deposit, available NOW</span></td>
+          <td style="font-size:0.72rem;color:var(--warning);">Safety: SFPD grade D, 294 calls/0.25mi/90d</td><td><span class="status status-new">New — $0 deposit, available NOW</span></td>
           <td><span class="badge badge-jetty">Jetty $0 deposit</span> App fee $69</td>
           <td class="email-log">Oct 8: Staged from RPM public listing ✓</td>
         <td class="vote-cell" data-property="rpm-kirkwood-4908-01"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
         <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-a">A</span></td>
+          <td><span class="score-badge s-a">A</span></td><td class="photo-cell"><img class="photo-thumb" src="https://images.cdn.appfolio.com/rpmsd001/images/e8a34496-b104-417e-8ef1-1280287a45a5/large.jpg" onclick="openLightbox(this.src)" alt="listing" loading="lazy"></td>
           <td>
             <div class="property-name"><a href="https://expressrpm.com/rentals-mmf/rental-listing-details/?lid=6e4f5ce6-13e9-4ea3-abd7-20e9471ad1eb" target="_blank" rel="noopener">4908 W Kirkwood Cir #02</a></div>
             <div class="property-type type-apt">Apartment</div>
@@ -340,12 +348,12 @@
           <td>57106</td>
           <td class="price in-budget"><strong>$749</strong></td>
           <td>2BR/1BA • Available NOW • A/C • Dishwasher • <strong>$0 deposit via Jetty</strong></td>
-          <td><span class="status status-new">New — $0 deposit, available NOW</span></td>
+          <td style="font-size:0.72rem;color:var(--warning);">Safety: SFPD grade D, 294 calls/0.25mi/90d</td><td><span class="status status-new">New — $0 deposit, available NOW</span></td>
           <td><span class="badge badge-jetty">Jetty $0 deposit</span> App fee $69</td>
           <td class="email-log">Oct 8: Staged from RPM public listing ✓</td>
         <td class="vote-cell" data-property="rpm-kirkwood-4908-02"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
         <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-a">A</span></td>
+          <td><span class="score-badge s-a">A</span></td><td class="photo-cell"><img class="photo-thumb" src="https://images.cdn.appfolio.com/rpmsd001/images/705783ea-6bbe-44fe-8f8a-3ee0579ea4fc/large.jpg" onclick="openLightbox(this.src)" alt="listing" loading="lazy"></td>
           <td>
             <div class="property-name"><a href="https://expressrpm.com/rentals-mmf/rental-listing-details/?lid=26629910-120e-4d56-9fd8-bd834a537282" target="_blank" rel="noopener">3705 S Cathy Ave #01</a></div>
             <div class="property-type type-apt">Apartment</div>
@@ -355,12 +363,12 @@
           <td>57106</td>
           <td class="price in-budget"><strong>$799</strong></td>
           <td>2BR/1BA • 821sf • Detached garage • On-site laundry • <strong>$0 deposit via Jetty</strong></td>
-          <td><span class="status status-new">New — $0 deposit, term unverified</span></td>
+          <td style="font-size:0.72rem;color:var(--warning);">Safety: SFPD grade D, 251 calls/0.25mi/90d</td><td><span class="status status-new">New — $0 deposit, term unverified</span></td>
           <td><span class="badge badge-jetty">Jetty $0 deposit</span> App fee $69</td>
           <td class="email-log">Oct 8: Staged from RPM public listing ✓</td>
         <td class="vote-cell" data-property="rpm-cathy-3705-01"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
         <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-b">B</span></td>
+          <td><span class="score-badge s-b">B</span></td><td class="photo-cell"><img class="photo-thumb" src="https://images.cdn.appfolio.com/rpmsd001/images/c3bba5f0-c320-4c69-82eb-dc5d05767c8f/large.jpg" onclick="openLightbox(this.src)" alt="listing" loading="lazy"></td>
           <td>
             <div class="property-name"><a href="https://expressrpm.com/rentals-mmf/rental-listing-details/?lid=fdaf782c-0a77-4dab-a35c-455a51aadd22" target="_blank" rel="noopener">3225 N Lewis Ave #01</a></div>
             <div class="property-type type-apt">Apartment</div>
@@ -370,12 +378,12 @@
           <td>57104</td>
           <td class="price in-budget"><strong>$650</strong></td>
           <td>2BR/1BA • 780sf • <strong>UTILITIES INCLUDED</strong> • Available NOW • HALF OFF MOVE IN • <strong>$0 deposit via Jetty</strong></td>
-          <td><span class="status status-new">New — below floor; lowest all-in cost</span></td>
+          <td style="font-size:0.72rem;color:var(--warning);">Zip 57104 excluded; price $650 below floor</td><td><span class="status status-new">New — below floor; lowest all-in cost</span></td>
           <td><span class="badge badge-jetty">Jetty $0 deposit</span> ⚠ 57104 excluded zip</td>
           <td class="email-log">Oct 8: Staged from RPM public listing ✓</td>
         <td class="vote-cell" data-property="rpm-lewis-3225-01"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
         <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-a">A+</span></td>
+          <td><span class="score-badge s-a">A+</span></td><td class="photo-cell"><img class="photo-thumb" src="https://ssl.cdn-redfin.com/photo/rent/bb838810-7518-4f1e-a3d1-716069f91eb6/bigphoto/0_4.jpg" onclick="openLightbox(this.src)" alt="listing" loading="lazy"></td>
           <td>
             <div class="property-name"><a href="https://www.redfin.com/SD/Sioux-Falls/South-Ridge-Apartments-Townhomes/apartment/195165736" target="_blank" rel="noopener">South Ridge Townhomes</a></div>
             <div class="property-type type-th">Townhouse</div>
@@ -385,12 +393,12 @@
           <td>57108</td>
           <td class="price in-budget"><strong>$768–783</strong></td>
           <td>In-unit W/D ✓ • 2BR/1BA • 923sf • Off-street parking • Townhome • No pets</td>
-          <td><span class="status status-contacted">Contacted — Sep 4 ✓ • nudge sent Sep 11</span></td>
+          <td style="font-size:0.72rem;color:var(--warning);">Lease: landlord offers no short term</td><td><span class="status status-contacted">Contacted — Sep 4 ✓ • nudge sent Sep 11</span></td>
           <td>Available now • 2-3 bed TH</td>
           <td class="email-log">Sep 2: Added ✓<br>Sep 4: Email sent to Costello ✓<br>Sep 11: Follow-up nudge sent (7+ days silent)</td>
         <td class="vote-cell" data-property="south-ridge-townhomes"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
         <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-a">A</span></td>
+          <td><span class="score-badge s-a">A</span></td><td class="photo-cell" style="text-align:center;color:var(--text-muted);font-size:0.6rem;">no photo</td>
           <td>
             <div class="property-name">4907 W Kirkwood Cir #4 <span style="font-size:0.65rem;color:var(--text-muted);">(no public listing — contact Joann directly)</span></div>
             <div class="property-type type-th">Townhouse</div>
@@ -400,14 +408,14 @@
           <td>57106</td>
           <td class="price in-budget">$1,299</td>
           <td>Att. garage • Lawn+snow incl. • Lease → Mar M-to-M • W/D TBD</td>
-          <td><span class="status status-replied">Replied — W/D ✓</span></td>
+          <td style="font-size:0.72rem;color:var(--warning);">Rent $1,299 is 62% over the $800 ceiling</td><td><span class="status status-replied">Replied — W/D ✓</span></td>
           <td>Oct 1 unit 1 offer • user needs Nov • 4wk hold max</td>
           <td class="email-log">Aug 29: Q's<br>Aug 30: Follow-up ✓<br>Sep 3: Joann replied (W/D ✓, unit 1 Oct 1) — replied w/ Nov timing ✓</td>
         <td class="vote-cell" data-property="4907-w-kirkwood-cir-4"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
         <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-b">B</span></td>
+          <td><span class="score-badge s-b">B</span></td><td class="photo-cell"><img class="photo-thumb" src="https://s3.amazonaws.com/ShowMojo-Dev/64027791/large/large.jpg?1787154553" onclick="openLightbox(this.src)" alt="listing" loading="lazy"></td>
           <td>
-            <div class="property-name"><a href="https://luke.properties/rent/l/6ca5f3a07c/401-s-sycamore-ave-206-sioux-falls-sd-57110" target="_blank" rel="noopener">401 S Sycamore #206</a></div>
+            <div class="property-name"><a href="https://showmojo.com/l/6ca5f3a07c" target="_blank" rel="noopener">401 S Sycamore #206</a></div>
             <div class="property-type type-apt">Apartment</div>
             <div class="manager">Luke Properties</div>
           </td>
@@ -415,12 +423,12 @@
           <td>57110</td>
           <td class="price in-budget">$725</td>
           <td>Off-street • <strong>Deposit alt built-in</strong> • No move-in fees • <strong>Shared laundry (NOT in-unit)</strong> • No pets</td>
-          <td><span class="status status-replied">Thread reply sent Oct 1, 2026 — awaiting availability, term, and full-cost confirmation</span></td>
+          <td style="font-size:0.72rem;color:var(--success);font-weight:600;">PASS - 2BR confirmed live, $725, 57110, deposit alt built in</td><td><span class="status status-replied">Thread reply sent Oct 1, 2026 — awaiting availability, term, and full-cost confirmation</span></td>
           <td><span class="badge badge-depalt">Dep. alt</span></td>
           <td class="email-log">Aug 30: Added ✓<br>Sep 3: Email sent ✓<br>Sep 11: Follow-up nudge sent<br>Oct 1: Replied in existing Gmail thread asking about Nov 30/Dec 1, 6–9mo term, and full monthly cost ✓</td>
         <td class="vote-cell" data-property="401-s-sycamore-206"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
         <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-b">B</span></td>
+          <td><span class="score-badge s-b">B</span></td><td class="photo-cell" style="text-align:center;color:var(--text-muted);font-size:0.6rem;">no photo</td>
           <td>
             <div class="property-name"><a href="https://alpinepropmgmt.appfolio.com/listings" target="_blank" rel="noopener">Lincoln Heights #4</a></div>
             <div class="property-type type-apt">Apartment</div>
@@ -430,12 +438,12 @@
           <td>57032</td>
           <td class="price in-budget">$1,145</td>
           <td>In-unit W/D • 2BR/1.5BA • 960sf • Off-street</td>
-          <td><span class="status status-replied">Replied — ask STL</span></td>
+          <td style="font-size:0.72rem;color:var(--warning);">Rent $1,145 is 43% over ceiling; zip 57032 out of scope</td><td><span class="status status-replied">Replied — ask STL</span></td>
           <td>$1k off 1st (12mo ask)</td>
           <td class="email-log">Aug 28: Follow-up</td>
         <td class="vote-cell" data-property="lincoln-heights-4"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
         <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-c">C</span></td>
+          <td><span class="score-badge s-c">C</span></td><td class="photo-cell" style="text-align:center;color:var(--text-muted);font-size:0.6rem;">no photo</td>
           <td>
             <div class="property-name"><a href="https://rpmxpress.com/available-rentals" target="_blank" rel="noopener">Foss Fields "Hollow"</a></div>
             <div class="property-type type-apt">Apartment</div>
@@ -445,12 +453,12 @@
           <td>57110</td>
           <td class="price in-budget">$1,120</td>
           <td>Garage • <strong>Jetty-eligible</strong> • 1 mo free • <strong>In-unit W/D</strong> ✓ (confirmed Sep 11)</td>
-          <td><span class="status status-contacted">Contacted — Sep 3 ✓</span></td>
+          <td style="font-size:0.72rem;color:var(--warning);">Rent $1,120 is 40% over the $800 ceiling</td><td><span class="status status-contacted">Contacted — Sep 3 ✓</span></td>
           <td><span class="badge badge-jetty">Jetty</span></td>
           <td class="email-log">Aug 30: Added ✓<br>Sep 3: Email sent ✓</td>
         <td class="vote-cell" data-property="foss-fields-hollow"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
         <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-c">C</span></td>
+          <td><span class="score-badge s-c">C</span></td><td class="photo-cell" style="text-align:center;color:var(--text-muted);font-size:0.6rem;">no photo</td>
           <td>
             <div class="property-name"><a href="https://www.apartments.com/oakwood-estates-sioux-falls-sd/ghk534z/" target="_blank" rel="noopener">Oakwood Estates</a></div>
             <div class="property-type type-apt">Apartment</div>
@@ -460,12 +468,12 @@
           <td>57106</td>
           <td class="price in-budget"><strong>$744</strong></td>
           <td>2BR/1BA • 972sf • Pet-friendly • Bark park • 6-15 mo leases • <strong>W/D TBD (unverified)</strong></td>
-          <td><span class="status status-contacted">Contacted — Sep 10 ✓</span></td>
+          <td style="font-size:0.72rem;color:var(--warning);">Safety: SFPD grade C, 102 calls/0.25mi/90d</td><td><span class="status status-contacted">Contacted — Sep 10 ✓</span></td>
           <td>$400 deposit • Near Sertoma Park</td>
           <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓</td>
         <td class="vote-cell" data-property="oakwood-estates"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
         <tr style="border-left:3px solid var(--accent);">
-                  <td><span class="score-badge s-c">C</span></td>
+                  <td><span class="score-badge s-c">C</span></td><td class="photo-cell" style="text-align:center;color:var(--text-muted);font-size:0.6rem;">no photo</td>
                   <td>
                     <div class="property-name"><a href="https://www.apartments.com/grand-teton-estates-apartments-brandon-sd/et17prm/" target="_blank" rel="noopener">Grand Teton Estates</a></div>
                     <div class="property-type type-apt">Apartment</div>
@@ -475,12 +483,12 @@
                   <td>57005</td>
                   <td class="price over-budget"><strong>$800</strong></td>
                   <td>2BR/1BA • 775+sf • Pet-friendly • Off-street • Electric heat • <strong>W/D TBD (unverified)</strong></td>
-                  <td><span class="status status-contacted">Contacted — Sep 10 ✓</span></td>
+                  <td style="font-size:0.72rem;color:var(--warning);">Rent $800 at ceiling, zero margin; zip 57005 out of scope</td><td><span class="status status-contacted">Contacted — Sep 10 ✓</span></td>
                   <td>$50 over • Brandon</td>
                   <td class="email-log">Sep 4: Added ✓<br>Sep 10: Nov 30/Dec 1 email sent ✓</td>
                 <td class="vote-cell" data-property="grand-teton-estates"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
         <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-b">B</span></td>
+          <td><span class="score-badge s-b">B</span></td><td class="photo-cell" style="text-align:center;color:var(--text-muted);font-size:0.6rem;">no photo</td>
           <td>
             <div class="property-name"><a href="https://hotpads.com/1317-e-sylvan-cir-brandon-sd-57005-tumddm/5/pad" target="_blank" rel="noopener">1317 E Sylvan Cir #5</a></div>
             <div class="property-type type-apt">Apartment</div>
@@ -490,12 +498,12 @@
           <td>57005</td>
           <td class="price in-budget"><strong>$800</strong></td>
           <td>2BR/1BA • 830sf • Shared laundry • Parking • A/C • Tenant pays electric • <strong>13mo promo shown; 6–9mo term unverified</strong></td>
-          <td><span class="status status-new">New — staged Oct 1; term risk</span></td>
+          <td style="font-size:0.72rem;color:var(--warning);">Safety: SFPD grade C, 84 calls/0.25mi/90d</td><td><span class="status status-new">New — staged Oct 1; term risk</span></td>
           <td>Brandon • 13mo promo posted; only pursue if 6–9mo is available</td>
           <td class="email-log">Oct 1: Public listing verified ✓<br>Oct 1: Public page shows 13mo promo; no outbound contact sent</td>
         <td class="vote-cell" data-property="1317-e-sylvan-cir-5"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1"  title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1"  title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
         <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-c">C</span></td>
+          <td><span class="score-badge s-c">C</span></td><td class="photo-cell" style="text-align:center;color:var(--text-muted);font-size:0.6rem;">no photo</td>
           <td>
             <div class="property-name"><a href="https://www.zillow.com/apartments/sioux-falls-sd/arnold's-park-apartments/CkMcvd/" target="_blank" rel="noopener">Arnold's Park Apartments</a></div>
             <div class="property-type type-apt">Apartment</div>
@@ -505,12 +513,12 @@
           <td>57104</td>
           <td class="price in-budget"><strong>$700+</strong></td>
           <td>2BR/1BA • 775+sf • Direct Zillow page shows current availability • <strong>6–9mo term and full cost unverified</strong></td>
-          <td><span class="status status-new">New — staged Oct 1; term risk</span></td>
+          <td style="font-size:0.72rem;color:var(--warning);">Zip 57104 excluded</td><td><span class="status status-new">New — staged Oct 1; term risk</span></td>
           <td>Sioux Falls • lower-priority B- area • no outreach sent</td>
           <td class="email-log">Oct 1: Direct Zillow property page verified ✓<br>Oct 1: 6–9mo term and fees still unverified</td>
         <td class="vote-cell" data-property="arnolds-park"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1" title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1" title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
         <tr style="border-left:3px solid var(--accent);">
-          <td><span class="score-badge s-b">B</span></td>
+          <td><span class="score-badge s-b">B</span></td><td class="photo-cell" style="text-align:center;color:var(--text-muted);font-size:0.6rem;">no photo</td>
           <td>
             <div class="property-name"><a href="https://www.zillow.com/apartments/sioux-falls-sd/bridgewood-estates/5XqsK3/" target="_blank" rel="noopener">Bridgewood Estates</a></div>
             <div class="property-type type-apt">Apartment</div>
@@ -520,7 +528,7 @@
           <td>57106</td>
           <td class="price in-budget"><strong>$775+</strong></td>
           <td>1BR/1BA • 738sf • Shared laundry • Attached garage • <strong>6–9mo term and full cost unverified</strong></td>
-          <td><span class="status status-new">New — staged Oct 1; term risk</span></td>
+          <td style="font-size:0.72rem;color:var(--warning);">1BR only - fails the 2BR minimum</td><td><span class="status status-new">New — staged Oct 1; term risk</span></td>
           <td>57106 • direct Zillow page shows current availability • no outreach sent</td>
           <td class="email-log">Oct 1: Direct Zillow property page verified ✓<br>Oct 1: 6–9mo term and fees still unverified</td>
         <td class="vote-cell" data-property="bridgewood-estates"><div class="vote-group"><span class="vote-tag">A</span><button class="vote-btn" data-who="A" data-dir="1" title="Amira likes">+</button><button class="vote-btn" data-who="A" data-dir="-1" title="Amira no">−</button></div><div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1" title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">−</button></div></td></tr>
@@ -885,6 +893,8 @@
   <div class="mobile-only">
     <!-- RPM JETTY UNITS: A — ADDED Oct 8 (apartments now in scope) -->
     <div class="card">
+      <img class="card-photo" src="https://images.cdn.appfolio.com/rpmsd001/images/e8a34496-b104-417e-8ef1-1280287a45a5/large.jpg" onclick="openLightbox(this.src)" alt="4908 W Kirkwood Cir #01" loading="lazy">
+      
       <div class="card-top">
         <div>
           <span class="score-badge s-a">A</span>
@@ -898,9 +908,12 @@
       <div class="card-detail"><strong>✓ $0 deposit via Jetty</strong> • App fee $69</div>
       <span class="status status-new">New — $0 deposit, available NOW</span>
       <div class="card-log">Oct 8: Staged from RPM public listing ✓</div>
-    </div>
+    
+      <div class="card-detail" style="color:var(--warning);font-size:0.7rem;">Safety: SFPD grade D, 294 calls/0.25mi/90d</div></div>
 
     <div class="card">
+      <img class="card-photo" src="https://images.cdn.appfolio.com/rpmsd001/images/e8a34496-b104-417e-8ef1-1280287a45a5/large.jpg" onclick="openLightbox(this.src)" alt="4908 W Kirkwood Cir #02" loading="lazy">
+      
       <div class="card-top">
         <div>
           <span class="score-badge s-a">A</span>
@@ -914,9 +927,12 @@
       <div class="card-detail"><strong>✓ $0 deposit via Jetty</strong> • App fee $69</div>
       <span class="status status-new">New — $0 deposit, available NOW</span>
       <div class="card-log">Oct 8: Staged from RPM public listing ✓</div>
-    </div>
+    
+      <div class="card-detail" style="color:var(--warning);font-size:0.7rem;">Safety: SFPD grade D, 294 calls/0.25mi/90d</div></div>
 
     <div class="card">
+      <img class="card-photo" src="https://images.cdn.appfolio.com/rpmsd001/images/705783ea-6bbe-44fe-8f8a-3ee0579ea4fc/large.jpg" onclick="openLightbox(this.src)" alt="3705 S Cathy Ave #01" loading="lazy">
+      
       <div class="card-top">
         <div>
           <span class="score-badge s-a">A</span>
@@ -930,9 +946,12 @@
       <div class="card-detail"><strong>✓ $0 deposit via Jetty</strong> • App fee $69</div>
       <span class="status status-new">New — $0 deposit, term unverified</span>
       <div class="card-log">Oct 8: Staged from RPM public listing ✓</div>
-    </div>
+    
+      <div class="card-detail" style="color:var(--warning);font-size:0.7rem;">Safety: SFPD grade D, 251 calls/0.25mi/90d</div></div>
 
     <div class="card">
+      <img class="card-photo" src="https://images.cdn.appfolio.com/rpmsd001/images/c3bba5f0-c320-4c69-82eb-dc5d05767c8f/large.jpg" onclick="openLightbox(this.src)" alt="3225 N Lewis Ave #01" loading="lazy">
+      
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
@@ -946,9 +965,12 @@
       <div class="card-detail"><strong>✓ $0 deposit via Jetty</strong> • ⚠ 57104 excluded zip</div>
       <span class="status status-new">New — below floor; lowest all-in cost</span>
       <div class="card-log">Oct 8: Staged from RPM public listing ✓</div>
-    </div>
+    
+      <div class="card-detail" style="color:var(--warning);font-size:0.7rem;">Zip 57104 excluded; $650 below floor</div></div>
 
     <div class="card">
+      <img class="card-photo" src="https://ssl.cdn-redfin.com/photo/rent/bb838810-7518-4f1e-a3d1-716069f91eb6/bigphoto/0_4.jpg" onclick="openLightbox(this.src)" alt="South Ridge Townhomes" loading="lazy">
+      
       <div class="card-top">
         <div>
           <span class="score-badge s-a">A+</span>
@@ -961,10 +983,13 @@
       <div class="card-detail">In-unit W/D • 2BR/1BA • 923sf • Off-street • Townhome • No pets</div>
       <span class="status status-contacted">Contacted — Sep 4 ✓</span>
       <div class="card-log">Sep 2: Added ✓ • Sep 4: Email sent to Costello ✓</div>
-    </div>
+    
+      <div class="card-detail" style="color:var(--warning);font-size:0.7rem;">Lease: landlord offers no short term</div></div>
 
     <!-- GRANT SQUARE: B (NEW Sep 2) -->
     <div class="card">
+      <div class="card-photo-placeholder">No photo on listing</div>
+      
       <div class="card-top">
         <div>
           <span class="score-badge s-a">A</span>
@@ -978,13 +1003,16 @@
       <div class="card-detail">W/D <strong>TBD</strong> • Deposit $800</div>
       <span class="status status-replied">Replied — W/D ✓</span>
       <div class="card-log">Sep 3: Joann replied (W/D ✓, unit 1 Oct 1) • replied w/ Nov timing ✓</div>
-    </div>
+    
+      <div class="card-detail" style="color:var(--warning);font-size:0.7rem;">Rent $1,299 is 62% over the $800 ceiling</div></div>
 
     <div class="card">
+      <img class="card-photo" src="https://s3.amazonaws.com/ShowMojo-Dev/64027791/large/large.jpg?1787154553" onclick="openLightbox(this.src)" alt="401 S Sycamore #206" loading="lazy">
+      
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
-          <div class="card-title"><a href="https://luke.properties/rent/l/6ca5f3a07c/401-s-sycamore-ave-206-sioux-falls-sd-57110" target="_blank" rel="noopener">401 S Sycamore #206</a></div>
+          <div class="card-title"><a href="https://showmojo.com/l/6ca5f3a07c" target="_blank" rel="noopener">401 S Sycamore #206</a></div>
           <div class="card-badges"><span class="property-type type-apt">Apartment</span><span class="area-badge area-a">A+</span><span class="badge badge-depalt">Dep. alt</span></div>
           <div class="card-manager">Luke Properties • 57110</div>
         </div>
@@ -993,9 +1021,12 @@
       <div class="card-detail">Off-street • Deposit alt built-in • No move-in fees</div>
       <span class="status status-replied">Thread reply sent Oct 1</span>
       <div class="card-log">Oct 1: Replied in existing Gmail thread; awaiting availability/term/full-cost confirmation</div>
-    </div>
+    
+      <div class="card-detail" style="color:var(--success);font-weight:600;font-size:0.7rem;">PASS - 2BR confirmed live, $725, 57110, deposit alt</div></div>
 
     <div class="card">
+      <div class="card-photo-placeholder">No photo on listing</div>
+      
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
@@ -1008,9 +1039,12 @@
       <div class="card-detail">In-unit W/D • 2BR/1.5BA • 960sf • Off-street</div>
       <span class="status status-replied">Replied — ask STL</span>
       <div class="card-log">Aug 28: Follow-up</div>
-    </div>
+    
+      <div class="card-detail" style="color:var(--warning);font-size:0.7rem;">Rent $1,145 is 43% over ceiling; 57032 out of scope</div></div>
 
     <div class="card">
+      <div class="card-photo-placeholder">No photo on listing</div>
+      
       <div class="card-top">
         <div>
           <span class="score-badge s-c">C</span>
@@ -1023,9 +1057,12 @@
       <div class="card-detail">Garage • Jetty-eligible • 1 mo free • <strong>In-unit W/D ✓</strong></div>
       <span class="status status-contacted">New</span>
       <div class="card-log">Aug 30: Added ✓</div>
-    </div>
+    
+      <div class="card-detail" style="color:var(--warning);font-size:0.7rem;">Rent $1,120 is 40% over the $800 ceiling</div></div>
 
     <div class="card">
+      <div class="card-photo-placeholder">No photo on listing</div>
+      
       <div class="card-top">
         <div>
           <span class="score-badge s-c">C</span>
@@ -1038,11 +1075,14 @@
       <div class="card-detail">2BR/1BA • 972sf • Pet-friendly • Bark park • 6-15 mo leases</div>
       <span class="status status-contacted">New</span>
       <div class="card-log">Sep 4: Added ✓</div>
-    </div>
+    
+      <div class="card-detail" style="color:var(--warning);font-size:0.7rem;">Safety: SFPD grade C, 102 calls/0.25mi/90d</div></div>
 
 
     <!-- 340 N MAIN: C — NEW Sep 4 -->
     <div class="card">
+      <div class="card-photo-placeholder">No photo on listing</div>
+      
       <div class="card-top">
         <div>
           <span class="score-badge s-c">C</span>
@@ -1055,10 +1095,13 @@
       <div class="card-detail">2BR/1BA • 775+sf • Pet-friendly • Off-street • Electric heat</div>
       <span class="status status-contacted">New</span>
       <div class="card-log">Sep 4: Added ✓</div>
-    </div>
+    
+      <div class="card-detail" style="color:var(--warning);font-size:0.7rem;">Rent $800 at ceiling, zero margin; 57005 out of scope</div></div>
 
     <!-- 1317 E SYLVAN: B — PUBLIC LEAD Oct 1 -->
     <div class="card">
+      <div class="card-photo-placeholder">No photo on listing</div>
+      
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
@@ -1071,10 +1114,13 @@
       <div class="card-detail">2BR/1BA • 830sf • Shared laundry • Parking • A/C • Electric extra • <strong>13mo promo shown; 6–9mo unverified</strong></div>
       <span class="status status-new">New — term risk; no outreach</span>
       <div class="card-log">Oct 1: Public listing verified ✓</div>
-    </div>
+    
+      <div class="card-detail" style="color:var(--warning);font-size:0.7rem;">Safety: SFPD grade C, 84 calls/0.25mi/90d</div></div>
 
     <!-- ARNOLD'S PARK: C — PUBLIC LEAD Oct 1 -->
     <div class="card">
+      <div class="card-photo-placeholder">No photo on listing</div>
+      
       <div class="card-top">
         <div>
           <span class="score-badge s-c">C</span>
@@ -1087,10 +1133,13 @@
       <div class="card-detail">2BR/1BA • 775+sf • Current availability shown • <strong>6–9mo term and full cost unverified</strong></div>
       <span class="status status-new">New — term risk; no outreach</span>
       <div class="card-log">Oct 1: Direct Zillow property page verified ✓</div>
-    </div>
+    
+      <div class="card-detail" style="color:var(--warning);font-size:0.7rem;">Zip 57104 excluded</div></div>
 
     <!-- BRIDGEWOOD ESTATES: B — PUBLIC LEAD Oct 1 -->
     <div class="card">
+      <div class="card-photo-placeholder">No photo on listing</div>
+      
       <div class="card-top">
         <div>
           <span class="score-badge s-b">B</span>
@@ -1103,7 +1152,34 @@
       <div class="card-detail">1BR/1BA • 738sf • Shared laundry • Attached garage • <strong>6–9mo term and full cost unverified</strong></div>
       <span class="status status-new">New — term risk; no outreach</span>
       <div class="card-log">Oct 1: Direct Zillow property page verified ✓</div>
+      <div class="card-detail" style="color:var(--warning);font-size:0.7rem;">1BR only - fails the 2BR minimum</div>
     </div>
+  </div>
+
+  <div class="note">
+    <strong>SAFETY — Oct 10, 2026 (address-level, replaces zip ratings):</strong> Safety is now measured per
+    address against the City of Sioux Falls Police Calls GIS feed
+    (<code>gis.siouxfalls.gov/arcgis/rest/services/Data/Safety/MapServer/16</code>), counting every call whose
+    point falls within a <strong>0.25-mile radius</strong> over a trailing <strong>90-day</strong> window, and graded
+    <strong>A ≤20 / B ≤50 / C ≤120 / D &gt;120</strong>. Citywide baseline is roughly 287 calls per square mile per 90d,
+    so an address score only means something next to that baseline. This replaced the old zip-level A+/B- badges because
+    zip codes proved far too coarse: <strong>57106 is rated "A+" by third-party crime sites, yet 4908 W Kirkwood Cir
+    inside 57106 measured 294 calls in a quarter mile</strong> (grade D, 131 of them Disorderly Conduct). The cron grades
+    every newly staged lead the day it lands, so this column updates itself.
+    <br><br>
+    <strong>Fit vs Targets column added Oct 10, 2026:</strong> Every active row now states plainly whether it passes the
+    target set (2BR minimum, ≤$800 hard ceiling, 6–9 month lease, in-scope geography, 57104 excluded, SFPD grade A or B,
+    no income restriction) and, when it fails, which rule it fails. Nothing is silently dropped. Current accounting of the
+    14 active listings: <strong>1 passes</strong> (401 S Sycamore #206 — 2BR confirmed on the live page, $725, zip 57110,
+    deposit alternative built in, landlord already replied). <strong>5 fail on rent</strong> at 40–62% over the ceiling.
+    <strong>3 fail on safety</strong> at SFPD grade C or D. <strong>2 fail geography</strong> as zip 57104 exclusions.
+    <strong>1 is 1BR only</strong>. <strong>1 has no short lease available</strong> (South Ridge, landlord confirmed Sep 4).
+    <strong>1 sits at the $800 ceiling with zero margin</strong> and outside scope.
+    <br><br>
+    The honest read: safety and affordability are trading against each other here. The safest address we measured all
+    quarter is <strong>6000 S Coneflower Ave at 16 calls (grade A)</strong>, but its 2BR rents around $1,170, roughly 46%
+    over the ceiling. In-budget inventory keeps landing in the higher-call pockets, which is exactly why the Fit column
+    exists rather than a shorter list.
   </div>
 
   <div class="note">
@@ -1166,9 +1242,22 @@
     Zillow confirmation of an in-budget 2BR in this market.
   </div>
 
-  <div class="footer">v25 • Oct 8 2026 • SF Housing Tracker</div>
+  <div class="footer">v26 • Oct 10 2026 • SF Housing Tracker • SFPD address-level safety scoring + Fit vs Targets column + listing photos restored</div>
 </div>
 
+<script>
+  function openLightbox(src) {
+    const lb = document.getElementById('lightbox');
+    const img = document.getElementById('lightbox-img');
+    if (!lb || !img) return;
+    img.src = src; lb.classList.add('active');
+  }
+  function closeLightbox() {
+    const lb = document.getElementById('lightbox');
+    if (lb) lb.classList.remove('active');
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
 <script>
   // ---- A/K vote system -------------------------------------------------
   var VKEY = 'housing-votes-v1';
@@ -3884,7 +3973,8 @@ document.querySelectorAll('.sort-btn').forEach(function(btn) {
     footer += '<div class="vote-group"><span class="vote-tag">K</span><button class="vote-btn" data-who="K" data-dir="1" title="KeShaun likes">+</button><button class="vote-btn" data-who="K" data-dir="-1" title="KeShaun no">\u2212</button></div>';
     footer += '</div>';
     footer += '<div id="modal-status">' + (statusText || '') + '</div>';
-    footer += '<div style="margin-left:auto;font-size:0.72rem;color:var(--text-muted);">' + (data.notes || '') + '</div>';
+    footer += '<div style="margin-left:auto;font-size:0.72rem;color:var(--text-muted);">' + (data.notes || '') + '
+      <div class="card-detail" style="color:var(--warning);font-size:0.7rem;">1BR only - fails the 2BR minimum</div></div>';
     modalFooter.innerHTML = footer;
 
     modalFooter.querySelectorAll('.vote-btn').forEach(function(b) {
@@ -3948,5 +4038,6 @@ document.querySelectorAll('.sort-btn').forEach(function(btn) {
     });
   });
 </script>
+<div class="lightbox" id="lightbox" onclick="closeLightbox()"><img id="lightbox-img" src="" alt="Listing photo"></div>
 </body>
 </html>
