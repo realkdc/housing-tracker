@@ -3,221 +3,262 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Housing Board</title>
+<title>Housing</title>
 <style>
 :root{
-  --bg:#0d1117; --elev:#161b22; --card:#1a2029; --line:#2a323d; --line-soft:#232a34;
-  --text:#e6edf3; --muted:#8b949e; --muted2:#636b75;
-  --accent:#58a6ff; --accent-dim:rgba(88,166,255,.13);
-  --ok:#3fb950; --ok-dim:rgba(63,185,80,.13);
-  --warn:#d29922; --warn-dim:rgba(210,153,34,.13);
-  --bad:#f85149; --bad-dim:rgba(248,81,73,.13);
+  --bg:#0b0e13; --surface:#141920; --surface2:#1a212b; --surface3:#212a36;
+  --line:#27303d; --line-soft:#1f2733;
+  --text:#e8eef5; --muted:#8a95a3; --muted2:#5f6a77;
+  --accent:#5b9dff; --accent-dim:rgba(91,157,255,.14);
+  --ok:#3ecf6e; --ok-dim:rgba(62,207,110,.13);
+  --warn:#e0a83c; --warn-dim:rgba(224,168,60,.13);
+  --bad:#f4675c; --bad-dim:rgba(244,103,92,.13);
 }
 *{box-sizing:border-box;}
 html,body{margin:0;}
 body{background:var(--bg);color:var(--text);
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+  font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased;
+  padding-bottom:env(safe-area-inset-bottom);}
 a{color:var(--accent);text-decoration:none;}
-a:hover{text-decoration:underline;}
-.wrap{max-width:1240px;margin:0 auto;padding:18px 14px 50px;}
+button{font-family:inherit;}
 
-/* header */
-header{margin-bottom:14px;}
-h1{font-size:1.35rem;margin:0 0 5px;letter-spacing:-.4px;font-weight:800;}
-h1 span{color:var(--accent);}
-.sub{color:var(--muted);font-size:.74rem;line-height:1.65;max-width:960px;}
-.sub b{color:var(--text);}
+.wrap{max-width:1220px;margin:0 auto;padding:16px 14px 44px;}
 
-/* stat strip */
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:7px;margin:13px 0 12px;}
-.stat{background:var(--elev);border:1px solid var(--line-soft);border-radius:8px;padding:9px 11px;}
-.stat-v{font-size:1.28rem;font-weight:800;letter-spacing:-.5px;line-height:1.15;}
-.stat-l{font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.55px;
-  margin-top:2px;font-weight:700;}
-.stat.ok .stat-v{color:var(--ok);}
-.stat.warn .stat-v{color:var(--warn);}
-.stat.bad .stat-v{color:var(--bad);}
-.stat.info .stat-v{color:var(--accent);}
+/* ---------- HEADER ---------- */
+.hd{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:14px;}
+.hd h1{font-size:1.3rem;margin:0 0 3px;letter-spacing:-.5px;font-weight:800;}
+.hd .sub{color:var(--muted);font-size:.72rem;line-height:1.6;max-width:700px;}
+.hd .sub b{color:var(--text);font-weight:600;}
+.hd-r{margin-left:auto;text-align:right;}
+.big{font-size:1.9rem;font-weight:800;letter-spacing:-1px;line-height:1;color:var(--ok);}
+.big-l{font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;
+  font-weight:800;margin-top:3px;}
 
-/* controls */
-.ctrls{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:11px;}
-.chip{background:var(--elev);border:1px solid var(--line);color:var(--muted);padding:6px 12px;
-  border-radius:999px;font-size:.7rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:.13s;}
-.chip:hover{border-color:var(--accent);color:var(--text);}
-.chip.on{background:var(--accent);border-color:var(--accent);color:#08111f;}
-.chip .n{opacity:.6;margin-left:3px;font-weight:800;}
-.srch{background:var(--elev);border:1px solid var(--line);color:var(--text);padding:6px 12px;
-  border-radius:999px;font-size:.73rem;min-width:180px;flex:1;max-width:280px;}
-.srch::placeholder{color:var(--muted2);}
-.srch:focus{outline:none;border-color:var(--accent);}
-.sel{background:var(--elev);border:1px solid var(--line);color:var(--text);padding:6px 10px;
-  border-radius:999px;font-size:.7rem;font-weight:700;cursor:pointer;}
-.bar-right{margin-left:auto;display:flex;gap:7px;flex-wrap:wrap;}
+/* ---------- FILTER BAR ---------- */
+.bar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;
+  background:var(--surface);border:1px solid var(--line-soft);border-radius:12px;
+  padding:9px 11px;margin-bottom:13px;}
+.qwrap{position:relative;flex:1;min-width:150px;max-width:250px;}
+.q{width:100%;background:var(--surface2);border:1px solid var(--line);color:var(--text);
+  padding:7px 11px 7px 30px;border-radius:8px;font-size:.75rem;}
+.q::placeholder{color:var(--muted2);}
+.q:focus{outline:none;border-color:var(--accent);}
+.qic{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--muted2);font-size:.8rem;}
+.seg{display:flex;background:var(--surface2);border:1px solid var(--line);border-radius:8px;
+  overflow:hidden;flex-shrink:0;}
+.seg button{background:transparent;border:none;color:var(--muted);padding:7px 11px;
+  font-size:.7rem;font-weight:700;cursor:pointer;transition:.13s;white-space:nowrap;}
+.seg button+button{border-left:1px solid var(--line);}
+.seg button:hover{color:var(--text);}
+.seg button.on{background:var(--accent);color:#08111f;}
+.sortsel{background:var(--surface2);border:1px solid var(--line);color:var(--text);
+  padding:7px 9px;border-radius:8px;font-size:.7rem;font-weight:700;cursor:pointer;}
+.spacer{flex:1;}
 
-/* table */
-.tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);
-  border-radius:10px;background:var(--elev);}
-table{width:100%;border-collapse:collapse;min-width:1080px;}
-thead th{background:#131920;padding:9px 10px;text-align:left;font-size:.6rem;color:var(--muted);
-  text-transform:uppercase;letter-spacing:.6px;font-weight:800;white-space:nowrap;
-  border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5;cursor:pointer;user-select:none;}
-thead th:hover{color:var(--text);}
-thead th.no-sort{cursor:default;}
-thead th .ar{opacity:.35;margin-left:2px;font-size:.55rem;}
-thead th.act{color:var(--accent);}
-thead th.act .ar{opacity:1;}
-tbody tr{border-bottom:1px solid var(--line-soft);transition:background .1s;}
-tbody tr:last-child{border-bottom:none;}
-tbody tr:hover{background:#1d2530;}
-tbody tr.hid{display:none;}
-tbody td{padding:9px 10px;vertical-align:middle;font-size:.75rem;}
+/* ---------- GRID ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(238px,1fr));gap:11px;}
 
-/* photo cell */
-.pc{width:96px;}
-.pc img{width:88px;height:60px;object-fit:cover;border-radius:6px;border:1px solid var(--line);
-  cursor:zoom-in;display:block;transition:.13s;}
-.pc img:hover{border-color:var(--accent);transform:scale(1.03);}
-.pc .np{width:88px;height:60px;border-radius:6px;border:1px dashed var(--line);
-  display:flex;align-items:center;justify-content:center;font-size:.52rem;color:var(--muted2);
-  font-weight:700;letter-spacing:.4px;text-align:center;padding:3px;}
+.c{background:var(--surface);border:1px solid var(--line-soft);border-radius:14px;
+  overflow:hidden;display:flex;flex-direction:column;cursor:pointer;
+  transition:transform .15s,border-color .15s,box-shadow .15s;position:relative;}
+.c:hover{transform:translateY(-3px);border-color:var(--line);
+  box-shadow:0 10px 30px rgba(0,0,0,.5);}
+.c.hid{display:none;}
+.c.pick{border-color:rgba(62,207,110,.45);}
 
-/* name */
-.nm{font-weight:700;font-size:.82rem;letter-spacing:-.2px;line-height:1.3;}
-.nm a{color:var(--text);}
-.nm a:hover{color:var(--accent);text-decoration:none;}
-.mt{color:var(--muted);font-size:.64rem;margin-top:1px;}
+/* photo */
+.ph{position:relative;aspect-ratio:4/3;background:var(--surface2);overflow:hidden;flex-shrink:0;}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s;}
+.c:hover .ph img{transform:scale(1.05);}
+.np{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  color:var(--muted2);font-size:.66rem;font-weight:700;letter-spacing:.5px;}
 
-/* badges */
-.bdg{display:inline-block;padding:2px 7px;border-radius:5px;font-size:.62rem;font-weight:800;
-  letter-spacing:.2px;white-space:nowrap;}
-.g-A{background:var(--ok-dim);color:var(--ok);border:1px solid rgba(63,185,80,.34);}
-.g-B{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(88,166,255,.34);}
-.g-C{background:var(--warn-dim);color:var(--warn);border:1px solid rgba(210,153,34,.34);}
-.g-D{background:var(--bad-dim);color:var(--bad);border:1px solid rgba(248,81,73,.34);}
-.g-N{background:rgba(110,118,129,.12);color:var(--muted);border:1px solid var(--line);}
-.av-ok{background:rgba(63,185,80,.9);color:#04140a;}
-.av-no{background:rgba(248,81,73,.9);color:#1a0505;}
-.av-mid{background:rgba(210,153,34,.9);color:#150e01;}
-.av-unk{background:rgba(13,17,23,.7);color:var(--muted);border:1px solid var(--line);}
+/* grade chip on photo */
+.gr{position:absolute;top:8px;right:8px;width:30px;height:30px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.9rem;
+  backdrop-filter:blur(8px);border:1px solid;}
+.gA{background:rgba(62,207,110,.9);color:#04140a;border-color:rgba(62,207,110,.95);}
+.gB{background:rgba(91,157,255,.9);color:#041020;border-color:rgba(91,157,255,.95);}
+.gC{background:rgba(224,168,60,.92);color:#150e01;border-color:rgba(224,168,60,.95);}
+.gD{background:rgba(244,103,92,.9);color:#1a0505;border-color:rgba(244,103,92,.95);}
+.gN{background:rgba(90,100,112,.85);color:#0b0e13;border-color:rgba(90,100,112,.9);}
+.pc{position:absolute;left:8px;bottom:8px;background:rgba(7,10,15,.85);backdrop-filter:blur(8px);
+  padding:4px 9px;border-radius:8px;border:1px solid rgba(255,255,255,.1);}
+.pc .amt{font-size:.95rem;font-weight:800;letter-spacing:-.4px;line-height:1.15;}
+.pc .tag{font-size:.53rem;font-weight:800;letter-spacing:.5px;color:var(--ok);}
+.pc.over .tag{color:var(--bad);}
+.pc.over{border-color:rgba(244,103,92,.4);}
 
-/* price */
-.pr{font-weight:800;font-size:.85rem;letter-spacing:-.3px;white-space:nowrap;}
-.pr small{display:block;font-size:.55rem;font-weight:700;letter-spacing:.4px;color:var(--ok);}
-.pr.over small{color:var(--bad);}
+/* body */
+.b{padding:10px 11px 11px;display:flex;flex-direction:column;gap:7px;flex:1;}
+.t{font-size:.85rem;font-weight:800;letter-spacing:-.25px;line-height:1.3;}
+.m{color:var(--muted);font-size:.65rem;line-height:1.5;}
 
-/* amenity marks */
-.am{display:flex;flex-direction:column;gap:2px;}
-.am-r{display:flex;align-items:center;gap:5px;font-size:.66rem;font-weight:700;white-space:nowrap;}
-.am-ic{width:15px;height:15px;border-radius:4px;display:inline-flex;align-items:center;
-  justify-content:center;font-size:.6rem;font-weight:900;flex-shrink:0;}
-.i-yes{background:var(--ok-dim);color:var(--ok);}
-.i-mid{background:var(--warn-dim);color:var(--warn);}
-.i-no{background:var(--bad-dim);color:var(--bad);}
-.i-unk{background:rgba(110,118,129,.12);color:var(--muted);}
+/* amenity strip */
+.am{display:flex;gap:4px;}
+.ami{flex:1;background:var(--surface2);border:1px solid var(--line-soft);border-radius:7px;
+  padding:5px 3px;text-align:center;line-height:1.25;}
+.ami .ic{font-size:.68rem;font-weight:900;display:block;}
+.ami .lb{font-size:.5rem;color:var(--muted);text-transform:uppercase;letter-spacing:.35px;
+  font-weight:800;margin-top:1px;}
+.ami.y{background:var(--ok-dim);border-color:rgba(62,207,110,.3);}
+.ami.y .ic{color:var(--ok);}
+.ami.mid{background:var(--warn-dim);border-color:rgba(224,168,60,.3);}
+.ami.mid .ic{color:var(--warn);}
+.ami.n{background:var(--bad-dim);border-color:rgba(244,103,92,.3);}
+.ami.n .ic{color:var(--bad);}
+.ami.u .ic{color:var(--muted2);}
 
-/* verdict */
-.vd{font-size:.66rem;line-height:1.5;border-radius:7px;padding:6px 9px;border:1px solid;max-width:290px;}
-.vd b{font-weight:800;}
-.v-pass{background:var(--ok-dim);border-color:rgba(63,185,80,.3);color:#8fe09f;}
-.v-gap{background:var(--warn-dim);border-color:rgba(210,153,34,.28);color:#e3c07a;}
-.v-hard{background:var(--bad-dim);border-color:rgba(248,81,73,.3);color:#f0a19c;}
+/* verdict line */
+.vl{font-size:.66rem;font-weight:700;line-height:1.45;border-radius:7px;padding:5px 8px;}
+.vl.pass{background:var(--ok-dim);color:#8ce6a8;}
+.vl.gap{background:var(--warn-dim);color:#ecc878;}
+.vl.hard{background:var(--bad-dim);color:#f5a49c;}
 
-/* spec rows */
-.sp{font-size:.67rem;color:var(--muted);line-height:1.6;}
-.sp b{color:var(--text);font-weight:700;}
-.sp .dim{color:var(--muted2);}
+/* footer row */
+.f{display:flex;align-items:center;gap:6px;margin-top:auto;padding-top:7px;
+  border-top:1px solid var(--line-soft);}
+.ab{font-size:.56rem;font-weight:800;text-transform:uppercase;letter-spacing:.4px;
+  padding:3px 7px;border-radius:5px;}
+.ab-ok{background:rgba(62,207,110,.9);color:#04140a;}
+.ab-no{background:rgba(244,103,92,.9);color:#1a0505;}
+.ab-unk{background:var(--surface3);color:var(--muted);}
+.f .ct{margin-left:auto;font-size:.62rem;color:var(--muted2);font-weight:700;}
 
-/* notes */
-.notes{margin-top:20px;display:flex;flex-direction:column;gap:9px;}
-.note{background:var(--elev);border:1px solid var(--line-soft);border-left:3px solid var(--accent);
-  border-radius:8px;padding:11px 14px;font-size:.73rem;line-height:1.65;color:var(--muted);}
-.note b,.note strong{color:var(--text);}
-.note.warn{border-left-color:var(--warn);}
-.note h3{margin:0 0 5px;font-size:.78rem;color:var(--text);}
-.note code{background:var(--bg);padding:1px 5px;border-radius:4px;font-size:.68rem;color:var(--accent);}
+/* ---------- ARCHIVED ---------- */
+.arch{margin-top:22px;border-top:1px solid var(--line-soft);padding-top:14px;}
+.arch-h{display:flex;align-items:center;gap:9px;cursor:pointer;user-select:none;}
+.arch-h h2{font-size:.8rem;margin:0;color:var(--muted);font-weight:800;}
+.arch-h .n{background:var(--surface2);border:1px solid var(--line);color:var(--muted);
+  font-size:.62rem;font-weight:800;padding:2px 8px;border-radius:999px;}
+.arch-h .tw{margin-left:auto;color:var(--muted2);font-size:.7rem;transition:transform .2s;}
+.arch.open .arch-h .tw{transform:rotate(180deg);}
+.arch-b{display:none;margin-top:11px;}
+.arch.open .arch-b{display:block;}
 
-footer{margin-top:20px;padding-top:14px;border-top:1px solid var(--line-soft);color:var(--muted2);
-  font-size:.65rem;text-align:center;line-height:1.75;}
+/* ---------- MODAL ---------- */
+.mo{position:fixed;inset:0;background:rgba(4,6,10,.72);backdrop-filter:blur(3px);
+  z-index:90;display:none;align-items:flex-end;justify-content:center;}
+.mo.on{display:flex;}
+.sh{background:var(--surface);border:1px solid var(--line);border-bottom:none;
+  border-radius:18px 18px 0 0;width:100%;max-width:560px;max-height:90vh;overflow-y:auto;
+  position:relative;animation:up .26s cubic-bezier(.2,.8,.3,1);}
+@keyframes up{from{transform:translateY(28px);opacity:0;}to{transform:none;opacity:1;}}
+.sh-ph{position:relative;aspect-ratio:16/9;background:var(--surface2);cursor:zoom-in;}
+.sh-ph img{width:100%;height:100%;object-fit:cover;}
+.sh-x{position:absolute;top:11px;right:11px;width:32px;height:32px;border-radius:50%;
+  background:rgba(7,10,15,.8);border:1px solid var(--line);color:var(--text);
+  font-size:1.05rem;cursor:pointer;z-index:3;backdrop-filter:blur(8px);}
+.sh-x:hover{border-color:var(--accent);}
+.sh-g{position:absolute;left:13px;bottom:13px;width:44px;height:44px;border-radius:12px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-weight:900;border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px);}
+.sh-g .n{font-size:1.2rem;line-height:1;}
+.sh-g .c{font-size:.5rem;letter-spacing:.4px;font-weight:800;opacity:.85;}
+.sh-b{padding:14px 16px 22px;}
+.sh-t{font-size:1.12rem;font-weight:800;letter-spacing:-.4px;line-height:1.25;}
+.sh-s{color:var(--muted);font-size:.72rem;margin:3px 0 12px;line-height:1.6;}
+.sh-sec{font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;
+  font-weight:800;margin:15px 0 7px;}
+.sh-am{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.sh-amr{display:flex;justify-content:space-between;gap:9px;background:var(--surface2);
+  border:1px solid var(--line-soft);border-radius:8px;padding:7px 9px;font-size:.72rem;}
+.sh-amr .k{color:var(--muted);}
+.sh-amr .v{font-weight:800;text-align:right;}
+.sh-vd{font-size:.74rem;line-height:1.6;border-radius:9px;padding:9px 11px;border:1px solid;
+  font-weight:600;}
+.sh-acts{display:flex;gap:8px;margin-top:16px;}
+.b1{flex:1;text-align:center;background:var(--accent);color:#08111f;padding:10px;
+  border-radius:9px;font-size:.78rem;font-weight:800;border:none;cursor:pointer;}
+.b1:hover{filter:brightness(1.08);}
+.b2{flex:0 0 auto;background:var(--surface2);border:1px solid var(--line);color:var(--muted);
+  padding:10px 15px;border-radius:9px;font-size:.78rem;font-weight:800;cursor:pointer;}
+.b2:hover{color:var(--text);border-color:var(--accent);}
+.sh-src{margin-top:12px;background:var(--surface2);border:1px solid var(--line-soft);
+  border-radius:8px;padding:9px 11px;font-size:.66rem;color:var(--muted);line-height:1.65;}
 
-.empty{display:none;text-align:center;padding:44px 20px;color:var(--muted);}
-.empty.on{display:block;}
-.empty .big{font-size:1.8rem;margin-bottom:6px;}
+.none{display:none;text-align:center;padding:48px 20px;color:var(--muted);}
+.none.on{display:block;}
+.none .ic{font-size:1.9rem;margin-bottom:7px;}
 
-/* lightbox */
-.lb{display:none;position:fixed;inset:0;background:rgba(3,5,8,.95);z-index:99;
+.lb{display:none;position:fixed;inset:0;background:rgba(3,5,8,.96);z-index:95;
   align-items:center;justify-content:center;cursor:zoom-out;}
 .lb.on{display:flex;}
 .lb img{max-width:93%;max-height:90%;border-radius:9px;}
-.lb .cap{position:absolute;bottom:16px;color:var(--muted);font-size:.73rem;}
 
-@media(max-width:760px){
-  .srch{max-width:none;}
-  .sub{font-size:.7rem;}
+@media(max-width:640px){
+  .grid{grid-template-columns:repeat(2,1fr);gap:9px;}
+  .hd h1{font-size:1.1rem;}
+  .big{font-size:1.6rem;}
+  .bar{padding:8px;}
+  .qwrap{max-width:none;min-width:120px;}
 }
+@media(max-width:400px){.grid{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<header>
-  <h1>Sioux Falls Housing<span>.</span></h1>
-  <p class="sub">
-    <b>Target:</b> 2BR minimum &bull; $700&ndash;800/mo, $800 hard ceiling &bull; 6&ndash;9 month lease &bull;
-    Dec 1 2026 move-in &bull; <b>in-unit washer/dryer</b> &bull; garage or off-street parking &bull;
-    dishwasher &bull; safe address (SFPD grade A/B) &bull; no income restriction &bull; no zip 57104.
-    Click any column header to sort.
-  </p>
-</header>
+  <div class="hd">
+    <div>
+      <h1>Housing</h1>
+      <div class="sub">
+        <b>2BR+</b> &bull; <b>$700&ndash;800</b> hard ceiling &bull; <b>6&ndash;9 month</b> lease &bull;
+        <b>in-unit</b> washer/dryer &bull; garage or off-street &bull; dishwasher &bull;
+        safe address &bull; no 57104 &bull; no income-restricted
+      </div>
+    </div>
+    <div class="hd-r">
+      <div class="big" id="hN">0</div>
+      <div class="big-l">homes in play</div>
+    </div>
+  </div>
 
-<div class="stats" id="stats"></div>
-
-<div class="ctrls">
-  <input class="srch" id="q" type="text" placeholder="Search name, street, zip&hellip;">
-  <div class="chip on" data-f="all">All<span class="n" id="c-all"></span></div>
-  <div class="chip" data-f="core">Meets core<span class="n" id="c-core"></span></div>
-  <div class="chip" data-f="avail">Available<span class="n" id="c-avail"></span></div>
-  <div class="chip" data-f="safe">Safe A/B<span class="n" id="c-safe"></span></div>
-  <div class="chip" data-f="budget">In budget<span class="n" id="c-budget"></span></div>
-  <div class="bar-right">
-    <select class="sel" id="sort">
-      <option value="fit">Sort: Best fit</option>
-      <option value="safe">Sort: Safest first</option>
-      <option value="price">Sort: Price low to high</option>
-      <option value="calls">Sort: Most calls</option>
+  <div class="bar">
+    <div class="qwrap">
+      <span class="qic">&#9906;</span>
+      <input class="q" id="q" type="text" placeholder="Search&hellip;">
+    </div>
+    <div class="seg" id="seg">
+      <button data-f="all" class="on">All</button>
+      <button data-f="core">Meets core</button>
+      <button data-f="safe">Safe A/B</button>
+      <button data-f="budget">In budget</button>
+    </div>
+    <select class="sortsel" id="sort">
+      <option value="fit">Best fit</option>
+      <option value="price">Price &uarr;</option>
+      <option value="safe">Safest</option>
+      <option value="calls">Most calls</option>
     </select>
   </div>
-</div>
 
-<div class="tscroll">
-  <table id="tbl">
-    <thead><tr>
-      <th class="no-sort">Photo</th>
-      <th data-k="name">Listing<span class="ar">&#9660;</span></th>
-      <th data-k="grade" class="act">Safety<span class="ar">&#9650;</span></th>
-      <th data-k="price">Rent<span class="ar">&#9660;</span></th>
-      <th data-k="avail">Status<span class="ar">&#9660;</span></th>
-      <th class="no-sort">W/D &bull; Parking &bull; Dish</th>
-      <th class="no-sort">Fit vs targets</th>
-      <th class="no-sort">Details</th>
-    </tr></thead>
-    <tbody id="tb"></tbody>
-  </table>
-</div>
-<div class="empty" id="empty"><div class="big">&#9906;</div><div>Nothing matches that filter.</div></div>
+  <div class="grid" id="grid"></div>
+  <div class="none" id="none"><div class="ic">&#9906;</div><div>Nothing matches.</div></div>
 
-<div class="notes" id="notes"></div>
+  <div class="arch" id="arch">
+    <div class="arch-h" id="archH">
+      <h2>Not available</h2>
+      <span class="n" id="archN">0</span>
+      <span class="tw">&#9660;</span>
+    </div>
+    <div class="arch-b"><div class="grid" id="archG"></div></div>
+  </div>
 
-<footer>
-  <div id="fv"></div>
-  <div>Safety measured per address against City of Sioux Falls Police Calls within a 0.25-mile radius over a trailing 90 days.
-  Citywide baseline is roughly 287 calls per square mile per 90 days, so an address score only means something next to that.
-  Grades: A &le;20, B &le;50, C &le;120, D &gt;120. Amenities read off each landlord's live page.</div>
-</footer>
+  <div class="arch" id="unv" style="margin-top:12px">
+    <div class="arch-h" id="unvH">
+      <h2>Availability unverified</h2>
+      <span class="n" id="unvN">0</span>
+      <span class="tw">&#9660;</span>
+    </div>
+    <div class="arch-b"><div class="grid" id="unvG"></div></div>
+  </div>
 
 </div>
 
-<div class="lb" id="lb" onclick="this.classList.remove('on')"><img id="lbImg" src=""><div class="cap" id="lbCap"></div></div>
+<div class="mo" id="mo"><div class="sh" id="sh"></div></div>
+<div class="lb" id="lb" onclick="this.classList.remove('on')"><img id="lbI" src=""></div>
 
 <script>
 /* ==================== DATA ==================== */
@@ -229,222 +270,216 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){
 function pnum(p){var m=String(p).match(/([\d,]+)/);return m?parseInt(m[1].replace(/,/g,''),10):999999;}
 function inB(p){return pnum(p)<=800;}
 function grade(n){
-  if(n==null) return {g:'?',c:'g-N',t:'Not measured'};
-  if(n<=20)  return {g:'A',c:'g-A',t:n+' calls / 0.25mi / 90d'};
-  if(n<=50)  return {g:'B',c:'g-B',t:n+' calls / 0.25mi / 90d'};
-  if(n<=120) return {g:'C',c:'g-C',t:n+' calls / 0.25mi / 90d'};
-  return {g:'D',c:'g-D',t:n+' calls / 0.25mi / 90d'};
+  if(n==null) return {g:'?',c:'gN',t:'Not measured'};
+  if(n<=20)  return {g:'A',c:'gA',t:n+' calls / 0.25mi / 90d'};
+  if(n<=50)  return {g:'B',c:'gB',t:n+' calls / 0.25mi / 90d'};
+  if(n<=120) return {g:'C',c:'gC',t:n+' calls / 0.25mi / 90d'};
+  return {g:'D',c:'gD',t:n+' calls / 0.25mi / 90d'};
 }
 function wdS(o){
-  if(o.wd==='inunit')  return ['In-unit W/D','i-yes','Washer and dryer inside the unit'];
-  if(o.wd==='onsite')  return ['On-site laundry','i-mid','Shared laundry room in the building, not in the unit'];
-  if(o.wd==='shared')  return ['Shared laundry','i-no','Laundry is shared, not in the unit'];
-  return ['W/D ?','i-unk','Could not verify from any public page'];
+  if(o.wd==='inunit')  return ['In-unit','y','Washer and dryer inside the unit'];
+  if(o.wd==='onsite')  return ['On-site','mid','Shared laundry room in the building'];
+  if(o.wd==='shared')  return ['Shared','n','Laundry is shared, not in the unit'];
+  return ['?','u','Could not verify from any public page'];
 }
 function pkS(o){
-  if(o.park==='garage')    return ['Garage','i-yes','Garage included'];
-  if(o.park==='offstreet') return ['Off-street','i-yes','Off-street parking'];
-  if(o.park==='parking')   return ['Parking','i-mid','Some parking, type unclear'];
-  return ['Parking ?','i-unk','Could not verify'];
+  if(o.park==='garage')    return ['Garage','y','Garage included'];
+  if(o.park==='offstreet') return ['Off-street','y','Off-street parking'];
+  if(o.park==='parking')   return ['Parking','mid','Some parking, type unclear'];
+  return ['?','u','Could not verify'];
 }
 function dwS(o){
-  return o.dw==='yes' ? ['Dishwasher','i-yes','Dishwasher in unit'] : ['Dishwasher ?','i-unk','Could not verify'];
+  return o.dw==='yes' ? ['Dish','y','Dishwasher in unit'] : ['?','u','Could not verify'];
 }
 function avS(o){
   var a=(o.avail||'').toLowerCase();
-  if(a.indexOf('unavailable')>=0||a.indexOf('not listed')>=0) return ['Unavailable','av-no'];
-  if(a.indexOf('available now')>=0||a.indexOf('listed')>=0)   return ['Available','av-ok'];
-  if(a.indexOf('cannot verify')>=0) return ['Unverified','av-unk'];
-  return [o.avail||'Unknown','av-unk'];
+  if(a.indexOf('unavailable')>=0||a.indexOf('not listed')>=0) return ['Unavailable','ab-no','no'];
+  if(a.indexOf('available now')>=0||a.indexOf('listed')>=0)   return ['Available','ab-ok','ok'];
+  return ['Unverified','ab-unk','unk'];
 }
 function core(o){ return o.wd==='inunit' && (o.park==='garage'||o.park==='offstreet'); }
 
 function verdict(o){
   var f=[],hard=false;
-  if(pnum(o.price)>800) f.push('$'+pnum(o.price)+' over the $800 ceiling');
+  if(pnum(o.price)>800) f.push('$'+pnum(o.price)+' over ceiling');
   if(o.beds!=null&&o.beds<2){f.push('only '+o.beds+'BR');hard=true;}
   if(o.zip==='57104'){f.push('zip 57104 excluded');hard=true;}
   if(o.wd!=='inunit'){
-    if(o.wd==='onsite'){f.push('no in-unit W/D (on-site only)');hard=true;}
-    else if(o.wd==='shared'){f.push('no in-unit W/D (shared)');hard=true;}
+    if(o.wd==='onsite'){f.push('no in-unit W/D');hard=true;}
+    else if(o.wd==='shared'){f.push('no in-unit W/D');hard=true;}
     else f.push('W/D unverified');
   }
   if(o.park==='unknown') f.push('parking unverified');
-  else if(o.park==='parking') f.push('parking type unclear');
+  else if(o.park==='parking') f.push('parking unclear');
   var g=grade(o.sfpd);
   if(o.sfpd!=null&&(g.g==='C'||g.g==='D')) f.push('SFPD '+g.g+' ('+o.sfpd+')');
-  if(avS(o)[1]==='av-no'){f.push('no longer available');hard=true;}
-  if(!f.length) return '<div class="vd v-pass"><b>Meets every target.</b></div>';
-  return '<div class="vd '+(hard?'v-hard':'v-gap')+'"><b>'+(hard?'Blocked: ':'Gaps: ')+
-         f.map(esc).join(' &bull; ')+'.</div>';
+  if(avS(o)[2]==='no'){f.push('no longer available');hard=true;}
+  if(!f.length) return {cls:'pass',txt:'Meets every target'};
+  return {cls:hard?'hard':'gap',txt:(hard?'Blocked: ':'Gaps: ')+f.join(' \u00b7 ')};
 }
 
-/* ==================== STATS ==================== */
-function stats(){
-  var t=L.length, cm=L.filter(core).length;
-  var wd=L.filter(function(o){return o.wd==='inunit';}).length;
-  var ib=L.filter(function(o){return inB(o.price);}).length;
-  var sf=L.filter(function(o){var g=grade(o.sfpd).g;return g==='A'||g==='B';}).length;
-  var av=L.filter(function(o){return avS(o)[1]==='av-ok';}).length;
-  document.getElementById('stats').innerHTML=
-    '<div class="stat info"><div class="stat-v">'+t+'</div><div class="stat-l">Listings</div></div>'+
-    '<div class="stat '+(cm?'ok':'bad')+'"><div class="stat-v">'+cm+'</div><div class="stat-l">Core met</div></div>'+
-    '<div class="stat '+(wd?'ok':'bad')+'"><div class="stat-v">'+wd+'</div><div class="stat-l">In-unit W/D</div></div>'+
-    '<div class="stat ok"><div class="stat-v">'+ib+'</div><div class="stat-l">In budget</div></div>'+
-    '<div class="stat '+(sf?'ok':'warn')+'"><div class="stat-v">'+sf+'</div><div class="stat-l">Safe A/B</div></div>'+
-    '<div class="stat '+(av?'ok':'warn')+'"><div class="stat-v">'+av+'</div><div class="stat-l">Available</div></div>'+
-    '<div class="stat warn"><div class="stat-v">0</div><div class="stat-l">Confirmed</div></div>';
-  document.getElementById('c-all').textContent=t;
-  document.getElementById('c-core').textContent=cm;
-  document.getElementById('c-avail').textContent=av;
-  document.getElementById('c-safe').textContent=sf;
-  document.getElementById('c-budget').textContent=ib;
-}
-
-/* ==================== RENDER ==================== */
-function rowHTML(o){
-  var g=grade(o.sfpd), av=avS(o), wd=wdS(o), pk=pkS(o), dw=dwS(o);
+/* ==================== CARD ==================== */
+function cardHTML(o,compact){
+  var g=grade(o.sfpd),av=avS(o),wd=wdS(o),pk=pkS(o),dw=dwS(o),v=verdict(o);
   var over=!inB(o.price);
-  var photo = o.photo
-    ? '<img src="'+esc(o.photo)+'" alt="'+esc(o.name)+'" loading="lazy" onclick="zoom(this.src,\''+esc(o.name)+'\')">'
+  var photo=o.photo
+    ? '<img src="'+esc(o.photo)+'" alt="'+esc(o.name)+'" loading="lazy">'
     : '<div class="np">NO PHOTO</div>';
-  var specs='';
-  if(o.beds!=null) specs+='<b>'+o.beds+'BR</b>/'+o.baths+'BA'+(o.sqft?' &middot; '+o.sqft+'sf':'')+'<br>';
-  if(o.deposit)    specs+='Deposit: <span class="'+(/tbd|unknown/i.test(o.deposit)?'dim':'')+'">'+esc(o.deposit)+'</span><br>';
-  if(o.lease)      specs+='Lease: <span class="'+(/tbd|unknown/i.test(o.lease)?'dim':'')+'">'+esc(o.lease)+'</span>';
-  if(o.phone)      specs+='<br>'+esc(o.phone);
-  return '<tr data-slug="'+esc(o.slug)+'" data-core="'+(core(o)?1:0)+'" data-avail="'+av[1]+
+  return '<div class="c'+(core(o)?' pick':'')+'" data-slug="'+esc(o.slug)+
+    '" data-core="'+(core(o)?1:0)+'" data-avail="'+av[2]+
     '" data-safe="'+((g.g==='A'||g.g==='B')?1:0)+'" data-budget="'+(inB(o.price)?1:0)+
     '" data-price="'+pnum(o.price)+'" data-calls="'+(o.sfpd==null?99999:o.sfpd)+
     '" data-gr="'+g.g+'" data-name="'+esc((o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase())+'">'+
-    '<td class="pc">'+photo+'</td>'+
-    '<td><div class="nm"><a href="'+esc(o.url)+'" target="_blank" rel="noopener">'+esc(o.name)+'</a></div>'+
-      '<div class="mt">'+esc(o.type||'')+(o.type?' &bull; ':'')+esc(o.manager||'')+(o.zip?' &bull; '+esc(o.zip):'')+'</div></td>'+
-    '<td><span class="bdg '+g.c+'" title="'+esc(g.t)+'">'+g.g+'</span>'+
-      (o.sfpd!=null?'<div class="mt" style="margin-top:2px">'+o.sfpd+' calls</div>':'')+'</td>'+
-    '<td><div class="pr'+(over?' over':'')+'">'+esc(o.price_raw)+'<small>'+(over?'OVER CEILING':'IN BUDGET')+'</small></div></td>'+
-    '<td><span class="bdg '+av[1]+'">'+esc(av[0])+'</span></td>'+
-    '<td><div class="am">'+
-      '<div class="am-r"><span class="am-ic '+wd[1]+'">&#9679;</span><span title="'+esc(wd[2])+'">'+esc(wd[0])+'</span></div>'+
-      '<div class="am-r"><span class="am-ic '+pk[1]+'">&#9679;</span><span title="'+esc(pk[2])+'">'+esc(pk[0])+'</span></div>'+
-      '<div class="am-r"><span class="am-ic '+dw[1]+'">&#9679;</span><span title="'+esc(dw[2])+'">'+esc(dw[0])+'</span></div>'+
-    '</div></td>'+
-    '<td>'+verdict(o)+'</td>'+
-    '<td><div class="sp">'+specs+'</div></td>'+
-  '</tr>';
+    '<div class="ph">'+photo+
+      '<div class="gr '+g.c+'" title="'+esc(g.t)+'">'+g.g+'</div>'+
+      '<div class="pc'+(over?' over':'')+'"><div class="amt">'+esc(o.price_raw)+
+        '</div><div class="tag">'+(over?'OVER':'IN BUDGET')+'</div></div>'+
+    '</div>'+
+    '<div class="b">'+
+      '<div><div class="t">'+esc(o.name)+'</div>'+
+      '<div class="m">'+esc(o.type||'')+(o.type?' &middot; ':'')+esc(o.manager||'')+
+        (o.zip?'<br>'+esc(o.zip):'')+'</div></div>'+
+      '<div class="am">'+
+        '<div class="ami '+wd[1]+'" title="'+esc(wd[2])+'"><span class="ic">'+
+          (wd[1]==='y'?'&#10003;':wd[1]==='n'?'&#10007;':wd[1]==='mid'?'&#9650;':'?')+
+          '</span><span class="lb">'+esc(wd[0])+'</span></div>'+
+        '<div class="ami '+pk[1]+'" title="'+esc(pk[2])+'"><span class="ic">'+
+          (pk[1]==='y'?'&#10003;':pk[1]==='n'?'&#10007;':pk[1]==='mid'?'&#9650;':'?')+
+          '</span><span class="lb">'+esc(pk[0])+'</span></div>'+
+        '<div class="ami '+dw[1]+'" title="'+esc(dw[2])+'"><span class="ic">'+
+          (dw[1]==='y'?'&#10003;':dw[1]==='n'?'&#10007;':'?')+
+          '</span><span class="lb">Dish</span></div>'+
+      '</div>'+
+      '<div class="vl '+v.cls+'">'+esc(v.txt)+'</div>'+
+      '<div class="f"><span class="ab '+av[1]+'">'+esc(av[0])+'</span>'+
+        (o.sfpd!=null?'<span class="ct">'+o.sfpd+' calls</span>':'')+'</div>'+
+    '</div></div>';
 }
 
-/* ==================== FILTER + SORT ==================== */
-var FILTER='all', QUERY='', SORTKEY='fit', DIR=1;
-function apply(){
-  var rows=document.querySelectorAll('#tb tr');
-  var shown=0;
-  rows.forEach(function(r){
-    var ok=true;
-    if(FILTER==='core')   ok=r.dataset.core==='1';
-    else if(FILTER==='avail')  ok=r.dataset.avail==='av-ok';
-    else if(FILTER==='safe')   ok=r.dataset.safe==='1';
-    else if(FILTER==='budget') ok=r.dataset.budget==='1';
-    if(ok&&QUERY) ok=r.dataset.name.indexOf(QUERY)>=0;
-    r.classList.toggle('hid',!ok);
-    if(ok) shown++;
-  });
-  document.getElementById('empty').classList.toggle('on',shown===0);
-  sortRows();
+/* ==================== MODAL ==================== */
+function openModal(slug){
+  var o=L.filter(function(x){return x.slug===slug;})[0];
+  if(!o)return;
+  var g=grade(o.sfpd),av=avS(o),wd=wdS(o),pk=pkS(o),dw=dwS(o),v=verdict(o);
+  var am='';
+  function r(k,val,dim){return '<div class="sh-amr"><span class="k">'+k+'</span>'+
+    '<span class="v" style="'+(dim?'color:var(--muted);font-weight:600':'')+'">'+esc(val)+'</span></div>';}
+  am+=r('Washer/dryer',wd[0]+' \u2014 '+wd[2],wd[1]==='u');
+  am+=r('Parking',pk[0]+' \u2014 '+pk[2],pk[1]==='u');
+  am+=r('Dishwasher',dw[0]+' \u2014 '+dw[2],dw[1]==='u');
+  if(o.beds!=null) am+=r('Layout',o.beds+'BR / '+o.baths+'BA');
+  if(o.sqft) am+=r('Size',o.sqft+' sq ft');
+  if(o.zip) am+=r('Zip',o.zip);
+  am+=r('Rent',o.price_raw);
+  if(o.deposit) am+=r('Deposit',o.deposit,/tbd|unknown/i.test(o.deposit));
+  if(o.lease) am+=r('Lease',o.lease,/tbd|unknown/i.test(o.lease));
+  if(o.utils) am+=r('Utilities incl.',o.utils);
+  am+=r('Availability',o.avail||'?');
+  am+=r('Safety',g.g+' ('+(o.sfpd==null?'not measured':o.sfpd+' calls in 0.25mi / 90d')+')');
+  if(o.address) am+=r('Address',o.address);
+  if(o.phone) am+=r('Phone',o.phone);
+  if(o.manager) am+=r('Manager',o.manager);
+  document.getElementById('sh').innerHTML=
+    (o.photo?'<div class="sh-ph" onclick="zoom(this.querySelector(\'img\').src)">'+
+      '<img src="'+esc(o.photo)+'" alt=""><div class="sh-g '+g.c+'">'+
+      '<span class="n">'+g.g+'</span><span class="c">'+(o.sfpd==null?'N/A':o.sfpd)+'</span></div>'+
+      '<button class="sh-x" onclick="event.stopPropagation();closeModal()">&times;</button></div>'
+      :'<button class="sh-x" onclick="closeModal()">&times;</button>')+
+    '<div class="sh-b">'+
+      '<div class="sh-t">'+esc(o.name)+'</div>'+
+      '<div class="sh-s">'+esc(o.type||'')+(o.type?' &middot; ':'')+esc(o.manager||'')+
+        (o.zip?' &middot; '+esc(o.zip):'')+' &middot; <b>'+esc(o.price_raw)+'</b></div>'+
+      '<div class="sh-vd vl '+v.cls+'" style="font-size:.75rem;padding:9px 11px;">'+esc(v.txt)+'</div>'+
+      '<div class="sh-sec">Details</div>'+
+      '<div class="sh-am">'+am+'</div>'+
+      (o.amenity_source?'<div class="sh-sec">Where these facts came from</div>'+
+        '<div class="sh-src">'+esc(o.amenity_source)+'</div>':'')+
+      '<div class="sh-acts">'+
+        '<a class="b1" href="'+esc(o.url)+'" target="_blank" rel="noopener">Open listing &#8599;</a>'+
+        '<button class="b2" onclick="closeModal()">Close</button>'+
+      '</div>'+
+    '</div>';
+  document.getElementById('mo').classList.add('on');
+  document.body.style.overflow='hidden';
 }
-function sortRows(){
-  var tb=document.getElementById('tb');
-  var rows=Array.prototype.slice.call(tb.querySelectorAll('tr'));
+function closeModal(){
+  document.getElementById('mo').classList.remove('on');
+  document.body.style.overflow='';
+}
+function zoom(src){document.getElementById('lbI').src=src;document.getElementById('lb').classList.add('on');}
+
+/* ==================== RENDER ==================== */
+var FILTER='all',QUERY='',SORT='fit';
+function bucket(o){ return avS(o)[2]; }
+function pass(o){
+  var g=grade(o.sfpd).g;
+  if(FILTER==='core')   return core(o);
+  if(FILTER==='safe')   return g==='A'||g==='B';
+  if(FILTER==='budget') return inB(o.price);
+  return true;
+}
+function render(){
+  var live=L.filter(function(o){return bucket(o)==='ok';});
+  var gone=L.filter(function(o){return bucket(o)==='no';});
+  var unv =L.filter(function(o){return bucket(o)==='unk';});
+  var shown=live.filter(pass).filter(function(o){
+    return !QUERY||(o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase().indexOf(QUERY)>=0;});
+  document.getElementById('grid').innerHTML=shown.map(function(o){return cardHTML(o);}).join('');
+  document.getElementById('none').classList.toggle('on',shown.length===0);
+  document.getElementById('hN').textContent=shown.length;
+  document.getElementById('archG').innerHTML=gone.map(function(o){return cardHTML(o);}).join('');
+  document.getElementById('unvG').innerHTML =unv.map(function(o){return cardHTML(o);}).join('');
+  document.getElementById('archN').textContent=gone.length;
+  document.getElementById('unvN').textContent=unv.length;
+  document.getElementById('arch').style.display=gone.length?'':'none';
+  document.getElementById('unv').style.display=unv.length?'':'none';
+  sortDom(document.getElementById('grid'));
+  attach();
+}
+function sortDom(root){
+  var cards=Array.prototype.slice.call(root.querySelectorAll('.c'));
   var gord={A:0,B:1,C:2,D:3,'?':4};
-  rows.sort(function(a,b){
-    if(SORTKEY==='price') return (DIR*(+a.dataset.price - +b.dataset.price));
-    if(SORTKEY==='calls') return (DIR*(+a.dataset.calls - +b.dataset.calls));
-    if(SORTKEY==='grade'){
-      var d=gord[a.dataset.gr]-gord[b.dataset.gr];
-      if(d) return DIR*d;
-      return DIR*(+a.dataset.calls - +b.dataset.calls);
-    }
-    if(SORTKEY==='name') return DIR*a.dataset.name.localeCompare(b.dataset.name);
-    /* best fit */
-    var sc=function(r){
-      var s=0;
-      if(r.dataset.core==='1')s+=100;
-      if(r.dataset.avail==='av-ok')s+=40;
-      if(r.dataset.safe==='1')s+=30;
-      if(r.dataset.budget==='1')s+=20;
-      return s;
-    };
-    var d=sc(b)-sc(a);
-    if(d) return d;
+  cards.sort(function(a,b){
+    if(SORT==='price') return (+a.dataset.price)-(+b.dataset.price);
+    if(SORT==='calls') return (+b.dataset.calls)-(+a.dataset.calls);
+    if(SORT==='safe'){var d=gord[a.dataset.gr]-gord[b.dataset.gr];
+      if(d)return d; return (+a.dataset.calls)-(+b.dataset.calls);}
+    var sc=function(c){var s=0;
+      if(c.dataset.core==='1')s+=100; if(c.dataset.safe==='1')s+=30;
+      if(c.dataset.budget==='1')s+=20; return s;};
+    var d=sc(b)-sc(a); if(d)return d;
     return (+a.dataset.price)-(+b.dataset.price);
   });
-  rows.forEach(function(r){tb.appendChild(r);});
+  cards.forEach(function(c){root.appendChild(c);});
 }
-
-/* ==================== NOTES ==================== */
-var NOTES=[
- {t:'What "Meets core" means',
-  c:'A listing meets core only when it has <b>in-unit</b> washer/dryer <i>and</i> a garage or off-street parking, read off the landlord\'s live page. On-site or shared laundry does <b>not</b> count. Dishwasher is tracked separately because it is a nice-to-have, not a dealbreaker. The dot next to each amenity goes green when verified, amber when it is a compromise (on-site laundry), red when it is confirmed absent (shared), grey when no public page confirms it either way.'},
- {t:'Safety is measured per address, not per zip',
-  c:'Third-party sites rate zip 57106 as "A+", yet <b>4908 W Kirkwood Cir inside 57106 measured 289 police calls in a quarter mile over 90 days</b> (grade D, 130 of them Disorderly Conduct). Every grade here comes from the City of Sioux Falls Police Calls GIS feed, counted within a 0.25-mile radius of the exact address, sorted newest-first so the trailing 90 days are actually included. Zip-level ratings are too coarse to be useful here.'},
- {t:'The honest trade-off',
-  c:'Safety and affordability pull against each other. The safest address measured all quarter is <b>Briarwood Reserve at 16 calls (grade A)</b>, and it has in-unit W/D plus a dishwasher plus a $0 Jetty deposit, but its 2BR rents at $1,170, roughly 46% over the ceiling. Across Alpine\'s 54 units exactly <b>one</b> 2BR has in-unit W/D + garage + dishwasher, at $1,325. Every 2BR at or under $800 in that portfolio has shared or unverified laundry. That is the market, not a search failure.'},
- {t:'Verified Oct 10, 2026',
-  c:'<b>4908 W Kirkwood #01 is gone</b> &mdash; pulled from the RPM catalog, no longer in inventory; only #02 remains at $749, and both are <b>on-site laundry only</b>. <b>Lincoln Heights corrected to $845</b> (the board had $1,145, which belongs to a different property, 4609 E 3rd St #29), 2BR/1.5BA 960sf with in-unit W/D and off-street parking, but it measures <b>628 calls, the worst on the board</b>. <b>401 S Sycamore #206</b> is available at $725 and confirmed 2BR 850sf, but it is <b>shared laundry in a grade-D pocket (206 calls)</b>. <b>3705 S Cathy</b> has a garage and dishwasher but on-site laundry. <b>3225 N Lewis</b> has utilities included and off-street parking but sits in excluded zip 57104.',warn:true},
- {t:'How to read a grey dot',
-  c:'Grey means "cannot verify", never "no". Listings sit there when their source bot-walls scripted requests (Zillow, apartments.com and hotpads return 403 to plain requests) or is a JavaScript shell (rpmxpress.com returns 3KB of tracking bootstrap and zero listings; Costello\'s property pages 404). Those need a real browser or your own eyes before anyone acts on them. Nothing here is assumed available when it cannot be confirmed. Grand Teton Estates has no safety measurement at all: Brandon addresses fall outside the city geocoder and no fallback resolved it, so it is left blank rather than guessed.'}
-];
-document.getElementById('notes').innerHTML=NOTES.map(function(n){
-  return '<div class="note'+(n.warn?' warn':'')+'"><h3>'+n.t+'</h3><div>'+n.c+'</div></div>';
-}).join('');
-document.getElementById('fv').textContent='v30 &bull; Oct 10 2026 &bull; Sioux Falls Housing Board';
-
-/* ==================== LIGHTBOX ==================== */
-function zoom(src,cap){
-  document.getElementById('lbImg').src=src;
-  document.getElementById('lbCap').textContent=cap||'';
-  document.getElementById('lb').classList.add('on');
+function attach(){
+  document.querySelectorAll('.c').forEach(function(c){
+    c.onclick=function(e){
+      if(e.target.closest('a'))return;
+      openModal(c.dataset.slug);
+    };
+  });
 }
 
 /* ==================== INIT ==================== */
-document.getElementById('tb').innerHTML=L.map(rowHTML).join('');
-stats();
-sortRows();
-apply();
-
+render();
 document.getElementById('q').addEventListener('input',function(e){
-  QUERY=e.target.value.toLowerCase().trim(); apply();
-});
-document.querySelectorAll('.chip[data-f]').forEach(function(ch){
-  ch.addEventListener('click',function(){
-    document.querySelectorAll('.chip[data-f]').forEach(function(x){x.classList.remove('on');});
-    ch.classList.add('on');
-    FILTER=ch.dataset.f; apply();
+  QUERY=e.target.value.toLowerCase().trim(); render();});
+document.querySelectorAll('#seg button').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('#seg button').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on'); FILTER=b.dataset.f; render();
   });
 });
-document.getElementById('sort').addEventListener('change',function(e){
-  var v=e.target.value;
-  if(v==='fit'){SORTKEY='fit';}
-  else if(v==='price'){SORTKEY='price';DIR=1;}
-  else if(v==='safe'){SORTKEY='grade';DIR=1;}
-  else if(v==='calls'){SORTKEY='calls';DIR=1;}
-  apply();
-});
-document.querySelectorAll('thead th[data-k]').forEach(function(th){
-  th.addEventListener('click',function(){
-    var k=th.dataset.k;
-    if(SORTKEY===k){DIR=-DIR;} else {SORTKEY=k;DIR=(k==='price'||k==='calls')?1:1;}
-    document.querySelectorAll('thead th').forEach(function(x){
-      x.classList.remove('act');
-      var a=x.querySelector('.ar'); if(a)a.innerHTML='&#9660;';
-    });
-    th.classList.add('act');
-    th.querySelector('.ar').innerHTML = DIR===1?'&#9650;':'&#9660;';
-    apply();
-  });
-});
+document.getElementById('sort').addEventListener('change',function(e){SORT=e.target.value;render();});
+document.getElementById('archH').addEventListener('click',function(){
+  document.getElementById('arch').classList.toggle('open');});
+document.getElementById('unvH').addEventListener('click',function(){
+  document.getElementById('unv').classList.toggle('open');});
+document.getElementById('mo').addEventListener('click',function(e){
+  if(e.target===this)closeModal();});
 document.addEventListener('keydown',function(e){
-  if(e.key==='Escape')document.getElementById('lb').classList.remove('on');
+  if(e.key==='Escape'){closeModal();document.getElementById('lb').classList.remove('on');}
 });
 </script>
 </body>
