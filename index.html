@@ -2,573 +2,520 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sioux Falls Housing Board</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Housing Deck</title>
 <style>
 :root{
-  --bg:#0d1117; --bg-elevated:#161b22; --card:#1c2129; --card-hover:#232a35;
-  --border:#30363d; --border-soft:#262d36;
-  --text:#e6edf3; --muted:#8b949e; --muted-2:#6e7681;
-  --accent:#58a6ff; --accent-dim:rgba(88,166,255,.14);
-  --success:#3fb950; --success-dim:rgba(63,185,80,.14);
-  --warning:#d29922; --warning-dim:rgba(210,153,34,.14);
-  --danger:#f85149; --danger-dim:rgba(248,81,73,.14);
-  --purple:#bc8cff; --purple-dim:rgba(188,140,255,.14);
-  --radius:14px; --radius-sm:9px;
+  --bg:#0a0d12; --card:#161b22; --elev:#1c2230; --line:#262d38;
+  --text:#e6edf3; --muted:#8b949e; --muted2:#6a737d;
+  --accent:#58a6ff; --ok:#3fb950; --warn:#d29922; --bad:#f85149; --like:#3fb950; --nope:#f85149;
 }
-*{box-sizing:border-box;}
-html,body{margin:0;padding:0;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;height:100%;overflow:hidden;}
 body{
   background:var(--bg); color:var(--text);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  font-size:15px; line-height:1.5; -webkit-font-smoothing:antialiased;
+  display:flex; flex-direction:column;
 }
-a{color:var(--accent);text-decoration:none;}
-a:hover{text-decoration:underline;}
-.wrap{max-width:1280px;margin:0 auto;padding:20px 16px 60px;}
 
-/* ---------- HEADER ---------- */
-header{margin-bottom:18px;}
-h1{font-size:1.5rem;margin:0 0 6px;letter-spacing:-.4px;font-weight:700;}
-h1 .dot{color:var(--accent);}
-.sub{color:var(--muted);font-size:.8rem;line-height:1.6;max-width:900px;}
-.sub b{color:var(--text);font-weight:600;}
-
-/* ---------- STAT STRIP ---------- */
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:8px;margin:14px 0 16px;}
-.stat{background:var(--bg-elevated);border:1px solid var(--border-soft);border-radius:var(--radius-sm);padding:10px 12px;}
-.stat-v{font-size:1.35rem;font-weight:700;letter-spacing:-.5px;line-height:1.1;}
-.stat-l{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-top:2px;font-weight:600;}
-.stat.ok .stat-v{color:var(--success);}
-.stat.warn .stat-v{color:var(--warning);}
-.stat.bad .stat-v{color:var(--danger);}
-.stat.info .stat-v{color:var(--accent);}
-
-/* ---------- CONTROLS ---------- */
-.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px;}
-.chip{
-  background:var(--bg-elevated);border:1px solid var(--border);color:var(--muted);
-  padding:7px 13px;border-radius:999px;font-size:.72rem;font-weight:600;cursor:pointer;
-  transition:all .14s; user-select:none; white-space:nowrap;
+/* ---------- TOP BAR ---------- */
+.top{
+  padding:14px 16px 10px; display:flex; align-items:center; gap:10px;
+  border-bottom:1px solid var(--line); background:var(--bg); z-index:20; flex-shrink:0;
 }
-.chip:hover{border-color:var(--accent);color:var(--text);}
-.chip.on{background:var(--accent);border-color:var(--accent);color:#08111f;}
-.chip .n{opacity:.65;margin-left:4px;font-weight:700;}
-.search{
-  background:var(--bg-elevated);border:1px solid var(--border);color:var(--text);
-  padding:7px 13px;border-radius:999px;font-size:.75rem;min-width:190px;flex:1;max-width:300px;
+.brand{font-size:1.05rem; font-weight:800; letter-spacing:-.4px;}
+.brand span{color:var(--accent);}
+.count{font-size:.72rem;color:var(--muted);margin-left:auto;font-weight:600;}
+.filters{display:flex;gap:6px;overflow-x:auto;padding:0 16px 10px;flex-shrink:0;scrollbar-width:none;}
+.filters::-webkit-scrollbar{display:none;}
+.fchip{
+  background:var(--elev);border:1px solid var(--line);color:var(--muted);
+  padding:5px 12px;border-radius:999px;font-size:.7rem;font-weight:700;cursor:pointer;
+  white-space:nowrap;transition:all .13s;flex-shrink:0;
 }
-.search::placeholder{color:var(--muted-2);}
-.search:focus{outline:none;border-color:var(--accent);}
-.sel{
-  background:var(--bg-elevated);border:1px solid var(--border);color:var(--text);
-  padding:7px 11px;border-radius:999px;font-size:.72rem;font-weight:600;cursor:pointer;
-}
-.bar-right{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;}
+.fchip.on{background:var(--accent);border-color:var(--accent);color:#08111f;}
 
-/* ---------- CARD GRID ---------- */
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px;}
+/* ---------- DECK ---------- */
+.stage{flex:1;position:relative;display:flex;align-items:center;justify-content:center;
+  min-height:0;padding:8px 14px 4px;overflow:hidden;}
+.deck{position:relative;width:100%;max-width:400px;height:100%;max-height:600px;}
 
 .card{
-  background:var(--card);border:1px solid var(--border-soft);border-radius:var(--radius);
-  overflow:hidden;display:flex;flex-direction:column;position:relative;
-  transition:transform .14s,border-color .14s,box-shadow .14s;
+  position:absolute; inset:0; background:var(--card);
+  border-radius:20px; overflow:hidden; border:1px solid var(--line);
+  box-shadow:0 14px 40px rgba(0,0,0,.55);
+  display:flex; flex-direction:column;
+  will-change:transform; touch-action:none;
+  transition:transform .34s cubic-bezier(.2,.8,.3,1), opacity .3s;
 }
-.card:hover{transform:translateY(-2px);border-color:var(--border);box-shadow:0 8px 26px rgba(0,0,0,.4);}
-.card.hidden{display:none;}
+.card.dragging{transition:none;}
+.card.gone{opacity:0;pointer-events:none;}
 
 /* photo */
-.photo{position:relative;width:100%;height:186px;background:var(--bg-elevated);overflow:hidden;cursor:zoom-in;flex-shrink:0;}
-.photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s;}
-.photo:hover img{transform:scale(1.04);}
-.photo .nopic{
-  width:100%;height:100%;display:flex;align-items:center;justify-content:center;
-  color:var(--muted-2);font-size:.72rem;font-weight:600;letter-spacing:.4px;
-  border-bottom:1px solid var(--border-soft);
-}
-/* photo overlays */
-.ov-price{
-  position:absolute;left:10px;bottom:10px;background:rgba(8,12,18,.86);backdrop-filter:blur(6px);
-  padding:5px 10px;border-radius:8px;font-weight:700;font-size:1.02rem;letter-spacing:-.3px;
-  border:1px solid rgba(255,255,255,.1);
-}
-.ov-price small{font-size:.6rem;color:var(--muted);font-weight:600;display:block;letter-spacing:.3px;}
-.ov-price.over{border-color:rgba(248,81,73,.5);}
-.ov-grade{
-  position:absolute;right:10px;top:10px;width:38px;height:38px;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.05rem;
-  backdrop-filter:blur(6px);border:1px solid;
-}
-.g-A{background:rgba(63,185,80,.85);color:#04140a;border-color:rgba(63,185,80,.9);}
-.g-B{background:rgba(88,166,255,.85);color:#041020;border-color:rgba(88,166,255,.9);}
-.g-C{background:rgba(210,153,34,.88);color:#150e01;border-color:rgba(210,153,34,.9);}
-.g-D{background:rgba(248,81,73,.85);color:#1a0505;border-color:rgba(248,81,73,.9);}
-.g-N{background:rgba(110,118,129,.8);color:#0d1117;border-color:rgba(110,118,129,.9);}
-.ov-avail{
-  position:absolute;left:10px;top:10px;padding:4px 9px;border-radius:7px;font-size:.6rem;
-  font-weight:700;text-transform:uppercase;letter-spacing:.5px;backdrop-filter:blur(6px);border:1px solid;
-}
-.av-ok{background:rgba(63,185,80,.9);color:#04140a;border-color:rgba(63,185,80,.9);}
-.av-no{background:rgba(248,81,73,.9);color:#1a0505;border-color:rgba(248,81,73,.9);}
-.av-mid{background:rgba(210,153,34,.9);color:#150e01;border-color:rgba(210,153,34,.9);}
-.av-unk{background:rgba(13,17,23,.8);color:var(--muted);border-color:var(--border);}
+.ph{position:relative;height:52%;background:#0d1117;flex-shrink:0;overflow:hidden;}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;}
+.ph .np{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  color:var(--muted2);font-size:.72rem;font-weight:700;letter-spacing:.5px;}
+
+/* overlays */
+.ov{position:absolute;font-weight:800;border-radius:10px;backdrop-filter:blur(8px);}
+.o-price{left:12px;bottom:12px;background:rgba(6,9,14,.85);padding:6px 12px;font-size:1.15rem;
+  letter-spacing:-.4px;border:1px solid rgba(255,255,255,.12);}
+.o-price small{display:block;font-size:.56rem;color:var(--muted);letter-spacing:.5px;font-weight:700;}
+.o-price.over{border-color:rgba(248,81,73,.6);}
+.o-price.over small{color:var(--bad);}
+.o-grade{right:12px;top:12px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;
+  font-size:1.15rem;border:1px solid;}
+.gA{background:rgba(63,185,80,.9);color:#04140a;border-color:rgba(63,185,80,.95);}
+.gB{background:rgba(88,166,255,.9);color:#041020;border-color:rgba(88,166,255,.95);}
+.gC{background:rgba(210,153,34,.92);color:#150e01;border-color:rgba(210,153,34,.95);}
+.gD{background:rgba(248,81,73,.9);color:#1a0505;border-color:rgba(248,81,73,.95);}
+.gN{background:rgba(110,118,129,.85);color:#0d1117;border-color:rgba(110,118,129,.9);}
+.o-av{left:12px;top:12px;padding:4px 10px;font-size:.6rem;text-transform:uppercase;letter-spacing:.5px;}
+.avok{background:rgba(63,185,80,.92);color:#04140a;}
+.avno{background:rgba(248,81,73,.92);color:#1a0505;}
+.avmid{background:rgba(210,153,34,.92);color:#150e01;}
+.avunk{background:rgba(10,13,18,.8);color:var(--muted);border:1px solid var(--line);}
+
+/* swipe stamps */
+.stamp{position:absolute;top:26px;padding:6px 16px;border:3px solid;border-radius:10px;
+  font-size:1.15rem;font-weight:900;letter-spacing:1px;opacity:0;transform:rotate(-14deg);}
+.st-yes{left:20px;color:var(--like);border-color:var(--like);transform:rotate(-14deg);}
+.st-no{right:20px;color:var(--nope);border-color:var(--nope);transform:rotate(14deg);}
 
 /* body */
-.body{padding:12px 13px 13px;display:flex;flex-direction:column;gap:9px;flex:1;}
-.title{font-size:.98rem;font-weight:700;letter-spacing:-.2px;line-height:1.3;}
-.title a{color:var(--text);}
-.title a:hover{color:var(--accent);text-decoration:none;}
-.meta{color:var(--muted);font-size:.7rem;display:flex;flex-wrap:wrap;gap:4px 9px;align-items:center;}
-.meta .sep{color:var(--muted-2);}
+.bd{padding:13px 15px 14px;display:flex;flex-direction:column;gap:9px;flex:1;min-height:0;overflow:hidden;}
+.nm{font-size:1.08rem;font-weight:800;letter-spacing:-.3px;line-height:1.25;}
+.nm a{color:var(--text);}
+.mt{font-size:.7rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:3px 8px;}
 
-/* amenity pills */
 .pills{display:flex;flex-wrap:wrap;gap:5px;}
-.pill{
-  display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:6px;
-  font-size:.66rem;font-weight:700;border:1px solid;letter-spacing:.1px;
+.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:7px;
+  font-size:.66rem;font-weight:800;border:1px solid;}
+.pill b{font-weight:800;}
+.pYes{background:rgba(63,185,80,.15);color:var(--ok);border-color:rgba(63,185,80,.34);}
+.pNo{background:rgba(248,81,73,.15);color:var(--bad);border-color:rgba(248,81,73,.34);}
+.pMid{background:rgba(210,153,34,.15);color:var(--warn);border-color:rgba(210,153,34,.34);}
+.pUnk{background:rgba(110,118,129,.12);color:var(--muted);border-color:var(--line);}
+
+.vd{border-radius:9px;padding:8px 11px;font-size:.71rem;line-height:1.5;border:1px solid;}
+.vdPass{background:rgba(63,185,80,.13);border-color:rgba(63,185,80,.32);color:#8fe09f;}
+.vdGap{background:rgba(210,153,34,.13);border-color:rgba(210,153,34,.3);color:#e3c07a;}
+.vdHard{background:rgba(248,81,73,.13);border-color:rgba(248,81,73,.32);color:#f0a19c;}
+.vd b{font-weight:800;}
+
+.specs{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;font-size:.69rem;}
+.sp{display:flex;justify-content:space-between;gap:8px;}
+.sp .k{color:var(--muted);}
+.sp .v{font-weight:700;text-align:right;}
+.sp .v.dim{color:var(--muted);font-weight:500;}
+
+.links{display:flex;gap:7px;margin-top:auto;padding-top:8px;}
+.lbtn{flex:1;text-align:center;padding:8px;border-radius:9px;font-size:.73rem;font-weight:800;
+  text-decoration:none;cursor:pointer;border:1px solid;transition:all .13s;}
+.lbtn.open{background:rgba(88,166,255,.15);color:var(--accent);border-color:rgba(88,166,255,.34);}
+.lbtn.open:hover{background:var(--accent);color:#08111f;}
+.lbtn.more{background:transparent;border-color:var(--line);color:var(--muted);flex:0 0 auto;padding:8px 13px;}
+.lbtn.more:hover{color:var(--text);border-color:var(--accent);}
+
+/* ---------- ACTION BAR ---------- */
+.acts{display:flex;justify-content:center;align-items:center;gap:18px;padding:12px 0 16px;flex-shrink:0;}
+.abtn{
+  border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-weight:800;transition:transform .12s, box-shadow .12s; background:var(--elev);
+  box-shadow:0 4px 14px rgba(0,0,0,.4);
 }
-.pill .ic{font-size:.72rem;}
-.p-yes{background:var(--success-dim);color:var(--success);border-color:rgba(63,185,80,.32);}
-.p-no{background:var(--danger-dim);color:var(--danger);border-color:rgba(248,81,73,.32);}
-.p-mid{background:var(--warning-dim);color:var(--warning);border-color:rgba(210,153,34,.32);}
-.p-unk{background:rgba(110,118,129,.1);color:var(--muted);border-color:var(--border);}
+.abtn:active{transform:scale(.9);}
+.a-no{width:58px;height:58px;font-size:1.5rem;color:var(--nope);border:2px solid rgba(248,81,73,.5);}
+.a-no:hover{background:rgba(248,81,73,.16);box-shadow:0 6px 20px rgba(248,81,73,.3);}
+.a-yes{width:58px;height:58px;font-size:1.5rem;color:var(--like);border:2px solid rgba(63,185,80,.5);}
+.a-yes:hover{background:rgba(63,185,80,.16);box-shadow:0 6px 20px rgba(63,185,80,.3);}
+.a-info{width:44px;height:44px;font-size:1.05rem;color:var(--muted);border:2px solid var(--line);}
+.a-info:hover{color:var(--text);border-color:var(--accent);}
 
-/* fit verdict */
-.verdict{
-  border-radius:8px;padding:8px 10px;font-size:.7rem;line-height:1.45;border:1px solid;
-}
-.v-pass{background:var(--success-dim);border-color:rgba(63,185,80,.3);color:#8fe09f;}
-.v-fail{background:var(--warning-dim);border-color:rgba(210,153,34,.28);color:#e3c07a;}
-.v-hard{background:var(--danger-dim);border-color:rgba(248,81,73,.3);color:#f0a19c;}
-.verdict b{font-weight:700;}
+/* ---------- END / EMPTY ---------- */
+.end{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;
+  gap:12px;text-align:center;padding:30px;color:var(--muted);}
+.end.on{display:flex;}
+.end .big{font-size:2.6rem;}
+.end h2{margin:0;color:var(--text);font-size:1.15rem;}
+.end p{margin:0;font-size:.78rem;line-height:1.6;max-width:300px;}
+.end .btn{background:var(--accent);color:#08111f;border:none;padding:9px 20px;border-radius:9px;
+  font-weight:800;font-size:.8rem;cursor:pointer;margin-top:4px;}
 
-/* detail rows */
-.rows{display:flex;flex-direction:column;gap:3px;font-size:.7rem;}
-.row{display:flex;justify-content:space-between;gap:10px;}
-.row .k{color:var(--muted);flex-shrink:0;}
-.row .v{color:var(--text);text-align:right;font-weight:600;}
-.row .v.dim{color:var(--muted);font-weight:500;}
-
-/* footer actions */
-.foot{margin-top:auto;padding-top:9px;border-top:1px solid var(--border-soft);display:flex;gap:7px;align-items:center;}
-.btn{
-  flex:1;text-align:center;padding:7px 10px;border-radius:7px;font-size:.72rem;font-weight:700;
-  background:var(--accent-dim);color:var(--accent);border:1px solid rgba(88,166,255,.3);
-  cursor:pointer;transition:all .13s;
-}
-.btn:hover{background:var(--accent);color:#08111f;text-decoration:none;}
-.btn.ghost{background:transparent;border-color:var(--border);color:var(--muted);flex:0 0 auto;}
-.btn.ghost:hover{color:var(--text);border-color:var(--accent);background:transparent;}
-
-/* votes */
-.votes{display:flex;gap:5px;}
-.vg{display:flex;align-items:center;gap:2px;background:var(--bg-elevated);border:1px solid var(--border-soft);border-radius:7px;padding:2px 3px;}
-.vt{font-size:.6rem;font-weight:800;color:var(--muted);width:13px;text-align:center;}
-.vb{
-  width:20px;height:20px;border:none;border-radius:5px;cursor:pointer;font-size:.72rem;
-  background:transparent;color:var(--muted);line-height:1;transition:all .12s;
-}
-.vb:hover{background:var(--card-hover);color:var(--text);}
-.vb.up.on{background:var(--success-dim);color:var(--success);}
-.vb.dn.on{background:var(--danger-dim);color:var(--danger);}
-
-/* unavailable / dimmed */
-.card.gone{opacity:.55;}
-.card.gone:hover{opacity:.85;}
-
-/* notes */
-.notes{margin-top:26px;display:flex;flex-direction:column;gap:11px;}
-.note{
-  background:var(--bg-elevated);border:1px solid var(--border-soft);border-left:3px solid var(--accent);
-  border-radius:var(--radius-sm);padding:12px 15px;font-size:.74rem;line-height:1.65;color:var(--muted);
-}
-.note b,.note strong{color:var(--text);}
-.note.warn{border-left-color:var(--warning);}
-.note code{background:var(--bg);padding:1px 5px;border-radius:4px;font-size:.7rem;color:var(--accent);}
-.note h3{margin:0 0 6px;font-size:.8rem;color:var(--text);letter-spacing:-.1px;}
-
-footer{margin-top:26px;padding-top:16px;border-top:1px solid var(--border-soft);color:var(--muted-2);font-size:.66rem;text-align:center;line-height:1.7;}
+/* ---------- SHEET ---------- */
+.sheet{position:fixed;left:0;right:0;bottom:0;background:var(--elev);border-top:1px solid var(--line);
+  border-radius:20px 20px 0 0;padding:18px 18px 26px;transform:translateY(102%);
+  transition:transform .3s cubic-bezier(.2,.8,.3,1);z-index:60;max-height:82vh;overflow-y:auto;}
+.sheet.on{transform:translateY(0);}
+.sh-handle{width:38px;height:4px;background:var(--line);border-radius:2px;margin:0 auto 14px;}
+.sh-title{font-size:1.02rem;font-weight:800;margin-bottom:3px;}
+.sh-sub{font-size:.7rem;color:var(--muted);margin-bottom:12px;}
+.sh-sec{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;
+  font-weight:800;margin:14px 0 6px;}
+.sh-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-size:.73rem;}
+.sh-row{display:flex;justify-content:space-between;gap:8px;padding:3px 0;
+  border-bottom:1px solid rgba(38,45,56,.6);}
+.sh-row .k{color:var(--muted);}
+.sh-row .v{font-weight:700;text-align:right;}
+.sh-src{font-size:.68rem;color:var(--muted);line-height:1.6;background:var(--card);
+  padding:9px 11px;border-radius:9px;border:1px solid var(--line);margin-top:6px;}
+.sh-close{position:absolute;right:14px;top:14px;background:var(--card);border:1px solid var(--line);
+  color:var(--muted);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:.95rem;}
+.sh-close:hover{color:var(--text);border-color:var(--accent);}
 
 /* lightbox */
-.lb{display:none;position:fixed;inset:0;background:rgba(4,6,10,.95);z-index:999;align-items:center;justify-content:center;cursor:zoom-out;padding:24px;}
+.lb{display:none;position:fixed;inset:0;background:rgba(3,5,8,.96);z-index:80;
+  align-items:center;justify-content:center;cursor:zoom-out;}
 .lb.on{display:flex;}
-.lb img{max-width:94%;max-height:92%;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6);}
-.lb .cap{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);color:var(--muted);font-size:.75rem;background:rgba(13,17,23,.8);padding:5px 13px;border-radius:7px;}
+.lb img{max-width:94%;max-height:90%;border-radius:10px;}
 
-.empty{display:none;text-align:center;padding:56px 20px;color:var(--muted);}
-.empty.on{display:block;}
-.empty .big{font-size:2rem;margin-bottom:8px;}
-
-@media (max-width:640px){
-  .grid{grid-template-columns:1fr;}
-  h1{font-size:1.25rem;}
-  .photo{height:200px;}
-  .search{max-width:none;}
+@media(max-width:430px){
+  .deck{max-width:100%;}
+  .ph{height:48%;}
 }
 </style>
 </head>
 <body>
-<div class="wrap">
 
-<header>
-  <h1>Sioux Falls Housing Board<span class="dot">.</span></h1>
-  <p class="sub">
-    <b>Target:</b> 2BR minimum &bull; $700&ndash;800/mo, $800 hard ceiling &bull; 6&ndash;9 month lease &bull;
-    Dec 1 2026 move-in &bull; <b>in-unit washer/dryer</b> &bull; garage or off-street parking &bull; dishwasher &bull;
-    safe address (SFPD grade A/B) &bull; no income restriction &bull; no 57104.
-  </p>
-</header>
+<div class="top">
+  <div class="brand">Housing<span>.</span></div>
+  <div class="count" id="count"></div>
+</div>
 
-<div class="stats" id="stats"></div>
+<div class="filters" id="filters"></div>
 
-<div class="controls">
-  <input class="search" id="q" type="text" placeholder="Search name, street, zip&hellip;">
-  <div class="chip on" data-f="all">All<span class="n" id="c-all"></span></div>
-  <div class="chip" data-f="meets">Meets core<span class="n" id="c-meets"></span></div>
-  <div class="chip" data-f="avail">Available<span class="n" id="c-avail"></span></div>
-  <div class="chip" data-f="safe">Safe A/B<span class="n" id="c-safe"></span></div>
-  <select class="sel" id="sort">
-    <option value="fit">Sort: Best fit</option>
-    <option value="price">Sort: Price (low&rarr;high)</option>
-    <option value="safe">Sort: Safest</option>
-    <option value="sfpd">Sort: Most calls</option>
-  </select>
-  <div class="bar-right">
-    <button class="chip" id="share">Copy share link</button>
-    <button class="chip" id="clear">Clear votes</button>
+<div class="stage">
+  <div class="deck" id="deck"></div>
+  <div class="end" id="end">
+    <div class="big">&#127968;</div>
+    <h2 id="endT">That's everything</h2>
+    <p id="endP"></p>
+    <button class="btn" onclick="resetDeck()">Start over</button>
   </div>
 </div>
 
-<div class="grid" id="grid"></div>
-
-<div class="empty" id="empty">
-  <div class="big">&#9906;</div>
-  <div>Nothing matches that filter.</div>
+<div class="acts">
+  <button class="abtn a-info" id="bInfo" title="Details">&#8505;</button>
+  <button class="abtn a-no" id="bNo" title="Pass">&#10007;</button>
+  <button class="abtn a-yes" id="bYes" title="Keep">&#10003;</button>
 </div>
 
-<div class="notes" id="notes"></div>
-
-<footer>
-  <div id="foot-ver"></div>
-  <div>Safety measured per address against City of Sioux Falls Police Calls (0.25mi radius, 90 days).
-  Amenities read off each landlord's live page. Votes stay in this browser and travel in the share link.</div>
-</footer>
-
-</div>
-
-<div class="lb" id="lb"><img id="lb-img" src="" alt=""><div class="cap" id="lb-cap"></div></div>
+<div class="sheet" id="sheet"></div>
+<div class="lb" id="lb" onclick="this.classList.remove('on')"><img id="lbImg" src=""></div>
 
 <script>
-/* ================== DATA ================== */
-var LISTINGS = [{"slug":"rpm-kirkwood-4908-01","name":"4908 W Kirkwood Cir #01","type":"Apartment","manager":"RPM Express","price_raw":"$749","price":"749","zip":"57106","sfpd":289,"area":"D","avail":"Unavailable - pulled from RPM catalog","status":"UNAVAILABLE — pulled from RPM catalog Oct 10","beds":2,"baths":1,"sqft":750,"address":"4908 W Kirkwood Circle #01, Sioux Falls, SD 57106","deposit":"$0 via Jetty","lease":"TBD","utils":"None","phone":"(605) 501-5194","amenities":["$0 deposit (Jetty)","1 month free","A/C"],"url":"https://expressrpm.com/rentals-mmf/rental-listing-details/?lid=7cf7c297-b9ed-4fa7-91e4-a1eb4acad803","photo":"https://images.cdn.appfolio.com/rpmsd001/images/e8a34496-b104-417e-8ef1-1280287a45a5/large.jpg","wd":"onsite","park":"unknown","dw":"no","amenity_source":"RPM detail Amenities: Pets Allowed, Refrigerator, Snow Removal, Oven, Lawn Care, Trash Removal, Modern Apartment. Appliances: Refrigerator, Range. No in-unit W/D.","sfpd_addr":"4908 W KIRKWOOD CIR","sfpd_top":[["Disorderly Conduct",130],["Other",70],["Traffic",46]]},{"slug":"rpm-kirkwood-4908-02","name":"4908 W Kirkwood Cir #02","type":"Apartment","manager":"RPM Express","price_raw":"$749","price":"749","zip":"57106","sfpd":289,"area":"D","avail":"Available NOW","status":"New — $0 deposit, available NOW","beds":2,"baths":1,"sqft":750,"address":"4908 W Kirkwood Circle #02, Sioux Falls, SD 57106","deposit":"$0 via Jetty","lease":"TBD","utils":"None","phone":"(605) 501-5194","amenities":["$0 deposit (Jetty)","A/C"],"url":"https://expressrpm.com/rentals-mmf/rental-listing-details/?lid=6e4f5ce6-13e9-4ea3-abd7-20e9471ad1eb","photo":"https://images.cdn.appfolio.com/rpmsd001/images/e8a34496-b104-417e-8ef1-1280287a45a5/large.jpg","wd":"onsite","park":"unknown","dw":"no","amenity_source":"RPM detail Amenities: Pets Allowed, Refrigerator, Snow Removal, Oven, Lawn Care, Trash Removal. Appliances: Refrigerator, Range. No in-unit W/D.","sfpd_addr":"4908 W KIRKWOOD CIR","sfpd_top":[["Disorderly Conduct",130],["Other",70],["Traffic",46]]},{"slug":"rpm-cathy-3705-01","name":"3705 S Cathy Ave #01","type":"Apartment","manager":"RPM Express","price_raw":"$799","price":"799","zip":"57106","sfpd":246,"area":"D","avail":"Listed, $799","status":"New — $0 deposit, term unverified","beds":2,"baths":1,"sqft":821,"address":"3705 S. Cathy Avenue #01, Sioux Falls, SD 57106","deposit":"$0 via Jetty","lease":"TBD","utils":"None","phone":"(605) 501-5943","amenities":["Dishwasher","Garage","$0 deposit (Jetty)"],"url":"https://expressrpm.com/rentals-mmf/rental-listing-details/?lid=26629910-120e-4d56-9fd8-bd834a537282","photo":"https://images.cdn.appfolio.com/rpmsd001/images/705783ea-6bbe-44fe-8f8a-3ee0579ea4fc/large.jpg","wd":"onsite","park":"garage","dw":"yes","amenity_source":"RPM detail Amenities: Air Conditioning, Disposal, Dishwasher, Snow Removal, Lawn Care, Garages Available, Washer/Dryer On-Site, Vinyl Floors. Appliances: Dishwasher, Refrigerator, Range.","sfpd_addr":"3705 S CATHY AVE","sfpd_top":[["Disorderly Conduct",122],["Other",64],["Traffic",32]]},{"slug":"rpm-lewis-3225-01","name":"3225 N Lewis Ave #01","type":"Apartment","manager":"RPM Express","price_raw":"$650","price":"650","zip":"57104","sfpd":25,"area":"B","avail":"Available NOW","status":"New — below floor; lowest all-in cost","beds":2,"baths":1,"sqft":780,"address":"3225 N Lewis Ave #01, Sioux Falls, SD 57104","deposit":"$0 via Jetty","lease":"TBD","utils":"Yes","phone":"(605) 274-7373","amenities":["Off-street","$0 deposit (Jetty)","Utilities incl."],"url":"https://expressrpm.com/rentals-mmf/rental-listing-details/?lid=fdaf782c-0a77-4dab-a35c-455a51aadd22","photo":"https://images.cdn.appfolio.com/rpmsd001/images/c3bba5f0-c320-4c69-82eb-dc5d05767c8f/large.jpg","wd":"onsite","park":"offstreet","dw":"no","amenity_source":"RPM detail Amenities: Refrigerator, Water Included, Snow Removal, Oven, Window A/C, Lawn Care, Washer/Dryer On-Site, Off-Street Parking. Appliances: Window A/C, Refrigerator, Range.","sfpd_addr":"3225 N LEWIS AVE","sfpd_top":[["Disorderly Conduct",12],["Other",9],["Traffic",1]]},{"slug":"south-ridge-townhomes","name":"South Ridge Townhomes","type":"Townhouse","manager":"South Ridge","price_raw":"$768–783","price":"768–783","zip":"57108","sfpd":79,"area":"B","avail":"Available now","status":"Contacted — Sep 4 ✓ • nudge sent Sep 11","beds":2,"baths":1,"sqft":923,"address":"South Ridge Townhomes, Sioux Falls, SD 57108","deposit":"$985","lease":"6-9 mo negotiable","utils":"None","phone":"(605) 937-7278","amenities":["Off-street","In-unit W/D","No pets"],"url":"https://www.redfin.com/SD/Sioux-Falls/South-Ridge-Apartments-Townhomes/apartment/195165736","photo":"https://ssl.cdn-redfin.com/photo/rent/bb838810-7518-4f1e-a3d1-716069f91eb6/bigphoto/0_4.jpg","wd":"inunit","park":"offstreet","dw":"no","amenity_source":"Redfin live: in-unit washer/dryer, off-street parking, 923sf townhome, no pets. Dishwasher not listed.","sfpd_addr":"South Ridge Townhomes (Redfin coords)","sfpd_top":[["Disorderly Conduct",33],["Traffic",27],["Other",11]]},{"slug":"4907-w-kirkwood-cir-4","name":"4907 W Kirkwood Cir #4","type":"Townhouse","manager":"Pegasus of SD","price_raw":"$1,299","price":"1,299","zip":"57106","sfpd":237,"area":"D","avail":"Cannot verify","status":"Replied — W/D ✓","beds":2,"baths":1.5,"sqft":1100,"address":"4907 W Kirkwood Cir #4, Sioux Falls, SD 57106","deposit":"$800","lease":"M-to-M available","utils":"Lawn/snow","phone":"(605) 951-6584","amenities":["Garage"],"url":"","photo":"","wd":"unknown","park":"garage","dw":"no","amenity_source":"Attached garage confirmed; W/D marked TBD, never verified on a public page.","sfpd_addr":"4907 W KIRKWOOD CIR","sfpd_top":[["Disorderly Conduct",111],["Other",57],["Traffic",28]]},{"slug":"401-s-sycamore-206","name":"401 S Sycamore #206","type":"Apartment","manager":"Luke Properties","price_raw":"$725","price":"725","zip":"57110","sfpd":206,"area":"","avail":"Available now","status":"Thread reply sent Oct 1, 2026 — awaiting availability, term, and full-cost confirmation","beds":2,"baths":1,"sqft":850,"address":"401 S Sycamore #206, Sioux Falls, SD 57110","deposit":"Alternative","lease":"12 mo","utils":"None","phone":"","amenities":["Off-street","No pets"],"url":"https://showmojo.com/l/6ca5f3a07c","photo":"https://s3.amazonaws.com/ShowMojo-Dev/64027791/large/large.jpg?1787154553","wd":"shared","park":"offstreet","dw":"no","amenity_source":"ShowMojo live: 2 bedroom, 1 full bath, 850sf, $725, Available now. Shared laundry, NOT in-unit. Off-street parking.","sfpd_addr":"401 S SYCAMORE AVE","sfpd_top":[["Disorderly Conduct",102],["Other",36],["Traffic",17]]},{"slug":"lincoln-heights-4","name":"Lincoln Heights #4","type":"Townhouse","manager":"Alpine Prop Mgmt","price_raw":"$845","price":"845","zip":"57032","sfpd":628,"area":"A","avail":"Available NOW","status":"Replied — ask STL","beds":2,"baths":1.5,"sqft":960,"address":"Lincoln Heights #4, Harrisburg, SD 57032","deposit":"$845","lease":"12 mo","utils":"None","phone":"","amenities":["Off-street","In-unit W/D"],"url":"https://alpinepropmgmt.appfolio.com/listings","photo":"","wd":"inunit","park":"offstreet","dw":"no","amenity_source":"Alpine live: Lincoln Heights 2BR, 413 S Cliff Ave Harrisburg, 960sf, Washer/Dryer In Unit, Off Street Parking, Dishwasher, Microwave. Available NOW. $845.","sfpd_addr":"413 S CLIFF AVE","sfpd_top":[["Disorderly Conduct",256],["Other",195],["Drugs/Alcohol",73]]},{"slug":"foss-fields-hollow","name":"Foss Fields \"Hollow\"","type":"Apartment","manager":"RPM Xpress","price_raw":"$1,120","price":"1,120","zip":"57110","sfpd":77,"area":"","avail":"Cannot verify","status":"Contacted — Sep 3 ✓","beds":2,"baths":1,"sqft":950,"address":"Foss Fields Hollow, Sioux Falls, SD 57110","deposit":"$1,120","lease":"12 mo","utils":"None","phone":"","amenities":["Garage","In-unit W/D","$0 deposit (Jetty)","1 month free"],"url":"https://rpmxpress.com/available-rentals","photo":"","wd":"inunit","park":"garage","dw":"no","amenity_source":"Garage + in-unit W/D confirmed Sep 11. Rent $1,120.","sfpd_addr":"5501 W 57TH ST","sfpd_top":[["Traffic",29],["Disorderly Conduct",20],["Other",18]]},{"slug":"oakwood-estates","name":"Oakwood Estates","type":"Apartment","manager":"Elevate Property Mgmt","price_raw":"$744","price":"744","zip":"57106","sfpd":102,"area":"C","avail":"Cannot verify","status":"Contacted — Sep 10 ✓","beds":2,"baths":1,"sqft":972,"address":"Oakwood Estates, Sioux Falls, SD 57106","deposit":"$400","lease":"6-15 mo","utils":"None","phone":"(712) 746-6437","amenities":["Pets OK"],"url":"https://www.apartments.com/oakwood-estates-sioux-falls-sd/ghk534z/","photo":"","wd":"unknown","park":"unknown","dw":"no","amenity_source":"Zillow 403 to scripted requests; amenities never verified.","sfpd_addr":"3300 W 53RD ST","sfpd_top":[["Disorderly Conduct",46],["Other",28],["Traffic",8]]},{"slug":"grand-teton-estates","name":"Grand Teton Estates","type":"Apartment","manager":"Unknown","price_raw":"$800","price":"800","zip":"57005","sfpd":null,"area":"A","avail":"Cannot verify","status":"Contacted — Sep 10 ✓","beds":2,"baths":1,"sqft":775,"address":"Grand Teton Estates, Brandon, SD 57005","deposit":"$800","lease":"12 mo","utils":"None","phone":"(605) 705-1831","amenities":["Off-street","Pets OK"],"url":"https://www.apartments.com/grand-teton-estates-apartments-brandon-sd/et17prm/","photo":"","wd":"unknown","park":"offstreet","dw":"no","amenity_source":"Off-street parking from listing card; W/D never verified.","sfpd_addr":null,"sfpd_top":[]},{"slug":"1317-e-sylvan-cir-5","name":"1317 E Sylvan Cir #5","type":"Apartment","manager":"Metastone Properties","price_raw":"$800","price":"800","zip":"57005","sfpd":2,"area":"C","avail":"Cannot verify","status":"New — staged Oct 1; term risk","beds":2,"baths":1,"sqft":830,"address":"1317 E Sylvan Cir #5, Brandon, SD 57005","deposit":"TBD","lease":"13mo promo shown; 6–9mo unverified","utils":"Electric extra","phone":"(605) 513-6875","amenities":["A/C"],"url":"https://hotpads.com/1317-e-sylvan-cir-brandon-sd-57005-tumddm/5/pad","photo":"","wd":"shared","park":"parking","dw":"no","amenity_source":"Shared laundry and parking per listing card.","sfpd_addr":"1317, East Sylvan Circle, Brandon Park Addition, B","sfpd_top":[["Disorderly Conduct",1],["Other",1]]},{"slug":"arnolds-park","name":"Arnold's Park Apartments","type":"Apartment","manager":"Unknown","price_raw":"$700+","price":"700","zip":"57104","sfpd":210,"area":"","avail":"Cannot verify","status":"New — staged Oct 1; term risk","beds":2,"baths":1,"sqft":775,"address":"Arnold's Park Apartments, 812 W Bailey St, Sioux Falls, SD 57104","deposit":"TBD","lease":"6–9mo unverified","utils":"TBD","phone":"","amenities":[],"url":"https://www.zillow.com/apartments/sioux-falls-sd/arnold's-park-apartments/CkMcvd/","photo":"","wd":"unknown","park":"unknown","dw":"no","amenity_source":"Zillow 403 to scripted requests; amenities never verified.","sfpd_addr":"812 W BAILEY ST","sfpd_top":[["Disorderly Conduct",98],["Other",39],["Traffic",24]]},{"slug":"bridgewood-estates","name":"Bridgewood Estates","type":"Apartment","manager":"Unknown","price_raw":"$775+","price":"775","zip":"57106","sfpd":357,"area":"A","avail":"Cannot verify","status":"New — staged Oct 1; term risk","beds":1,"baths":1,"sqft":738,"address":"Bridgewood Estates, 2912 S Louise Ave, Sioux Falls, SD 57106","deposit":"TBD","lease":"6–9mo unverified","utils":"TBD","phone":"","amenities":["Garage"],"url":"https://www.zillow.com/apartments/sioux-falls-sd/bridgewood-estates/5XqsK3/","photo":"","wd":"shared","park":"garage","dw":"no","amenity_source":"1BR only, shared laundry, attached garage per listing card.","sfpd_addr":"2912 S LOUISE AVE","sfpd_top":[["Disorderly Conduct",121],["Traffic",100],["Other",62]]}];
+/* ==================== DATA ==================== */
+var L = [{"slug":"rpm-kirkwood-4908-01","name":"4908 W Kirkwood Cir #01","type":"Apartment","manager":"RPM Express","price_raw":"$749","price":"749","zip":"57106","sfpd":289,"area":"D","avail":"Unavailable - pulled from RPM catalog","status":"UNAVAILABLE — pulled from RPM catalog Oct 10","beds":2,"baths":1,"sqft":750,"address":"4908 W Kirkwood Circle #01, Sioux Falls, SD 57106","deposit":"$0 via Jetty","lease":"TBD","utils":"None","phone":"(605) 501-5194","amenities":["$0 deposit (Jetty)","1 month free","A/C"],"url":"https://expressrpm.com/rentals-mmf/rental-listing-details/?lid=7cf7c297-b9ed-4fa7-91e4-a1eb4acad803","photo":"https://images.cdn.appfolio.com/rpmsd001/images/e8a34496-b104-417e-8ef1-1280287a45a5/large.jpg","wd":"onsite","park":"unknown","dw":"no","amenity_source":"RPM detail Amenities: Pets Allowed, Refrigerator, Snow Removal, Oven, Lawn Care, Trash Removal, Modern Apartment. Appliances: Refrigerator, Range. No in-unit W/D.","sfpd_addr":"4908 W KIRKWOOD CIR","sfpd_top":[["Disorderly Conduct",130],["Other",70],["Traffic",46]]},{"slug":"rpm-kirkwood-4908-02","name":"4908 W Kirkwood Cir #02","type":"Apartment","manager":"RPM Express","price_raw":"$749","price":"749","zip":"57106","sfpd":289,"area":"D","avail":"Available NOW","status":"New — $0 deposit, available NOW","beds":2,"baths":1,"sqft":750,"address":"4908 W Kirkwood Circle #02, Sioux Falls, SD 57106","deposit":"$0 via Jetty","lease":"TBD","utils":"None","phone":"(605) 501-5194","amenities":["$0 deposit (Jetty)","A/C"],"url":"https://expressrpm.com/rentals-mmf/rental-listing-details/?lid=6e4f5ce6-13e9-4ea3-abd7-20e9471ad1eb","photo":"https://images.cdn.appfolio.com/rpmsd001/images/e8a34496-b104-417e-8ef1-1280287a45a5/large.jpg","wd":"onsite","park":"unknown","dw":"no","amenity_source":"RPM detail Amenities: Pets Allowed, Refrigerator, Snow Removal, Oven, Lawn Care, Trash Removal. Appliances: Refrigerator, Range. No in-unit W/D.","sfpd_addr":"4908 W KIRKWOOD CIR","sfpd_top":[["Disorderly Conduct",130],["Other",70],["Traffic",46]]},{"slug":"rpm-cathy-3705-01","name":"3705 S Cathy Ave #01","type":"Apartment","manager":"RPM Express","price_raw":"$799","price":"799","zip":"57106","sfpd":246,"area":"D","avail":"Listed, $799","status":"New — $0 deposit, term unverified","beds":2,"baths":1,"sqft":821,"address":"3705 S. Cathy Avenue #01, Sioux Falls, SD 57106","deposit":"$0 via Jetty","lease":"TBD","utils":"None","phone":"(605) 501-5943","amenities":["Dishwasher","Garage","$0 deposit (Jetty)"],"url":"https://expressrpm.com/rentals-mmf/rental-listing-details/?lid=26629910-120e-4d56-9fd8-bd834a537282","photo":"https://images.cdn.appfolio.com/rpmsd001/images/705783ea-6bbe-44fe-8f8a-3ee0579ea4fc/large.jpg","wd":"onsite","park":"garage","dw":"yes","amenity_source":"RPM detail Amenities: Air Conditioning, Disposal, Dishwasher, Snow Removal, Lawn Care, Garages Available, Washer/Dryer On-Site, Vinyl Floors. Appliances: Dishwasher, Refrigerator, Range.","sfpd_addr":"3705 S CATHY AVE","sfpd_top":[["Disorderly Conduct",122],["Other",64],["Traffic",32]]},{"slug":"rpm-lewis-3225-01","name":"3225 N Lewis Ave #01","type":"Apartment","manager":"RPM Express","price_raw":"$650","price":"650","zip":"57104","sfpd":25,"area":"B","avail":"Available NOW","status":"New — below floor; lowest all-in cost","beds":2,"baths":1,"sqft":780,"address":"3225 N Lewis Ave #01, Sioux Falls, SD 57104","deposit":"$0 via Jetty","lease":"TBD","utils":"Yes","phone":"(605) 274-7373","amenities":["Off-street","$0 deposit (Jetty)","Utilities incl."],"url":"https://expressrpm.com/rentals-mmf/rental-listing-details/?lid=fdaf782c-0a77-4dab-a35c-455a51aadd22","photo":"https://images.cdn.appfolio.com/rpmsd001/images/c3bba5f0-c320-4c69-82eb-dc5d05767c8f/large.jpg","wd":"onsite","park":"offstreet","dw":"no","amenity_source":"RPM detail Amenities: Refrigerator, Water Included, Snow Removal, Oven, Window A/C, Lawn Care, Washer/Dryer On-Site, Off-Street Parking. Appliances: Window A/C, Refrigerator, Range.","sfpd_addr":"3225 N LEWIS AVE","sfpd_top":[["Disorderly Conduct",12],["Other",9],["Traffic",1]]},{"slug":"south-ridge-townhomes","name":"South Ridge Townhomes","type":"Townhouse","manager":"South Ridge","price_raw":"$768–783","price":"768–783","zip":"57108","sfpd":79,"area":"B","avail":"Available now","status":"Contacted — Sep 4 ✓ • nudge sent Sep 11","beds":2,"baths":1,"sqft":923,"address":"South Ridge Townhomes, Sioux Falls, SD 57108","deposit":"$985","lease":"6-9 mo negotiable","utils":"None","phone":"(605) 937-7278","amenities":["Off-street","In-unit W/D","No pets"],"url":"https://www.redfin.com/SD/Sioux-Falls/South-Ridge-Apartments-Townhomes/apartment/195165736","photo":"https://ssl.cdn-redfin.com/photo/rent/bb838810-7518-4f1e-a3d1-716069f91eb6/bigphoto/0_4.jpg","wd":"inunit","park":"offstreet","dw":"no","amenity_source":"Redfin live: in-unit washer/dryer, off-street parking, 923sf townhome, no pets. Dishwasher not listed.","sfpd_addr":"South Ridge Townhomes (Redfin coords)","sfpd_top":[["Disorderly Conduct",33],["Traffic",27],["Other",11]]},{"slug":"4907-w-kirkwood-cir-4","name":"4907 W Kirkwood Cir #4","type":"Townhouse","manager":"Pegasus of SD","price_raw":"$1,299","price":"1,299","zip":"57106","sfpd":237,"area":"D","avail":"Cannot verify","status":"Replied — W/D ✓","beds":2,"baths":1.5,"sqft":1100,"address":"4907 W Kirkwood Cir #4, Sioux Falls, SD 57106","deposit":"$800","lease":"M-to-M available","utils":"Lawn/snow","phone":"(605) 951-6584","amenities":["Garage"],"url":"","photo":"","wd":"unknown","park":"garage","dw":"no","amenity_source":"Attached garage confirmed; W/D marked TBD, never verified on a public page.","sfpd_addr":"4907 W KIRKWOOD CIR","sfpd_top":[["Disorderly Conduct",111],["Other",57],["Traffic",28]]},{"slug":"401-s-sycamore-206","name":"401 S Sycamore #206","type":"Apartment","manager":"Luke Properties","price_raw":"$725","price":"725","zip":"57110","sfpd":206,"area":"","avail":"Available now","status":"Thread reply sent Oct 1, 2026 — awaiting availability, term, and full-cost confirmation","beds":2,"baths":1,"sqft":850,"address":"401 S Sycamore #206, Sioux Falls, SD 57110","deposit":"Alternative","lease":"12 mo","utils":"None","phone":"","amenities":["Off-street","No pets"],"url":"https://showmojo.com/l/6ca5f3a07c","photo":"https://s3.amazonaws.com/ShowMojo-Dev/64027791/large/large.jpg?1787154553","wd":"shared","park":"offstreet","dw":"no","amenity_source":"ShowMojo live: 2 bedroom, 1 full bath, 850sf, $725, Available now. Shared laundry, NOT in-unit. Off-street parking.","sfpd_addr":"401 S SYCAMORE AVE","sfpd_top":[["Disorderly Conduct",102],["Other",36],["Traffic",17]]},{"slug":"lincoln-heights-4","name":"Lincoln Heights #4","type":"Townhouse","manager":"Alpine Prop Mgmt","price_raw":"$845","price":"845","zip":"57032","sfpd":628,"area":"A","avail":"Available NOW","status":"Replied — ask STL","beds":2,"baths":1.5,"sqft":960,"address":"Lincoln Heights #4, Harrisburg, SD 57032","deposit":"$845","lease":"12 mo","utils":"None","phone":"","amenities":["Off-street","In-unit W/D"],"url":"https://alpinepropmgmt.appfolio.com/listings","photo":"","wd":"inunit","park":"offstreet","dw":"no","amenity_source":"Alpine live: Lincoln Heights 2BR, 413 S Cliff Ave Harrisburg, 960sf, Washer/Dryer In Unit, Off Street Parking, Dishwasher, Microwave. Available NOW. $845.","sfpd_addr":"413 S CLIFF AVE","sfpd_top":[["Disorderly Conduct",256],["Other",195],["Drugs/Alcohol",73]]},{"slug":"foss-fields-hollow","name":"Foss Fields \"Hollow\"","type":"Apartment","manager":"RPM Xpress","price_raw":"$1,120","price":"1,120","zip":"57110","sfpd":77,"area":"","avail":"Cannot verify","status":"Contacted — Sep 3 ✓","beds":2,"baths":1,"sqft":950,"address":"Foss Fields Hollow, Sioux Falls, SD 57110","deposit":"$1,120","lease":"12 mo","utils":"None","phone":"","amenities":["Garage","In-unit W/D","$0 deposit (Jetty)","1 month free"],"url":"https://rpmxpress.com/available-rentals","photo":"","wd":"inunit","park":"garage","dw":"no","amenity_source":"Garage + in-unit W/D confirmed Sep 11. Rent $1,120.","sfpd_addr":"5501 W 57TH ST","sfpd_top":[["Traffic",29],["Disorderly Conduct",20],["Other",18]]},{"slug":"oakwood-estates","name":"Oakwood Estates","type":"Apartment","manager":"Elevate Property Mgmt","price_raw":"$744","price":"744","zip":"57106","sfpd":102,"area":"C","avail":"Cannot verify","status":"Contacted — Sep 10 ✓","beds":2,"baths":1,"sqft":972,"address":"Oakwood Estates, Sioux Falls, SD 57106","deposit":"$400","lease":"6-15 mo","utils":"None","phone":"(712) 746-6437","amenities":["Pets OK"],"url":"https://www.apartments.com/oakwood-estates-sioux-falls-sd/ghk534z/","photo":"","wd":"unknown","park":"unknown","dw":"no","amenity_source":"Zillow 403 to scripted requests; amenities never verified.","sfpd_addr":"3300 W 53RD ST","sfpd_top":[["Disorderly Conduct",46],["Other",28],["Traffic",8]]},{"slug":"grand-teton-estates","name":"Grand Teton Estates","type":"Apartment","manager":"Unknown","price_raw":"$800","price":"800","zip":"57005","sfpd":null,"area":"A","avail":"Cannot verify","status":"Contacted — Sep 10 ✓","beds":2,"baths":1,"sqft":775,"address":"Grand Teton Estates, Brandon, SD 57005","deposit":"$800","lease":"12 mo","utils":"None","phone":"(605) 705-1831","amenities":["Off-street","Pets OK"],"url":"https://www.apartments.com/grand-teton-estates-apartments-brandon-sd/et17prm/","photo":"","wd":"unknown","park":"offstreet","dw":"no","amenity_source":"Off-street parking from listing card; W/D never verified.","sfpd_addr":null,"sfpd_top":[]},{"slug":"1317-e-sylvan-cir-5","name":"1317 E Sylvan Cir #5","type":"Apartment","manager":"Metastone Properties","price_raw":"$800","price":"800","zip":"57005","sfpd":2,"area":"C","avail":"Cannot verify","status":"New — staged Oct 1; term risk","beds":2,"baths":1,"sqft":830,"address":"1317 E Sylvan Cir #5, Brandon, SD 57005","deposit":"TBD","lease":"13mo promo shown; 6–9mo unverified","utils":"Electric extra","phone":"(605) 513-6875","amenities":["A/C"],"url":"https://hotpads.com/1317-e-sylvan-cir-brandon-sd-57005-tumddm/5/pad","photo":"","wd":"shared","park":"parking","dw":"no","amenity_source":"Shared laundry and parking per listing card.","sfpd_addr":"1317, East Sylvan Circle, Brandon Park Addition, B","sfpd_top":[["Disorderly Conduct",1],["Other",1]]},{"slug":"arnolds-park","name":"Arnold's Park Apartments","type":"Apartment","manager":"Unknown","price_raw":"$700+","price":"700","zip":"57104","sfpd":210,"area":"","avail":"Cannot verify","status":"New — staged Oct 1; term risk","beds":2,"baths":1,"sqft":775,"address":"Arnold's Park Apartments, 812 W Bailey St, Sioux Falls, SD 57104","deposit":"TBD","lease":"6–9mo unverified","utils":"TBD","phone":"","amenities":[],"url":"https://www.zillow.com/apartments/sioux-falls-sd/arnold's-park-apartments/CkMcvd/","photo":"","wd":"unknown","park":"unknown","dw":"no","amenity_source":"Zillow 403 to scripted requests; amenities never verified.","sfpd_addr":"812 W BAILEY ST","sfpd_top":[["Disorderly Conduct",98],["Other",39],["Traffic",24]]},{"slug":"bridgewood-estates","name":"Bridgewood Estates","type":"Apartment","manager":"Unknown","price_raw":"$775+","price":"775","zip":"57106","sfpd":357,"area":"A","avail":"Cannot verify","status":"New — staged Oct 1; term risk","beds":1,"baths":1,"sqft":738,"address":"Bridgewood Estates, 2912 S Louise Ave, Sioux Falls, SD 57106","deposit":"TBD","lease":"6–9mo unverified","utils":"TBD","phone":"","amenities":["Garage"],"url":"https://www.zillow.com/apartments/sioux-falls-sd/bridgewood-estates/5XqsK3/","photo":"","wd":"shared","park":"garage","dw":"no","amenity_source":"1BR only, shared laundry, attached garage per listing card.","sfpd_addr":"2912 S LOUISE AVE","sfpd_top":[["Disorderly Conduct",121],["Traffic",100],["Other",62]]},{"slug":"granite-peak","name":"Granite Peak Multifamily","type":"Apartment","manager":"Granite Peak","price_raw":"$697","price":"697","zip":"57106","sfpd":35,"area":"B","avail":"Listed","status":"New","beds":2,"baths":1,"sqft":986,"address":"5500 S MacArthur Ln, Sioux Falls, SD","deposit":"Unknown","lease":"Unknown","utils":"","phone":"","amenities":["Dishwasher","Garage (extra)","Laundry Facilities","Pets OK","Controlled Access"],"url":"https://www.rentalsource.com/details/5500-s-macarthur-lane-sioux-falls-sd-81664544/","photo":"https://images.rentalsource.com/listings/81664544-b4q0.jpg","wd":"onsite","park":"garage","dw":"yes","amenity_source":"RentalSource detail JSON-LD: Dishwasher, Garage, Laundry Facilities, Pet Friendly, Refrigerator, Controlled Access. Description: \"includes a dishwasher and access to on-site laundry... A detached garage\"","notes":"2BR 986sf at $697, 3BR 1100sf at $797. Garage is detached/available.","sfpd_addr":"5500 S MACARTHUR LN","sfpd_top":[["Disorderly Conduct",15],["Traffic",10],["Other",5]]},{"slug":"3falls","name":"3Falls Apartments","type":"Apartment","manager":"3Falls","price_raw":"$760","price":"760","zip":"57103","sfpd":76,"area":"C","avail":"Listed","status":"New","beds":2,"baths":1,"sqft":800,"address":"3600 E 6th St, Sioux Falls, SD","deposit":"$500","lease":"Unknown","utils":"","phone":"","amenities":["Dishwasher","Garage for rent","Laundry Facilities","A/C","Microwave","Pets OK"],"url":"https://www.rentalsource.com/details/3600-e-6th-st-sioux-falls-sd-80420879/","photo":"https://images.rentalsource.com/listings/80420879-dvjo.jpg","wd":"onsite","park":"garage","dw":"yes","amenity_source":"RentalSource detail JSON-LD: Air Conditioning, Dishwasher, Garage, Microwave, Pet Friendly, Refrigerator, Controlled Access, Laundry Facilities. Security Deposit $500, app fee $75","notes":"1-3BR 664-973sf from $760. Garages available FOR RENT (extra cost), on-site laundry.","sfpd_addr":"3600 E 6TH ST","sfpd_top":[["Disorderly Conduct",38],["Other",17],["Traffic",15]]},{"slug":"briarwood","name":"Briarwood Reserve","type":"Apartment","manager":"Real Property Mgmt","price_raw":"$1,170","price":"1170","zip":"57106","sfpd":16,"area":"A","avail":"Listed","status":"New","beds":2,"baths":2,"sqft":849,"address":"6000 S Coneflower Ave, Sioux Falls, SD","deposit":"$0 via Jetty","lease":"Unknown","utils":"Sewer/water/trash incl.","phone":"","amenities":["Dishwasher","In-unit W/D","Parking","Balcony/Patio","$0 deposit (Jetty)","Pets OK","High-Speed Internet"],"url":"https://www.rentalsource.com/details/6000-s-coneflower-ave-sioux-falls-sd-80628044/","photo":"https://images.rentalsource.com/listings/80628044-osnr.jpg","wd":"inunit","park":"offstreet","dw":"yes","amenity_source":"RentalSource detail JSON-LD: Washer/Dryer In Unit, Dishwasher, Parking, Balcony/Patio, Microwave, Pet Friendly, High-Speed Internet, Laundry Facilities. \"Eligible for $0 security deposit\"","notes":"SAFEST address on the board (grade A, 16 calls). In-unit W/D + dishwasher + $0 Jetty deposit. BUT 2BR is $1,170, 46% over the ceiling. Studio $800 / 1BR $915.","sfpd_addr":"6000 S CONEFLOWER AVE","sfpd_top":[["Disorderly Conduct",5],["Other",4],["Vandalism",3]]}];
 
-/* ================== HELPERS ================== */
-function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-function priceNum(p){var m=String(p).match(/([\d,]+)/);return m?parseInt(m[1].replace(/,/g,''),10):999999;}
-function inBudget(p){return priceNum(p)<=800;}
+/* ==================== STATE ==================== */
+var queue = [], seen = {}, FILTER = 'all';
+var VKEY = 'housing-swipes-v1';
+var likes = {};
+try{ likes = JSON.parse(localStorage.getItem(VKEY) || '{}'); }catch(e){ likes = {}; }
 
-/* amenity pill: state = yes | no | mid | unk */
-function pill(icon,label,state,title){
-  return '<span class="pill p-'+state+'" title="'+esc(title||label)+'">'+
-         '<span class="ic">'+icon+'</span>'+esc(label)+'</span>';
+/* ==================== HELPERS ==================== */
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function pnum(p){var m=String(p).match(/([\d,]+)/);return m?parseInt(m[1].replace(/,/g,''),10):999999;}
+function grade(n){
+  if(n==null) return {g:'?',c:'gN',t:'Not measured'};
+  if(n<=20)  return {g:'A',c:'gA',t:n+' calls / 0.25mi / 90d'};
+  if(n<=50)  return {g:'B',c:'gB',t:n+' calls / 0.25mi / 90d'};
+  if(n<=120) return {g:'C',c:'gC',t:n+' calls / 0.25mi / 90d'};
+  return {g:'D',c:'gD',t:n+' calls / 0.25mi / 90d'};
 }
-function wdState(o){
-  if(o.wd==='inunit') return ['In-unit W/D','yes','Washer and dryer inside the unit'];
-  if(o.wd==='onsite') return ['On-site laundry','mid','Shared laundry room in the building, not in the unit'];
-  if(o.wd==='shared') return ['Shared laundry','no','Laundry is shared, not in the unit'];
-  return ['W/D unknown','unk','Could not verify from a public page'];
+function wdS(o){
+  if(o.wd==='inunit')  return ['In-unit W/D','pYes','Washer and dryer inside the unit'];
+  if(o.wd==='onsite')  return ['On-site laundry','pMid','Shared laundry room in the building'];
+  if(o.wd==='shared')  return ['Shared laundry','pNo','Laundry is shared, not in the unit'];
+  return ['W/D ?','pUnk','Could not verify from any public page'];
 }
-function parkState(o){
-  if(o.park==='garage') return ['Garage','yes','Garage or carport included'];
-  if(o.park==='offstreet') return ['Off-street','yes','Off-street parking'];
-  if(o.park==='parking') return ['Parking','mid','Some parking, type unconfirmed'];
-  return ['Parking ?','unk','Could not verify parking'];
+function pkS(o){
+  if(o.park==='garage')    return ['Garage','pYes','Garage included'];
+  if(o.park==='offstreet') return ['Off-street','pYes','Off-street parking'];
+  if(o.park==='parking')   return ['Parking','pMid','Some parking, type unclear'];
+  return ['Parking ?','pUnk','Could not verify'];
 }
-function dwState(o){
-  if(o.dw==='yes') return ['Dishwasher','yes','Dishwasher in unit'];
-  return ['Dishwasher ?','unk','Could not verify a dishwasher'];
+function dwS(o){
+  return o.dw==='yes' ? ['Dishwasher','pYes','Dishwasher in unit'] : ['Dishwasher ?','pUnk','Could not verify'];
 }
-function availState(o){
+function avS(o){
   var a=(o.avail||'').toLowerCase();
-  if(a.indexOf('unavailable')>=0||a.indexOf('not listed')>=0||a.indexOf('pulled')>=0)
-    return ['Unavailable','no'];
-  if(a.indexOf('available now')>=0||a.indexOf('listed')>=0) return ['Available','ok'];
-  if(a.indexOf('cannot verify')>=0) return ['Unverified','unk'];
-  return [o.avail||'Unknown','unk'];
+  if(a.indexOf('unavailable')>=0||a.indexOf('not listed')>=0) return ['Unavailable','avno'];
+  if(a.indexOf('available now')>=0||a.indexOf('listed')>=0)   return ['Available','avok'];
+  if(a.indexOf('cannot verify')>=0) return ['Unverified','avunk'];
+  return [o.avail||'Unknown','avunk'];
 }
-/* SFPD grade thresholds: A<=20 B<=50 C<=120 D>120 */
-function sfpdGrade(n){
-  if(n==null) return {g:'N',cls:'g-N',txt:'Not measured'};
-  if(n<=20) return {g:'A',cls:'g-A',txt:n+' calls / 0.25mi / 90d'};
-  if(n<=50) return {g:'B',cls:'g-B',txt:n+' calls / 0.25mi / 90d'};
-  if(n<=120) return {g:'C',cls:'g-C',txt:n+' calls / 0.25mi / 90d'};
-  return {g:'D',cls:'g-D',txt:n+' calls / 0.25mi / 90d'};
-}
+function core(o){ return o.wd==='inunit' && (o.park==='garage'||o.park==='offstreet'); }
+function inB(p){ return pnum(p)<=800; }
 
-/* core requirement check: in-unit W/D + parking/garage */
-function coreMet(o){
-  return o.wd==='inunit' && (o.park==='garage'||o.park==='offstreet');
-}
-/* build the verdict text */
 function verdict(o){
-  var fails=[], hard=false;
-  if(priceNum(o.price)>800){fails.push('$'+priceNum(o.price)+' is over the $800 ceiling');}
-  if(o.beds!=null && o.beds<2){fails.push('only '+o.beds+'BR');hard=true;}
-  if(o.zip==='57104'){fails.push('zip 57104 is excluded');hard=true;}
+  var f=[],hard=false;
+  if(pnum(o.price)>800) f.push('$'+pnum(o.price)+' over the $800 ceiling');
+  if(o.beds!=null&&o.beds<2){f.push('only '+o.beds+'BR');hard=true;}
+  if(o.zip==='57104'){f.push('zip 57104 excluded');hard=true;}
   if(o.wd!=='inunit'){
-    if(o.wd==='onsite'||o.wd==='shared'){fails.push('no in-unit washer/dryer ('+(o.wd==='onsite'?'on-site only':'shared')+')');hard=true;}
-    else fails.push('washer/dryer unverified');
+    if(o.wd==='onsite'){f.push('no in-unit W/D (on-site only)');hard=true;}
+    else if(o.wd==='shared'){f.push('no in-unit W/D (shared)');hard=true;}
+    else f.push('W/D unverified');
   }
-  if(o.park==='unknown'){fails.push('parking unverified');}
-  else if(o.park==='parking'){fails.push('parking type unclear');}
-  var gr=sfpdGrade(o.sfpd);
-  if(o.sfpd!=null && (gr.g==='C'||gr.g==='D')){fails.push('SFPD grade '+gr.g+' ('+o.sfpd+' calls)');}
-  var av=availState(o);
-  if(av[1]==='no'){fails.push('listing is no longer available');hard=true;}
-
-  if(!fails.length){
-    return '<div class="verdict v-pass"><b>Meets every target.</b> '+esc(o.fit||'In budget, safe, in-unit W/D.')+'</div>';
-  }
-  var cls=hard?'v-hard':'v-fail';
-  var head=hard?'<b>Blocked:</b> ':'<b>Gaps:</b> ';
-  return '<div class="verdict '+cls+'">'+head+fails.map(esc).join(' &bull; ')+'.</div>';
+  if(o.park==='unknown') f.push('parking unverified');
+  else if(o.park==='parking') f.push('parking type unclear');
+  var g=grade(o.sfpd);
+  if(o.sfpd!=null&&(g.g==='C'||g.g==='D')) f.push('SFPD '+g.g+' ('+o.sfpd+')');
+  if(avS(o)[1]==='avno'){f.push('no longer available');hard=true;}
+  if(!f.length) return '<div class="vd vdPass"><b>Meets every target.</b></div>';
+  return '<div class="vd '+(hard?'vdHard':'vdGap')+'"><b>'+(hard?'Blocked: ':'Gaps: ')+
+         f.map(esc).join(' &bull; ')+'.</div>';
 }
 
-/* ================== RENDER ================== */
-function cardHTML(o){
-  var gr=sfpdGrade(o.sfpd), av=availState(o);
-  var gone=(av[1]==='no');
-  var wd=wdState(o), pk=parkState(o), dw=dwState(o);
-  var over=!inBudget(o.price);
-
-  var photo = o.photo
-    ? '<img src="'+esc(o.photo)+'" alt="'+esc(o.name)+'" loading="lazy" onclick="zoom(this.src,\''+esc(o.name)+'\')">'
-    : '<div class="nopic">NO PHOTO ON LISTING</div>';
-
-  var rows='';
-  if(o.beds!=null) rows+='<div class="row"><span class="k">Layout</span><span class="v">'+o.beds+'BR / '+o.baths+'BA'+(o.sqft?' &middot; '+o.sqft+'sf':'')+'</span></div>';
-  if(o.deposit) rows+='<div class="row"><span class="k">Deposit</span><span class="v'+(/0/.test(o.deposit)&&/jetty|0/i.test(o.deposit)?'':' dim')+'">'+esc(o.deposit)+'</span></div>';
-  if(o.lease) rows+='<div class="row"><span class="k">Lease</span><span class="v'+(/tbd|unknown/i.test(o.lease)?' dim':'')+'">'+esc(o.lease)+'</span></div>';
-  if(o.utils&&!/none/i.test(o.utils)) rows+='<div class="row"><span class="k">Utilities incl.</span><span class="v">'+esc(o.utils)+'</span></div>';
-  if(o.zip) rows+='<div class="row"><span class="k">Zip</span><span class="v">'+esc(o.zip)+'</span></div>';
-  if(o.sfpd!=null) rows+='<div class="row"><span class="k">Safety</span><span class="v">'+gr.g+' &middot; '+o.sfpd+' calls</span></div>';
-  if(o.phone) rows+='<div class="row"><span class="k">Phone</span><span class="v">'+esc(o.phone)+'</span></div>';
-
-  var amen='';
-  if(o.amenities&&o.amenities.length){
-    amen='<div class="pills">'+o.amenities.slice(0,6).map(function(a){
-      return '<span class="pill p-unk">'+esc(a)+'</span>';}).join('')+'</div>';
-  }
-
-  return '<div class="card'+(gone?' gone':'')+'" data-slug="'+esc(o.slug)+'" '+
-    'data-core="'+(coreMet(o)?1:0)+'" data-avail="'+av[1]+'" data-safe="'+
-    ((gr.g==='A'||gr.g==='B')?1:0)+'" data-price="'+priceNum(o.price)+'" data-sfpd="'+(o.sfpd==null?99999:o.sfpd)+'" '+
-    'data-name="'+esc((o.name+' '+o.zip+' '+(o.address||'')).toLowerCase())+'">'+
-
-    '<div class="photo"'+(o.photo?' onclick="zoom(this.querySelector(\'img\').src,\''+esc(o.name)+'\')"':'')+'>'+
-      photo+
-      '<div class="ov-avail av-'+av[1]+'">'+esc(av[0])+'</div>'+
-      (o.sfpd!=null?'<div class="ov-grade '+gr.cls+'" title="'+esc(gr.txt)+'">'+gr.g+'</div>':'')+
-      '<div class="ov-price'+(over?' over':'')+'">'+esc(o.price_raw)+'<small>'+(over?'OVER CEILING':'IN BUDGET')+'</small></div>'+
-    '</div>'+
-
-    '<div class="body">'+
-      '<div class="title"><a href="'+esc(o.url)+'" target="_blank" rel="noopener">'+esc(o.name)+'</a></div>'+
-      '<div class="meta">'+
-        (o.type?'<span>'+esc(o.type)+'</span><span class="sep">&bull;</span>':'')+
-        '<span>'+esc(o.manager||'')+'</span>'+
-        (o.sqft?'<span class="sep">&bull;</span><span>'+o.sqft+'sf</span>':'')+
-      '</div>'+
-
-      '<div class="pills">'+
-        pill('&#9830;',wd[0],wd[1],wd[2])+
-        pill('&#128663;',pk[0],pk[1],pk[2])+
-        pill('&#9832;',dw[0],dw[1],dw[2])+
-      '</div>'+
-
-      amen+
-      verdict(o)+
-      '<div class="rows">'+rows+'</div>'+
-
-      '<div class="foot">'+
-        '<a class="btn" href="'+esc(o.url)+'" target="_blank" rel="noopener">Open listing &#8599;</a>'+
-        '<div class="votes">'+
-          '<div class="vg"><span class="vt">A</span>'+
-            '<button class="vb up" onclick="vote(\''+esc(o.slug)+'\',\'a\',1,this)">+</button>'+
-            '<button class="vb dn" onclick="vote(\''+esc(o.slug)+'\',\'a\',-1,this)">&minus;</button></div>'+
-          '<div class="vg"><span class="vt">K</span>'+
-            '<button class="vb up" onclick="vote(\''+esc(o.slug)+'\',\'k\',1,this)">+</button>'+
-            '<button class="vb dn" onclick="vote(\''+esc(o.slug)+'\',\'k\',-1,this)">&minus;</button></div>'+
-        '</div>'+
-      '</div>'+
-    '</div>'+
-  '</div>';
+/* ==================== FILTERS ==================== */
+var FILTERS=[
+  {k:'all',   l:'All'},
+  {k:'core',  l:'Meets core'},
+  {k:'avail', l:'Available'},
+  {k:'safe',  l:'Safe A/B'},
+  {k:'budget',l:'In budget'}
+];
+function pass(o){
+  var g=grade(o.sfpd).g;
+  if(FILTER==='core')   return core(o);
+  if(FILTER==='avail')  return avS(o)[1]==='avok';
+  if(FILTER==='safe')   return g==='A'||g==='B';
+  if(FILTER==='budget') return inB(o.price);
+  return true;
 }
-
-/* ================== STATS ================== */
-function stats(){
-  var t=LISTINGS.length;
-  var meets=LISTINGS.filter(coreMet).length;
-  var avail=LISTINGS.filter(function(o){return availState(o)[1]==='ok';}).length;
-  var safe=LISTINGS.filter(function(o){var g=sfpdGrade(o.sfpd).g;return g==='A'||g==='B';}).length;
-  var inb=LISTINGS.filter(function(o){return inBudget(o.price);}).length;
-  var wd=LISTINGS.filter(function(o){return o.wd==='inunit';}).length;
-  document.getElementById('stats').innerHTML=
-    '<div class="stat info"><div class="stat-v">'+t+'</div><div class="stat-l">Listings</div></div>'+
-    '<div class="stat '+(meets?'ok':'bad')+'"><div class="stat-v">'+meets+'</div><div class="stat-l">Core met</div></div>'+
-    '<div class="stat '+(wd?'ok':'bad')+'"><div class="stat-v">'+wd+'</div><div class="stat-l">In-unit W/D</div></div>'+
-    '<div class="stat ok"><div class="stat-v">'+inb+'</div><div class="stat-l">In budget</div></div>'+
-    '<div class="stat '+(safe?'ok':'warn')+'"><div class="stat-v">'+safe+'</div><div class="stat-l">Safe A/B</div></div>'+
-    '<div class="stat '+(avail?'ok':'warn')+'"><div class="stat-v">'+avail+'</div><div class="stat-l">Available</div></div>'+
-    '<div class="stat warn"><div class="stat-v">0</div><div class="stat-l">Confirmed</div></div>';
-  document.getElementById('c-all').textContent=t;
-  document.getElementById('c-meets').textContent=meets;
-  document.getElementById('c-avail').textContent=avail;
-  document.getElementById('c-safe').textContent=safe;
-}
-
-/* ================== FILTER + SORT ================== */
-var FILTER='all', QUERY='', SORT='fit';
-function apply(){
-  var cards=document.querySelectorAll('#grid .card');
-  var shown=0;
-  cards.forEach(function(c){
-    var ok=true;
-    if(FILTER==='meets') ok=c.dataset.core==='1';
-    else if(FILTER==='avail') ok=c.dataset.avail==='ok';
-    else if(FILTER==='safe') ok=c.dataset.safe==='1';
-    if(ok&&QUERY) ok=c.dataset.name.indexOf(QUERY)>=0;
-    c.classList.toggle('hidden',!ok);
-    if(ok) shown++;
-  });
-  document.getElementById('empty').classList.toggle('on',shown===0);
-  sortCards();
-}
-function sortCards(){
-  var grid=document.getElementById('grid');
-  var cards=Array.prototype.slice.call(grid.querySelectorAll('.card'));
-  cards.sort(function(a,b){
-    if(SORT==='price') return (+a.dataset.price)-(+b.dataset.price);
-    if(SORT==='sfpd') return (+a.dataset.sfpd)-(+b.dataset.sfpd);
-    if(SORT==='safe'){
-      var ga=sfpdGrade(a.dataset.sfpd==='99999'?null:+a.dataset.sfpd).g;
-      var gb=sfpdGrade(b.dataset.sfpd==='99999'?null:+b.dataset.sfpd).g;
-      var ord={A:0,B:1,C:2,D:3,N:4};
-      if(ord[ga]!==ord[gb]) return ord[ga]-ord[gb];
-      return (+a.dataset.sfpd)-(+b.dataset.sfpd);
-    }
-    /* best fit: core met, then safe, then in budget */
-    var score=function(c){
-      var s=0;
-      if(c.dataset.core==='1')s+=100;
-      if(c.dataset.avail==='ok')s+=40;
-      if(c.dataset.safe==='1')s+=30;
-      if((+c.dataset.price)<=800)s+=20;
-      return s;
-    };
-    return score(b)-score(a) || ((+a.dataset.price)-(+b.dataset.price));
-  });
-  cards.forEach(function(c){grid.appendChild(c);});
-}
-
-/* ================== VOTES ================== */
-var VKEY='housing-votes-v2';
-var votes={};
-try{votes=JSON.parse(localStorage.getItem(VKEY)||'{}');}catch(e){votes={};}
-function vote(slug,who,dir,btn){
-  var key=slug+':'+who;
-  if(votes[key]===dir) delete votes[key]; else votes[key]=dir;
-  try{localStorage.setItem(VKEY,JSON.stringify(votes));}catch(e){}
-  paint();
-}
-function paint(){
-  document.querySelectorAll('.vg').forEach(function(vg){
-    /* vgs are inside cards; find slug from card */
-  });
-  document.querySelectorAll('#grid .card').forEach(function(card){
-    var slug=card.dataset.slug;
-    ['a','k'].forEach(function(who){
-      var grp=card.querySelectorAll('.vg')[who==='a'?0:1];
-      if(!grp)return;
-      var up=grp.querySelector('.up'), dn=grp.querySelector('.dn');
-      up.classList.toggle('on',votes[slug+':'+who]===1);
-      dn.classList.toggle('on',votes[slug+':'+who]===-1);
+function buildFilters(){
+  document.getElementById('filters').innerHTML = FILTERS.map(function(f){
+    var n = L.filter(function(o){return pass.call(null,o) || f.k==='all';}).length;
+    var cnt = f.k==='all' ? L.length : L.filter(pass).length;
+    return '<div class="fchip'+(f.k===FILTER?' on':'')+'" data-k="'+f.k+'">'+f.l+'</div>';
+  }).join('');
+  document.querySelectorAll('.fchip').forEach(function(c){
+    c.addEventListener('click',function(){
+      FILTER=c.dataset.k;
+      document.querySelectorAll('.fchip').forEach(function(x){x.classList.remove('on');});
+      c.classList.add('on');
+      resetDeck();
     });
   });
 }
-function fromHash(){
-  var h=location.hash.replace(/^#/,'');
-  if(!h)return false;
-  try{
-    var d=JSON.parse(decodeURIComponent(h));
-    var ch=false;
-    for(var k in d){ if(votes[k]!==d[k]){votes[k]=d[k];ch=true;} }
-    return ch;
-  }catch(e){return false;}
+
+/* ==================== DECK ==================== */
+function cardEl(o){
+  var g=grade(o.sfpd), av=avS(o), wd=wdS(o), pk=pkS(o), dw=dwS(o);
+  var over=!inB(o.price);
+  var specs='';
+  if(o.beds!=null) specs+='<div class="sp"><span class="k">Layout</span><span class="v">'+o.beds+'BR / '+o.baths+'BA</span></div>';
+  if(o.sqft)       specs+='<div class="sp"><span class="k">Size</span><span class="v">'+o.sqft+' sf</span></div>';
+  if(o.zip)        specs+='<div class="sp"><span class="k">Zip</span><span class="v">'+esc(o.zip)+'</span></div>';
+  if(o.deposit)    specs+='<div class="sp"><span class="k">Deposit</span><span class="v'+(/tbd|unknown/i.test(o.deposit)?' dim':'')+'">'+esc(o.deposit)+'</span></div>';
+  if(o.lease)      specs+='<div class="sp"><span class="k">Lease</span><span class="v'+(/tbd|unknown/i.test(o.lease)?' dim':'')+'">'+esc(o.lease)+'</span></div>';
+
+  var photo = o.photo
+    ? '<img src="'+esc(o.photo)+'" alt="'+esc(o.name)+'" onclick="zoom(this.src)">'
+    : '<div class="np">NO PHOTO ON LISTING</div>';
+
+  var d=document.createElement('div');
+  d.className='card';
+  d.dataset.slug=o.slug;
+  d.innerHTML=
+    '<div class="ph"'+(o.photo?' onclick="zoom(this.querySelector(\'img\').src)"':'')+'>'+photo+
+      '<div class="ov o-av '+av[1]+'">'+esc(av[0])+'</div>'+
+      '<div class="ov o-grade '+g.c+'" title="'+esc(g.t)+'">'+g.g+'</div>'+
+      '<div class="ov o-price'+(over?' over':'')+'">'+esc(o.price_raw)+
+        '<small>'+(over?'OVER CEILING':'IN BUDGET')+'</small></div>'+
+      '<div class="stamp st-yes">KEEP</div><div class="stamp st-no">PASS</div>'+
+    '</div>'+
+    '<div class="bd">'+
+      '<div><div class="nm"><a href="'+esc(o.url)+'" target="_blank" rel="noopener">'+esc(o.name)+'</a></div>'+
+      '<div class="mt">'+esc(o.type||'')+(o.type?' &bull; ':'')+esc(o.manager||'')+
+        (o.manager&&o.phone?' &bull; ':'')+esc(o.phone||'')+'</div></div>'+
+      '<div class="pills">'+
+        '<span class="pill '+wd[1]+'" title="'+esc(wd[2])+'">'+esc(wd[0])+'</span>'+
+        '<span class="pill '+pk[1]+'" title="'+esc(pk[2])+'">'+esc(pk[0])+'</span>'+
+        '<span class="pill '+dw[1]+'" title="'+esc(dw[2])+'">'+esc(dw[0])+'</span>'+
+      '</div>'+
+      verdict(o)+
+      '<div class="specs">'+specs+'</div>'+
+      '<div class="links">'+
+        '<a class="lbtn open" href="'+esc(o.url)+'" target="_blank" rel="noopener">Open listing &#8599;</a>'+
+        '<button class="lbtn more" onclick="sheet(\''+esc(o.slug)+'\')">Details</button>'+
+      '</div>'+
+    '</div>';
+  attachDrag(d,o);
+  return d;
 }
-function toHash(){
-  return Object.keys(votes).length?'#'+encodeURIComponent(JSON.stringify(votes)):'';
-}
 
-/* ================== LIGHTBOX ================== */
-function zoom(src,cap){
-  var lb=document.getElementById('lb');
-  document.getElementById('lb-img').src=src;
-  document.getElementById('lb-cap').textContent=cap||'';
-  lb.classList.add('on');
-}
-document.getElementById('lb').addEventListener('click',function(){this.classList.remove('on');});
-document.addEventListener('keydown',function(e){
-  if(e.key==='Escape')document.getElementById('lb').classList.remove('on');
-});
-
-/* ================== NOTES ================== */
-var NOTES=[
- {t:'What "Meets core" means',c:'A listing meets core only when it has <b>in-unit</b> washer/dryer <i>and</i> a garage or off-street parking, read off the landlord\'s live page. On-site or shared laundry does <b>not</b> count. Dishwasher is tracked separately because it is a nice-to-have, not a dealbreaker. Pills go green when verified, amber when it is a compromise (on-site laundry), red when it is confirmed absent (shared), grey when no public page confirms it either way.'},
- {t:'Safety is measured per address, not per zip',c:'Third-party sites rate zip 57106 as "A+", yet <b>4908 W Kirkwood Cir inside 57106 measured 294 police calls in a quarter mile over 90 days</b> (grade D, 131 of them Disorderly Conduct). Every grade on this board comes from the City of Sioux Falls Police Calls GIS feed, counted within a 0.25-mile radius of the exact address. Citywide baseline is roughly 287 calls per square mile per 90 days. Grades: <b>A &le;20, B &le;50, C &le;120, D &gt;120</b>.'},
- {t:'The honest trade-off',c:'Safety and affordability pull against each other here. The safest address measured all quarter is <b>6000 S Coneflower Ave at 16 calls (grade A)</b>, but its 2BR rents around $1,170, roughly 46% over the ceiling. In-budget inventory keeps landing in the higher-call pockets. Across Alpine\'s 54 units, exactly <b>one</b> 2BR has in-unit W/D + garage + dishwasher, and it rents at $1,325. Every 2BR at or under $800 in that portfolio has shared or unverified laundry. That is the market, not a search failure.'},
- {t:'Verified Oct 10, 2026',c:'<b>4908 W Kirkwood #01 is gone</b> &mdash; pulled from the RPM catalog, no longer in inventory. Only #02 remains at $749 with "Available NOW", but both are <b>on-site laundry only</b>, so neither meets the in-unit W/D requirement. <b>Lincoln Heights corrected to $845</b> (the board had $1,145, which belongs to a different property, 4609 E 3rd St #29). <b>3705 S Cathy</b> has a garage and dishwasher but <b>on-site laundry</b>. <b>3225 N Lewis</b> has utilities included and off-street parking but sits in excluded zip 57104. <b>401 S Sycamore #206</b> is available at $725 but is <b>shared laundry</b>.',warn:true},
- {t:'How to read a grey pill',c:'Grey means "cannot verify", never "no". Eight listings sit there because their source bot-walls scripted requests (Zillow, apartments.com, hotpads return 403 to plain requests) or is a JavaScript shell (rpmxpress.com returns 3KB of tracking bootstrap and zero listings). Those need a real browser or your own eyes before anyone acts on them. Nothing on this board is assumed available when it cannot be confirmed.'}
-];
-document.getElementById('notes').innerHTML=NOTES.map(function(n){
-  return '<div class="note'+(n.warn?' warn':'')+'"><h3>'+n.t+'</h3><div>'+n.c+'</div></div>';
-}).join('');
-
-/* ================== INIT ================== */
-document.getElementById('grid').innerHTML=LISTINGS.map(cardHTML).join('');
-stats();
-if(fromHash()){/* shared votes applied */}
-paint();
-apply();
-
-document.getElementById('q').addEventListener('input',function(e){
-  QUERY=e.target.value.toLowerCase().trim(); apply();
-});
-document.getElementById('sort').addEventListener('change',function(e){
-  SORT=e.target.value; sortCards();
-});
-document.querySelectorAll('.chip[data-f]').forEach(function(ch){
-  ch.addEventListener('click',function(){
-    document.querySelectorAll('.chip[data-f]').forEach(function(x){x.classList.remove('on');});
-    ch.classList.add('on');
-    FILTER=ch.dataset.f; apply();
-  });
-});
-document.getElementById('share').addEventListener('click',function(){
-  var url=location.origin+location.pathname+toHash();
-  var btn=this;
-  function done(){btn.textContent='Copied!';setTimeout(function(){btn.textContent='Copy share link';},1800);}
-  if(navigator.clipboard&&navigator.clipboard.writeText){
-    navigator.clipboard.writeText(url).then(done,done);
-  }else{
-    var t=document.createElement('textarea');t.value=url;document.body.appendChild(t);
-    t.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(t);done();
+function render(){
+  var deck=document.getElementById('deck');
+  deck.innerHTML='';
+  document.getElementById('end').classList.remove('on');
+  var list=L.filter(pass);
+  if(!list.length){
+    document.getElementById('end').classList.add('on');
+    document.getElementById('endP').textContent='Nothing matches this filter.';
+    updCount(0,0);
+    return;
   }
+  queue=list.slice();
+  // stack up to 3 visible
+  for(var i=Math.min(queue.length,3)-1;i>=0;i--){
+    var el=cardEl(queue[i]);
+    el.style.zIndex=10-i;
+    el.style.transform='translateY('+(i*7)+'px) scale('+(1-i*0.035)+')';
+    el.style.opacity = i===0?'1':String(1-i*0.25);
+    deck.appendChild(el);
+  }
+  updCount(queue.length,list.length);
+}
+function updCount(rem,tot){
+  document.getElementById('count').textContent = rem+' left'+(tot!==rem?' of '+tot:'');
+}
+
+/* ==================== SWIPE ==================== */
+function topCard(){ return document.querySelector('#deck .card:not(.gone)'); }
+
+function fly(dir){
+  var c=topCard();
+  if(!c||c.classList.contains('flying')) return;
+  c.classList.add('flying');
+  var slug=c.dataset.slug;
+  var o=queue.filter(function(x){return x.slug===slug;})[0];
+  if(dir==='yes'&&o){ likes[slug]=1; }
+  else { delete likes[slug]; }
+  try{localStorage.setItem(VKEY,JSON.stringify(likes));}catch(e){}
+  c.style.transform='translateX('+(dir==='yes'?1:-1)*560+'px) rotate('+(dir==='yes'?22:-22)+'deg)';
+  c.classList.add('gone');
+  setTimeout(function(){
+    c.remove();
+    // promote next
+    var rest=Array.prototype.slice.call(document.querySelectorAll('#deck .card'));
+    rest.forEach(function(el,i){
+      el.style.zIndex=10-i;
+      el.style.transform='translateY('+(i*7)+'px) scale('+(1-i*0.035)+')';
+      el.style.opacity = i===0?'1':String(1-i*0.25);
+    });
+    // add a new bottom card if available
+    var remaining=queue.length - document.querySelectorAll('#deck .card').length;
+    if(remaining>0){
+      var next=queue[queue.length-remaining];
+      var el=cardEl(next);
+      el.style.zIndex=7;
+      el.style.transform='translateY(14px) scale(.93)';
+      el.style.opacity='.5';
+      document.getElementById('deck').appendChild(el);
+    }
+    var left=document.querySelectorAll('#deck .card:not(.gone)').length;
+    updCount(left, L.filter(pass).length);
+    if(left===0){
+      document.getElementById('end').classList.add('on');
+      var n=Object.keys(likes).length;
+      document.getElementById('endP').textContent = n
+        ? 'You kept '+n+'. Nothing else matches this filter.'
+        : 'Nothing matched this filter.';
+    }
+  },320);
+}
+
+function attachDrag(el,o){
+  var sx=0,sy=0,dx=0,dy=0,drag=false;
+  var yes=el.querySelector('.st-yes'), no=el.querySelector('.st-no');
+  function down(e){
+    if(el!==topCard())return;
+    if(e.target.closest('a,button'))return;
+    drag=true; el.classList.add('dragging');
+    var p=e.touches?e.touches[0]:e;
+    sx=p.clientX; sy=p.clientY;
+  }
+  function move(e){
+    if(!drag)return;
+    var p=e.touches?e.touches[0]:e;
+    dx=p.clientX-sx; dy=p.clientY-sy;
+    el.style.transform='translate('+dx+'px,'+dy+'px) rotate('+(dx*0.05)+'deg)';
+    if(yes)yes.style.opacity=Math.max(0,Math.min(1,dx/90));
+    if(no)no.style.opacity=Math.max(0,Math.min(1,-dx/90));
+    if(e.cancelable)e.preventDefault();
+  }
+  function up(){
+    if(!drag)return;
+    drag=false; el.classList.remove('dragging');
+    if(dx>110) fly('yes');
+    else if(dx<-110) fly('no');
+    else{
+      el.style.transform='translateY(0) scale(1)';
+      if(yes)yes.style.opacity=0;
+      if(no)no.style.opacity=0;
+    }
+    dx=0;dy=0;
+  }
+  el.addEventListener('mousedown',down);
+  el.addEventListener('touchstart',down,{passive:true});
+  window.addEventListener('mousemove',move);
+  window.addEventListener('touchmove',move,{passive:false});
+  window.addEventListener('mouseup',up);
+  window.addEventListener('touchend',up);
+}
+
+/* ==================== SHEET ==================== */
+function sheet(slug){
+  var o=L.filter(function(x){return x.slug===slug;})[0];
+  if(!o)return;
+  var g=grade(o.sfpd);
+  var rows='';
+  function r(k,v,dim){ return '<div class="sh-row"><span class="k">'+k+'</span><span class="v'+(dim?' dim':'')+'">'+esc(v)+'</span></div>'; }
+  rows+=r('Type',o.type||'?');
+  rows+=r('Manager',o.manager||'?');
+  if(o.phone)rows+=r('Phone',o.phone);
+  if(o.address)rows+=r('Address',o.address);
+  if(o.beds!=null)rows+=r('Layout',o.beds+'BR / '+o.baths+'BA');
+  if(o.sqft)rows+=r('Size',o.sqft+' sf');
+  rows+=r('Zip',o.zip||'?');
+  rows+=r('Rent',o.price_raw);
+  if(o.deposit)rows+=r('Deposit',o.deposit,/tbd|unknown/i.test(o.deposit));
+  if(o.lease)rows+=r('Lease',o.lease,/tbd|unknown/i.test(o.lease));
+  if(o.utils)rows+=r('Utilities incl.',o.utils);
+  if(o.phone)rows+=r('Phone',o.phone);
+  rows+=r('Availability',o.avail||'?');
+  rows+=r('Safety grade',g.g+' ('+(o.sfpd==null?'not measured':o.sfpd+' calls')+')');
+
+  var amen='';
+  if(o.amenities&&o.amenities.length){
+    amen='<div class="pills">'+o.amenities.map(function(a){
+      return '<span class="pill pUnk">'+esc(a)+'</span>';}).join('')+'</div>';
+  }
+  var src=o.amenity_source
+    ? '<div class="sh-sec">Amenity source</div><div class="sh-src">'+esc(o.amenity_source)+'</div>' : '';
+
+  document.getElementById('sheet').innerHTML=
+    '<button class="sh-close" onclick="closeSheet()">&times;</button>'+
+    '<div class="sh-handle"></div>'+
+    '<div class="sh-title">'+esc(o.name)+'</div>'+
+    '<div class="sh-sub">'+esc(o.price_raw)+' &bull; '+(o.sfpd==null?'safety unmeasured':'SFPD '+g.g+' &bull; '+o.sfpd+' calls')+'</div>'+
+    '<div class="sh-sec">Amenities</div>'+amen+
+    '<div class="sh-sec">Details</div><div class="sh-grid">'+rows+'</div>'+
+    src+
+    '<div class="sh-sec">Link</div><a class="lbtn open" style="display:block;margin-top:4px" href="'+esc(o.url)+'" target="_blank" rel="noopener">Open listing page &#8599;</a>';
+  document.getElementById('sheet').classList.add('on');
+}
+function closeSheet(){ document.getElementById('sheet').classList.remove('on'); }
+function zoom(src){ document.getElementById('lbImg').src=src; document.getElementById('lb').classList.add('on'); }
+function resetDeck(){ seen={}; render(); }
+
+/* ==================== INIT ==================== */
+buildFilters();
+render();
+document.getElementById('bYes').addEventListener('click',function(){fly('yes');});
+document.getElementById('bNo').addEventListener('click',function(){fly('no');});
+document.getElementById('bInfo').addEventListener('click',function(){
+  var c=topCard(); if(c) sheet(c.dataset.slug);
 });
-document.getElementById('clear').addEventListener('click',function(){
-  votes={};try{localStorage.removeItem(VKEY);}catch(e){}paint();
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight')fly('yes');
+  if(e.key==='ArrowLeft')fly('no');
+  if(e.key==='Escape'){closeSheet();document.getElementById('lb').classList.remove('on');}
 });
-window.addEventListener('hashchange',function(){if(fromHash())paint();});
 </script>
 </body>
 </html>
