@@ -1662,8 +1662,8 @@ function paint(){
     var slug=r.closest('.c')?r.closest('.c').dataset.slug:null;
     if(!slug)return;
     var up=r.querySelector('.vb.up'),dn=r.querySelector('.vb.dn'),lk=r.querySelector('.vlk');
-    if(up)up.classList.toggle('on-up',STATE.votes[slug]&&STATE.votes[slug].up===1);
-    if(dn)dn.classList.toggle('on-dn',STATE.votes[slug]&&STATE.votes[slug].down===1);
+    if(up)up.classList.toggle('on-up',!!(STATE.votes[slug]&&STATE.votes[slug].up===1));
+    if(dn)dn.classList.toggle('on-dn',!!(STATE.votes[slug]&&STATE.votes[slug].down===1));
     if(lk)lk.classList.toggle('on',STATE.likes[slug]===true);
   });
   var lv=document.getElementById('yv-lv'),vt=document.getElementById('yv-vt'),rv=document.getElementById('yv-rv');
