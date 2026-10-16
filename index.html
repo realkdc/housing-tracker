@@ -243,6 +243,92 @@ button{font-family:inherit;}
   background:rgba(7,10,15,.8);backdrop-filter:blur(6px);padding:4px 10px;
   border-radius:8px;font-size:.62rem;font-weight:800;color:var(--muted);
   border:1px solid rgba(255,255,255,.08);}
+
+/* ---------- UI/UX IMPROVEMENTS ---------- */
+
+/* Skeleton loading state */
+.skel{background:var(--surface);border:1px solid var(--line-soft);border-radius:14px;overflow:hidden;animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.skel-ph{aspect-ratio:4/3;background:var(--surface2)}
+.skel-b{padding:12px;display:flex;flex-direction:column;gap:8px}
+.skel-l{height:10px;border-radius:5px;background:var(--surface2)}
+.skel-l.w60{width:60%}.skel-l.w80{width:80%}.skel-l.w40{width:40%}
+
+/* Improved empty state */
+.none .ic{font-size:2.4rem;margin-bottom:10px;opacity:.6}
+.none div:last-child{font-size:.85rem;color:var(--muted);line-height:1.6}
+.none .sub{font-size:.72rem;color:var(--muted2);margin-top:4px}
+
+/* Better focus states */
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Improved card design */
+.c{box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.c:hover{box-shadow:0 8px 28px rgba(0,0,0,.45)}
+.c .b{padding:12px 13px 13px}
+.c .t{font-size:.88rem}
+.c .m{font-size:.66rem}
+
+/* Better vote buttons */
+.card-vote .vb{width:30px;height:30px;border-radius:8px;font-size:.9rem}
+.card-vote .vb.on-up{background:rgba(62,207,110,.18);color:#3ecf6e}
+.card-vote .vb.on-dn{background:rgba(244,103,92,.18);color:#f4675c}
+.card-vote .vlk{font-size:.85rem;padding:0 6px}
+.card-vote .vlk.on{color:#e0a83c;text-shadow:0 0 8px rgba(224,168,60,.4)}
+
+/* Better filter bar on mobile */
+@media(max-width:640px){
+  .bar{flex-direction:column;align-items:stretch}
+  .qwrap{max-width:none}
+  .seg{justify-content:center}
+  .sortsel{width:100%}
+  .grid{grid-template-columns:1fr;gap:10px}
+  .hd{flex-direction:column;gap:8px}
+  .hd-r{margin-left:0;text-align:left}
+  .big{font-size:1.5rem}
+  .sh{max-width:100%}
+  .sh-am{grid-template-columns:1fr}
+}
+
+/* Improved header */
+.hd h1{font-size:1.4rem}
+.hd .sub{font-size:.74rem;max-width:760px}
+
+/* Better modal */
+.sh{border-radius:20px 20px 0 0;max-width:600px}
+.sh-t{font-size:1.15rem}
+.sh-b{padding:16px 18px 24px}
+
+/* Your view panel */
+.card-view h3{font-size:.8rem}
+.card-view li{padding:10px 14px;font-size:.8rem}
+
+/* Smooth transitions */
+.c,.card-vote .vb,.seg button,.b1,.b2{transition:all .15s ease}
+
+/* Better contrast for muted text */
+.muted{color:var(--muted)}
+
+/* Photo gallery improvements */
+.ph-gall{position:relative}
+.ph-arrow{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:rgba(7,10,15,.7);border:1px solid var(--line);color:var(--text);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;z-index:2;backdrop-filter:blur(6px)}
+.ph-arrow:hover{background:rgba(7,10,15,.9);border-color:var(--accent)}
+.ph-gall:hover .ph-arrow{opacity:1}
+.ph-arrow.prev{left:8px}
+.ph-arrow.next{right:8px}
+.ph-count{position:absolute;bottom:8px;right:8px;background:rgba(7,10,15,.8);color:var(--text);font-size:.62rem;font-weight:700;padding:3px 8px;border-radius:6px;backdrop-filter:blur(6px)}
+
+/* Tooltip for vote buttons */
+.vb[data-dir]:hover::after{content:attr(data-dir) 'vote';position:absolute;bottom:100%;left:50%;transform:translateX(-50%);background:var(--surface3);color:var(--text);font-size:.58rem;padding:3px 7px;border-radius:5px;white-space:nowrap;margin-bottom:4px;pointer-events:none}
+.vb[data-dir]{position:relative}
+
+.hd-r #results-count{font-size:.62rem;color:var(--muted2);font-weight:600}
+.grade-legend{flex-shrink:0}
+.c.over-budget .ph{opacity:.38}
+.c.over-budget .pc.over .amt{color:var(--bad)}
+.c.over-budget{border-color:rgba(244,103,92,.25)}
+.clear-btn{flex-shrink:0}
+.clear-btn:hover{color:var(--text);border-color:var(--accent)}
 </style>
 <body>
 <div class="wrap">
@@ -259,21 +345,28 @@ button{font-family:inherit;}
     <div class="hd-r">
       <div class="big" id="hN">0</div>
       <div class="big-l">homes in play</div>
+      <div class="big-l" id="results-count" style="margin-top:2px"></div>
     </div>
   </div>
 
   <div class="bar">
     <div class="qwrap">
       <span class="qic">&#9906;</span>
-      <input class="q" id="q" type="text" placeholder="Search&hellip;">
+      <input class="q" id="q" type="text" placeholder="Search&hellip;" aria-label="Search listings">
     </div>
     <div class="seg" id="seg">
-      <button data-f="all" class="on">All</button>
-      <button data-f="core">Meets core</button>
-      <button data-f="safe">Safe A/B</button>
-      <button data-f="budget">In budget</button>
+      <button data-f="all" class="on" aria-label="Show all listings">All</button>
+      <button data-f="core" aria-label="Show only listings that meet core criteria">Meets core</button>
+      <button data-f="safe" aria-label="Show only safe A and B grade listings">Safe A/B</button>
+      <button data-f="budget" aria-label="Show only listings within budget">In budget</button>
     </div>
-    <select class="sortsel" id="sort">
+    <span class="grade-legend" style="display:flex;gap:5px;align-items:center;margin-left:4px" title="SFPD safety grade (calls / 0.25mi / 90d)">
+  <span style="width:18px;height:18px;border-radius:5px;background:rgba(62,207,110,.9);color:#04140a;font-size:.6rem;font-weight:900;display:inline-flex;align-items:center;justify-content:center" title="A: 0-20 calls (safest)">A</span>
+  <span style="width:18px;height:18px;border-radius:5px;background:rgba(91,157,255,.9);color:#041020;font-size:.6rem;font-weight:900;display:inline-flex;align-items:center;justify-content:center" title="B: 21-50 calls">B</span>
+  <span style="width:18px;height:18px;border-radius:5px;background:rgba(224,168,60,.92);color:#150e01;font-size:.6rem;font-weight:900;display:inline-flex;align-items:center;justify-content:center" title="C: 51-120 calls">C</span>
+  <span style="width:18px;height:18px;border-radius:5px;background:rgba(244,103,92,.9);color:#1a0505;font-size:.6rem;font-weight:900;display:inline-flex;align-items:center;justify-content:center" title="D: 121+ calls">D</span>
+</span>
+<select class="sortsel" id="sort" aria-label="Sort listings">
       <option value="fit">Best fit</option>
       <option value="price">Price &uarr;</option>
       <option value="safe">Safest</option>
@@ -282,7 +375,7 @@ button{font-family:inherit;}
   </div>
 
   <div class="grid" id="grid"></div>
-  <div class="none" id="none"><div class="ic">&#9906;</div><div>Nothing matches.</div></div>
+  <div class="none" id="none"><div class="ic">&#9906;</div><div>Nothing matches your filters.</div><div class="sub">Try clearing your search or switching filters.</div></div>
 
   <div class="arch" id="arch">
     <div class="arch-h" id="archH">
@@ -419,13 +512,13 @@ var L = [
     "name": "3705 S Cathy Ave #01",
     "type": "Apartment",
     "manager": "RPM Express",
-    "price_raw": "$799",
-    "price": "799",
+    "price_raw": "$875",
+    "price": "875",
     "zip": "57106",
     "sfpd": 246,
     "area": "D",
-    "avail": "Listed, $799",
-    "status": "New — $0 deposit, term unverified",
+    "avail": "Not available",
+    "status": "Not available — last available May 2026",
     "beds": 2,
     "baths": 1,
     "sqft": 821,
@@ -570,8 +663,8 @@ var L = [
     "zip": "57106",
     "sfpd": 237,
     "area": "D",
-    "avail": "Cannot verify",
-    "status": "Replied — W/D ✓",
+    "avail": "Not available",
+    "status": "Not available",
     "beds": 2,
     "baths": 1,
     "sqft": 948,
@@ -1757,6 +1850,7 @@ function paint(){
     return '<li><span class="nm">'+esc(o.name)+'</span><span class="pr">$'+esc(o.price_raw)+'</span></li>';
   }).join('');
   document.getElementById('yv-sub').textContent='Liked: '+liked.length+'   ·   Voted: '+votes.length+'   ·   Viewed: '+viewed.length;
+  updateCount();
 }
 /* ==================== HELPERS ==================== */
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){
@@ -1829,8 +1923,8 @@ function cardHTML(o,compact){
   } else {
     photo='<div class="np">NO PHOTO</div>';
   }
-  return '<div class="c'+(core(o)?' pick':'')+'" data-slug="'+esc(o.slug)+
-    '" data-core="'+(core(o)?1:0)+'" data-avail="'+av[2]+
+  return '<div class="c'+(core(o)?' pick':'')+(over?' over-budget':'')+'" data-slug="'+esc(o.slug)+
+    '" data-core="'+(core(o)?1:0)+'" data-avail="'+av[2]+'" data-over="'+(over?1:0)+
     '" data-safe="'+((g.g==='A'||g.g==='B')?1:0)+'" data-budget="'+(inB(o.price)?1:0)+
     '" data-price="'+pnum(o.price)+'" data-calls="'+(o.sfpd==null?99999:o.sfpd)+
     '" data-gr="'+g.g+'" data-name="'+esc((o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase())+'">'+
@@ -1855,7 +1949,7 @@ function cardHTML(o,compact){
           '</span><span class="lb">Dish</span></div>'+
       '</div>'+
       '<div class="f"><span class="ab '+av[1]+'">'+esc(av[0])+'</span>'+
-        (o.sfpd!=null?'<span class="ct">'+o.sfpd+' calls</span>':'')+'</div>'+
+        (o.sfpd!=null?'<span class="ct" title="SFPD calls / 0.25mi / 90 days">'+o.sfpd+' calls</span>':'')+'</div>'+
       '<div class="card-vote">'+
         '<button class="vb up" data-dir="up" aria-label="Upvote">&#8593;</button>'+
         '<button class="vb dn" data-dir="down" aria-label="Downvote">&#8595;</button>'+
@@ -2042,6 +2136,64 @@ document.addEventListener('click', function(e){
   count.textContent=(idx+1)+'/'+photos.length;
   e.stopPropagation();
 });
+
+/* ---------- UI/UX JS IMPROVEMENTS ---------- */
+
+// Update results count
+function updateCount(){
+  var n=document.getElementById('hN').textContent;
+  var total=L.length;
+  var el=document.getElementById('results-count');
+  if(el) el.textContent=n+' of '+total+' shown';
+}
+
+// Add results count to render
+var _render=render;
+render=function(){
+  _render();
+  updateCount();
+};
+
+// Keyboard navigation for gallery
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
+    var active=document.querySelector('.ph-gall:hover');
+    if(!active)return;
+    var idx=parseInt(active.dataset.gidx||'0');
+    var total=parseInt(active.dataset.gtotal||'1');
+    if(e.key==='ArrowLeft')idx=(idx-1+total)%total;
+    else idx=(idx+1)%total;
+    active.dataset.gidx=idx;
+    var img=active.querySelector('img');
+    var photos=JSON.parse(active.dataset.photos||'[]');
+    if(photos[idx])img.src=photos[idx];
+    var cnt=active.querySelector('.ph-count');
+    if(cnt)cnt.textContent=(idx+1)+'/'+total;
+  }
+});
+
+// Clear filters button
+var clearBtn=document.createElement('button');
+clearBtn.className='clear-btn';
+clearBtn.textContent='Clear';
+clearBtn.setAttribute('aria-label','Clear all filters');
+clearBtn.style.cssText='background:var(--surface2);border:1px solid var(--line);color:var(--muted);padding:7px 12px;border-radius:8px;font-size:.7rem;font-weight:700;cursor:pointer;white-space:nowrap';
+clearBtn.onclick=function(){
+  QUERY='';FILTER='all';SORT='fit';
+  document.getElementById('q').value='';
+  document.querySelectorAll('#seg button').forEach(function(b){b.classList.remove('on');});
+  document.querySelector('#seg button[data-f="all"]').classList.add('on');
+  document.getElementById('sort').value='fit';
+  render();
+};
+var bar=document.querySelector('.bar');
+if(bar)bar.appendChild(clearBtn);
+
+// Add clear button CSS
+var style=document.createElement('style');
+style.textContent='.clear-btn:hover{color:var(--text);border-color:var(--accent)}';
+document.head.appendChild(style);
+
 paint();
 </script>
 </body>
