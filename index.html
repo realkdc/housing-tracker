@@ -1823,10 +1823,10 @@ var L = [
     "price_raw": "$767",
     "price": "767",
     "zip": "57106",
-    "sfpd": 102,
+    "sfpd": 109,
     "area": "C",
     "avail": "Available Now",
-    "status": "VERIFIED + MERGED 2026-10-19: the tracker's Zillow URL is a genuine listing - this IS Oakwood Estates at 3300 W 53rd St, Sioux Falls 57106, managed by Elevate Property Management. The separate 'oakwood-estates' row was the SAME property (Redfin JSON-LD, ApartmentList, Zillow, Trulia and apartments.com all agree) and has been merged into this row. Rent $767 for the 2BR 1BA 972sf (tracker said $705-746, stale; Zillow $711-753, Redfin $731, apartments.com $746 - take the live rent.com figure). Lease 6-9 months available (rent.com specialTerms 'Available months 6..15'; ApartmentList '6, 9 & 12 months') - PASSES the lease gate. W/D is shared on-site laundry, not in-unit. Garage lot + detached garage, dishwasher yes. Deposit varies, not published. Grade C (102 calls). FLOORPLAN-LEVEL CONFIRMATION 2026-10-19 from rent.com's embedded JSON: '2 Bedroom 1 Bathroom A' (the $767 unit) has availableCount=1 and lists Dishwasher + Garage and NO Washer/Dryer -> shared laundry confirmed at the unit level; 1 unit available total. Deposit still 'varies - see a representative'.",
+    "status": "VERIFIED + MERGED 2026-10-19: the tracker's Zillow URL is a genuine listing - this IS Oakwood Estates at 3300 W 53rd St, Sioux Falls 57106, managed by Elevate Property Management. The separate 'oakwood-estates' row was the SAME property (Redfin JSON-LD, ApartmentList, Zillow, Trulia and apartments.com all agree) and has been merged into this row. Rent $767 for the 2BR 1BA 972sf (tracker said $705-746, stale; Zillow $711-753, Redfin $731, apartments.com $746 - take the live rent.com figure). Lease 6-9 months available (rent.com specialTerms 'Available months 6..15'; ApartmentList '6, 9 & 12 months') - PASSES the lease gate. W/D is shared on-site laundry, not in-unit. Garage lot + detached garage, dishwasher yes. Deposit varies, not published. Grade C (102 calls). FLOORPLAN-LEVEL CONFIRMATION 2026-10-19 from rent.com's embedded JSON: '2 Bedroom 1 Bathroom A' (the $767 unit) has availableCount=1 and lists Dishwasher + Garage and NO Washer/Dryer -> shared laundry confirmed at the unit level; 1 unit available total. Deposit still 'varies - see a representative'. | ZILLOW CROSS-CHECK 2026-10-19 (Obscura): the building page confirms 2BR 972sf at $767, adds an 8-photo gallery (photos.zillowstatic.com) and re-scores safety at 109 calls = grade C from the street address. The auto-published Zillow duplicate (slug oakwood-estates-2) was merged into this card and kept as an archive stub.",
     "beds": 2,
     "baths": 1,
     "sqft": 972,
@@ -1835,13 +1835,17 @@ var L = [
     "lease": "6 - 9 months available",
     "utils": "None",
     "phone": "(605) 667-5447",
-    "amenities": [],
+    "amenities": [
+      "Garage (attached)",
+      "In-unit washer/dryer? NO - shared laundry (rent.com floorplan lists Dishwasher + Garage, no Washer/Dryer)",
+      "Dishwasher"
+    ],
     "url": "https://www.rent.com/apartment/oakwood-estates-sioux-falls-sd-lc5961715",
     "photo": "https://ssl.cdn-redfin.com/photo/rent/b4c92a65-7290-4b11-bea5-02b873c7c670/bigphoto/0_3.jpg",
     "wd": "onsite",
     "park": "garage",
     "dw": "yes",
-    "amenity_source": "rent.com lc5961715 + Redfin 136731143 + ApartmentList + Zillow (all read 2026-10-19): 2BR '2 Bedroom 1 Bathroom A' 972sf $767; specialTerms 'Available months 6..15'; 'Garage'/'Garage Detached'/'Garage Lot'; Dishwasher; laundry is community 'Laundry' only; 'Managed By: Elevate Property Management'.",
+    "amenity_source": "rent.com lc5961715 + Redfin 136731143 + ApartmentList + Zillow (all read 2026-10-19): 2BR '2 Bedroom 1 Bathroom A' 972sf $767; specialTerms 'Available months 6..15'; 'Garage'/'Garage Detached'/'Garage Lot'; Dishwasher; laundry is community 'Laundry' only; 'Managed By: Elevate Property Management'. | Zillow building page (via Obscura, 2026-10-19) corroborates: 2BR 972sf $767, the floorplan term reads '15 Months' for one unit while rent.com's specialTerms publish 'Available months 6..24' (6-9mo available) - the canonical card keeps the 6-9mo option. Zillow's 8-photo gallery added to the card. Zillow's 2BR rents $767-812.",
     "sfpd_addr": "3300 W 53RD ST",
     "sfpd_top": [
       [
@@ -1850,23 +1854,35 @@ var L = [
       ],
       [
         "Other",
-        28
+        33
       ],
       [
         "Traffic",
-        8
+        10
       ],
       [
         "Assault",
-        4
+        5
       ],
       [
         "Theft",
         3
+      ],
+      [
+        "Drugs/Alcohol",
+        3
       ]
     ],
     "photos": [
-      "https://ssl.cdn-redfin.com/photo/rent/b4c92a65-7290-4b11-bea5-02b873c7c670/bigphoto/0_3.jpg"
+      "https://ssl.cdn-redfin.com/photo/rent/b4c92a65-7290-4b11-bea5-02b873c7c670/bigphoto/0_3.jpg",
+      "https://photos.zillowstatic.com/fp/84e188de03396babdc832dbee6bde835-d_d.webp",
+      "https://photos.zillowstatic.com/fp/84e188de03396babdc832dbee6bde835-o_a.webp",
+      "https://photos.zillowstatic.com/fp/84e188de03396babdc832dbee6bde835-uncropped_scaled_within_1344_1008.webp",
+      "https://photos.zillowstatic.com/fp/84e188de03396babdc832dbee6bde835-uncropped_scaled_within_1536_1152.webp",
+      "https://photos.zillowstatic.com/fp/84e188de03396babdc832dbee6bde835-p_d.jpg",
+      "https://photos.zillowstatic.com/fp/3b29c49d0c994836e6dd8b1f941524cf-d_d.webp",
+      "https://photos.zillowstatic.com/fp/3b29c49d0c994836e6dd8b1f941524cf-o_a.webp",
+      "https://photos.zillowstatic.com/fp/3b29c49d0c994836e6dd8b1f941524cf-uncropped_scaled_within_1344_1008.webp"
     ]
   },
   {
@@ -2282,8 +2298,8 @@ var L = [
     "zip": "57106",
     "sfpd": 109,
     "area": "C",
-    "avail": "Listed - details unverified",
-    "status": "AUTO-PUBLISHED 2026-10-19 from Zillow detail page (via Obscura stealth). Rent $767 for the 2BR read from the listing's own page; 972 sqft; lease 15 Months. Availability, deposit and lease term are as-published only - confirm before applying.",
+    "avail": "Not listed - duplicate of 3300-w-53rd-st",
+    "status": "Auto-published 2026-10-19 from the Zillow building page, then MERGED into the canonical card 3300-w-53rd-st - same 3300 W 53rd St 2BR/972sf unit. Kept as an archive stub so the publication history stays visible.",
     "beds": 2,
     "baths": 1,
     "sqft": 972,
