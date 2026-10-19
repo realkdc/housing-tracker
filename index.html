@@ -213,6 +213,7 @@ button{font-family:inherit;}
 .card-view li .pr.v{margin-left:auto;color:#3ecf6e;font-weight:800}
 .card-view:empty{display:none}
 .yv-row{display:flex;justify-content:space-between;gap:18px;padding:7px 14px;border-bottom:1px solid var(--line-soft)}
+ul{list-style:none;padding:0;margin:0}
 .yv-sub{margin:10px 14px;font-size:.7rem;color:var(--muted);}
 
 /* ---------- PHOTO GALLERY ---------- */
@@ -405,11 +406,11 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
   <div class="card-view" id="yv">
     <h3>Your view</h3>
     <div class="yv-row">
-      <div><div class="nm">♥ Liked</div><div id="yv-lv"></div></div>
-      <div><div class="nm">Votes</div><div id="yv-vt"></div></div>
+      <div><div class="nm">♥ Liked</div><ul id="yv-lv"></ul></div>
+      <div><div class="nm">Votes</div><ul id="yv-vt"></ul></div>
     </div>
     <div class="yv-row">
-      <div><div class="nm">👁 Viewed</div><div id="yv-rv"></div></div>
+      <div><div class="nm">👁 Viewed</div><ul id="yv-rv"></ul></div>
     </div>
     <div class="yv-sub" id="yv-sub"></div>
   </div>
@@ -2231,7 +2232,7 @@ function cardHTML(o,compact){
   var photos=o.photos&&o.photos.length>0?o.photos:(o.photo?[o.photo]:[]);
   var photo;
   if(photos.length>1){
-    photo='<div class="ph-gall" data-slug="'+esc(o.slug)+'">'+
+    photo='<div class="ph-gall" data-slug="'+esc(o.slug)+'" data-photos="'+esc(JSON.stringify(photos))+'" data-gidx="0" data-gtotal="'+photos.length+'">'+
       '<img src="'+esc(photos[0])+'" alt="'+esc(o.name)+'" loading="lazy">'+
       '<button class="ph-arrow ph-prev" data-ph-dir="-1" aria-label="Previous photo">&#8249;</button>'+
       '<button class="ph-arrow ph-next" data-ph-dir="1" aria-label="Next photo">&#8250;</button>'+
@@ -2370,6 +2371,8 @@ function render(){
   document.getElementById('arch').style.display=gone.length?'':'none';
   document.getElementById('unv').style.display=unv.length?'':'none';
   sortDom(document.getElementById('grid'));
+  sortDom(document.getElementById('archG'));
+  sortDom(document.getElementById('unvG'));
   attach();
 }
 function sortDom(root){
@@ -2420,7 +2423,7 @@ document.addEventListener('keydown',function(e){
   if(e.key==='Escape'){closeModal();document.getElementById('lb').classList.remove('on');}
 });
 /* ---------- vote / like / view widgets ---------- */
-document.getElementById('grid').addEventListener('click', function(e){
+document.addEventListener('click', function(e){
   var btn = e.target.closest('button[data-dir]');
   if(btn){
     var slug = btn.closest('.c').dataset.slug;
@@ -2433,8 +2436,12 @@ document.getElementById('grid').addEventListener('click', function(e){
     setLike(sl);
   }
 });
-document.getElementById('yv').addEventListener('click', function(e){ if(e.target.closest('#yv')){} });
 /* ---------- photo gallery navigation ---------- */
+var LASTGALL=null;
+document.addEventListener('pointerenter',function(e){
+  var g=e.target&&e.target.closest?e.target.closest('.ph-gall'):null;
+  if(g)LASTGALL=g;
+},true);
 document.addEventListener('click', function(e){
   var arrow=e.target.closest('.ph-arrow');
   if(!arrow)return;
@@ -2541,7 +2548,7 @@ render=function(){
 // Keyboard navigation for gallery
 document.addEventListener('keydown',function(e){
   if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
-    var active=document.querySelector('.ph-gall:hover');
+    var active=document.querySelector('.ph-gall:hover, .ph-gall:focus-within')||LASTGALL;
     if(!active)return;
     var idx=parseInt(active.dataset.gidx||'0');
     var total=parseInt(active.dataset.gtotal||'1');
