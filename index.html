@@ -337,6 +337,8 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 .c.over-budget .pc.over .amt{color:var(--bad)}
 .c.over-budget{border-color:rgba(244,103,92,.25)}
 .clear-btn{flex-shrink:0}
+.b1-off{background:transparent;border:1px dashed var(--line);color:var(--muted2);cursor:default;opacity:.75;text-align:center}
+#hN.zero{color:var(--warn)}
 .clear-btn:hover{color:var(--text);border-color:var(--accent)}
 </style>
 <body>
@@ -355,6 +357,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
       <div class="big" id="hN">0</div>
       <div class="big-l">homes in play</div>
       <div class="big-l" id="results-count" style="margin-top:2px"></div>
+      <div class="big-l" id="near-miss" style="margin-top:2px;color:var(--warn)"></div>
     </div>
   </div>
 
@@ -474,20 +477,20 @@ var L = [
     "slug": "rpm-kirkwood-4908-02",
     "name": "4908 W Kirkwood Cir #02",
     "type": "Apartment",
-    "manager": "RPM Express",
+    "manager": "Real Property Management Express (605) 501-5194",
     "price_raw": "$749",
     "price": "749",
     "zip": "57106",
     "sfpd": 289,
     "area": "D",
     "avail": "Available Now",
-    "status": "RE-CHECKED 2026-10-18: RPM catalog still lists this unit (lid 6e4f5ce6-13e9-4ea3-abd7-20e9471ad1eb) as Available NOW at $749 with $0 deposit via Jetty. Prior 'rented' note was wrong. Lease term NOT published anywhere — RPM confirmed 12 months on a sibling unit, so confirm before relying on it.",
+    "status": "VERIFIED 2026-10-19: STILL LIVE in the RPM 358-listing catalog; detail og:title '4908 W Kirkwood Circle - 4908-02'. 2BR/1Ba 750sf $749, Available Now, one month free, $0 deposit via Jetty. Lease term NOT published. W/D not in RPM's own amenity block (third-party says on-site laundry = shared). Dishwasher not listed (appliances: refrigerator, range only). Parking not stated by RPM (third-party says attached garage). Grade D (289 calls).",
     "beds": 2,
     "baths": 1,
     "sqft": 750,
     "address": "4908 W Kirkwood Circle #02, Sioux Falls, SD 57106",
-    "deposit": "$0 via Jetty",
-    "lease": "TBD",
+    "deposit": "$749 listed Security Deposit; page states 'Eligible for $0 security deposit' (Jetty)",
+    "lease": "unknown (not published; RPM confirmed 12 months on a sibling unit)",
     "utils": "None",
     "phone": "(605) 501-5194",
     "amenities": [
@@ -498,8 +501,8 @@ var L = [
     "photo": "https://images.cdn.appfolio.com/rpmsd001/images/e8a34496-b104-417e-8ef1-1280287a45a5/large.jpg",
     "wd": "onsite",
     "park": "unknown",
-    "dw": "no",
-    "amenity_source": "RPM detail Amenities: Pets Allowed, Refrigerator, Snow Removal, Oven, Lawn Care, Trash Removal. Appliances: Refrigerator, Range. No in-unit W/D.",
+    "dw": "unknown",
+    "amenity_source": "RPM detail structured block (read 2026-10-19): '2 Bed | 1 Baths | 750 Sq. Ft.', Rent $749, 'Eligible for $0 security deposit'; Amenities list NO washer/dryer, NO dishwasher, NO parking.",
     "sfpd_addr": "4908 W KIRKWOOD CIR",
     "sfpd_top": [
       [
@@ -514,26 +517,33 @@ var L = [
         "Traffic",
         46
       ]
+    ],
+    "photos": [
+      "https://images.cdn.appfolio.com/rpmsd001/images/e8a34496-b104-417e-8ef1-1280287a45a5/large.jpg",
+      "https://images.cdn.appfolio.com/rpmsd001/images/1850936a-43ec-4e5f-8c3c-f8b9387bba62/large.jpg",
+      "https://images.cdn.appfolio.com/rpmsd001/images/1e48a754-3a3a-45fd-8a6b-1578e5118f23/large.jpg",
+      "https://images.cdn.appfolio.com/rpmsd001/images/70bb1817-ec19-4ba8-9270-8f1430f98e0f/large.jpg",
+      "https://images.cdn.appfolio.com/rpmsd001/images/742d06b9-c9a9-4e63-8566-46817132fd83/large.jpg"
     ]
   },
   {
     "slug": "rpm-cathy-3705-01",
     "name": "3705 S Cathy Ave #01",
     "type": "Apartment",
-    "manager": "RPM Express",
+    "manager": "Real Property Management Express (605) 501-5943",
     "price_raw": "$799",
     "price": "799",
     "zip": "57106",
     "sfpd": 246,
     "area": "D",
-    "avail": "Listed — no availability date published",
-    "status": "RE-CHECKED 2026-10-18: still in the RPM catalog (lid 26629910-120e-4d56-9fd8-bd834a537282) at $799 with $0 deposit via Jetty, but it is one of only 8 of 358 catalog listings with NO availability badge. Unconfirmed — call the office.",
+    "avail": "Cannot verify - no availability badge",
+    "status": "VERIFIED 2026-10-19: still live in the RPM 358-listing catalog at $799 with $0 deposit via Jetty, but it is one of only 8 of 358 listings with NO availability badge - the page states 'Rent rates and availability are subject to change'. Lease term not published. W/D is 'Washer/Dryer On-Site' = shared, fails in-unit. Dishwasher yes, garage included in the rent. Grade D (246 calls).",
     "beds": 2,
     "baths": 1,
     "sqft": 821,
     "address": "3705 S. Cathy Avenue #01, Sioux Falls, SD 57106",
-    "deposit": "$0 via Jetty",
-    "lease": "TBD",
+    "deposit": "$799 listed Security Deposit; prose says 'Eligible for $0 security deposit' (Jetty)",
+    "lease": "unknown (not published)",
     "utils": "None",
     "phone": "(605) 274-7373",
     "amenities": [
@@ -546,7 +556,7 @@ var L = [
     "wd": "onsite",
     "park": "garage",
     "dw": "yes",
-    "amenity_source": "RPM detail Amenities: Air Conditioning, Disposal, Dishwasher, Snow Removal, Lawn Care, Garages Available, Washer/Dryer On-Site, Vinyl Floors. Appliances: Dishwasher, Refrigerator, Range.",
+    "amenity_source": "RPM detail lid 26629910 (read 2026-10-19): 'Washer/Dryer On-Site'; 'Garages Available' + prose 'a garage spot is included in the rent'; Appliances incl. Dishwasher; 'Eligible for $0 security deposit'; no move-in date published.",
     "sfpd_addr": "3705 S CATHY AVE",
     "sfpd_top": [
       [
@@ -561,26 +571,33 @@ var L = [
         "Traffic",
         32
       ]
+    ],
+    "photos": [
+      "https://images.cdn.appfolio.com/rpmsd001/images/705783ea-6bbe-44fe-8f8a-3ee0579ea4fc/large.jpg",
+      "https://images.cdn.appfolio.com/rpmsd001/images/20fcd624-3c91-45c1-acaf-2b1ddbc045ec/large.jpg",
+      "https://images.cdn.appfolio.com/rpmsd001/images/243a6233-6560-45d8-8c2a-e2c683330ef8/large.jpg",
+      "https://images.cdn.appfolio.com/rpmsd001/images/59dcc0c1-753b-4f11-aa78-5b2f06a1afdb/large.jpg",
+      "https://images.cdn.appfolio.com/rpmsd001/images/68ef795f-248c-497f-bd61-1755444885fa/large.jpg"
     ]
   },
   {
     "slug": "rpm-lewis-3225-01",
     "name": "3225 N Lewis Ave #01",
     "type": "Apartment",
-    "manager": "RPM Express",
+    "manager": "Real Property Management Express (605) 274-7373",
     "price_raw": "$625",
     "price": "625",
     "zip": "57104",
     "sfpd": 25,
     "area": "B",
-    "avail": "Available Now",
-    "status": "FAILS 2026-10-18: RPM Express (Khriz Erguiza) confirmed by email Oct 14 — unit IS available at $625 with Jetty $0 deposit, but the lease is 12 MONTHS ONLY (no 6-9 month option), and the zip 57104 is excluded. Prior 'rented' note was also wrong.",
+    "avail": "Excluded - zip 57104 (was Available Now)",
+    "status": "VERIFIED 2026-10-19: Available NOW confirmed in the RPM catalog card and the detail page. Lease term not published. W/D is 'Washer/Dryer On-Site' = shared, fails in-unit. No dishwasher. Off-street parking. ZIP 57104 IS on the hard market-exclusion list, so this unit is excluded regardless of the $625 rent and the $0 Jetty deposit. Grade B (25 calls).",
     "beds": 2,
     "baths": 1,
     "sqft": 780,
     "address": "3225 N Lewis Ave #01, Sioux Falls, SD 57104",
-    "deposit": "$0 via Jetty",
-    "lease": "TBD",
+    "deposit": "$625 listed Security Deposit; prose says 'Eligible for $0 deposit through Jetty'",
+    "lease": "unknown (not published)",
     "utils": "Yes",
     "phone": "(605) 274-7373",
     "amenities": [
@@ -593,7 +610,7 @@ var L = [
     "wd": "onsite",
     "park": "offstreet",
     "dw": "no",
-    "amenity_source": "RPM detail Amenities: Refrigerator, Water Included, Snow Removal, Oven, Window A/C, Lawn Care, Washer/Dryer On-Site, Off-Street Parking. Appliances: Window A/C, Refrigerator, Range.",
+    "amenity_source": "RPM detail lid fdaf782c (read 2026-10-19): 'Available Now' badge in catalog and detail; 'Washer/Dryer On-Site'; 'Off-Street Parking'; no Dishwasher in Amenities; 'Eligible for $0 deposit through Jetty'.",
     "sfpd_addr": "3225 N LEWIS AVE",
     "sfpd_top": [
       [
@@ -608,26 +625,33 @@ var L = [
         "Traffic",
         1
       ]
+    ],
+    "photos": [
+      "https://images.cdn.appfolio.com/rpmsd001/images/c3bba5f0-c320-4c69-82eb-dc5d05767c8f/large.jpg",
+      "https://images.cdn.appfolio.com/rpmsd001/images/3ab51d3e-8dd4-470c-b250-51ffc414d5eb/large.jpg",
+      "https://images.cdn.appfolio.com/rpmsd001/images/56e16287-2f4a-47a9-a537-7f638fa05e55/large.jpg",
+      "https://images.cdn.appfolio.com/rpmsd001/images/690c1b4d-171f-48c5-afb7-1e6b237c0327/large.jpg",
+      "https://images.cdn.appfolio.com/rpmsd001/images/7367c1ad-7852-4450-886f-d676fc13b5c2/large.jpg"
     ]
   },
   {
     "slug": "south-ridge-townhomes",
     "name": "South Ridge Townhomes",
     "type": "Townhouse",
-    "manager": "South Ridge",
-    "price_raw": "$768–783",
+    "manager": "South Ridge Apartments & Townhomes (605) 937-7278",
+    "price_raw": "$768",
     "price": "768–783",
     "zip": "57108",
     "sfpd": 79,
-    "area": "B",
+    "area": "C",
     "avail": "Available now",
-    "status": "No pets",
+    "status": "VERIFIED 2026-10-19: available now confirmed at building level (Redfin 'Available now', Zillow 'Available Now'); floorplans say 'Contact for availability'. Lease 12 months (Zillow 'Lease terms: One year') - fails the 6-9mo gate. In-unit washer and dishwasher in unit (Redfin building highlights). Deposit not stated on any live page (tracker's $400-450 unconfirmed). Grade C (79 calls - tracker had graded it B).",
     "beds": 2,
     "baths": 1,
     "sqft": 923,
     "address": "South Ridge Townhomes, Sioux Falls, SD 57108",
-    "deposit": "$400-450",
-    "lease": "12 months",
+    "deposit": "unknown (Redfin: 'deposits vary')",
+    "lease": "12 months (one year)",
     "utils": "None",
     "phone": "(712) 746-8746",
     "amenities": [
@@ -644,8 +668,8 @@ var L = [
     ],
     "wd": "inunit",
     "park": "offstreet",
-    "dw": "no",
-    "amenity_source": "Redfin live: in-unit washer/dryer, off-street parking, 923sf townhome, no pets. Dishwasher not listed.",
+    "dw": "yes",
+    "amenity_source": "Redfin 195165736 + Zillow (read 2026-10-19): building 'Available now'; 'Washer In unit'; 'Dishwasher In unit'; 'Off Street' community amenity; 'Deposits vary. Please see a representative for details'; Zillow 'Lease terms: One year'; (605) 937-7278.",
     "sfpd_addr": "South Ridge Townhomes (Redfin coords)",
     "sfpd_top": [
       [
@@ -666,20 +690,20 @@ var L = [
     "slug": "4907-w-kirkwood-cir-4",
     "name": "4907 W Kirkwood Cir #4",
     "type": "Townhouse",
-    "manager": "Pegasus of SD",
-    "price_raw": "$1,348",
-    "price": "1348",
+    "manager": "Pegasus of SD - Joann",
+    "price_raw": "$1,299",
+    "price": "1,299",
     "zip": "57106",
     "sfpd": 237,
     "area": "D",
-    "avail": "Not available",
-    "status": "Not available",
+    "avail": "Not available - no public listing (Pegasus of SD, not RPM)",
+    "status": "CORRECTED 2026-10-19: this is NOT an RPM Express unit. RPM's Kirkwood Circle unit is 4908-02 ($749, still live in the 358-listing catalog); RPM has zero '4907' entries. 4907 W Kirkwood Cir #4 is a Pegasus of SD townhouse recorded only in the tracker log: 2BR/1.5BA/1,100sf, rent $1,299 (manager-confirmed; tracker had $1,348), lease M-to-M, attached garage, no public listing or URL exists. Over the $800 ceiling by 62%. Grade D (237 calls).",
     "beds": 2,
-    "baths": 1,
-    "sqft": 948,
+    "baths": 1.5,
+    "sqft": 1100,
     "address": "4907 W Kirkwood Cir #4, Sioux Falls, SD 57106",
-    "deposit": "$1,348",
-    "lease": "M-to-M available",
+    "deposit": "unknown (no public listing)",
+    "lease": "M-to-M (March-to-March)",
     "utils": "Lawn/snow",
     "phone": "(605) 951-6584",
     "amenities": [
@@ -689,8 +713,8 @@ var L = [
     "photo": "https://s3.us-west-2.amazonaws.com/prod-avail/public_images/40014756/original/IMG_0652.jpeg",
     "wd": "unknown",
     "park": "garage",
-    "dw": "no",
-    "amenity_source": "Attached garage confirmed; W/D marked TBD, never verified on a public page.",
+    "dw": "unknown",
+    "amenity_source": "RPM Express catalog (358 listings, pulled 2026-10-19): only '4908 W Kirkwood Circle - 4908-02' exists - 0 hits for '4907'. Rent/lease from the tracker log's manager reply.",
     "sfpd_addr": "4907 W KIRKWOOD CIR",
     "sfpd_top": [
       [
@@ -763,32 +787,32 @@ var L = [
     "slug": "lincoln-heights-4",
     "name": "Lincoln Heights #4",
     "type": "Townhouse",
-    "manager": "Alpine Prop Mgmt",
-    "price_raw": "$1,095",
-    "price": "1095",
+    "manager": "Alpine Property Management",
+    "price_raw": "$1,245",
+    "price": "1,245",
     "zip": "57032",
-    "sfpd": 629,
+    "sfpd": 613,
     "area": "D",
-    "avail": "Available Dec 1",
-    "status": "Grade D (629 calls) — NOT safe, do not pursue. Was mislabeled A.",
+    "avail": "Available 12/1/26",
+    "status": "CORRECTED 2026-10-19: 'Available Dec 1' confirmed as 12/1/26. Rent is $1,245, not $1,095 (tracker was wrong) - over the $800 ceiling. Lease 12 months - fails 6-9mo. W/D in unit, dishwasher in unit, off-street parking plus a detached garage included with rent. Zip is 57032 (tracker said 57025). Grade D (613 calls at 413 S Cliff Ave, Harrisburg).",
     "beds": 2,
     "baths": 1.5,
     "sqft": 960,
     "address": "Lincoln Heights #4, Harrisburg, SD 57032",
     "deposit": "$500",
-    "lease": "12 mo",
+    "lease": "12 months ('Rent Special - $2000 Off on a 12 Month Lease!!')",
     "utils": "None",
     "phone": "",
     "amenities": [
       "Off-street",
       "In-unit W/D"
     ],
-    "url": "https://alpinepropmgmt.appfolio.com/listings",
+    "url": "https://alpinepropmgmt.appfolio.com/listings/detail/b290bb9b-c52b-4b84-a554-33220d207d92",
     "photo": "https://ar.rdcpix.com/67e925c1360370f0c745f09a45613510c-f1239548486od-w640_h480.jpg",
     "wd": "inunit",
     "park": "offstreet",
-    "dw": "no",
-    "amenity_source": "Alpine live: Lincoln Heights 2BR, 413 S Cliff Ave Harrisburg, 960sf, Washer/Dryer In Unit, Off Street Parking, Dishwasher, Microwave. Available NOW. $845.",
+    "dw": "yes",
+    "amenity_source": "Alpine Appfolio detail b290bb9b (read 2026-10-19): 'Available 12/1/26'; 2BR/1.5BA 960sf $1,245; 'Washer/Dryer In Unit'; Amenities 'Dishwasher', 'Off-Street Parking', 'Detached Garage Included with Rent!'; Security Deposit $500; 'Rent Special - $2000 Off on a 12 Month Lease!!'. SFPD re-scored at 413 S CLIFF AVE = 613 calls, grade D.",
     "sfpd_addr": "413 S CLIFF AVE",
     "sfpd_top": [
       [
@@ -813,22 +837,22 @@ var L = [
   },
   {
     "slug": "foss-fields-hollow",
-    "name": "Foss Fields \"Hollow\"",
+    "name": "Foss Fields Ascent - 'The Hollow' 2BR (tracked as 'Foss Fields Hollow')",
     "type": "Apartment",
-    "manager": "RPM Xpress",
-    "price_raw": "$1,120",
-    "price": "1,120",
+    "manager": "Real Property Management Express",
+    "price_raw": "$1,155+",
+    "price": "1,155",
     "zip": "57110",
-    "sfpd": 77,
-    "area": "",
-    "avail": "Cannot verify",
-    "status": "Contacted — Sep 3 ✓",
+    "sfpd": 43,
+    "area": "B",
+    "avail": "Listed - availability unconfirmed",
+    "status": "CORRECTED 2026-10-19: 'Foss Fields Hollow' is not a named listing in any public source - matched to Foss Fields Ascent, 1001 N Highline Ave, Sioux Falls 57110, whose 2BR floorplan is 'The Hollow' (2BR/2BA/850sf). Tracked $1,120 NOT confirmed; the 2BR range is $1,155+ (over ceiling). Lease 1-18 months available, so a 6-9mo term IS feasible. In-unit laundry (property site: 'in-unit laundry' for every home). No dishwasher. On-site parking, not confirmed as a garage. No deposit published. Grade B (43 calls at 1001 N Highline Ave - tracker had scored 5501 W 57th St).",
     "beds": 2,
     "baths": 2,
     "sqft": 850,
-    "address": "Foss Fields Hollow, Sioux Falls, SD 57110",
-    "deposit": "$1,120",
-    "lease": "12 mo",
+    "address": "1001 N Highline Ave, Sioux Falls, SD 57110",
+    "deposit": "unknown (not published)",
+    "lease": "1-18 months available",
     "utils": "None",
     "phone": "(605) 250-2741",
     "amenities": [
@@ -837,13 +861,13 @@ var L = [
       "$0 deposit (Jetty)",
       "1 month free"
     ],
-    "url": "https://rpmxpress.com/available-rentals",
+    "url": "https://www.fossfieldsapartments.com/units",
     "photo": "https://cdn.prod.website-files.com/6a077b1b3e064362bcc0db26/6a078e3d5ba2d01292a41345_Foss-Fields-The-Prairie-1-bed-1-bath-03272026_135113.jpg",
     "wd": "inunit",
-    "park": "garage",
+    "park": "offstreet",
     "dw": "no",
-    "amenity_source": "Garage + in-unit W/D confirmed Sep 11. Rent $1,120.",
-    "sfpd_addr": "5501 W 57TH ST",
+    "amenity_source": "fossfieldsapartments.com/units + apartments.com (read 2026-10-19): 2BR floorplan 'The Hollow' 2BR/2BA/850sf; 'in-unit laundry' for every home; no dishwasher in the amenity list; lease options 1-18 months; no deposit published. SFPD re-scored at 1001 N HIGHLINE AVE = 43 calls, grade B.",
+    "sfpd_addr": "1001 N HIGHLINE AVE",
     "sfpd_top": [
       [
         "Traffic",
@@ -864,74 +888,23 @@ var L = [
     ]
   },
   {
-    "slug": "oakwood-estates",
-    "name": "Oakwood Estates",
-    "type": "Apartment",
-    "manager": "Elevate Property Mgmt",
-    "price_raw": "$744",
-    "price": "744",
-    "zip": "57106",
-    "sfpd": 102,
-    "area": "C",
-    "avail": "Cannot verify",
-    "status": "No in-unit W/D (community laundry)",
-    "beds": 2,
-    "baths": 1,
-    "sqft": 972,
-    "address": "Oakwood Estates, Sioux Falls, SD 57106",
-    "deposit": "$400",
-    "lease": "6-15 mo",
-    "utils": "None",
-    "phone": "(605) 961-6212",
-    "amenities": [
-      "Pets OK"
-    ],
-    "url": "https://www.apartments.com/oakwood-estates-sioux-falls-sd/ghk534z/",
-    "photo": "https://photos.zillowstatic.com/fp/9fc73af974f2cdc7852cf59dd3e572d2-o_a.jpg",
-    "wd": "shared",
-    "park": "unknown",
-    "dw": "no",
-    "amenity_source": "ApartmentGuide: in-unit W/D not available; community laundry facilities. 5 units available (Zillow).",
-    "sfpd_addr": "3300 W 53RD ST",
-    "sfpd_top": [
-      [
-        "Disorderly Conduct",
-        46
-      ],
-      [
-        "Other",
-        28
-      ],
-      [
-        "Traffic",
-        8
-      ]
-    ],
-    "photos": [
-      "https://photos.zillowstatic.com/fp/9fc73af974f2cdc7852cf59dd3e572d2-o_a.jpg",
-      "https://photos.zillowstatic.com/fp/260d5411d465ca28a08dd2cc768a84ac-o_a.jpg",
-      "https://photos.zillowstatic.com/fp/2c3dfdcafc4dae5bf7278fdf52982d06-o_a.jpg",
-      "https://photos.zillowstatic.com/fp/c8466cf4d93029bd0491320faf9e8441-o_a.jpg"
-    ]
-  },
-  {
     "slug": "grand-teton-estates",
-    "name": "Grand Teton Estates",
+    "name": "Grand Teton Estates Apartments",
     "type": "Apartment",
-    "manager": "Grand Teton LLC",
-    "price_raw": "$800",
-    "price": "800",
+    "manager": "unknown (Grand Teton Estates / Metastone Properties)",
+    "price_raw": "$875",
+    "price": "875",
     "zip": "57005",
-    "sfpd": null,
+    "sfpd": 2,
     "area": "A",
-    "avail": "Cannot verify",
-    "status": "No in-unit W/D (shared laundry)",
+    "avail": "Available Soon",
+    "status": "CORRECTED 2026-10-19: tracked $800 is STALE - live rent is $875 (CoStar/Apartments.com) so it is over the $800 ceiling. Lease 12 months (apartments.com 'Lease Options: 12 mo') - fails 6-9mo. Shared laundry (community 'Laundry Facilities', no in-unit) and NO dishwasher. Deposit $500. The property is 101 S Teton Dr, Brandon SD 57005 (~5mi NE of Sioux Falls), not 'Sioux Falls'. rent.com shows 'previously available' as of 09/28/2026. Manager not published. Grade A (2 calls).",
     "beds": 2,
     "baths": 1,
     "sqft": 800,
-    "address": "Grand Teton Estates, Brandon, SD 57005",
-    "deposit": "$800",
-    "lease": "12 mo",
+    "address": "101 S Teton Dr, Brandon, SD 57005",
+    "deposit": "$500",
+    "lease": "12 months",
     "utils": "None",
     "phone": "(605) 705-1831",
     "amenities": [
@@ -943,8 +916,8 @@ var L = [
     "wd": "shared",
     "park": "offstreet",
     "dw": "no",
-    "amenity_source": "ApartmentHomeLiving/Rentable: shared washer/dryer in common area. 6-18mo leases available.",
-    "sfpd_addr": null,
+    "amenity_source": "apartments.com et17prm + CoStar + rent.com + ApartmentList (read 2026-10-19): 2BR/1BA 800sf $875; 'Lease Options: 12 mo'; community 'Laundry Facilities' (no in-unit); no dishwasher in kitchen features; deposit $500; off-street surface parking, 1 space per tenant free. SFPD scored via Nominatim coords (city locator does not cover Brandon) = 2 calls, grade A.",
+    "sfpd_addr": "101 S Teton Dr, Brandon, SD 57005",
     "sfpd_top": [],
     "photos": [
       "https://images.rentable.co/111211/113991464/large.jpeg",
@@ -957,32 +930,32 @@ var L = [
     "slug": "1317-e-sylvan-cir-5",
     "name": "1317 E Sylvan Cir #5",
     "type": "Apartment",
-    "manager": "Metastone Properties",
+    "manager": "Grand Teton Estates / Metastone Properties (605) 250-7611",
     "price_raw": "$800",
     "price": "800",
     "zip": "57005",
     "sfpd": 2,
-    "area": "C",
-    "avail": "Cannot verify",
-    "status": "New — staged Oct 1; term risk",
+    "area": "A",
+    "avail": "Cannot verify - previously available 09/28/2026",
+    "status": "VERIFIED 2026-10-19: 1317 E Sylvan Cir is the Grand Teton Estates campus (101/109 S Teton Dr, also 1309/1317 S Teton Dr, Brandon SD 57005). The $800 2BR/1BA/800sf unit is 'unit 1317 E Sylvan Circle - 2' - the tracker's '#5' could NOT be verified as the $800 2BR (Redfin's 1317 Sylvan Cir Apt 5 is a 1BR at $875; rent.com lists unit -5 at $890). Lease 13 months (1 Month FREE) - fails the 6-9mo gate. W/D not stated publicly. Dishwasher in unit, off-street parking + secured entrance. Availability NOT confirmed: rent.com shows 'previously available' (last 09/28/2026), Zumper shows 'notify me'. Grade A (2 calls).",
     "beds": 2,
     "baths": 1,
     "sqft": 800,
     "address": "1317 E Sylvan Cir #5, Brandon, SD 57005",
-    "deposit": "$500",
-    "lease": "13mo promo shown; 6–9mo unverified",
+    "deposit": "unknown (~$500 estimated)",
+    "lease": "13 months (1 Month FREE promo)",
     "utils": "Electric extra",
     "phone": "(605) 513-6875",
     "amenities": [
       "A/C"
     ],
-    "url": "https://hotpads.com/1317-e-sylvan-cir-brandon-sd-57005-tumddm/5/pad",
+    "url": "https://www.rent.com/r/101-s-teton-dr-brandon-sd-lv3198313487",
     "photo": "https://images.rentable.co/111211/113991464/large.jpeg",
-    "wd": "shared",
-    "park": "parking",
-    "dw": "no",
-    "amenity_source": "Shared laundry and parking per listing card.",
-    "sfpd_addr": "1317, East Sylvan Circle, Brandon Park Addition, B",
+    "wd": "unknown",
+    "park": "offstreet",
+    "dw": "yes",
+    "amenity_source": "rent.com r/101-s-teton-dr-brandon-sd-lv3198313487 + Zumper + Redfin (read 2026-10-19): 2BR/1BA 800sf $800; '1 Month FREE on a 13-Month Lease'; In-Unit Features Dishwasher; Off-Street Parking; previously available 09/28/2026. SFPD scored via Nominatim coords (city locator does not cover Brandon) = 2 calls, grade A - tracker had graded 2 calls as C.",
+    "sfpd_addr": "1317 E Sylvan Cir, Brandon, SD 57005",
     "sfpd_top": [
       [
         "Disorderly Conduct",
@@ -1004,29 +977,29 @@ var L = [
     "slug": "arnolds-park",
     "name": "Arnold's Park Apartments",
     "type": "Apartment",
-    "manager": "Unknown",
-    "price_raw": "$700+",
+    "manager": "Arnold's Park Apartments (605) 906-9022",
+    "price_raw": "$700",
     "price": "700",
     "zip": "57104",
     "sfpd": 210,
-    "area": "",
-    "avail": "Cannot verify",
-    "status": "New — staged Oct 1; term risk",
+    "area": "D",
+    "avail": "Cannot verify - excluded zip 57104",
+    "status": "VERIFIED 2026-10-19: 2BR/1BA 775sf $700. Zip 57104 IS on the market exclusion list - excluded regardless of price. Availability NOT confirmed (Redfin shows 0 available units and 'Contact for availability'; Zillow's cached card still shows $700+/775sf/1 unit). Lease term not published. W/D, parking and dishwasher are not stated on any public page. Deposit $500. Grade D (210 calls).",
     "beds": 2,
     "baths": 1,
     "sqft": 775,
     "address": "Arnold's Park Apartments, 812 W Bailey St, Sioux Falls, SD 57104",
-    "deposit": "TBD",
-    "lease": "6–9mo unverified",
+    "deposit": "$500",
+    "lease": "unknown (not published)",
     "utils": "TBD",
     "phone": "(605) 800-6645",
     "amenities": [],
-    "url": "https://www.zillow.com/apartments/sioux-falls-sd/arnold's-park-apartments/CkMcvd/",
+    "url": "https://www.redfin.com/SD/Sioux-Falls/Arnold-s-Park-Apartments/apartment/136609390",
     "photo": "https://images.rentable.co/86876/63883559/large.jpg",
     "wd": "unknown",
     "park": "unknown",
-    "dw": "no",
-    "amenity_source": "Zillow 403 to scripted requests; amenities never verified.",
+    "dw": "unknown",
+    "amenity_source": "Redfin property page 136609390 + Zillow + HotPads (read 2026-10-19): 2BR/1BA 775sf $700; 'Lease terms: Deposit: $500'; 0 available units; on-property (605) 906-9022. Zillow 403s plain requests (bot wall) - replaced with Redfin.",
     "sfpd_addr": "812 W BAILEY ST",
     "sfpd_top": [
       [
@@ -1054,20 +1027,20 @@ var L = [
     "slug": "bridgewood-estates",
     "name": "Bridgewood Estates",
     "type": "Apartment",
-    "manager": "Bender Midwest Properties",
-    "price_raw": "$775+",
-    "price": "775",
+    "manager": "Thies & Talle Management",
+    "price_raw": "$858-904",
+    "price": "858",
     "zip": "57106",
     "sfpd": 357,
-    "area": "A",
-    "avail": "Cannot verify",
-    "status": "New — staged Oct 1; term risk",
+    "area": "D",
+    "avail": "Available Now",
+    "status": "CORRECTED 2026-10-19: tracker said $775 - that is the 1BR. 2BR is $858-$904 (913sf) so it fails the $800 ceiling. Lease 6-18 months (includes a 6mo option) - PASSES the lease gate. Safety: tracker said A, but 357 calls in 0.25mi/90d is GRADE D (re-scored 361) - the address was right, the grade was wrong. W/D is shared on-site laundry, not in-unit. Attached garage ($50/mo), dishwasher yes. Live (Redfin 20 units available).",
     "beds": 2,
     "baths": 1,
-    "sqft": 738,
+    "sqft": 913,
     "address": "Bridgewood Estates, 2912 S Louise Ave, Sioux Falls, SD 57106",
     "deposit": "$500",
-    "lease": "6–9mo unverified",
+    "lease": "6-18 months (short-term available)",
     "utils": "TBD",
     "phone": "",
     "amenities": [
@@ -1077,8 +1050,8 @@ var L = [
     "photo": "https://images.cdn.appfolio.com/bendermidwestproperties/images/d8220dbb-f66d-448c-99c2-1881be437cb2/large.png",
     "wd": "shared",
     "park": "garage",
-    "dw": "no",
-    "amenity_source": "1BR only, shared laundry, attached garage per listing card.",
+    "dw": "yes",
+    "amenity_source": "Zillow + Redfin (read 2026-10-19): 2BR/1BA 913sf $858-904; shared on-site laundry; attached garage $50/mo; dishwasher; deposit $500; lease 6-18 months. SFPD re-scored at 2912 S LOUISE AVE = 361 calls, grade D (tracker had graded 357 calls as A).",
     "sfpd_addr": "2912 S LOUISE AVE",
     "sfpd_top": [
       [
@@ -1101,76 +1074,23 @@ var L = [
     ]
   },
   {
-    "slug": "granite-peak",
-    "name": "Granite Peak Multifamily",
-    "type": "Apartment",
-    "manager": "Granite Peak",
-    "price_raw": "$697",
-    "price": "697",
-    "zip": "57106",
-    "sfpd": 35,
-    "area": "B",
-    "avail": "Listed",
-    "status": "New",
-    "beds": 2,
-    "baths": 1,
-    "sqft": 986,
-    "address": "5500 S MacArthur Ln, Sioux Falls, SD",
-    "deposit": "$497",
-    "lease": "12 months",
-    "utils": "",
-    "phone": "",
-    "amenities": [
-      "Dishwasher",
-      "Garage (extra)",
-      "Laundry Facilities",
-      "Pets OK",
-      "Controlled Access"
-    ],
-    "url": "https://www.rentalsource.com/details/5500-s-macarthur-lane-sioux-falls-sd-81664544/",
-    "photo": "https://images.rentalsource.com/listings/81664544-b4q0.jpg",
-    "photos": [
-      "https://images.rentalsource.com/listings/81664544-b4q0.jpg"
-    ],
-    "wd": "onsite",
-    "park": "garage",
-    "dw": "yes",
-    "amenity_source": "RentalSource detail JSON-LD: Dishwasher, Garage, Laundry Facilities, Pet Friendly, Refrigerator, Controlled Access. Description: \"includes a dishwasher and access to on-site laundry... A detached garage\"",
-    "notes": "2BR 986sf at $697, 3BR 1100sf at $797. Garage is detached/available.",
-    "sfpd_addr": "5500 S MACARTHUR LN",
-    "sfpd_top": [
-      [
-        "Disorderly Conduct",
-        15
-      ],
-      [
-        "Traffic",
-        10
-      ],
-      [
-        "Other",
-        5
-      ]
-    ]
-  },
-  {
     "slug": "3falls",
     "name": "3Falls Apartments",
     "type": "Apartment",
-    "manager": "3Falls",
-    "price_raw": "$760",
-    "price": "760",
+    "manager": "3Falls Apartments / JL Property Management",
+    "price_raw": "$870",
+    "price": "870",
     "zip": "57103",
     "sfpd": 76,
     "area": "C",
-    "avail": "Listed",
-    "status": "New",
+    "avail": "Available Now",
+    "status": "CORRECTED 2026-10-19: tracker's $760 was the 1-BR price - the 2BR is $870 (886sf, 1.5ba, Available Now), so it is over the $800 ceiling. Lease 12-15 months ('2 Mo Free with a 15 Mo Lease'; Bender 3BR shows 13 months) - fails 6-9mo. W/D is 'Onsite laundry facilities' = shared. Dishwasher in unit. Garage available for $50/mo. Deposit $500. Grade C (76 calls).",
     "beds": 2,
-    "baths": 1,
-    "sqft": 800,
+    "baths": 1.5,
+    "sqft": 886,
     "address": "3600 E 6th St, Sioux Falls, SD",
-    "deposit": "$500",
-    "lease": "12 months",
+    "deposit": "$500 (up to one month rent, refundable)",
+    "lease": "12-15 months",
     "utils": "",
     "phone": "",
     "amenities": [
@@ -1181,12 +1101,12 @@ var L = [
       "Microwave",
       "Pets OK"
     ],
-    "url": "https://www.rentalsource.com/details/3600-e-6th-st-sioux-falls-sd-80420879/",
+    "url": "https://bendermidwestproperties.appfolio.com/listings/detail/12a9bfd0-5d0d-4db0-85b9-e5e7e2055a78",
     "photo": "https://d2vuz9iu0szshh.cloudfront.net/95404/3falls-apartments-1390.jpg",
     "wd": "onsite",
-    "park": "garage",
+    "park": "offstreet",
     "dw": "yes",
-    "amenity_source": "RentalSource detail JSON-LD: Air Conditioning, Dishwasher, Garage, Microwave, Pet Friendly, Refrigerator, Controlled Access, Laundry Facilities. Security Deposit $500, app fee $75",
+    "amenity_source": "homes.com 3Falls + Bender Appfolio 12a9bfd0 + rent.com (read 2026-10-19): 2BR/1.5BA 886sf $870; '2 Mo Free with a 15 Mo Lease'; 'Onsite laundry facilities'; Dishwasher in-unit features; 'Garages Available' $50/mo; deposit $500.",
     "notes": "1-3BR 664-973sf from $760. Garages available FOR RENT (extra cost), on-site laundry.",
     "sfpd_addr": "3600 E 6TH ST",
     "sfpd_top": [
@@ -1213,20 +1133,20 @@ var L = [
     "slug": "briarwood",
     "name": "Briarwood Reserve",
     "type": "Apartment",
-    "manager": "Real Property Mgmt",
-    "price_raw": "$1,285",
-    "price": "1285",
+    "manager": "Briarwood Reserve by RPM Express (605) 937-6856",
+    "price_raw": "$1,170-1,220",
+    "price": "1,170",
     "zip": "57108",
     "sfpd": 16,
     "area": "A",
-    "avail": "Listed",
-    "status": "New",
+    "avail": "Listed - 2BR units posted",
+    "status": "CORRECTED 2026-10-19: tracker said $1,285 - no unit at that price. 2BR/2ba is $1,170-$1,220 (849sf); 3BR/2ba is $1,270-$1,295. Over $800 ceiling. Lease 12 months. In-unit W/D, dishwasher yes. Grade B (16 calls).",
     "beds": 2,
     "baths": 2,
     "sqft": 849,
     "address": "6000 S Coneflower Ave, Sioux Falls, SD",
-    "deposit": "$0 via Jetty",
-    "lease": "Unknown",
+    "deposit": "$0 eligible (page prose)",
+    "lease": "12 months",
     "utils": "Sewer/water/trash incl.",
     "phone": "",
     "amenities": [
@@ -1244,9 +1164,9 @@ var L = [
       "https://images.rentalsource.com/listings/80628044-osnr.jpg"
     ],
     "wd": "inunit",
-    "park": "offstreet",
+    "park": "unknown",
     "dw": "yes",
-    "amenity_source": "RentalSource detail JSON-LD: Washer/Dryer In Unit, Dishwasher, Parking, Balcony/Patio, Microwave, Pet Friendly, High-Speed Internet, Laundry Facilities. \"Eligible for $0 security deposit\"",
+    "amenity_source": "RentalSource detail page (re-read 2026-10-19): JSON-LD 'Washer/Dryer In Unit' true, 'Dishwasher' true, leaseLength 12 month; unit-rate table 2BR/2ba $1,170-1,220 (849sf), 3BR/2ba $1,270-1,295.",
     "notes": "SAFEST address on the board (grade A, 16 calls). In-unit W/D + dishwasher + $0 Jetty deposit. BUT 2BR is $1,170, 46% over the ceiling. Studio $800 / 1BR $915.",
     "sfpd_addr": "6000 S CONEFLOWER AVE",
     "sfpd_top": [
@@ -1268,20 +1188,20 @@ var L = [
     "slug": "teak-apartments",
     "name": "Teak Apartments",
     "type": "Apartment",
-    "manager": "Bender Midwest Properties",
-    "price_raw": "$875",
-    "price": "875",
+    "manager": "Bender Midwest Properties (NOT Newbury Living - refuted)",
+    "price_raw": "$870-875",
+    "price": "870",
     "zip": "57106",
     "sfpd": 48,
     "area": "B",
     "avail": "Available NOW (2 units)",
-    "status": "In-unit W/D (some units), 3-15mo lease",
+    "status": "CORRECTED 2026-10-19: manager was WRONG - rent.com and realtor.com both say Bender Midwest Properties, and there is no Newbury Living reference anywhere on the page. 2BR floorplan $870-$875, 960sf (over ceiling). In-unit W/D confirmed (floorplan amenities: Washer, Dryer). Garage attached. Dishwasher NOT listed. Lease term not published. Grade B (48 calls).",
     "beds": 2,
     "baths": 1,
     "sqft": 960,
     "address": "3215 S Westbrooke Ln, Sioux Falls, SD",
-    "deposit": "$500 (up to 1 mo)",
-    "lease": "3-15 months",
+    "deposit": "$500 (up to one month rent, refundable)",
+    "lease": "unknown (not published)",
     "utils": "None",
     "phone": "(605) 590-0856",
     "amenities": [
@@ -1292,9 +1212,9 @@ var L = [
     "url": "https://www.rent.com/apartment/teak-apartments-sioux-falls-sd-lc6882859",
     "photo": "https://photos.zillowstatic.com/fp/118d89a0c44b9ebbe80926ab60a7802f-o_a.jpg",
     "wd": "inunit",
-    "park": "unknown",
+    "park": "garage",
     "dw": "unknown",
-    "amenity_source": "Zillow/ApartmentGuide: In-Unit Washer & Dryer (some units), attached garage + off-street parking, dishwasher. 3-15mo leases.",
+    "amenity_source": "rent.com lc6882859 + realtor.com (read 2026-10-19): 2BR floorplan 960sf $870-875, In-Unit Features Laundry/Dryer/Washer, 'Garage Attached'; no Dishwasher in the 2BR amenity block; leasingTerms empty. 'Managed By: Bender Midwest Properties'.",
     "sfpd_addr": "3215 S WESTBROOKE LN",
     "sfpd_top": [
       [
@@ -1319,20 +1239,20 @@ var L = [
     "slug": "penbrooke-place",
     "name": "Penbrooke Place",
     "type": "Apartment",
-    "manager": "Penbrooke leasing office",
-    "price_raw": "$797+",
-    "price": "797",
+    "manager": "Indigo Living",
+    "price_raw": "$791-841",
+    "price": "791",
     "zip": "57106",
     "sfpd": 111,
     "area": "C",
     "avail": "Listed (2BR floorplans live)",
-    "status": "VERIFIED 2026-10-18: Penbrooke Place (Indigo Living), 4100 W Valhalla Blvd. 2BR $797-$893, 5 units Available Now, 6-24 month leases available, in-unit W/D. Manager Indigo Living (Hubbell) - phone only, no public email. Board's $752/$726 unit numbers unsupported; live 2BR floor is $797.",
+    "status": "VERIFIED 2026-10-19: PASSES BUDGET AND LEASE. B1 2BR/1BA 875sf $791-$841 (only the B1 is under $800; B2/B3 2BRs start $847-$849). Lease 6-24 months available, so 6-9mo works. In-unit W/D (B1 floorplan: Washer, Dryer), garages available, dishwasher yes. Deposit varies, not published. Grade C (111 calls). Original apartmentfinder.com URL returns 403 to plain requests (bot wall, not a dead link) - replaced with the working rent.com page.",
     "beds": 2,
     "baths": 1,
     "sqft": 875,
     "address": "4100 W Valhalla Blvd, Sioux Falls, SD 57106",
-    "deposit": "$650 + $285 admin",
-    "lease": "6-24 months available",
+    "deposit": "Varies (not published)",
+    "lease": "6 - 24 months available",
     "utils": "None",
     "phone": "(605) 861-4207",
     "amenities": [
@@ -1340,12 +1260,12 @@ var L = [
       "Garages available",
       "Pets OK"
     ],
-    "url": "https://apartmentfinder.com/South-Dakota/Sioux-Falls-Apartments/Penbrooke-Place-Apartments",
+    "url": "https://www.rent.com/apartment/penbrooke-place-sioux-falls-sd-lc6134237",
     "photo": "https://ssl.cdn-redfin.com/photo/rent/c64e0da7-df9d-43c7-90c5-e1803aef849b/bigphoto/0_3.jpg",
     "wd": "inunit",
-    "park": "offstreet",
-    "dw": "unknown",
-    "amenity_source": "Rent.com/ApartmentList: in-unit laundry, garage ($45-55/mo) + open lot, dishwasher. 3-18mo leases.",
+    "park": "garage",
+    "dw": "yes",
+    "amenity_source": "rent.com lc6134237 + apartments.com + realtor.com (read 2026-10-19): B1 floorplan 875sf $791-841, Washer/Dryer, Dishwasher; specialTerms 'Available months 6..24'; 'Garages Available'; 'Managed By: Indigo Living'.",
     "sfpd_addr": "4100 W VALHALLA BLVD",
     "sfpd_top": [
       [
@@ -1371,14 +1291,14 @@ var L = [
     "slug": "concorde-2809-w-33rd",
     "name": "Concorde Apartments (2809 W 33rd St)",
     "type": "Apartment",
-    "manager": "Bender Midwest Properties",
-    "price_raw": "$868-918",
-    "price": "868-918",
+    "manager": "Bender Midwest Properties (The Concorde Apartments, 605) 250-2865",
+    "price_raw": "$818-945",
+    "price": "818",
     "zip": "57105",
     "sfpd": 29,
     "area": "B",
     "avail": "Available Now (4+ units)",
-    "status": "FAILS 2026-10-18: $818/mo exceeds $800 ceiling AND 14+ month lease (2-mo-free promo requires 14+ mo). $500 deposit, in-unit W/D some units. Verified live on Appfolio.",
+    "status": "CORRECTED 2026-10-19: the tracker's detail URL pointed at 2601 S Kiwanis (Terrace Hills), NOT Concorde - correct URL from the Bender catalog now linked. Rent $818-$945 (tracker said $868-918); over ceiling even at the low end. Lease 14+ months ('up to 2 months FREE with a 14+ Month Lease'). In-unit W/D and dishwasher are listed but qualified 'Some Units' - NOT confirmed for unit 2809-10. Garage included, deposit $500. Grade B (29 calls).",
     "beds": 2,
     "baths": 1,
     "sqft": 1020,
@@ -1394,12 +1314,12 @@ var L = [
       "On-site laundry",
       "Controlled entry"
     ],
-    "url": "https://bendermidwestproperties.appfolio.com/listings/detail/ad8207e4-b327-464d-901c-b876084ebb9c",
+    "url": "https://bendermidwestproperties.appfolio.com/listings/detail/52b6c34c-44f9-4a22-8720-2b0dc0aa3942",
     "photo": "https://images.cdn.appfolio.com/bendermidwestproperties/images/691b9f5e-4700-46d6-b889-778be7e1bf11/large.jpg",
     "wd": "inunit",
     "park": "garage",
     "dw": "yes",
-    "amenity_source": "Bender Appfolio detail live Oct 12: 2bd/1ba 1020sf $818 (range $818-945), Security Deposit $500 up to one month, Available Now, In-Unit Washer&Dryer (some units), Garage Included, Central Air, On-Site Laundry, Controlled Entry. LEASE RISK: listing says 14+ month lease.",
+    "amenity_source": "Bender Appfolio detail 52b6c34c (read 2026-10-19): 2bd/1ba 1,020sf; Amenities 'Washer/Dryer In Unit' + Appliances incl. Dishwasher but qualified 'Some Units'; 'Garage Included'; Security Deposit $500; promo 'up to 2 months FREE with a 14+ Month Lease'.",
     "sfpd_addr": "2809 W 33RD ST",
     "sfpd_top": [
       [
@@ -1414,26 +1334,33 @@ var L = [
         "Traffic",
         4
       ]
+    ],
+    "photos": [
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/691b9f5e-4700-46d6-b889-778be7e1bf11/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/417cbf9c-0d9d-473c-ab68-86304ff38ecc/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/456a2724-b988-4996-b222-be338b45cc64/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/4d806340-8ee4-4907-80b5-e3847dfd3de5/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/55e5d10c-ea89-400c-9506-4a2bf44b5eed/large.jpg"
     ]
   },
   {
     "slug": "2601-s-kiwanis-ave",
     "name": "2601 S Kiwanis Ave #101",
     "type": "Apartment",
-    "manager": "Bender Midwest Properties",
-    "price_raw": "$865",
+    "manager": "Bender Midwest Properties (Terrace Hills Apartments, 605) 800-7299",
+    "price_raw": "$865-984",
     "price": "865",
     "zip": "57105",
     "sfpd": 29,
     "area": "B",
     "avail": "Available Now",
-    "status": "FAILS 2026-10-18: $865/mo exceeds $800 ceiling AND 14+ month lease. $500 deposit. Verified live on Appfolio.",
+    "status": "VERIFIED 2026-10-19: live in the Bender catalog - card reads '2601 S Kiwanis Ave - 2601-101, Sioux Falls, SD 57105 | 2 bd, 1 ba, 920 Sq. Ft. | Available Now'. Rent $865-$984 (over ceiling). W/D in unit ('Laundry in Unit'), garages available, dishwasher yes. Lease term not published (only a 14+ month promo). Deposit $500. Grade B (29 calls).",
     "beds": 2,
     "baths": 1,
     "sqft": 920,
     "address": "2601 S Kiwanis Ave, Sioux Falls, SD 57105",
-    "deposit": "$500",
-    "lease": "14+ months (2 mo free rent)",
+    "deposit": "$500 (up to one month rent, refundable)",
+    "lease": "unknown (page advertises only a '14+ Month Lease' promo)",
     "utils": "None",
     "phone": "",
     "amenities": [
@@ -1443,10 +1370,10 @@ var L = [
     ],
     "url": "https://bendermidwestproperties.appfolio.com/listings/detail/0fb91d45-d63b-4ec5-b874-c3b07c1778fa",
     "photo": "https://images.cdn.appfolio.com/bendermidwestproperties/images/81c850df-31c8-4342-a2fa-8503764fce19/large.jpg",
-    "wd": "onsite",
-    "park": "unknown",
-    "dw": "unknown",
-    "amenity_source": "Bender Appfolio detail live Oct 12: 2BR 920sf $865, Security Deposit $500, Available Now, 2 Months FREE Rent with a 14+ Month Lease. On-site laundry (not in-unit).",
+    "wd": "inunit",
+    "park": "garage",
+    "dw": "yes",
+    "amenity_source": "Bender Appfolio detail 0fb91d45 (read 2026-10-19): Amenities 'Laundry in Unit', 'Garages Available'; Appliances incl. Dishwasher; Security Deposit $500.",
     "sfpd_addr": "2601 S KIWANIS AVE",
     "sfpd_top": [
       [
@@ -1461,26 +1388,33 @@ var L = [
         "Traffic",
         4
       ]
+    ],
+    "photos": [
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/81c850df-31c8-4342-a2fa-8503764fce19/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/0690215d-c6bb-49df-92eb-49aa6ea5d245/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/07ff007c-3633-4743-9ae5-665254316cd5/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/25d05ad2-9227-455c-b050-7f2059f6c198/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/2f944c0e-8d7b-4165-a000-55061476d003/large.jpg"
     ]
   },
   {
     "slug": "1201-e-57th-st",
     "name": "1201 E 57th St",
     "type": "Apartment",
-    "manager": "Bender Midwest Properties",
-    "price_raw": "$896-991",
-    "price": "896-991",
+    "manager": "Bender Midwest Properties (Southern Hills Apartments, 605) 250-4523",
+    "price_raw": "$890",
+    "price": "890",
     "zip": "57108",
     "sfpd": 39,
     "area": "B",
     "avail": "Available Now",
-    "status": "FAILS 2026-10-18: $890/mo exceeds $800 ceiling. $500 deposit. Verified live on Appfolio.",
+    "status": "CORRECTED 2026-10-19: tracker said $896-991; the page shows a single $890 rent for this unit. Live in the Bender catalog - card reads '1201 E. 57th Street #10, Sioux Falls, SD 57108 | 2 bd, 1 ba, 918 Sq. Ft. | Available Now'. Over ceiling. W/D is 'On-Site Laundry' = shared, not in-unit. Garage included, dishwasher yes. Lease term not published. Grade B (39 calls).",
     "beds": 2,
     "baths": 1,
     "sqft": 918,
     "address": "1201 E 57th St, Sioux Falls, SD 57108",
     "deposit": "$500",
-    "lease": "TBD",
+    "lease": "unknown (not published)",
     "utils": "None",
     "phone": "",
     "amenities": [
@@ -1489,10 +1423,10 @@ var L = [
     ],
     "url": "https://bendermidwestproperties.appfolio.com/listings/detail/a26cb714-8589-4b07-a68d-b171112b51e0",
     "photo": "https://images.cdn.appfolio.com/bendermidwestproperties/images/0530242a-e1ef-4d55-bb36-a8f1dd9ae0ce/large.jpg",
-    "wd": "unknown",
-    "park": "unknown",
-    "dw": "unknown",
-    "amenity_source": "Bender Appfolio detail live Oct 12: 2BR 918sf $890 (some $896), Security Deposit $500, Available Now. Zip 57108 = A+ crime area per DoorProfit/BestPlaces. W/D not in-unit.",
+    "wd": "onsite",
+    "park": "garage",
+    "dw": "yes",
+    "amenity_source": "Bender Appfolio detail a26cb714 (read 2026-10-19): Amenities 'On-Site Laundry', 'Garage Included'; Appliances incl. Dishwasher; Security Deposit $500; rent $890.",
     "sfpd_addr": "1201 E 57TH ST",
     "sfpd_top": [
       [
@@ -1507,6 +1441,12 @@ var L = [
         "Traffic",
         6
       ]
+    ],
+    "photos": [
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/0530242a-e1ef-4d55-bb36-a8f1dd9ae0ce/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/45a73f25-161f-4c5a-a6f0-246ce3a8a51d/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/4a4923ec-ed7b-487f-a30d-20546ddfb769/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/680cd4f4-fb9f-411e-944d-ec6956f06f0e/large.jpg"
     ]
   },
   {
@@ -1517,10 +1457,10 @@ var L = [
     "price_raw": "$875",
     "price": "875",
     "zip": "57106",
-    "sfpd": 24,
-    "area": "B",
+    "sfpd": 80,
+    "area": "C",
     "avail": "Available Now (2 units)",
-    "status": "New — grade B (safest, 24 calls). WARNING: 'Income guidelines apply' = LIHTC/tax-credit, has income caps. Deposit 'varies'. Verify you qualify before counting on it.",
+    "status": "VERIFIED 2026-10-19: $875 (2BR layout 963sf) - over ceiling. Lease 12 months (apartments.com 'Lease Options: 12 Months', '12 Month Lease, $500 deposit') - fails 6-9mo. In-unit washer and dryer + dishwasher confirmed, detached garage (community feature). FLAG: 'Income guidelines apply' = LIHTC / income-restricted - a tax-credit unit, so it is KeShaun's call whether he qualifies, not an auto-reject. Grade C (80 calls at 3500 S Sertoma Ave - the tracker had scored 3500 S PHILLIPS AVE, the wrong street).",
     "beds": 2,
     "baths": 1,
     "sqft": 963,
@@ -1541,8 +1481,8 @@ var L = [
     "wd": "inunit",
     "park": "garage",
     "dw": "yes",
-    "amenity_source": "rent.com detail live Oct 12: 2BR/1Ba 963sf $875, 2 Units Available Now, Washer & Dryer, Dishwasher, Microwave, Pet Friendly, Detached Garage (add'l). Deposit 'varies, see a representative'. SAFEST grade-B on board (24 calls/qtr-mi).",
-    "sfpd_addr": "3500 S PHILLIPS AVE",
+    "amenity_source": "rent.com lc6707581 + apartments.com (read 2026-10-19): 2BR/1Ba 963sf $875; In-Unit Washer and Dryer; Dishwasher; Lease Options 12 Months; deposit $500; 'Income guidelines apply' (LIHTC). SFPD re-scored at 3500 S SERTOMA AVE = 80 calls, grade C.",
+    "sfpd_addr": "3500 S SERTOMA AVE",
     "sfpd_top": [
       [
         "Disorderly Conduct",
@@ -1568,20 +1508,20 @@ var L = [
     "slug": "macarthur-estates",
     "name": "MacArthur Estates",
     "type": "Apartment",
-    "manager": "Craigslist listing (RPM-style)",
-    "price_raw": "$697",
+    "manager": "Granite Peak Multifamily (605) 501-6956 / Sage (605) 636-2541",
+    "price_raw": "$697 + $200 bonus card",
     "price": "697",
     "zip": "57108",
     "sfpd": 34,
     "area": "B",
-    "avail": "Available Now (1 unit)",
-    "status": "CORRECTED 2026-10-18: advertised 2BR rate is $697 (=$897 less the $200/mo 12-month concession) — the board's $697 was right, the $897 figure is the pre-concession rent. Ileana Scott (Granite Peak) confirmed by email: 1 unit available now, immediate move-in, tour offered. 6-month lease available at $897 + $50/mo short-term fee = $947/mo, NO concession. Deposit $497 on approved credit, $35 app fee. Apply: granitepeakmultifamily.com",
+    "avail": "Available Now",
+    "status": "VERIFIED + MERGED 2026-10-19: three tracker rows were the same unit (granite-peak, macarthur-estates, rent-special-craigslist-large-2br) - all are the MacArthur Estates 2BR at 5500 S MacArthur Ln - merged into this one. 2BR/1BA 986sf (the Craigslist post says 1,056sf) $697/mo plus a $200 Amazon bonus card. Deposit $497 OAC; pet deposit $300; pet rent $35/mo. Lease 12 months, 1-year required - NO 6-9mo option on the Craigslist post. A 6-month option exists at $947/mo incl $50 short-term fee (over ceiling). W/D is on-site laundry rooms = shared, fails in-unit. Dishwasher built-in. Off-street parking AND garages available - the tracker's 'Detached garage' claim is NOT supported. Grade B (34 calls).",
     "beds": 2,
     "baths": 1,
     "sqft": 986,
     "address": "5500 S MacArthur Ln, Sioux Falls, SD 57108",
-    "deposit": "$497 (on approved credit)",
-    "lease": "12-mo: $697 net (w/ $200/mo concession) | 6-mo: $947/mo (incl $50 short-term fee)",
+    "deposit": "$497 OAC; pet deposit $300; pet rent $35/mo",
+    "lease": "12 months (1-year required); 6-mo option $947/mo incl $50 short-term fee",
     "utils": "None",
     "phone": "",
     "amenities": [
@@ -1595,14 +1535,19 @@ var L = [
       "Furnished units avail"
     ],
     "url": "https://www.craigslist.org/view/d/sioux-falls-rent-special-large-bed/arqPn82GiLEcbVh2Lo2Ejm",
-    "photo": "https://images.craigslist.org/00g0g_cSqki9vthz9_09Y09n_600x450.jpg",
+    "photo": "https://images.craigslist.org/00a0a_1QZ1w1Tzy6C_07r09N_600x450.jpg",
     "photos": [
-      "https://images.craigslist.org/00g0g_cSqki9vthz9_09Y09n_600x450.jpg"
+      "https://images.craigslist.org/00a0a_1QZ1w1Tzy6C_07r09N_600x450.jpg",
+      "https://images.craigslist.org/00g0g_cSqki9vthz9_09Y09n_600x450.jpg",
+      "https://images.craigslist.org/00k0k_8ueAODgRYRl_09s0a0_600x450.jpg",
+      "https://images.craigslist.org/00G0G_liFHCuzSnu9_06x09z_600x450.jpg",
+      "https://images.craigslist.org/00p0p_h2UCZyHbJDK_07N09X_600x450.jpg",
+      "https://images.craigslist.org/00h0h_7JgWosDb8wM_0fq08X_600x450.jpg"
     ],
     "wd": "onsite",
-    "park": "garage",
+    "park": "offstreet",
     "dw": "yes",
-    "amenity_source": "Craigslist detail live Oct 13: 2BR/1Ba 1056sf $697, Security Deposit $497 OAC, Pet Deposit $300, monthly lease period, Available now, cats+dogs OK, A/C, dishwasher, refrigerator+range included, laundry on site, detached garage, no smoking, $200 Amazon card promo. SFPD grade B (34 calls).",
+    "amenity_source": "Craigslist post (live 2026-10-19) + rent.com + Zumper + ApartmentList + Rentler: 2BR/1BA $697 + $200 Amazon card; '1-year lease'; 'laundry rooms on-site' (rentler) / 'no in unit laundry' (ApartmentList); built-in dishwasher; 'off-street parking & garages available'; deposit $497 OAC + $300 pet deposit + $35/mo pet rent; unit 5005-201.",
     "sfpd_addr": "5500 S MACARTHUR LN",
     "sfpd_top": [
       [
@@ -1623,20 +1568,20 @@ var L = [
     "slug": "chapelwood-iii",
     "name": "Chapelwood III Apartments",
     "type": "Apartment",
-    "manager": "Harr Property Management",
+    "manager": "Harr Property Management, Inc.",
     "price_raw": "$900",
     "price": "900",
     "zip": "57110",
     "sfpd": 39,
     "area": "B",
     "avail": "Available NOW (1 unit)",
-    "status": "New — grade B, 1030sf, elevator, garage; deposit 'varies - confirm'",
+    "status": "VERIFIED 2026-10-19: $900, 2BR/1Ba 1,000sf, 1 unit available (over ceiling). Tracker's W/D unknown is RESOLVED: SHARED on-site laundry - page FAQ says 'In-unit laundry is not available' and the 2BR floorplan has no Washer/Dryer. Garage + garage attached, dishwasher yes. Lease term not published. Deposit $500. Grade B (39 calls).",
     "beds": 2,
     "baths": 1,
-    "sqft": 1030,
+    "sqft": 1000,
     "address": "4500 E 33rd St, Sioux Falls, SD 57110",
-    "deposit": "Varies — contact rep",
-    "lease": "TBD",
+    "deposit": "$500",
+    "lease": "unknown (not published)",
     "utils": "None",
     "phone": "(605) 371-1001",
     "amenities": [
@@ -1652,10 +1597,10 @@ var L = [
     "photos": [
       "https://i.rent.com/t_3x2_fixed_webp_w1440/ae4a74300df6cee43536936ae46b92c0"
     ],
-    "wd": "unknown",
+    "wd": "onsite",
     "park": "garage",
     "dw": "yes",
-    "amenity_source": "rent.com detail live Oct 13: 2BR/1Ba 1030sf $900, 1 Unit Available Now, Laundry included, Garage attached, Elevator, Dishwasher, Microwave, No Pets. Deposit 'varies, see representative'. SFPD grade B (39 calls).",
+    "amenity_source": "rent.com lc5930287 + zumper (read 2026-10-19): Community Features 'Laundry' only; 2BR floorplan amenities have no Washer/Dryer; FAQ 'In-unit laundry is not available'; 'Garage'/'Garage Attached'; In-Unit Features Dishwasher; deposit $500; 'Managed By: Harr Property Management, Inc.'",
     "sfpd_addr": "4500 E 33RD ST",
     "sfpd_top": [
       [
@@ -1676,20 +1621,20 @@ var L = [
     "slug": "williamsburg-townhomes",
     "name": "Williamsburg Townhomes, Sioux Falls SD",
     "type": "Townhouse",
-    "manager": "Rent.com (unverified)",
-    "price_raw": "$768",
+    "manager": "Costello Property Management (7409 S Bitterroot Pl, Sioux Falls, SD 57108)",
+    "price_raw": "$768-985",
     "price": "768",
     "zip": "57106",
-    "sfpd": 41,
+    "sfpd": 35,
     "area": "B",
     "avail": "Available Now",
-    "status": "FAILS 2026-10-18: address is 505 S Wheatland Ave (board had 9600 E 57th St — wrong). No 6-9 month lease evidenced (Rentable lists 12 months); availability conflicts across portals. In-unit W/D confirmed (board's 'on-site laundry' was wrong). Manager: Costello Property Management, williamsburg@costelloco.com, (605) 799-5202.",
+    "status": "VERIFIED 2026-10-19: 2BR/1.5BA 933-999sf $768-$985 (Phase I/II) - passes budget at $768. Deposit resolved to $400-$450 (myrentersguide + realtor.com); rent.com still shows only 'deposits vary' and there is NO Jetty language anywhere. In-unit W/D, dishwasher yes. Parking not listed on any source. Lease term NOT published on any page, so the 6-9mo gate is unverified. Grade B (35 calls at 505 S Wheatland Ave).",
     "beds": 2,
     "baths": 1.5,
-    "sqft": 1100,
+    "sqft": 933,
     "address": "505 S Wheatland Ave",
-    "deposit": "Varies (unverified - no Jetty language)",
-    "lease": "12 months",
+    "deposit": "$400 - $450",
+    "lease": "unknown (not published)",
     "utils": "None",
     "phone": "",
     "amenities": [
@@ -1698,11 +1643,11 @@ var L = [
     ],
     "url": "https://www.rent.com/apartment/williamsburg-townhomes-sioux-falls-sd-lc5902838",
     "photo": "https://images.rentable.co/118583/109569246/large.jpeg",
-    "wd": "onsite",
+    "wd": "inunit",
     "park": "unknown",
-    "dw": "no",
-    "amenity_source": "MyRentersGuide: Housing Vouchers Accepted / Income Limits Apply. In-unit W/D, off-street parking, dishwasher. 12mo lease only.",
-    "sfpd_addr": "Williamsburg Townhomes",
+    "dw": "yes",
+    "amenity_source": "rent.com lc5902838 + costelloco.com/property_locations/williamsburg + myrentersguide (read 2026-10-19): 2BR floorplan Washer/Dryer + Dishwasher; 'Security Deposit: $400-$450'; 'Managed By: Costello Property Management'. SFPD re-scored at 505 S WHEATLAND AVE = 35 calls, grade B (tracker had scored a property name, not the street).",
+    "sfpd_addr": "505 S WHEATLAND AVE",
     "sfpd_top": [
       [
         "Disorderly Conduct",
@@ -1738,28 +1683,28 @@ var L = [
     "name": "3300 W 53rd St",
     "type": "Apartment",
     "manager": "Elevate Property Management",
-    "price_raw": "$705-746",
-    "price": "705-746",
+    "price_raw": "$767",
+    "price": "767",
     "zip": "57106",
     "sfpd": 102,
     "area": "C",
     "avail": "Available Now",
-    "status": "Duplicate of Oakwood Estates — same property",
+    "status": "VERIFIED + MERGED 2026-10-19: the tracker's Zillow URL is a genuine listing - this IS Oakwood Estates at 3300 W 53rd St, Sioux Falls 57106, managed by Elevate Property Management. The separate 'oakwood-estates' row was the SAME property (Redfin JSON-LD, ApartmentList, Zillow, Trulia and apartments.com all agree) and has been merged into this row. Rent $767 for the 2BR 1BA 972sf (tracker said $705-746, stale; Zillow $711-753, Redfin $731, apartments.com $746 - take the live rent.com figure). Lease 6-9 months available (rent.com specialTerms 'Available months 6..15'; ApartmentList '6, 9 & 12 months') - PASSES the lease gate. W/D is shared on-site laundry, not in-unit. Garage lot + detached garage, dishwasher yes. Deposit varies, not published. Grade C (102 calls).",
     "beds": 2,
     "baths": 1,
     "sqft": 972,
     "address": "3300 W 53rd St, Sioux Falls, SD 57106",
-    "deposit": "$400",
-    "lease": "TBD",
+    "deposit": "Varies (not published)",
+    "lease": "6 - 9 months available",
     "utils": "None",
     "phone": "(605) 667-5447",
     "amenities": [],
-    "url": "https://www.zillow.com/apartments/sioux-falls-sd/oakwood-estates/5XqydD/",
+    "url": "https://www.rent.com/apartment/oakwood-estates-sioux-falls-sd-lc5961715",
     "photo": "https://ssl.cdn-redfin.com/photo/rent/b4c92a65-7290-4b11-bea5-02b873c7c670/bigphoto/0_3.jpg",
-    "wd": "unknown",
-    "park": "unknown",
-    "dw": "unknown",
-    "amenity_source": "Zillow listing (verified 2026-10-10)",
+    "wd": "onsite",
+    "park": "garage",
+    "dw": "yes",
+    "amenity_source": "rent.com lc5961715 + Redfin 136731143 + ApartmentList + Zillow (all read 2026-10-19): 2BR '2 Bedroom 1 Bathroom A' 972sf $767; specialTerms 'Available months 6..15'; 'Garage'/'Garage Detached'/'Garage Lot'; Dishwasher; laundry is community 'Laundry' only; 'Managed By: Elevate Property Management'.",
     "sfpd_addr": "3300 W 53RD ST",
     "sfpd_top": [
       [
@@ -1791,31 +1736,31 @@ var L = [
     "slug": "autumn-blaze-3100",
     "name": "3100 E Autumn Blaze St",
     "type": "Apartment",
-    "manager": "Unknown",
-    "price_raw": "$1,190",
+    "manager": "Maple Rock Reserve by RPM Express (605) 789-4296",
+    "price_raw": "$1,190-1,275",
     "price": "1,190",
     "zip": "57110",
     "sfpd": 29,
     "area": "B",
-    "avail": "Cannot verify — 2BR rent $1,190 over $800 ceiling",
-    "status": "CORRECTED 2026-10-19: RentalSource 2BR = $1,190 (849sf, 2 baths), NOT $785. Over $800 ceiling. Studio $790, 1BR $875-910.",
+    "avail": "Listed - 2BR units posted",
+    "status": "CORRECTED 2026-10-19: tracker said $785 - WRONG, no such unit. This property has NO 2BR/1ba and no $785 unit: Studio $790 (466sf), 1BR $875-910 (597sf), 2BR/2ba $1,190 (849sf) and $1,275 (1,022sf). 2BR is 2 baths, not 1. Over $800 ceiling. Lease 12 months (fails 6-9mo). In-unit W/D, dishwasher yes, parking generic (no garage specified). Grade B (29 calls).",
     "beds": 2,
     "baths": 2,
     "sqft": 849,
     "address": "3100 E Autumn Blaze St, Sioux Falls, SD 57110",
-    "deposit": "Unverified",
-    "lease": "Unverified",
+    "deposit": "$0 eligible (page prose)",
+    "lease": "12 months",
     "utils": "",
     "phone": "",
     "amenities": [
       "Grade B (29 calls/qtr-mi)"
     ],
     "url": "https://www.rentalsource.com/details/3100-e-autumn-blaze-st-sioux-falls-sd-79097434/",
-    "photo": "",
-    "wd": "unknown",
+    "photo": "https://images.rentalsource.com/listings/79097434-uesn.jpg",
+    "wd": "inunit",
     "park": "unknown",
-    "dw": "unknown",
-    "amenity_source": "RentalSource detail page (staged 2026-10-16). Lease term, deposit, W/D and parking not yet read.",
+    "dw": "yes",
+    "amenity_source": "RentalSource detail page (re-read 2026-10-19): JSON-LD 'Washer/Dryer In Unit' true, 'Dishwasher' true, leaseLength 12 month; unit-rate table Studio $790 / 1BR $875-910 / 2BR $1,190-1,275.",
     "sfpd_addr": "3100 E AUTUMN BLAZE ST",
     "sfpd_top": [
       [
@@ -1834,26 +1779,38 @@ var L = [
         "Drugs/Alcohol",
         1
       ]
+    ],
+    "photos": [
+      "https://images.rentalsource.com/listings/79097434-uesn.jpg",
+      "https://images.rentalsource.com/listings/79097434-fzmo.jpg",
+      "https://images.rentalsource.com/listings/79097434-t9fw.jpg",
+      "https://images.rentalsource.com/listings/79097434-9ner.jpg",
+      "https://images.rentalsource.com/listings/79097434-f3w4.jpg",
+      "https://images.rentalsource.com/listings/79097434-y27r.jpg",
+      "https://images.rentalsource.com/listings/79097434-x4pt.jpg",
+      "https://images.rentalsource.com/listings/79097434-nqxf.jpg",
+      "https://images.rentalsource.com/listings/79097434-1cn3.jpg",
+      "https://images.rentalsource.com/listings/79097434-fzdh.jpg"
     ]
   },
   {
     "slug": "arrow-ridge-townhomes-brandon",
     "name": "Arrow Ridge Townhomes",
     "type": "Townhouse",
-    "manager": "J&M Real Estate",
+    "manager": "J&M Real Estate Group / J&M Property Management, Inc.",
     "price_raw": "$762",
     "price": "762",
     "zip": "57005",
     "sfpd": 84,
     "area": "C",
-    "avail": "Listed — details unverified",
-    "status": "NEW 2026-10-18 — townhouse in Brandon, in budget. Grade C (84 calls). Lease term unverified.",
+    "avail": "Available Now",
+    "status": "VERIFIED 2026-10-19: 2BR/1Ba 999sf $762 (range $681-$1,050). In-unit washer & dryer, detached single-stall garage, dishwasher yes. Deposit $400. Lease term NOT published anywhere (Zillow 'Contact For Details', J&M 'Check Availabilities') - the 6-9mo gate is unverified. Available per Rentable (updated 7 days ago); Zillow shows 0 available. Grade C (84 calls).",
     "beds": 2,
     "baths": 1,
-    "sqft": null,
+    "sqft": 999,
     "address": "1716 S Mulberry Ave, Brandon, SD 57005",
-    "deposit": "Unverified",
-    "lease": "Unverified",
+    "deposit": "$400",
+    "lease": "unknown (not published)",
     "utils": "",
     "phone": "",
     "amenities": [
@@ -1861,11 +1818,11 @@ var L = [
       "Grade C (84 calls/qtr-mi)"
     ],
     "url": "https://www.zillow.com/apartments/brandon-sd/arrow-ridge-townhomes-brandon-sd/CjgtXf/",
-    "photo": "",
-    "wd": "unknown",
-    "park": "unknown",
-    "dw": "unknown",
-    "amenity_source": "Zillow property page (staged 2026-10-03). Lease term, deposit, W/D and parking not yet read.",
+    "photo": "https://images.rentable.co/68347/105794540/large.jpeg",
+    "wd": "inunit",
+    "park": "garage",
+    "dw": "yes",
+    "amenity_source": "Zillow property page + J&M site (jandmrealestate.com/arrowridge) + Rentable (all read 2026-10-19): in-unit W/D, detached single-stall garage, dishwasher, deposit $400. Lease term not published on any source.",
     "sfpd_addr": "1716 S MULBERRY AVE",
     "sfpd_top": [
       [
@@ -1884,58 +1841,71 @@ var L = [
         "Theft",
         5
       ]
+    ],
+    "photos": [
+      "https://images.rentable.co/68347/105794540/large.jpeg",
+      "https://images.rentable.co/68347/105794539/large.jpeg",
+      "https://images.rentable.co/68347/105794543/large.jpeg",
+      "https://images.rentable.co/68347/105794547/large.jpeg",
+      "https://images.rentable.co/68347/105794546/large.jpeg"
     ]
   },
   {
     "slug": "autumn-park-4401",
     "name": "Autumn Park",
     "type": "Apartment",
-    "manager": "Unknown",
-    "price_raw": "$763",
-    "price": "763",
+    "manager": "Indigo Living (605) 961-5313",
+    "price_raw": "$725-785",
+    "price": "725",
     "zip": "57106",
-    "sfpd": null,
-    "area": null,
-    "avail": "Listed — details unverified",
-    "status": "NEW 2026-10-18 — staged from rent.com browser lane; in budget. Safety not yet scored (no address).",
+    "sfpd": 92,
+    "area": "C",
+    "avail": "Available Now",
+    "status": "VERIFIED 2026-10-19: 2BR/1ba $725-785 and 2BR/2ba $770-820 (792-972sf), available now. Lease 6-24 months (6-9mo option available). Garage, dishwasher. In-unit laundry NOT available (page FAQ: 'In-unit laundry is not available') - shared, fails in-unit W/D. Deposit not published. Promo needs a 15-24mo term (TWO MONTHS FREE) to get the rent discount. Grade C (92 calls, 0.25mi/90d).",
     "beds": 2,
     "baths": 1,
-    "sqft": null,
+    "sqft": 792,
     "address": "4401 W Valhalla Blvd, Sioux Falls, SD 57106",
-    "deposit": "Unverified",
-    "lease": "Unverified",
+    "deposit": "Varies (not published)",
+    "lease": "6-24 months available",
     "utils": "",
     "phone": "(605) 961-5313",
     "amenities": [
       "Same Valhalla Blvd corridor as Penbrooke Place"
     ],
-    "url": "https://www.rent.com/sioux-falls-sd/4401-w-valhalla-blvd",
-    "photo": "",
-    "wd": "unknown",
-    "park": "unknown",
-    "dw": "unknown",
-    "amenity_source": "rent.com browser lane (staged 2026-10-12). Nothing verified beyond the address and rent.",
-    "sfpd_addr": "",
-    "sfpd_top": []
+    "url": "https://www.rent.com/apartment/autumn-park-sioux-falls-sd-lc6134274",
+    "photo": "https://i.rent.com/t_3x2_fixed_webp_w1440/e325222a28cc218cb535a13200e79e51",
+    "wd": "shared",
+    "park": "garage",
+    "dw": "yes",
+    "amenity_source": "rent.com detail page lc6134274 (read 2026-10-19): specialTerms 'Available months 6..24'; FAQ 'In-unit laundry is not available'; Garage + Dishwasher under In-Unit Features. OLD URL /sioux-falls-sd/4401-w-valhalla-blvd was a dead shell - replaced.",
+    "sfpd_addr": "4401 W VALHALLA BLVD",
+    "sfpd_top": [],
+    "photos": [
+      "https://i.rent.com/t_3x2_fixed_webp_w1440/e325222a28cc218cb535a13200e79e51",
+      "https://i.rent.com/t_3x2_fixed_webp_w1440/0040aa5356e3d2896924737372412584",
+      "https://i.rent.com/t_3x2_fixed_webp_w1440/fbccb05b4dd997d13a5beb5817af5009",
+      "https://i.rent.com/t_3x2_fixed_webp_w1440/ad1d2007ec54c7ce9cfa8cb54a8faf7c"
+    ]
   },
   {
     "slug": "career-ave-1117",
     "name": "1117 N Career Ave",
     "type": "Apartment",
-    "manager": "Unknown",
+    "manager": "Jefferson Reserve by RPM Express (605) 800-5280",
     "price_raw": "$1,240",
     "price": "1,240",
     "zip": "57105",
     "sfpd": 58,
     "area": "C",
-    "avail": "Cannot verify — 3BR rent $1,240 over $800 ceiling",
-    "status": "CORRECTED 2026-10-19: RentalSource 3BR = $1,240 (1,091sf, 3 baths), NOT $775. Over $800 ceiling.",
+    "avail": "Listed - 3BR unit posted",
+    "status": "CORRECTED 2026-10-19: tracker said 3BR/1Ba at $775 - WRONG. No $775 unit and NO 2BR exists at this property. Units are 1BR $780-890 (587-590sf, 1 bath) and 3BR/2ba $1,240 (1,091sf). Over $800 ceiling. Lease 12 months (fails 6-9mo). In-unit W/D, dishwasher yes. Grade C (58 calls).",
     "beds": 3,
     "baths": 2,
     "sqft": 1091,
     "address": "1117 N Career Ave, Sioux Falls, SD 57105",
-    "deposit": "Unverified",
-    "lease": "Unverified",
+    "deposit": "$0 eligible (page prose)",
+    "lease": "12 months",
     "utils": "",
     "phone": "",
     "amenities": [
@@ -1943,11 +1913,11 @@ var L = [
       "Grade C (58 calls/qtr-mi)"
     ],
     "url": "https://www.rentalsource.com/details/1117-n-career-ave-sioux-falls-sd-81043736/",
-    "photo": "",
-    "wd": "unknown",
+    "photo": "https://images.rentalsource.com/listings/81043736-n2hr.jpg",
+    "wd": "inunit",
     "park": "unknown",
-    "dw": "unknown",
-    "amenity_source": "RentalSource detail page (staged 2026-10-13). Lease term, deposit, W/D and parking not yet read.",
+    "dw": "yes",
+    "amenity_source": "RentalSource detail page (re-read 2026-10-19): JSON-LD 'Washer/Dryer In Unit' true, 'Dishwasher' true, leaseLength 12 month; unit-rate table 1BR $780-890, 3BR/2ba $1,240.",
     "sfpd_addr": "1117 N CAREER AVE",
     "sfpd_top": [
       [
@@ -1966,26 +1936,38 @@ var L = [
         "Theft",
         2
       ]
+    ],
+    "photos": [
+      "https://images.rentalsource.com/listings/81043736-n2hr.jpg",
+      "https://images.rentalsource.com/listings/81043736-esxv.jpg",
+      "https://images.rentalsource.com/listings/81043736-7p85.jpg",
+      "https://images.rentalsource.com/listings/81043736-w1ov.jpg",
+      "https://images.rentalsource.com/listings/81043736-37mg.jpg",
+      "https://images.rentalsource.com/listings/81043736-5tde.jpg",
+      "https://images.rentalsource.com/listings/81043736-8kwz.jpg",
+      "https://images.rentalsource.com/listings/81043736-r7bq.jpg",
+      "https://images.rentalsource.com/listings/81043736-dbpe.jpg",
+      "https://images.rentalsource.com/listings/81043736-1w2v.jpg"
     ]
   },
   {
     "slug": "hardwood-deck-57110",
     "name": "2BR Apartment — Hardwood Floors & Private Deck",
     "type": "Apartment",
-    "manager": "Unknown",
+    "manager": "Luke Properties, LLC (Serena Thomas)",
     "price_raw": "$725",
     "price": "725",
     "zip": "57110",
     "sfpd": null,
     "area": null,
-    "avail": "Listed — details unverified",
-    "status": "NEW 2026-10-18 — staged from Craigslist; $725 2BR in 57110. Safety not yet scored. Lease term unverified.",
+    "avail": "Available Oct 25",
+    "status": "VERIFIED 2026-10-19: Craigslist post live. 2BR/1Ba 750sf $725/mo, available Oct 25. Lease 12 months (one year) - fails the 6-9mo requirement. W/D is shared on-site laundry. Off-street parking included, dishwasher yes. Deposit not published, no phone in the public post. Passes budget, fails lease.",
     "beds": 2,
     "baths": 1,
-    "sqft": null,
+    "sqft": 750,
     "address": "Sioux Falls, SD 57110",
-    "deposit": "Unverified",
-    "lease": "Unverified",
+    "deposit": "unknown (not published)",
+    "lease": "12 months (one year lease)",
     "utils": "",
     "phone": "",
     "amenities": [
@@ -1993,45 +1975,51 @@ var L = [
       "Private deck"
     ],
     "url": "https://www.craigslist.org/view/d/sioux-falls-two-bedroom-apartment-with/icHDob8YajfDrUsWRi3tgW",
-    "photo": "",
-    "wd": "unknown",
-    "park": "unknown",
-    "dw": "unknown",
-    "amenity_source": "Craigslist posting (staged 2026-10-15). Craigslist cards carry no bed/amenity detail beyond the title; address not published.",
+    "photo": "https://images.craigslist.org/00C0C_3n0xxOsSAfK_0CI0rv_600x450.jpg",
+    "wd": "shared",
+    "park": "offstreet",
+    "dw": "yes",
+    "amenity_source": "Craigslist posting (re-read 2026-10-19): 2BR / 1Ba header, 750sf, $725, 'one year lease', shared on-site laundry, off-street parking, dishwasher.",
     "sfpd_addr": "",
-    "sfpd_top": []
+    "sfpd_top": [],
+    "photos": [
+      "https://images.craigslist.org/00C0C_3n0xxOsSAfK_0CI0rv_600x450.jpg",
+      "https://images.craigslist.org/00C0C_b9lO9NY7m0K_0CI0rv_600x450.jpg",
+      "https://images.craigslist.org/00202_2yPqHXLO2tS_0CI0rv_600x450.jpg",
+      "https://images.craigslist.org/00P0P_6sqT0oEPqSU_0CI0rv_600x450.jpg"
+    ]
   },
   {
     "slug": "6-flats-300-lowell",
     "name": "6 Flats Apartments",
     "type": "Apartment",
-    "manager": "Unknown",
-    "price_raw": "$795",
+    "manager": "Bender Midwest Properties (605) 906-9849",
+    "price_raw": "$795-896",
     "price": "795",
     "zip": "57103",
-    "sfpd": 54,
-    "area": "C",
-    "avail": "Listed — details unverified",
-    "status": "NEW 2026-10-18 — NOTE: Bender Appfolio shows a 13-month lease and NO dishwasher, so this likely fails the 6-9 month requirement. Grade C (54 calls).",
+    "sfpd": 271,
+    "area": "D",
+    "avail": "Available Now",
+    "status": "CORRECTED 2026-10-19: safety was C/54 scored at the WRONG street (4720 W Antelope Dr). Re-scored at 300 S Lowell Ave = D, 271 calls (123 Disorderly Conduct, 49 Traffic, 48 Other). Lease 13 months, NO 6-9mo option published. Shared on-site laundry, NO dishwasher (appliances: refrigerator/stove/oven only). Parking not listed on any source. Bender's unit is 301 S Conklin Ave - 11 (they also list 308 S Lowell Ave - 10). Monthly fees: Resident Benefit Package $15 + Utility Bill Back $55.50. Passes budget, fails lease + safety.",
     "beds": 2,
     "baths": 1,
     "sqft": 688,
     "address": "300 S Lowell Ave, Sioux Falls, SD 57103",
-    "deposit": "$500",
-    "lease": "13 months (move-in special)",
+    "deposit": "$500 (up to 1 month rent, refundable) + $75 app fee + $400 pet deposit",
+    "lease": "13 months (One Month Rent FREE promo)",
     "utils": "",
     "phone": "(605) 906-9849",
     "amenities": [
       "Grade C (54 calls/qtr-mi)",
       "No dishwasher"
     ],
-    "url": "https://www.rent.com/sioux-falls-sd/300-s-lowell-ave",
-    "photo": "",
+    "url": "https://bendermidwestproperties.appfolio.com/listings/detail/7ce6c6bb-a9e9-4422-b745-9b1f1a169990",
+    "photo": "https://images.cdn.appfolio.com/bendermidwestproperties/images/abf7fe36-ff75-4063-9889-d3659be3f9c5/large.jpg",
     "wd": "onsite",
     "park": "unknown",
     "dw": "no",
-    "amenity_source": "Bender Appfolio detail (verified 2026-10-18): 2bd/1ba 688sf $795-896, $500 deposit, 13-month lease special, Onsite Laundry Facilities, no dishwasher.",
-    "sfpd_addr": "4720 W ANTELOPE DR",
+    "amenity_source": "Bender Appfolio detail 7ce6c6bb + rent.com lc6882825 (read 2026-10-19): 'One Month Rent FREE on a 13 Month Lease'; Security Deposit $500; 'Onsite Laundry Facilities'; appliances refrigerator/stove/oven only. SFPD re-scored at 300 S LOWELL AVE (90d, 0.25mi) = 271 calls, grade D.",
+    "sfpd_addr": "300 S LOWELL AVE",
     "sfpd_top": [
       [
         "Traffic",
@@ -2049,52 +2037,16 @@ var L = [
         "Theft",
         3
       ]
-    ]
-  },
-  {
-    "slug": "rent-special-craigslist-large-2br",
-    "name": "RENT SPECIAL Large 2 bed Modern Apartment",
-    "type": "Apartment",
-    "manager": "Craigslist listing",
-    "price_raw": "$697 + $200 Amazon bonus card",
-    "price_raw_orig": "$697",
-    "price": "697",
-    "zip": "57106",
-    "sfpd": null,
-    "area": "B",
-    "avail": "Available Now",
-    "status": "RE-CHECKED 2026-10-19: Craigslist rent-special 2BR/1Ba. $697/mo + $200 Amazon bonus card (net in-budget). Security deposit $497, pet deposit $300, pet rent $35/mo. 6-photo gallery on the card. 12-month lease (6-9mo option unverified).",
-    "beds": 2,
-    "baths": 1,
-    "sqft": 900,
-    "address": "Craigslist listing (Sioux Falls, SD 57106)",
-    "deposit": "$497",
-    "lease": "12 months (6-9mo option unverified)",
-    "utils": "",
-    "phone": "",
-    "amenities": [
-      "Modern kitchen",
-      "Hardwood floors",
-      "Detached garage"
     ],
-    "url": "https://www.craigslist.org/view/d/sioux-falls-rent-special-large-bed/arqPn82GiLEcbVh2Lo2Ejm",
-    "photo": "https://images.craigslist.org/00a0a_1QZ1w1Tzy6C_07r09N_600x450.jpg",
     "photos": [
-      "https://images.craigslist.org/00a0a_1QZ1w1Tzy6C_07r09N_600x450.jpg",
-      "https://images.craigslist.org/00g0g_cSqki9vthz9_09Y09n_600x450.jpg",
-      "https://images.craigslist.org/00k0k_8ueAODgRYRl_09s0a0_600x450.jpg",
-      "https://images.craigslist.org/00G0G_liFHCuzSnu9_06x09z_600x450.jpg",
-      "https://images.craigslist.org/00p0p_h2UCZyHbJDK_07N09X_600x450.jpg",
-      "https://images.craigslist.org/00h0h_7JgWosDb8wM_0fq08X_600x450.jpg"
-    ],
-    "wd": "unknown",
-    "park": "unknown",
-    "dw": "unknown",
-    "amenity_source": "Craigslist listing page (staged 2026-10-19). Image gallery verified via listing page; other facts from the listing body.",
-    "sfpd_addr": "",
-    "sfpd_top": [],
-    "verified": true,
-    "photo_status": "verified_200_image"
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/abf7fe36-ff75-4063-9889-d3659be3f9c5/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/aa3f7c02-1b8d-46e6-9910-3298cf09208f/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/1169aa2d-830f-4b0b-9a9e-2af186b0ff7c/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/b125d81a-e5db-4230-b424-655fa84c55ef/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/b7bfb167-5c53-433d-aeb4-3f54b24d58ae/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/17691507-8c77-4a25-9bae-d2d0b302b877/large.jpg",
+      "https://images.cdn.appfolio.com/bendermidwestproperties/images/55e5d10c-ea89-400c-9506-4a2bf44b5eed/large.jpg"
+    ]
   }
 ];
 
@@ -2199,27 +2151,76 @@ function dwS(o){
 }
 function avS(o){
   var a=(o.avail||'').toLowerCase();
-  if(a.indexOf('unavailable')>=0||a.indexOf('not listed')>=0) return ['Unavailable','ab-no','no'];
-  if(a.indexOf('available now')>=0) return ['Available','ab-ok','ok'];
-  if(a.indexOf('listed')>=0) return ['Listed','ab-unk','ok'];
+  if(a.indexOf('excluded')>=0) return ['Excluded','ab-no','no'];
+  if(a.indexOf('unavailable')>=0||a.indexOf('not available')>=0||a.indexOf('not listed')>=0) return ['Unavailable','ab-no','no'];
+  if(a.indexOf('cannot verify')>=0||a.indexOf('unverified')>=0) return ['Unverified','ab-unk','unk'];
+  if(a.indexOf('available')>=0||a.indexOf('listed')>=0) return ['Available','ab-ok','ok'];
   return ['Unverified','ab-unk','unk'];
 }
-function core(o){ return o.wd==='inunit' && (o.park==='garage'||o.park==='offstreet'); }
+function gateFails(o){
+  var f=[];
+  if(pnum(o.price)>800) f.push('over ceiling');
+  if(o.beds!=null&&o.beds<2) f.push('too few beds');
+  if(o.zip==='57104') f.push('zip excluded');
+  if(o.wd!=='inunit') f.push('no in-unit W/D');
+  if(o.park!=='garage'&&o.park!=='offstreet') f.push('no garage/off-street');
+  if(o.dw!=='yes') f.push('no dishwasher');
+  var ls=leaseState(o);
+  if(ls.ok===false) f.push('lease not 6-9mo');
+  var g=grade(o.sfpd);
+  if(o.sfpd!=null&&(g.g==='C'||g.g==='D')) f.push('SFPD '+g.g);
+  return f;
+}
+/* a gate that was never verified is NOT a pass - it counts as open */
+function gateUnverified(o){
+  var u=[];
+  var ls=leaseState(o);
+  if(ls.ok===null) u.push('lease unverified');
+  if(o.wd==='unknown') u.push('W/D unverified');
+  if(o.park==='unknown') u.push('parking unverified');
+  if(o.dw==='unknown') u.push('dishwasher unverified');
+  if(o.sfpd==null) u.push('safety not scored');
+  return u;
+}
+function core(o){ return gateFails(o).length===0 && gateUnverified(o).length===0; }
+/* near-miss = available, exactly one gate open, nothing unverified */
+function nearMiss(o){
+  if(avS(o)[2]!=='ok') return 0;
+  if(gateUnverified(o).length) return 0;
+  return gateFails(o).length;
+}
 
+function leaseState(o){
+  var s=String(o.lease||'').toLowerCase();
+  if(s.indexOf('unknown')>=0||s.indexOf('not published')>=0||s.indexOf('tbd')>=0||!s) return {ok:null,why:'lease unverified'};
+  if(s.indexOf('m-to-m')>=0||s.indexOf('month-to-month')>=0) return {ok:true,why:''};
+  var m=s.match(/(\d+)\s*(?:-|\u2013|to)\s*(\d+)\s*months?/);
+  if(m){var lo=+m[1],hi=+m[2];return {ok:(lo<=9&&hi>=6),why:lo<=9?'lease '+lo+'-'+hi+'mo ok':'lease '+lo+'-'+hi+'mo'};}
+  m=s.match(/(\d+)\+?\s*months?/);
+  if(m){var n=+m[1];return {ok:(n>=6&&n<=9),why:'lease '+n+'mo'};}
+  return {ok:null,why:'lease unverified'};
+}
 function verdict(o){
   var f=[],hard=false;
-  if(pnum(o.price)>800) f.push('$'+pnum(o.price)+' over ceiling');
+  if(pnum(o.price)>800){f.push('$'+pnum(o.price)+' over ceiling');hard=true;}
   if(o.beds!=null&&o.beds<2){f.push('only '+o.beds+'BR');hard=true;}
   if(o.zip==='57104'){f.push('zip 57104 excluded');hard=true;}
   if(o.wd!=='inunit'){
-    if(o.wd==='onsite'){f.push('no in-unit W/D');hard=true;}
-    else if(o.wd==='shared'){f.push('no in-unit W/D');hard=true;}
+    if(o.wd==='onsite'||o.wd==='shared'){f.push('no in-unit W/D');hard=true;}
     else f.push('W/D unverified');
   }
   if(o.park==='unknown') f.push('parking unverified');
   else if(o.park==='parking') f.push('parking unclear');
+  if(o.dw!=='yes'){
+    if(o.dw==='no'){f.push('no dishwasher');hard=true;}
+    else f.push('dishwasher unverified');
+  }
+  var ls=leaseState(o);
+  if(ls.ok===false){f.push(ls.why+' (need 6-9)');hard=true;}
+  else if(ls.ok===null) f.push('lease unverified');
   var g=grade(o.sfpd);
-  if(o.sfpd!=null&&(g.g==='C'||g.g==='D')) f.push('SFPD '+g.g+' ('+o.sfpd+')');
+  if(o.sfpd!=null&&(g.g==='C'||g.g==='D')){f.push('SFPD '+g.g+' ('+o.sfpd+')');hard=true;}
+  if(o.sfpd==null) f.push('safety not scored');
   if(avS(o)[2]==='no'){f.push('no longer available');hard=true;}
   if(!f.length) return {cls:'pass',txt:'Meets every target'};
   return {cls:hard?'hard':'gap',txt:(hard?'Blocked: ':'Gaps: ')+f.join(' \u00b7 ')};
@@ -2331,7 +2332,8 @@ function openModal(slug){
       (o.amenity_source?'<div class="sh-sec">Where these facts came from</div>'+
         '<div class="sh-src">'+esc(o.amenity_source)+'</div>':'')+
       '<div class="sh-acts">'+
-        '<a class="b1" href="'+esc(o.url)+'" target="_blank" rel="noopener">Open listing &#8599;</a>'+
+        (o.url?'<a class="b1" href="'+esc(o.url)+'" target="_blank" rel="noopener">Open listing &#8599;</a>':
+                 '<span class="b1 b1-off" title="No public listing page exists for this unit">No public listing page</span>')+
         '<button class="b2" onclick="closeModal()">Close</button>'+
       '</div>'+
     '</div>';
@@ -2363,7 +2365,20 @@ function render(){
     return !QUERY||(o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase().indexOf(QUERY)>=0;});
   document.getElementById('grid').innerHTML=shown.map(function(o){return cardHTML(o);}).join('');
   document.getElementById('none').classList.toggle('on',shown.length===0);
-  document.getElementById('hN').textContent=shown.length;
+  var inPlay=shown.filter(core).length;
+  var near1=shown.filter(function(o){return nearMiss(o)===1;}).length;
+  var hn=document.getElementById('hN');
+  hn.textContent=inPlay;
+  hn.classList.toggle('zero',inPlay===0);
+  var nm=document.getElementById('near-miss');
+  if(nm){
+    var nmRows=shown.filter(function(o){return nearMiss(o)===1;});
+    nm.textContent=inPlay===0
+      ? (nmRows.length ? nmRows.length+' near-miss — one gate away: '+nmRows.map(function(o){return o.name;}).join(', ')
+                       : 'none meet every gate yet')
+      : '';
+    nm.title=nmRows.map(function(o){return o.name+': '+gateFails(o).join(', ');}).join('\n');
+  }
   document.getElementById('archG').innerHTML=gone.map(function(o){return cardHTML(o);}).join('');
   document.getElementById('unvG').innerHTML =unv.map(function(o){return cardHTML(o);}).join('');
   document.getElementById('archN').textContent=gone.length;
@@ -2380,7 +2395,10 @@ function sortDom(root){
   var gord={A:0,B:1,C:2,D:3,'?':4};
   cards.sort(function(a,b){
     if(SORT==='price') return (+a.dataset.price)-(+b.dataset.price);
-    if(SORT==='calls') return (+b.dataset.calls)-(+a.dataset.calls);
+    if(SORT==='calls'){var ca=+a.dataset.calls,cb=+b.dataset.calls;
+      var ua=ca>=99999,ub=cb>=99999;
+      if(ua!==ub)return ua?1:-1;
+      return cb-ca;}
     if(SORT==='safe'){var d=gord[a.dataset.gr]-gord[b.dataset.gr];
       if(d)return d; return (+a.dataset.calls)-(+b.dataset.calls);}
     var sc=function(c){var s=0;
@@ -2532,10 +2550,10 @@ document.addEventListener('click',function(e){
 
 // Update results count
 function updateCount(){
-  var n=document.getElementById('hN').textContent;
-  var total=L.length;
   var el=document.getElementById('results-count');
-  if(el) el.textContent=n+' of '+total+' shown';
+  if(!el)return;
+  var shown=document.getElementById('grid').querySelectorAll('.c').length;
+  el.textContent=shown+' of '+L.length+' shown';
 }
 
 // Add results count to render
