@@ -337,6 +337,17 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 .c.over-budget .pc.over .amt{color:var(--bad)}
 .c.over-budget{border-color:rgba(244,103,92,.25)}
 .clear-btn{flex-shrink:0}
+/* --- mobile tap targets: 26x18 heart and 30x30 votes are too small to hit reliably --- */
+@media(max-width:640px){
+  .card-vote .vlk{min-width:38px;min-height:38px;display:inline-flex;align-items:center;justify-content:center;padding:0;font-size:1.1rem}
+  .card-vote .vb{width:38px;height:38px;font-size:1.05rem;border-radius:10px}
+  .card-vote{gap:8px}
+  .ph-gall .ph-arrow,.sh-ph-gall .ph-arrow{width:38px;height:38px;font-size:1.3rem}
+  .ph-gall .ph-count{font-size:.68rem;padding:5px 10px}
+  .seg button{padding:11px 12px}
+  .sortsel{padding:11px 9px}
+  .q{padding:11px 11px 11px 30px}
+}
 .b1-off{background:transparent;border:1px dashed var(--line);color:var(--muted2);cursor:default;opacity:.75;text-align:center}
 #hN.zero{color:var(--warn)}
 .clear-btn:hover{color:var(--text);border-color:var(--accent)}
