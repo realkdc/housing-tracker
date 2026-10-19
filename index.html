@@ -311,7 +311,14 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 .muted{color:var(--muted)}
 
 /* Photo gallery improvements */
-.ph-gall{position:relative}
+.ph-gall{position:relative;touch-action:pan-y;cursor:grab}
+.ph-gall:active{cursor:grabbing}
+.sh-ph-gall{touch-action:pan-y;cursor:grab}
+.sh-ph-gall:active{cursor:grabbing}
+#lb{touch-action:pan-y;cursor:grab}
+#lb:active{cursor:grabbing}
+#lb .lb-swipe{display:none}
+@media(hover:none){#lb .lb-swipe{display:block;position:absolute;left:50%;bottom:22px;transform:translateX(-50%);color:rgba(255,255,255,.62);font-size:.66rem;font-weight:700;letter-spacing:.6px;pointer-events:none;text-transform:uppercase}}
 .ph-arrow{position:absolute;top:50%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;background:rgba(7,10,15,.7);border:1px solid var(--line);color:var(--text);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;z-index:2;backdrop-filter:blur(6px)}
 .ph-arrow:hover{background:rgba(7,10,15,.9);border-color:var(--accent)}
 .ph-gall:hover .ph-arrow{opacity:1}
@@ -410,7 +417,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 </div>
 
 <div class="mo" id="mo"><div class="sh" id="sh"></div></div>
-<div class="lb" id="lb" onclick="this.classList.remove('on')"><img id="lbI" src=""></div>
+<div class="lb" id="lb" onclick="this.classList.remove('on')"><img id="lbI" src=""><div class="lb-swipe">&#8635;&#xFE0E;&#xFE0E;</div></div>
 
 <script>
 /* ==================== DATA ==================== */
@@ -2251,7 +2258,7 @@ function openModal(slug){
   var shPhoto;
   if(photos.length>1){
     shPhoto='<div class="sh-ph-gall" data-slug="'+esc(o.slug)+'">'+
-      '<div class="sh-ph" onclick="zoom(this.querySelector(\'img\').src)">'+
+      '<div class="sh-ph" onclick="zoom(this.querySelector(\'img\').src,\''+esc(o.slug)+'\')">'+
       '<img src="'+esc(photos[0])+'" alt=""><div class="sh-g '+g.c+'">'+
       '<span class="n">'+g.g+'</span><span class="c">'+(o.sfpd==null?'N/A':o.sfpd)+'</span></div>'+
       '</div>'+
@@ -2260,7 +2267,7 @@ function openModal(slug){
       '<span class="ph-count">1/'+photos.length+'</span>'+
       '<button class="sh-x" onclick="event.stopPropagation();closeModal()">&times;</button></div>';
   } else if(photos.length===1){
-    shPhoto='<div class="sh-ph" onclick="zoom(this.querySelector(\'img\').src)">'+
+    shPhoto='<div class="sh-ph" onclick="zoom(this.querySelector(\'img\').src,\''+esc(o.slug)+'\')">'+
       '<img src="'+esc(photos[0])+'" alt=""><div class="sh-g '+g.c+'">'+
       '<span class="n">'+g.g+'</span><span class="c">'+(o.sfpd==null?'N/A':o.sfpd)+'</span></div>'+
       '<button class="sh-x" onclick="event.stopPropagation();closeModal()">&times;</button></div>';
@@ -2289,7 +2296,8 @@ function closeModal(){
   document.getElementById('mo').classList.remove('on');
   document.body.style.overflow='';
 }
-function zoom(src){document.getElementById('lbI').src=src;document.getElementById('lb').classList.add('on');}
+var LB={slug:null,idx:0};
+function zoom(src,slug){document.getElementById('lbI').src=src;document.getElementById('lb').classList.add('on');LB.slug=slug||null;LB.idx=0;}
 
 /* ==================== RENDER ==================== */
 var FILTER='all',QUERY='',SORT='fit';
@@ -2402,6 +2410,71 @@ document.addEventListener('click', function(e){
   count.textContent=(idx+1)+'/'+photos.length;
   e.stopPropagation();
 });
+
+/* ---------- swipe / drag on gallery photos ---------- */
+var SW={on:false,id:null,gall:null,x:0,y:0,dx:0,dy:0,swiped:false};
+var SUPPRESS_CLICK=false;
+function swPhotosOf(g){
+  if(!g||!g.dataset||!g.dataset.slug)return null;
+  var o=bySlug(g.dataset.slug);
+  if(!o)return null;
+  var p=o.photos&&o.photos.length>0?o.photos:(o.photo?[o.photo]:[]);
+  return p.length>1?p:null;
+}
+function swGo(g,dir){
+  var p=swPhotosOf(g);if(!p)return false;
+  var img=g.querySelector('img'),c=g.querySelector('.ph-count');
+  if(!img)return false;
+  var cur=c?parseInt(c.textContent,10)-1:0;
+  var i=(cur+dir+p.length)%p.length;
+  img.src=p[i];
+  if(c)c.textContent=(i+1)+'/'+p.length;
+  return true;
+}
+function swFromEvent(e){
+  var t=e.target;
+  if(!t||!t.closest)return null;
+  var g=t.closest('.ph-gall,.sh-ph-gall');
+  if(g)return g;
+  var lb=document.getElementById('lb');
+  if(lb&&lb.classList.contains('on')&&LB.slug){
+    if(swPhotosOf({dataset:{slug:LB.slug}}))return lb;
+  }
+  return null;
+}
+document.addEventListener('pointerdown',function(e){
+  if(e.pointerType==='mouse'&&e.button!==0)return;
+  var g=swFromEvent(e);
+  if(!g)return;
+  if(g.id==='lb'){if(!LB.slug)return;}
+  else if(!swPhotosOf(g))return;
+  SW={on:true,id:e.pointerId,gall:g,x:e.clientX,y:e.clientY,dx:0,dy:0,swiped:false};
+},{passive:true});
+document.addEventListener('pointermove',function(e){
+  if(!SW.on||e.pointerId!==SW.id)return;
+  SW.dx=e.clientX-SW.x;SW.dy=e.clientY-SW.y;
+  if(Math.abs(SW.dx)>12&&Math.abs(SW.dx)>Math.abs(SW.dy)*1.15)SW.swiped=true;
+  if(SW.swiped&&e.cancelable)e.preventDefault();
+},{passive:false});
+function swEnd(e){
+  if(!SW.on||e.pointerId!==SW.id)return;
+  var g=SW.gall,sw=SW.swiped,dx=SW.dx;
+  SW.on=false;
+  if(!sw||Math.abs(dx)<38)return;
+  if(g&&g.id==='lb'){
+    var p=swPhotosOf({dataset:{slug:LB.slug}});
+    if(p){LB.idx=(LB.idx+(dx<0?1:-1)+p.length)%p.length;
+      document.getElementById('lbI').src=p[LB.idx];}
+  }else if(g){ swGo(g,dx<0?1:-1); }
+  SUPPRESS_CLICK=true;
+  setTimeout(function(){SUPPRESS_CLICK=false;},380);
+}
+document.addEventListener('pointerup',swEnd,{passive:true});
+document.addEventListener('pointercancel',function(){SW.on=false;},{passive:true});
+/* a real swipe must not also fire the tap-to-zoom / tap-to-close click */
+document.addEventListener('click',function(e){
+  if(SUPPRESS_CLICK){e.stopPropagation();e.preventDefault();}
+},true);
 
 /* ---------- UI/UX JS IMPROVEMENTS ---------- */
 
