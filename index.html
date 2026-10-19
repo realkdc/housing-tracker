@@ -271,10 +271,11 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 
 /* Better vote buttons */
 .card-vote .vb{width:30px;height:30px;border-radius:8px;font-size:.9rem}
-.card-vote .vb.on-up{background:rgba(62,207,110,.18);color:#3ecf6e}
-.card-vote .vb.on-dn{background:rgba(244,103,92,.18);color:#f4675c}
-.card-vote .vlk{font-size:.85rem;padding:0 6px}
-.card-vote .vlk.on{color:#e0a83c;text-shadow:0 0 8px rgba(224,168,60,.4)}
+.card-vote .vb.on-up{background:rgba(62,207,110,.18);color:#3ecf6e;box-shadow:0 0 0 1px rgba(62,207,110,.5) inset;transform:scale(1.12)}
+.card-vote .vb.on-dn{background:rgba(244,103,92,.18);color:#f4675c;box-shadow:0 0 0 1px rgba(244,103,92,.5) inset;transform:scale(1.12)}
+.card-vote .vlk{font-size:.95rem;padding:0 6px;border:none;background:none;cursor:pointer;color:var(--muted2);transition:color .15s,transform .15s}
+.card-vote .vlk:hover{color:var(--muted)}
+.card-vote .vlk.on{color:#ffd24a;text-shadow:0 0 10px rgba(255,210,74,.65);font-weight:900;transform:scale(1.3)}
 
 /* Better filter bar on mobile */
 @media(max-width:640px){
@@ -1788,7 +1789,7 @@ var L = [
     "zip": "57110",
     "sfpd": 29,
     "area": "B",
-    "avail": "Unverified",
+    "avail": "Listed — details unverified",
     "status": "NEW 2026-10-18 — staged from RentalSource; grade B (29 calls). Lease term and deposit unverified.",
     "beds": 2,
     "baths": 1,
@@ -1837,7 +1838,7 @@ var L = [
     "zip": "57005",
     "sfpd": 84,
     "area": "C",
-    "avail": "Unverified",
+    "avail": "Listed — details unverified",
     "status": "NEW 2026-10-18 — townhouse in Brandon, in budget. Grade C (84 calls). Lease term unverified.",
     "beds": 2,
     "baths": 1,
@@ -1887,7 +1888,7 @@ var L = [
     "zip": "57106",
     "sfpd": null,
     "area": null,
-    "avail": "Unverified",
+    "avail": "Listed — details unverified",
     "status": "NEW 2026-10-18 — staged from rent.com browser lane; in budget. Safety not yet scored (no address).",
     "beds": 2,
     "baths": 1,
@@ -1919,7 +1920,7 @@ var L = [
     "zip": "57105",
     "sfpd": 58,
     "area": "C",
-    "avail": "Unverified",
+    "avail": "Listed — details unverified",
     "status": "NEW 2026-10-18 — 3BR, in budget. Grade C (58 calls). Lease term unverified.",
     "beds": 3,
     "baths": 1,
@@ -1969,7 +1970,7 @@ var L = [
     "zip": "57110",
     "sfpd": null,
     "area": null,
-    "avail": "Unverified",
+    "avail": "Listed — details unverified",
     "status": "NEW 2026-10-18 — staged from Craigslist; $725 2BR in 57110. Safety not yet scored. Lease term unverified.",
     "beds": 2,
     "baths": 1,
@@ -2002,7 +2003,7 @@ var L = [
     "zip": "57103",
     "sfpd": 54,
     "area": "C",
-    "avail": "Unverified",
+    "avail": "Listed — details unverified",
     "status": "NEW 2026-10-18 — NOTE: Bender Appfolio shows a 13-month lease and NO dishwasher, so this likely fails the 6-9 month requirement. Grade C (54 calls).",
     "beds": 2,
     "baths": 1,
@@ -2146,7 +2147,8 @@ function dwS(o){
 function avS(o){
   var a=(o.avail||'').toLowerCase();
   if(a.indexOf('unavailable')>=0||a.indexOf('not listed')>=0) return ['Unavailable','ab-no','no'];
-  if(a.indexOf('available now')>=0||a.indexOf('listed')>=0)   return ['Available','ab-ok','ok'];
+  if(a.indexOf('available now')>=0) return ['Available','ab-ok','ok'];
+  if(a.indexOf('listed')>=0) return ['Listed','ab-unk','ok'];
   return ['Unverified','ab-unk','unk'];
 }
 function core(o){ return o.wd==='inunit' && (o.park==='garage'||o.park==='offstreet'); }
