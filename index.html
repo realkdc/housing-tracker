@@ -2417,6 +2417,7 @@ function cardHTML(o,compact){
 function openModal(slug){
   var o=L.filter(function(x){return x.slug===slug;})[0];
   if(!o)return;
+  addView(slug);
   var g=grade(o.sfpd),av=avS(o),wd=wdS(o),pk=pkS(o),dw=dwS(o),v=verdict(o);
   var am='';
   function r(k,val,dim){return '<div class="sh-amr"><span class="k">'+k+'</span>'+
