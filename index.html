@@ -186,6 +186,9 @@ button{font-family:inherit;}
   align-items:center;justify-content:center;cursor:zoom-out;}
 .lb.on{display:flex;}
 .lb img{max-width:93%;max-height:90%;border-radius:9px;}
+.ph-gall img,.sh-ph-gall img,.sh-ph img,.lb img{-webkit-user-drag:none;user-select:none;-webkit-user-select:none;user-drag:none}
+.lb img{touch-action:none}
+.ph-gall img,.sh-ph-gall img{touch-action:pan-y}
 
 @media(max-width:640px){
   .grid{grid-template-columns:repeat(2,1fr);gap:9px;}
@@ -2675,6 +2678,9 @@ function swFromEvent(e){
   }
   return null;
 }
+document.addEventListener('dragstart',function(e){
+  if(e.target&&e.target.closest&&e.target.closest('.ph-gall,.sh-ph-gall,.sh-ph,.lb'))e.preventDefault();
+},{capture:true});
 document.addEventListener('pointerdown',function(e){
   if(e.pointerType==='mouse'&&e.button!==0)return;
   var g=swFromEvent(e);
