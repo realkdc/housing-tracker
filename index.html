@@ -955,40 +955,47 @@ var L = [
   {
     "slug": "1317-e-sylvan-cir-5",
     "name": "1317 E Sylvan Cir #5",
-    "type": "Apartment",
-    "manager": "Grand Teton Estates / Metastone Properties (605) 250-7611",
+    "type": "Condo",
+    "manager": "Grand Teton Estates (Brandon, SD)",
     "price_raw": "$800",
     "price": "800",
     "zip": "57005",
     "sfpd": 2,
     "area": "A",
-    "avail": "Cannot verify - previously available 09/28/2026",
-    "status": "VERIFIED 2026-10-19: 1317 E Sylvan Cir is the Grand Teton Estates campus (101/109 S Teton Dr, also 1309/1317 S Teton Dr, Brandon SD 57005). The $800 2BR/1BA/800sf unit is 'unit 1317 E Sylvan Circle - 2' - the tracker's '#5' could NOT be verified as the $800 2BR (Redfin's 1317 Sylvan Cir Apt 5 is a 1BR at $875; rent.com lists unit -5 at $890). Lease 13 months (1 Month FREE) - fails the 6-9mo gate. W/D not stated publicly. Dishwasher in unit, off-street parking + secured entrance. Availability NOT confirmed: rent.com shows 'previously available' (last 09/28/2026), Zumper shows 'notify me'. Grade A (2 calls).",
+    "avail": "Not listed - delisted/inactive",
+    "status": "RE-VERIFIED 2026-10-19 through Obscura (HotPads serves its listing object in the Next.js RSC flight payload, which plain HTTP never sees). THIS CORRECTS AN EARLIER NOTE ON THIS ROW. The $800 unit IS unit #5: the HotPads floorplan is literally named '5' and reads 2 beds / 1 bath / 800 sqft / $800, and pricing.summary says beds 2-2, 800 sqft, $800-800. The earlier 'the $800 unit is #2, not #5' claim was based on Redfin and rent.com listing different units on the same campus and is wrong. AVAILABILITY IS NOW KNOWN: the listing carries active=false with an empty availabilityDate, so the unit is DELISTED and no longer available - it moves out of 'Availability unverified' into the archive. Amenities: Laundry SHARED (so no in-unit washer/dryer), Off Street Parking, deposit $500 (was '~$500 estimated' - now published), no dishwasher (the appliance list is Oven + Refrigerator + Freezer only, so the old 'dishwasher: yes' was wrong). Lease term is NOT published (leaseTerms is empty); the '13 months (1 Month FREE)' was a promo, not the available term. Pets friendly. Safety: 2 calls in 0.25mi over the 90-day window from 2026-07-20 = GRADE A, scored from the exact GPS the listing publishes. Photos: 21 on the source, 8 added here.",
     "beds": 2,
     "baths": 1,
     "sqft": 800,
     "address": "1317 E Sylvan Cir #5, Brandon, SD 57005",
-    "deposit": "unknown (~$500 estimated)",
-    "lease": "13 months (1 Month FREE promo)",
+    "deposit": "$500",
+    "lease": "unknown (not published)",
     "utils": "Electric extra",
     "phone": "(605) 513-6875",
     "amenities": [
-      "A/C"
+      "A/C",
+      "Shared laundry (on-site)",
+      "Off-street parking",
+      "Secured entrance",
+      "Hardwood floors",
+      "Baseboard heat",
+      "Wall-mounted A/C",
+      "Electricity not included in rent"
     ],
-    "url": "https://www.rent.com/r/101-s-teton-dr-brandon-sd-lv3198313487",
+    "url": "https://hotpads.com/1317-e-sylvan-cir-brandon-sd-57005-tumddm/5/pad",
     "photo": "https://images.rentable.co/111211/113991464/large.jpeg",
-    "wd": "unknown",
+    "wd": "onsite",
     "park": "offstreet",
-    "dw": "yes",
-    "amenity_source": "rent.com r/101-s-teton-dr-brandon-sd-lv3198313487 + Zumper + Redfin (read 2026-10-19): 2BR/1BA 800sf $800; '1 Month FREE on a 13-Month Lease'; In-Unit Features Dishwasher; Off-Street Parking; previously available 09/28/2026. SFPD scored via Nominatim coords (city locator does not cover Brandon) = 2 calls, grade A - tracker had graded 2 calls as C.",
-    "sfpd_addr": "1317 E Sylvan Cir, Brandon, SD 57005",
+    "dw": "no",
+    "amenity_source": "HotPads unit page for 1317 E Sylvan Cir Apt 5 (via Obscura stealth, read 2026-10-19): amenity list 'Laundry: Shared', 'Off Street Parking', 'Building Deposit Fee Minimum/Maximum: 500', 'Electricity not included in rent', appliances Oven + Refrigerator + Freezer (NO dishwasher); floorplan '5' = 2 beds / 1 bath / 800 sqft / $800; pricing summary $800-800; geo 43.594332,-96.5701452.",
+    "sfpd_addr": "1317 E SYLVAN CIR",
     "sfpd_top": [
       [
-        "Disorderly Conduct",
+        "Other",
         1
       ],
       [
-        "Other",
+        "Disorderly Conduct",
         1
       ]
     ],
@@ -996,7 +1003,13 @@ var L = [
       "https://images.rentable.co/111211/113991464/large.jpeg",
       "https://images.rentable.co/111211/54761904/slide.jpg",
       "https://images.rentable.co/111211/57186848/slide.jpg",
-      "https://images.rentable.co/111211/54761901/slide.jpg"
+      "https://images.rentable.co/111211/54761901/slide.jpg",
+      "https://photos.zillowstatic.com/fp/6b850e8f93e5dde21902192843e0da24-rentals_large_1200_1200.webp",
+      "https://photos.zillowstatic.com/fp/0a1599a98c0119ed42a166472a28dbe5-rentals_large_1200_1200.webp",
+      "https://photos.zillowstatic.com/fp/28a49a239b6094b41096b07879bceb4c-rentals_large_1200_1200.webp",
+      "https://photos.zillowstatic.com/fp/0d3a042ef50f35196bd3a2f3a21c360e-rentals_large_1200_1200.webp",
+      "https://photos.zillowstatic.com/fp/2d153d0025b1b025b17f4f009390c661-rentals_large_1200_1200.webp",
+      "https://photos.zillowstatic.com/fp/f3d8664fc9bf91084921d6bb53f1e5ed-rentals_large_1200_1200.webp"
     ]
   },
   {
@@ -2258,6 +2271,50 @@ var L = [
     "verified": false,
     "photo_status": "verified 200 at publish time",
     "sfpd_addr": "1625 E NORTHSTAR LN"
+  },
+  {
+    "slug": "oakwood-estates-2",
+    "name": "Oakwood Estates",
+    "type": "Apartment",
+    "manager": "Oakwood Estates",
+    "price_raw": "$767",
+    "price": "767",
+    "zip": "57106",
+    "sfpd": 109,
+    "area": "C",
+    "avail": "Listed - details unverified",
+    "status": "AUTO-PUBLISHED 2026-10-19 from Zillow detail page (via Obscura stealth). Rent $767 for the 2BR read from the listing's own page; 972 sqft; lease 15 Months. Availability, deposit and lease term are as-published only - confirm before applying.",
+    "beds": 2,
+    "baths": 1,
+    "sqft": 972,
+    "address": "3300 W 53rd St, Sioux Falls, SD, 57106",
+    "deposit": "unknown (not published)",
+    "lease": "15 Months",
+    "utils": "unknown",
+    "phone": "",
+    "amenities": [
+      "Dishwasher",
+      "Available 2026-10-09",
+      "Managed by Oakwood Estates"
+    ],
+    "url": "https://www.zillow.com/apartments/sioux-falls-sd/oakwood-estates/5XqydD/",
+    "photo": "https://photos.zillowstatic.com/fp/84e188de03396babdc832dbee6bde835-d_d.webp",
+    "photos": [
+      "https://photos.zillowstatic.com/fp/84e188de03396babdc832dbee6bde835-d_d.webp",
+      "https://photos.zillowstatic.com/fp/84e188de03396babdc832dbee6bde835-o_a.webp",
+      "https://photos.zillowstatic.com/fp/84e188de03396babdc832dbee6bde835-uncropped_scaled_within_1344_1008.webp",
+      "https://photos.zillowstatic.com/fp/84e188de03396babdc832dbee6bde835-uncropped_scaled_within_1536_1152.webp",
+      "https://photos.zillowstatic.com/fp/84e188de03396babdc832dbee6bde835-p_d.jpg",
+      "https://photos.zillowstatic.com/fp/3b29c49d0c994836e6dd8b1f941524cf-d_d.webp",
+      "https://photos.zillowstatic.com/fp/3b29c49d0c994836e6dd8b1f941524cf-o_a.webp",
+      "https://photos.zillowstatic.com/fp/3b29c49d0c994836e6dd8b1f941524cf-uncropped_scaled_within_1344_1008.webp"
+    ],
+    "wd": "unknown",
+    "park": "unknown",
+    "dw": "yes",
+    "amenity_source": "Zillow detail page (via Obscura stealth) (https://www.zillow.com/apartments/sioux-falls-sd/oakwood-estates/5XqydD/) read 2026-10-19",
+    "verified": false,
+    "photo_status": "verified 200 at publish time"
   }
 ];
 
