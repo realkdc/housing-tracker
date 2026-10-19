@@ -2470,7 +2470,7 @@ function openModal(slug){
   var photos=o.photos&&o.photos.length>0?o.photos:(o.photo?[o.photo]:[]);
   var shPhoto;
   if(photos.length>1){
-    shPhoto='<div class="sh-ph-gall" data-slug="'+esc(o.slug)+'">'+
+    shPhoto='<div class="sh-ph-gall" data-slug="'+esc(o.slug)+'" data-photos="'+esc(JSON.stringify(photos))+'" data-gidx="0" data-gtotal="'+photos.length+'">'+
       '<div class="sh-ph" onclick="zoom(this.querySelector(\'img\').src,\''+esc(o.slug)+'\')">'+
       '<img src="'+esc(photos[0])+'" alt=""><div class="sh-g '+g.c+'">'+
       '<span class="n">'+g.g+'</span><span class="c">'+(o.sfpd==null?'N/A':o.sfpd)+'</span></div>'+
@@ -2623,33 +2623,51 @@ document.addEventListener('click', function(e){
 /* ---------- photo gallery navigation ---------- */
 var LASTGALL=null;
 document.addEventListener('pointerenter',function(e){
-  var g=e.target&&e.target.closest?e.target.closest('.ph-gall'):null;
+  /* .sh-ph-gall is the MODAL gallery - closest() takes ONE selector, so a bare
+     '.ph-gall' never matched it and keyboard nav could never target the modal. */
+  var g=e.target&&e.target.closest?e.target.closest('.ph-gall,.sh-ph-gall'):null;
   if(g)LASTGALL=g;
 },true);
+/* ONE index state per gallery (data-gidx). The arrow buttons, the arrow keys and the
+   swipe all go through galleryGo() so they can never disagree about which photo shows. */
+function galleryGo(g,dir){
+  if(!g)return false;
+  var photos=null;
+  if(g.dataset.photos){try{photos=JSON.parse(g.dataset.photos);}catch(e){photos=null;}}
+  if(!photos||!photos.length){
+    var o=g.dataset.slug?bySlug(g.dataset.slug):null;
+    if(!o)return false;
+    photos=o.photos&&o.photos.length>0?o.photos:(o.photo?[o.photo]:[]);
+  }
+  if(!photos||photos.length<2)return false;
+  var img=g.querySelector('img');
+  var count=g.querySelector('.ph-count');
+  if(!img)return false;
+  var idx=parseInt(g.dataset.gidx||'0',10);
+  if(isNaN(idx)||idx<0||idx>=photos.length){
+    idx=count?parseInt(count.textContent,10)-1:0;
+    if(isNaN(idx)||idx<0)idx=0;
+  }
+  idx=(idx+dir+photos.length)%photos.length;
+  g.dataset.gidx=idx;
+  g.dataset.gtotal=String(photos.length);
+  img.src=photos[idx];
+  if(count)count.textContent=(idx+1)+'/'+photos.length;
+  return true;
+}
 document.addEventListener('click', function(e){
   var arrow=e.target.closest('.ph-arrow');
   if(!arrow)return;
   var gall=arrow.closest('.ph-gall,.sh-ph-gall');
   if(!gall)return;
-  var slug=gall.dataset.slug;
-  var o=bySlug(slug);
-  if(!o)return;
-  var photos=o.photos&&o.photos.length>0?o.photos:(o.photo?[o.photo]:[]);
-  if(photos.length<2)return;
-  var img=gall.querySelector('img');
-  var count=gall.querySelector('.ph-count');
-  if(!img||!count)return;
-  var idx=parseInt(count.textContent,10)-1;
-  var dir=parseInt(arrow.dataset.phDir,10);
-  idx=(idx+dir+photos.length)%photos.length;
-  img.src=photos[idx];
-  count.textContent=(idx+1)+'/'+photos.length;
+  galleryGo(gall,parseInt(arrow.dataset.phDir,10));
   e.stopPropagation();
 });
 
 /* ---------- swipe / drag on gallery photos ---------- */
 var SW={on:false,id:null,gall:null,x:0,y:0,dx:0,dy:0,swiped:false};
 var SUPPRESS_CLICK=false;
+var SWIPED_EL=null;
 function swPhotosOf(g){
   if(!g||!g.dataset||!g.dataset.slug)return null;
   var o=bySlug(g.dataset.slug);
@@ -2658,14 +2676,8 @@ function swPhotosOf(g){
   return p.length>1?p:null;
 }
 function swGo(g,dir){
-  var p=swPhotosOf(g);if(!p)return false;
-  var img=g.querySelector('img'),c=g.querySelector('.ph-count');
-  if(!img)return false;
-  var cur=c?parseInt(c.textContent,10)-1:0;
-  var i=(cur+dir+p.length)%p.length;
-  img.src=p[i];
-  if(c)c.textContent=(i+1)+'/'+p.length;
-  return true;
+  if(!g)return false;
+  return galleryGo(g,dir);
 }
 function swFromEvent(e){
   var t=e.target;
@@ -2706,13 +2718,19 @@ function swEnd(e){
       document.getElementById('lbI').src=p[LB.idx];}
   }else if(g){ swGo(g,dx<0?1:-1); }
   SUPPRESS_CLICK=true;
-  setTimeout(function(){SUPPRESS_CLICK=false;},380);
+  SWIPED_EL=g;
+  setTimeout(function(){SUPPRESS_CLICK=false;SWIPED_EL=null;},380);
 }
 document.addEventListener('pointerup',swEnd,{passive:true});
 document.addEventListener('pointercancel',function(){SW.on=false;},{passive:true});
 /* a real swipe must not also fire the tap-to-zoom / tap-to-close click */
 document.addEventListener('click',function(e){
-  if(SUPPRESS_CLICK){e.stopPropagation();e.preventDefault();}
+  /* a swipe must not also fire the tap - but only swallow the click that belongs to
+     the element that was actually swiped, not whatever the user clicks next. */
+  if(SUPPRESS_CLICK){
+    var t=e.target&&e.target.closest?e.target.closest('.ph-gall,.sh-ph-gall,.sh-ph,.lb'):null;
+    if(t&&t===SWIPED_EL){e.stopPropagation();e.preventDefault();SUPPRESS_CLICK=false;SWIPED_EL=null;}
+  }
 },true);
 
 /* ---------- UI/UX JS IMPROVEMENTS ---------- */
@@ -2737,16 +2755,7 @@ document.addEventListener('keydown',function(e){
   if(e.key==='ArrowLeft'||e.key==='ArrowRight'){
     var active=document.querySelector('.ph-gall:hover, .ph-gall:focus-within')||LASTGALL;
     if(!active)return;
-    var idx=parseInt(active.dataset.gidx||'0');
-    var total=parseInt(active.dataset.gtotal||'1');
-    if(e.key==='ArrowLeft')idx=(idx-1+total)%total;
-    else idx=(idx+1)%total;
-    active.dataset.gidx=idx;
-    var img=active.querySelector('img');
-    var photos=JSON.parse(active.dataset.photos||'[]');
-    if(photos[idx])img.src=photos[idx];
-    var cnt=active.querySelector('.ph-count');
-    if(cnt)cnt.textContent=(idx+1)+'/'+total;
+    galleryGo(active,e.key==='ArrowLeft'?-1:1);
   }
 });
 
