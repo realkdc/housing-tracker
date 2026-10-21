@@ -388,6 +388,8 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
       <button data-f="core" aria-label="Show only listings that meet core criteria">Meets core</button>
       <button data-f="safe" aria-label="Show only safe A and B grade listings">Safe A/B</button>
       <button data-f="budget" aria-label="Show only listings within budget">In budget</button>
+    <button data-f="deposit" aria-label="Show listings by deposit type">Deposit</button>
+    <button data-f="lease" aria-label="Show listings by lease term">Lease</button>
     </div>
     <span class="grade-legend" style="display:flex;gap:5px;align-items:center;margin-left:4px" title="SFPD safety grade (calls / 0.25mi / 90d)">
   <span style="width:18px;height:18px;border-radius:5px;background:rgba(62,207,110,.9);color:#04140a;font-size:.6rem;font-weight:900;display:inline-flex;align-items:center;justify-content:center" title="A: 0-20 calls (safest)">A</span>
@@ -401,6 +403,8 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
       <option value="safe">Safest</option>
       <option value="calls">Most calls</option>
     </select>
+      <option value="lease">Lease term</option>
+      <option value="deposit">Deposit</option>
   </div>
 
   <div class="grid" id="grid"></div>
@@ -2411,7 +2415,25 @@ function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){
   return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function pnum(p){var m=String(p).match(/([\d,]+)/);return m?parseInt(m[1].replace(/,/g,''),10):999999;}
 function inB(p){return pnum(p)<=800;}
-function grade(n){
+function leaseCat(o){
+  var s=String(o.lease||'').toLowerCase();
+  if(s.indexOf('unknown')>=0||s.indexOf('not published')>=0||s.indexOf('tbd')>=0||!s) return '?';
+  if(s.indexOf('m-to-m')>=0||s.indexOf('month-to-month')>=0) return 'MTM';
+  var m=s.match(/(\d+)\s*(?:-|\u2013|to)\s*(\d+)\s*months?/);
+  if(m){var lo=+m[1],hi=+m[2];return lo<=9&&hi>=6?'6-9':lo<=9?'short':'12';
+  }
+  m=s.match(/(\d+)\s*\+?\s*months?/);
+  if(m){var n=+m[1];return n>=6&&n<=9?'6-9':n>=12?'12':'?';
+  }
+  return '?';
+}
+
+function depositCat(o){
+  var d=String(o.deposit||'').toLowerCase();
+  if(d.indexOf('$0')>=0||d.indexOf('jetty')>=0||d.indexOf('0 deposit')>=0||d.indexOf('eligible for $0')>=0) return '$0';
+  if(d.indexOf('varies')>=0||d.indexOf('not published')>=0||d.indexOf('tbd')>=0||!d) return '?';
+  return 'varies';
+}function grade(n){
   if(n==null) return {g:'?',c:'gN',t:'Not measured'};
   if(n<=20)  return {g:'A',c:'gA',t:n+' calls / 0.25mi / 90d'};
   if(n<=50)  return {g:'B',c:'gB',t:n+' calls / 0.25mi / 90d'};
@@ -2530,6 +2552,7 @@ function cardHTML(o,compact){
   return '<div class="c'+(core(o)?' pick':'')+(over?' over-budget':'')+'" data-slug="'+esc(o.slug)+
     '" data-core="'+(core(o)?1:0)+'" data-avail="'+av[2]+'" data-over="'+(over?1:0)+
     '" data-safe="'+((g.g==='A'||g.g==='B')?1:0)+'" data-budget="'+(inB(o.price)?1:0)+
+    '" data-lease"'+leaseCat(o)+"" data-deposit"'+depositCat(o)+\
     '" data-price="'+pnum(o.price)+'" data-calls="'+(o.sfpd==null?99999:o.sfpd)+
     '" data-gr="'+g.g+'" data-name="'+esc((o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase())+'">'+
     '<div class="ph">'+photo+
@@ -2687,6 +2710,14 @@ function sortDom(root){
     if(SORT==='safe'){var d=gord[a.dataset.gr]-gord[b.dataset.gr];
       if(d)return d; return (+a.dataset.calls)-(+b.dataset.calls);}
     var sc=function(c){var s=0;
+    if(SORT==="lease"){
+      var la=String(a.dataset.lease),lb=String(b.dataset.lease);
+      var lo=["12","6-9","MTM","?"],hi=["6-9","12","MTM","?"];return lo.indexOf(lb)-lo.indexOf(la);
+    }
+    if(SORT==="deposit"){
+      var da=String(a.dataset.deposit),db=String(b.dataset.deposit);
+      var do_=["$0","varies","?"],ho=["varies","$0","?"];return do_.indexOf(da)-ho.indexOf(db);
+    }
       if(c.dataset.core==='1')s+=100; if(c.dataset.safe==='1')s+=30;
       if(c.dataset.budget==='1')s+=20; return s;};
     var d=sc(b)-sc(a); if(d)return d;
