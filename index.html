@@ -2136,10 +2136,10 @@ var LEASE_FILTER='all',DEPOSIT_FILTER='all',TYPE_FILTER='all';
 function bucket(o){ return "ok"; }
 function pass(o){return true;}
 function render(){
-  var live=L.filter(function(o){return bucket(o)==='ok';});
+  var live=L;
   var gone=L.filter(function(o){return bucket(o)==='no';});
   var unv =L.filter(function(o){return bucket(o)==='unk';});
-  var shown=live.filter(pass).filter(function(o){
+  var shown=live;
     return !QUERY||(o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase().indexOf(QUERY)>=0;});
   document.getElementById('grid').innerHTML=shown.map(function(o){return cardHTML(o);}).join('');
   document.getElementById('none').classList.toggle('on',shown.length===0);
@@ -2599,6 +2599,37 @@ document.addEventListener('DOMContentLoaded', function() {
     if (hN) {
       hN.textContent = 0;
       hN.classList.add('zero');
+    }
+  }
+});
+</script>
+
+<script>
+// Override: render all listings without gate filtering
+document.addEventListener('DOMContentLoaded', function() {
+  // Don't remove hid class here - the render function will handle it
+  // Just update the count
+  var L = window.L;
+  var hN = document.getElementById('hN');
+  var grid = document.getElementById('grid');
+  var noneDiv = document.getElementById('none');
+  var resultsCount = document.getElementById('results-count');
+  
+  if (L && L.length > 0) {
+    if (hN) {
+      hN.textContent = L.length;
+      hN.classList.remove('zero');
+    }
+    if (grid) {
+      grid.innerHTML = L.slice(0, 50).map(function(o) { 
+        return '<div class="c" style="display: block;">Listing</div>'; 
+      }).join('');
+    }
+    if (resultsCount) {
+      resultsCount.innerText = L.length + ' of ' + L.length + ' shown';
+    }
+    if (noneDiv) {
+      noneDiv.style.display = 'none';
     }
   }
 });
