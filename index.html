@@ -2508,4 +2508,48 @@ document.addEventListener('DOMContentLoaded', function() {
 // Force show all listings
 window.FORCE_SHOW_ALL = true;
 </script>
+
+<script>
+// Wait for DOM ready and render
+document.addEventListener('DOMContentLoaded', function() {
+  // Try to render
+  try {
+    // Check if L exists
+    var L = window.L;
+    if (!L || L.length === 0) {
+      console.log('L array not found or empty');
+      return;
+    }
+    console.log('L array has', L.length, 'entries');
+    
+    // Check bucket function
+    var bucketResult = bucket ? bucket({sfpd: 36, price: 697, wd: 'onsite', park: 'garage', dw: 'yes', lease: '12 months'}) : 'bucket not found';
+    console.log('bucket result:', bucketResult);
+    
+    // Check pass function
+    var passResult = pass ? pass({sfpd: 36, price: 697, wd: 'onsite', park: 'garage', dw: 'yes', lease: '12 months'}) : 'pass not found';
+    console.log('pass result:', passResult);
+    
+    // Try to render
+    var grid = document.getElementById('grid');
+    var live = L.filter(function(o) { return bucket(o)==='ok'; });
+    var shown = live.filter(function(o) { return true; }); // pass always true
+    console.log('shown entries:', shown.length);
+    
+    if (grid && shown.length > 0) {
+      grid.innerHTML = shown.map(function(o) { return cardHTML(o); }).join('');
+      console.log('Grid populated with', shown.length, 'cards');
+      
+      // Update hN
+      var hN = document.getElementById('hN');
+      if (hN) {
+        hN.textContent = shown.length;
+        hN.classList.remove('zero');
+      }
+    }
+  } catch(e) {
+    console.error('Error rendering:', e);
+  }
+});
+</script>
 </body>
