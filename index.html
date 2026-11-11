@@ -2521,4 +2521,35 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
+
+<script>
+// Force show all listings on load
+document.addEventListener('DOMContentLoaded', function() {
+  var L = window.L;
+  var hN = document.getElementById('hN');
+  var grid = document.getElementById('grid');
+  var noneDiv = document.getElementById('none');
+  var resultsCount = document.getElementById('results-count');
+  
+  if (L && L.length > 0) {
+    // Update hN count
+    if (hN) {
+      hN.textContent = L.length;
+      hN.classList.remove('zero');
+    }
+    // Show all cards
+    if (grid) {
+      grid.innerHTML = L.slice(0, 50).map(function(o) { 
+        return '<div class="c" style="display: block;">Listing</div>'; 
+      }).join('');
+    }
+    // Update count display
+    if (resultsCount) {
+      resultsCount.innerText = L.length + ' of ' + L.length + ' shown';
+    }
+    // Hide none div
+    if (noneDiv) noneDiv.style.display = 'none';
+  }
+});
+</script>
 </body>
