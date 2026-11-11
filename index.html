@@ -2029,11 +2029,11 @@ function render(){
     return !QUERY||(o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase().indexOf(QUERY)>=0;});
   document.getElementById('grid').innerHTML=shown.map(function(o){return cardHTML(o);}).join('');
   document.getElementById('none').classList.toggle('on',shown.length===0);
-  var inPlay=shown.filter(core).length;
+  var inPlay=L.length;
   var near1=shown.filter(function(o){return nearMiss(o)===1;}).length;
   var hn=document.getElementById('hN');
-  hn.textContent=inPlay;
-  hn.classList.toggle('zero',inPlay===0);
+  hn.textContent=L.length;
+  
   var nm=document.getElementById('near-miss');
   if(nm){
     var nmRows=shown.filter(function(o){return nearMiss(o)===1;});
