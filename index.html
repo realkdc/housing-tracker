@@ -682,6 +682,7 @@ var L = [
   },
   {
     "slug": "401-s-sycamore-ave-106-sioux-falls-sd-57",
+    "removed": true,
     "name": "401 S Sycamore Ave #106",
     "type": "Apartment",
     "manager": "Unknown",
@@ -738,6 +739,7 @@ var L = [
   },
   {
     "slug": "114-w-43rd-st-sioux-falls-sd-57105",
+    "removed": true,
     "name": "114 W 43rd St",
     "type": "Apartment",
     "manager": "Unknown",
@@ -1046,6 +1048,7 @@ var L = [
   },
   {
     "slug": "sioux-falls-sd-57105-ad8207e4",
+    "removed": true,
     "name": "Sioux Falls, SD 57105",
     "type": "Apartment",
     "manager": "Bender Midwest",
@@ -1242,6 +1245,7 @@ var L = [
   },
   {
     "slug": "sioux-falls-sd-57106-e74786ee",
+    "removed": true,
     "name": "Sioux Falls, SD 57106",
     "type": "Apartment",
     "manager": "Bender Midwest",
@@ -1382,6 +1386,7 @@ var L = [
   },
   {
     "slug": "sioux-falls-sd-57106-8426cf5c",
+    "removed": true,
     "name": "Sioux Falls, SD 57106",
     "type": "Apartment",
     "manager": "Bender Midwest",
@@ -1410,6 +1415,7 @@ var L = [
   },
   {
     "slug": "sioux-falls-sd-57105-86f89a7f",
+    "removed": true,
     "name": "Sioux Falls, SD 57105",
     "type": "Apartment",
     "manager": "Bender Midwest",
@@ -1466,6 +1472,7 @@ var L = [
   },
   {
     "slug": "sioux-falls-sd-57106-3b608da6",
+    "removed": true,
     "name": "Sioux Falls, SD 57106",
     "type": "Apartment",
     "manager": "Bender Midwest",
@@ -1494,6 +1501,7 @@ var L = [
   },
   {
     "slug": "sioux-falls-sd-57105-f424d5b7",
+    "removed": true,
     "name": "Sioux Falls, SD 57105",
     "type": "Apartment",
     "manager": "Bender Midwest",
@@ -1522,6 +1530,7 @@ var L = [
   },
   {
     "slug": "sioux-falls-sd-57108-438cfc6c",
+    "removed": true,
     "name": "Sioux Falls, SD 57108",
     "type": "Apartment",
     "manager": "Bender Midwest",
@@ -1704,6 +1713,9 @@ var L = [
     "dw": "no"
   }
 ];
+
+var removedCount=L.filter(function(o){return o.removed;}).length;
+var total=L.length-removedCount;
 
 var VKEY='housing-tracker-state-v1';
 function loadState(){
@@ -2026,20 +2038,21 @@ function zoom(src,slug){document.getElementById('lbI').src=src;document.getEleme
 /* ==================== RENDER ==================== */
 var FILTER='all',QUERY='',SORT='fit';
 var LEASE_FILTER='all',DEPOSIT_FILTER='all',TYPE_FILTER='all';
-function bucket(o){ return "ok"; }
+function bucket(o){ return o.removed ? 'no' : 'ok'; }
 function pass(o){return true;}
 function render(){
   var live=L;
   var gone=L.filter(function(o){return bucket(o)==='no';});
   var unv =L.filter(function(o){return bucket(o)==='unk';});
   var shown=live.filter(function(o){
-    return !QUERY||(o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase().indexOf(QUERY)>=0;});
+    return !o.removed && (!QUERY||(o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase().indexOf(QUERY)>=0);});
   document.getElementById('grid').innerHTML=shown.map(function(o){return cardHTML(o);}).join('');
   document.getElementById('none').classList.toggle('on',shown.length===0);
-  var inPlay=L.length;
+  var total=L.length-L.filter(function(o){return o.removed;}).length;
+  var inPlay=total;
   var near1=shown.filter(function(o){return nearMiss(o)===1;}).length;
   var hn=document.getElementById('hN');
-  hn.textContent=L.length;
+  hn.textContent=total;
   
   var nm=document.getElementById('near-miss');
   if(nm){
@@ -2262,7 +2275,7 @@ function updateCount(){
   var el=document.getElementById('results-count');
   if(!el)return;
   var shown=document.getElementById('grid').querySelectorAll('.c').length;
-  el.textContent=shown+' of '+L.length+' shown';
+  el.textContent=shown+' of '+total+' shown';
 }
 
 // Add results count to render
