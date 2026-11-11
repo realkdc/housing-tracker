@@ -2563,4 +2563,34 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
+
+<script>
+// Show all listings
+document.addEventListener('DOMContentLoaded', function() {
+  var L = window.L;
+  var hN = document.getElementById('hN');
+  var grid = document.getElementById('grid');
+  var noneDiv = document.getElementById('none');
+  var resultsCount = document.getElementById('results-count');
+  
+  if (L && L.length > 0) {
+    if (hN) {
+      hN.textContent = L.length;
+      hN.classList.remove('zero');
+    }
+    if (grid) {
+      document.querySelectorAll('.c.hid').forEach(function(c) {
+        c.classList.remove('hid');
+      });
+      document.querySelectorAll('.c').forEach(function(c) {
+        c.style.display = 'block';
+      });
+    }
+    if (resultsCount) {
+      resultsCount.innerText = L.length + ' of ' + L.length + ' shown';
+    }
+    if (noneDiv) noneDiv.style.display = 'none';
+  }
+});
+</script>
 </body>
