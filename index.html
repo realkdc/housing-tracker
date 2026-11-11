@@ -2480,4 +2480,27 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
+
+<script>
+// Show all listings - bypass gate filters
+document.addEventListener('DOMContentLoaded', function() {
+  // Remove hid class from all cards
+  document.querySelectorAll('.c.hid').forEach(function(c) {
+    c.classList.remove('hid');
+  });
+  // Hide the 'none' div
+  var noneDiv = document.getElementById('none');
+  if (noneDiv) noneDiv.style.display = 'none';
+  // Show hN with total count
+  var L = window.L || [];
+  var hN = document.getElementById('hN');
+  if (hN) {
+    hN.innerText = L.length;
+    hN.classList.remove('zero');
+  }
+  // Update results count
+  var resultsCount = document.getElementById('results-count');
+  if (resultsCount) resultsCount.innerText = L.length + ' of ' + L.length + ' shown';
+});
+</script>
 </body>
