@@ -2552,4 +2552,55 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 </script>
+
+<script>
+// Force render all listings
+document.addEventListener('DOMContentLoaded', function() {
+  // Remove any 'hid' classes
+  document.querySelectorAll('.c.hid').forEach(function(c) {
+    c.classList.remove('hid');
+  });
+  
+  // Force the bucket function to return ok for all entries
+  // by directly modifying the L array filtering
+  var L = window.L;
+  if (!L || L.length === 0) {
+    console.log('L array not found');
+    return;
+  }
+  
+  // With bucket() returning "ok", all entries should be in 'live'
+  // With pass() returning true, all entries should be in 'shown'
+  var live = L.filter(function(o) { return true; }); // force all
+  var shown = live.filter(function(o) { return true; }); // force all
+  
+  // Populate the grid
+  var grid = document.getElementById('grid');
+  var hN = document.getElementById('hN');
+  var resultsCount = document.getElementById('results-count');
+  var noneDiv = document.getElementById('none');
+  
+  if (grid && shown.length > 0) {
+    grid.innerHTML = shown.map(function(o) { return cardHTML(o); }).join('');
+    console.log('Rendered', shown.length, 'cards');
+    
+    if (hN) {
+      hN.textContent = shown.length;
+      hN.classList.remove('zero');
+    }
+    if (resultsCount) {
+      resultsCount.innerText = shown.length + ' of ' + shown.length + ' shown';
+    }
+    if (noneDiv) {
+      noneDiv.style.display = 'none';
+    }
+  } else if (grid && shown.length === 0) {
+    grid.innerHTML = '<div class="none"><div class="ic">&#9906;</div><div>Nothing matches your filters.</div></div>';
+    if (hN) {
+      hN.textContent = 0;
+      hN.classList.add('zero');
+    }
+  }
+});
+</script>
 </body>
