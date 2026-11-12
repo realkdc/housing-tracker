@@ -384,7 +384,7 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
     <div>
       <h1>Housing</h1>
       <div class="sub">
-        <b>2BR+</b> &bull; <b>$700&ndash;800</b> hard ceiling &bull; <b>6&ndash;9 month</b> lease &bull;
+        <b>2BR+</b> &bull; <b>$700&ndash;900</b> hard ceiling &bull; <b>6&ndash;9 month</b> lease &bull;
         <b>in-unit</b> washer/dryer &bull; garage or off-street &bull; dishwasher &bull;
         safe address &bull; no 57104 &bull; no income-restricted
       </div>
@@ -1859,7 +1859,7 @@ function paint(){
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){
   return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function pnum(p){var m=String(p).match(/([\d,]+)/);return m?parseInt(m[1].replace(/,/g,''),10):999999;}
-function inB(p){return pnum(p)<=800;}
+function inB(p){return pnum(p)<=900;}
 function grade(n){
   if(n==null) return {g:'?',c:'gN',t:'Not measured'};
   if(n<=20)  return {g:'A',c:'gA',t:n+' calls / 0.25mi / 90d'};
@@ -1955,11 +1955,14 @@ function depositSortValue(o){
 }
 function verdict(o){
   var f=[],hard=false;
-  if(pnum(o.price)>800){f.push('$'+pnum(o.price)+' over ceiling');hard=true;}
+  if(pnum(o.price)>900){f.push('$'+pnum(o.price)+' over ceiling');hard=true;}
   if(o.beds!=null&&o.beds<2){f.push('only '+o.beds+'BR');hard=true;}
   if(o.zip==='57104'){f.push('zip 57104 excluded');hard=true;}
   if(o.wd!=='inunit'){
-    if(o.wd==='onsite'||o.wd==='shared'){f.push('no in-unit W/D');hard=true;}
+    if(o.wd==='onsite'||o.wd==='shared'){
+      if(o.park==='garage'||o.park==='offstreet'){f.push('shared laundry (acceptable per updated criteria)');}
+      else {f.push('no in-unit W/D');hard=true;}
+    }
     else f.push('W/D unverified');
   }
   if(o.park==='unknown') f.push('parking unverified');
