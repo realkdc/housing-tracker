@@ -361,21 +361,6 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid 
 #hN.zero{color:var(--warn)}
 .clear-btn:hover{color:var(--text);border-color:var(--accent)}
 
-<style>
-  /* Force all listing cards to be visible */
-  .c { display: block !important; visibility: visible !important; }
-  .c.hid { display: block !important; }
-  .none { display: none !important; }
-  .big { visibility: visible !important; }
-  .grid { visibility: visible !important; }
-  /* Force show all */
-  .listing { display: block !important; }
-
-  .c.hid { display: block !important; }
-  /* Force show all listings */
-  .grid .c { display: block !important; }
-
-</style>
 </style>
 <body>
 <div class="wrap">
@@ -741,29 +726,39 @@ var L = [
     "slug": "3304-s-kiwanis-ave-8-sioux-falls-sd-5710",
     "name": "3304 S Kiwanis Ave #8",
     "type": "Apartment",
-    "manager": "Alpine Prop Mgmt",
-    "price_raw": "$795",
-    "price": "795",
+    "manager": "Alpine Property Management",
+    "price_raw": "$775",
+    "price": "775",
     "zip": "57105",
     "sfpd": 96,
     "area": "C",
-    "avail": "Available NOW",
-    "status": "",
+    "avail": "Available Now",
+    "status": "Verified 2026-11-13 from Alpine AppFolio listing 6a0d62fd (rent $775 ongoing, on-site coin laundry, assigned off-street parking, no dishwasher listed, 12-month lease special). RentalSource 84267827 is the same unit.",
     "beds": 2,
     "baths": 1,
     "sqft": 794,
     "address": "3304 S Kiwanis Ave #8, Sioux Falls, SD 57105",
     "deposit": "$500",
-    "lease": "6 months",
+    "lease": "12 months",
     "utils": "unknown",
     "phone": "",
-    "amenities": [],
-    "url": "https://www.rentalsource.com/details/3304-s-kiwanis-ave-sioux-falls-sd-84267827/",
-    "photo": "https://images.rentalsource.com/listings/84267827-8c7h.jpg",
-    "photos": [],
-    "wd": "inunit",
-    "park": "garage",
-    "dw": "yes"
+    "amenities": [
+      "On-Site Laundry",
+      "Assigned Off-Street Parking",
+      "Refrigerator",
+      "Stove",
+      "Microwave"
+    ],
+    "url": "https://alpinepropmgmt.appfolio.com/listings/detail/6a0d62fd-c014-43e3-888a-a49d59dd8603",
+    "photo": "https://images.cdn.appfolio.com/alpinepropmgmt/images/0ba19840-9517-48da-8e8f-81763ec44e21/medium.jpeg",
+    "photos": [
+      "https://images.cdn.appfolio.com/alpinepropmgmt/images/0ba19840-9517-48da-8e8f-81763ec44e21/medium.jpeg",
+      "https://images.cdn.appfolio.com/alpinepropmgmt/images/4315b3f4-0711-46bd-88f1-a4c87d8723db/medium.jpeg",
+      "https://images.cdn.appfolio.com/alpinepropmgmt/images/d9940ea7-e6fa-4405-86d9-025fe83b9988/medium.jpeg"
+    ],
+    "wd": "onsite",
+    "park": "offstreet",
+    "dw": "unknown"
   },
   {
     "slug": "4308-4316-e-26th-st-sioux-falls-sd-57103",
@@ -908,58 +903,73 @@ var L = [
   },
   {
     "slug": "sioux-falls-sd-57106-3ae97499",
-    "name": "Sioux Falls, SD 57106",
+    "name": "Teak Apartments",
     "type": "Apartment",
-    "manager": "Bender Midwest",
+    "manager": "Bender Midwest Properties",
     "price_raw": "$870",
     "price": "870",
     "zip": "57106",
     "sfpd": 50,
     "area": "B",
-    "avail": "NOW",
-    "status": "",
+    "avail": "Available Now",
+    "status": "Verified 2026-11-13: Teak Apartments (Bender Midwest), 2BR/1BA 960 sqft, on-site laundry (select homes in-unit), attached garage $45/mo, lease not published.",
     "beds": 2,
     "baths": 1.0,
-    "sqft": null,
+    "sqft": 960,
     "address": "3201 S Westbrooke Ln - 206, Sioux Falls, SD 57106",
     "deposit": "$500",
-    "lease": "",
+    "lease": "unknown (not published)",
     "utils": "unknown",
     "phone": "",
-    "amenities": [],
+    "amenities": [
+      "On-Site Laundry",
+      "Attached Garage ($45/mo)",
+      "Off-Street Parking",
+      "Fitness Center",
+      "Clubhouse",
+      "Pet Friendly"
+    ],
     "url": "https://bendermidwestproperties.appfolio.com/listings/detail/3ae97499-4cbb-4676-a1d0-a37ef8beeb2b",
-    "photo": "https://images.cdn.appfolio.com/bendermidwestproperties/images/826a332c-335f-4a95-96d0-f2cf364be251/large.jpg",
+    "photo": "https://images.cdn.appfolio.com/bendermidwestproperties/images/826a332c-335f-4a95-96d0-f2cf364be251/medium.jpg",
     "photos": [],
-    "wd": "unknown",
-    "park": "unknown",
+    "wd": "onsite",
+    "park": "garage",
     "dw": "unknown"
   },
   {
     "slug": "3304-s-kiwanis-ave-4-sioux-falls-sd-57105-c845e8d3",
-    "name": "3304 S Kiwanis Ave - 4, Sioux Falls, SD 57105",
+    "name": "3304 S Kiwanis Ave #4",
     "type": "Apartment",
-    "manager": "Alpine Prop Mgmt",
-    "price_raw": "$795",
-    "price": "795",
+    "manager": "Alpine Property Management",
+    "price_raw": "$775",
+    "price": "775",
     "zip": "57105",
     "sfpd": 96,
     "area": "C",
-    "avail": "NOW",
-    "status": "",
+    "avail": "Available Now",
+    "status": "Verified 2026-11-13 from Alpine AppFolio listing c845e8d3 (rent $775 ongoing, shared on-site laundry, assigned off-street parking, no dishwasher listed, 12-month lease special).",
     "beds": 2,
     "baths": 1.0,
-    "sqft": null,
+    "sqft": 794,
     "address": "3304 S Kiwanis Ave - 4, Sioux Falls, SD 57105",
     "deposit": "$500",
-    "lease": "",
+    "lease": "12 months",
     "utils": "unknown",
     "phone": "",
-    "amenities": [],
+    "amenities": [
+      "Shared On-Site Laundry",
+      "Assigned Off-Street Parking",
+      "Refrigerator",
+      "Stove"
+    ],
     "url": "https://alpinepropmgmt.appfolio.com/listings/detail/c845e8d3-1e9d-4951-961d-64f876c1a2a7",
-    "photo": "https://images.cdn.appfolio.com/alpinepropmgmt/images/2a474d67-eadd-44b6-9e85-aecff6b1336e/large.jpeg",
-    "photos": [],
-    "wd": "unknown",
-    "park": "unknown",
+    "photo": "https://images.cdn.appfolio.com/alpinepropmgmt/images/07bdad36-e210-498c-b733-72fc42b5daee/large.jpeg",
+    "photos": [
+      "https://images.cdn.appfolio.com/alpinepropmgmt/images/07bdad36-e210-498c-b733-72fc42b5daee/large.jpeg",
+      "https://images.cdn.appfolio.com/alpinepropmgmt/images/1710ca2e-fa73-44b9-988d-42a1295c2044/medium.jpeg"
+    ],
+    "wd": "shared",
+    "park": "offstreet",
     "dw": "unknown"
   },
   {
@@ -1160,30 +1170,37 @@ var L = [
   },
   {
     "slug": "sioux-falls-sd-57106-69514ec3",
-    "name": "Sioux Falls, SD 57106",
+    "name": "Teak Apartments",
     "type": "Apartment",
-    "manager": "Bender Midwest",
+    "manager": "Bender Midwest Properties",
     "price_raw": "$875",
     "price": "875",
     "zip": "57106",
     "sfpd": 94,
     "area": "C",
-    "avail": "",
-    "status": "",
+    "avail": "unknown",
+    "status": "Verified 2026-11-13: Teak Apartments (Bender Midwest), 2BR/1BA 960 sqft, on-site laundry (select homes in-unit), attached garage $45/mo, lease not published.",
     "beds": 2,
     "baths": 1.0,
-    "sqft": null,
+    "sqft": 960,
     "address": "3204 S Westbrooke Ln - 100, Sioux Falls, SD 57106",
     "deposit": "$500",
-    "lease": "",
+    "lease": "unknown (not published)",
     "utils": "unknown",
     "phone": "",
-    "amenities": [],
+    "amenities": [
+      "On-Site Laundry",
+      "Attached Garage ($45/mo)",
+      "Off-Street Parking",
+      "Fitness Center",
+      "Clubhouse",
+      "Pet Friendly"
+    ],
     "url": "https://bendermidwestproperties.appfolio.com/listings/detail/69514ec3-0899-4bba-89b8-a44ff9add843",
-    "photo": "https://images.cdn.appfolio.com/bendermidwestproperties/images/826a332c-335f-4a95-96d0-f2cf364be251/large.jpg",
+    "photo": "https://images.cdn.appfolio.com/bendermidwestproperties/images/9fda4194-95aa-493c-a559-bb6d787be8b1/medium.jpg",
     "photos": [],
-    "wd": "unknown",
-    "park": "unknown",
+    "wd": "onsite",
+    "park": "garage",
     "dw": "unknown"
   },
   {
