@@ -2470,7 +2470,11 @@ document.addEventListener('click',function(e){
   openModal(c.dataset.slug);
 });
 /* deep link: #leaderboard opens the leaderboard view */
-if((location.hash||'').replace('#','')==='leaderboard') kbSetView('kb');
+var _kbh=(location.hash||'').replace('#','').split('?')[0];
+if(_kbh==='leaderboard') kbSetView('kb');
+/* keep the URL shareable when the menu is used */
+document.getElementById('navKb').addEventListener('click',function(){history.replaceState(null,'','#leaderboard');});
+document.getElementById('navBoard').addEventListener('click',function(){history.replaceState(null,'','#board');});
 
 paint();
 </script>
