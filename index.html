@@ -27,8 +27,7 @@ button{font-family:inherit;}
 
 /* ---------- HEADER ---------- */
 .hd{display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:14px;}
-.hd h1{font-size:1.3rem;margin:0 0 3px;letter-spacing:-.5px;font-weight:800;}
-.hd .sub{color:var(--muted);font-size:.72rem;line-height:1.6;max-width:700px;}
+.hd h1{font-size:1.3rem;margin:0 0 3px;letter-spacing:-.5px;font-weight:800;}.hd .sub{color:var(--muted);line-height:1.6;}
 .hd .sub b{color:var(--text);font-weight:600;}
 .hd-r{margin-left:auto;text-align:right;}
 .big{font-size:1.9rem;font-weight:800;letter-spacing:-1px;line-height:1;color:var(--ok);}
@@ -64,9 +63,7 @@ button{font-family:inherit;}
 
 .c{background:var(--surface);border:1px solid var(--line-soft);border-radius:14px;
   overflow:hidden;display:flex;flex-direction:column;cursor:pointer;
-  transition:transform .15s,border-color .15s,box-shadow .15s;position:relative;}
-.c:hover{transform:translateY(-3px);border-color:var(--line);
-  box-shadow:0 10px 30px rgba(0,0,0,.5);}
+  transition:transform .15s,border-color .15s,box-shadow .15s;position:relative;}.c:hover{transform:translateY(-3px);border-color:var(--line);}
 .c.hid{display:none;}
 .c.pick{border-color:rgba(62,207,110,.45);}
 
@@ -158,9 +155,7 @@ button{font-family:inherit;}
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   font-weight:900;border:1px solid rgba(255,255,255,.12);backdrop-filter:blur(8px);}
 .sh-g .n{font-size:1.2rem;line-height:1;}
-.sh-g .c{font-size:.5rem;letter-spacing:.4px;font-weight:800;opacity:.85;}
-.sh-b{padding:14px 16px 22px;}
-.sh-t{font-size:1.12rem;font-weight:800;letter-spacing:-.4px;line-height:1.25;}
+.sh-g .c{font-size:.5rem;letter-spacing:.4px;font-weight:800;opacity:.85;}.sh-t{font-weight:800;letter-spacing:-.4px;line-height:1.25;}
 .sh-s{color:var(--muted);font-size:.72rem;margin:3px 0 12px;line-height:1.6;}
 .sh-sec{font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;
   font-weight:800;margin:15px 0 7px;}
@@ -204,19 +199,16 @@ button{font-family:inherit;}
 .card-vote{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap;justify-content:space-between}
 .card-vote .vb{border:none;background:var(--surface2);color:var(--muted);width:26px;height:26px;border-radius:7px;cursor:pointer;font-size:.85rem;font-weight:800;transition:.12s}
 .card-vote .vb:hover{background:#21262d;color:var(--text)}
-.card-vote .vb.on-up{color:#3ecf6e}
-.card-vote .vb.on-dn{color:#f4675c}
-.card-vote .vlk{color:var(--warn);font-size:.8rem;padding:0 4px}
-.card-vote .vlk.on{color:#e0a83c}
 .card-view{margin-top:16px;border:1px solid var(--line-soft);border-radius:12px;background:var(--surface);overflow:hidden}
 .card-view h3{font-size:.78rem;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);padding:12px 14px 8px;font-weight:800;border-bottom:1px solid var(--line-soft)}
-.card-view ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
-.card-view li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--line-soft);font-size:.78rem}
+.card-view ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}.card-view li{display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--line-soft);}
 .card-view li:last-child{border-bottom:none}
 .card-view li .nm{color:var(--text);font-weight:600;white-space:nowrap}
 .card-view li .pr{color:var(--muted);font-size:.7rem;white-space:nowrap}
 .card-view li .pr.lk{color:#e0a83c}
 .card-view li .pr.v{margin-left:auto;color:#3ecf6e;font-weight:800}
+.card-view li .pr.up{color:#3ecf6e}
+.card-view li .pr.dn{color:#f4675c}
 .card-view:empty{display:none}
 .yv-row{display:flex;justify-content:space-between;gap:18px;padding:7px 14px;border-bottom:1px solid var(--line-soft)}
 ul{list-style:none;padding:0;margin:0}
@@ -229,7 +221,6 @@ ul{list-style:none;padding:0;margin:0}
   background:rgba(7,10,15,.75);color:var(--text);font-size:.85rem;font-weight:800;
   cursor:pointer;display:flex;align-items:center;justify-content:center;
   backdrop-filter:blur(6px);transition:.12s;opacity:1;}
-.ph-gall:hover .ph-arrow{opacity:1;}
 .ph-gall .ph-arrow:hover{background:rgba(7,10,15,.95);border-color:var(--accent);}
 .ph-gall .ph-prev{left:8px;}
 .ph-gall .ph-next{right:8px;}
@@ -448,6 +439,9 @@ body.kb-winners-on #arch,body.kb-winners-on #unv,body.kb-winners-on .card-view{d
   padding:5px 7px;font-size:.62rem;color:var(--muted);min-height:22px;outline:none;line-height:1.4;}
 .kb-note:focus{border-color:var(--accent);color:var(--text);}
 .kb-note:empty:before{content:'Add a note...';color:var(--muted2);}
+.kb-reset{background:var(--surface2);border:1px solid var(--line);color:var(--muted);padding:7px 11px;
+  border-radius:8px;font-size:.68rem;font-weight:700;cursor:pointer;white-space:nowrap;flex-shrink:0}
+.kb-reset:hover{color:var(--text);border-color:var(--accent)}
 .kb-empty{color:var(--muted2);font-size:.66rem;text-align:center;padding:22px 10px;font-weight:700;}
 
 </style>
@@ -466,6 +460,7 @@ body.kb-winners-on #arch,body.kb-winners-on #unv,body.kb-winners-on .card-view{d
       <h2>Shortlist leaderboard</h2>
       <input class="kb-q" id="kbQ" type="text" placeholder="Filter names&hellip;" aria-label="Filter leaderboard">
       <div class="kb-stats" id="kbStats"></div>
+      <button class="kb-reset" id="kbReset" type="button" title="Undo your drag moves (notes are kept)">Reset my sorting</button>
     </div>
     <div class="kb-cols">
       <div class="kb-col w">
@@ -2385,6 +2380,7 @@ document.head.appendChild(style);
    Empty arrays = fall back to the automatic ranking. */
 var PICK={w:[],l:[]};
 var KBK='housing-leaderboard-v1';
+var KBLAST={};
 function kbLoad(){
   try{
     var s=JSON.parse(localStorage.getItem(KBK));
@@ -2431,22 +2427,40 @@ function kbAssign(rows){
   cols.w=pinW.concat(good.slice(0,slots));
   cols.p=good.slice(slots);
   cols.l=pinL.concat(bad);
+  KBLAST={};
+  ['w','p','l'].forEach(function(k){cols[k].forEach(function(o){KBLAST[o.slug]=k;});});
   return cols;
 }
-function kbCol(o){
-  var i=PICK.w.indexOf(o.slug); if(i>=0) return {c:'w',pin:true};
-  i=PICK.l.indexOf(o.slug);  if(i>=0) return {c:'l',pin:true};
-  if(KBS.over[o.slug]) return {c:KBS.over[o.slug],pin:false};
-  /* placement for unpinned rows is decided globally by kbAssign() */
-  return {c:'p',pin:false};
+/* keyboard access: Enter opens detail, Alt+Arrow moves the card between columns */
+function kbMove(slug,dir){
+  if(!KBLAST[slug]||kbPin(bySlug(slug)))return;
+  var order=['w','p','l'];
+  var i=order.indexOf(KBLAST[slug])+dir;
+  if(i<0||i>=order.length)return;
+  KBS.over[slug]=order[i]; kbSave(); kbRender();
+  var el=document.querySelector('.kb-card[data-slug="'+slug+'"]');
+  if(el)el.focus();
+}
+document.addEventListener('keydown',function(e){
+  var c=e.target&&e.target.classList?e.target.classList.contains('kb-card'):null;
+  if(!c)return;
+  var slug=e.target.dataset.slug;
+  if(e.key==='Enter'||e.key===' '){e.preventDefault();openModal(slug);return;}
+  if(!e.altKey)return;
+  if(e.key==='ArrowLeft'){e.preventDefault();kbMove(slug,-1);}
+  else if(e.key==='ArrowRight'){e.preventDefault();kbMove(slug,1);}
+});
+/* only PIN status is needed here - column placement happens in kbAssign() */
+function kbPin(o){
+  return PICK.w.indexOf(o.slug)>=0 || PICK.l.indexOf(o.slug)>=0;
 }
 function kbCard(o,rank){
   var g=grade(o.sfpd);
   var photos=o.photos&&o.photos.length?o.photos:(o.photo?[o.photo]:[]);
-  var col=kbCol(o);
+  var pin=kbPin(o);
   var ph=photos.length?'<img src="'+esc(photos[0])+'" alt="" loading="lazy">'
                      :'<div class="np">NO PHOTO</div>';
-  return '<div class="kb-card'+(col.pin?' pinned':'')+'" draggable="true" data-slug="'+esc(o.slug)+'">'+
+  return '<div class="kb-card'+(pin?' pinned':'')+'" draggable="true" tabindex="0" role="button" aria-label="'+esc(o.name)+'" data-slug="'+esc(o.slug)+'">'+
     '<div class="kb-ph">'+ph+'<span class="kb-rk">#'+rank+'</span>'+
       '<div class="gr '+g.c+'" title="'+esc(g.t)+'">'+g.g+'</div></div>'+
     '<div class="kb-b"><div class="kb-t">'+esc(o.name)+'</div>'+
@@ -2454,7 +2468,7 @@ function kbCard(o,rank){
       '<div class="kb-m">'+esc(o.address||'')+'</div>'+
       '<div class="kb-f">'+esc(o.deposit||'deposit unknown')+'</div>'+
       '<div class="kb-note" data-slug="'+esc(o.slug)+'" contenteditable="true">'+esc(KBS.notes[o.slug]||'')+'</div>'+
-      (col.pin?'<span class="kb-pin">pinned</span>':'')+
+      (pin?'<span class="kb-pin">pinned</span>':'')+
     '</div></div>';
 }
 function kbRender(){
@@ -2548,6 +2562,7 @@ document.querySelector('.kb-nav').addEventListener('click',function(e){
 window.addEventListener('hashchange',function(){setView(curView());});
 document.getElementById('kbQ').addEventListener('input',kbRender);
 document.getElementById('wnQ').addEventListener('input',wnRender);
+document.getElementById('kbReset').addEventListener('click',function(){KBS.over={};kbSave();kbRender();});
 document.addEventListener('blur',function(e){
   if(!(e.target&&e.target.classList&&e.target.classList.contains('kb-note')))return;
   var sl=e.target.dataset.slug; KBS.notes[sl]=e.target.innerText.trim(); kbSave();
