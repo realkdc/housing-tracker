@@ -2391,7 +2391,8 @@ function kbCol(o){
   var i=PICK.w.indexOf(o.slug); if(i>=0) return {c:'w',pin:true};
   i=PICK.l.indexOf(o.slug);  if(i>=0) return {c:'l',pin:true};
   if(KBS.over[o.slug]) return {c:KBS.over[o.slug],pin:false};
-  return {c:kbAuto(o),pin:false};
+  /* placement for unpinned rows is decided globally by kbAssign() */
+  return {c:'p',pin:false};
 }
 function kbCard(o,rank){
   var g=grade(o.sfpd);
