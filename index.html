@@ -363,38 +363,7 @@ body.kb-on .hd,body.kb-on .bar,body.kb-on #grid,body.kb-on #none,
 body.kb-on #arch,body.kb-on #unv,body.kb-on .card-view{display:none!important;}
 body.kb-winners-on .hd,body.kb-winners-on .bar,body.kb-winners-on #grid,body.kb-winners-on #none,
 body.kb-winners-on #arch,body.kb-winners-on #unv,body.kb-winners-on .card-view{display:none!important;}
-.wn-list{display:flex;flex-direction:column;gap:12px;}
-.wn-card{display:flex;gap:14px;background:var(--surface);border:1px solid var(--line-soft);
-  border-radius:14px;overflow:hidden;position:relative;}
-.wn-card.pinned{border-color:rgba(255,210,74,.45);}
-.wn-ph{position:relative;width:230px;flex-shrink:0;background:var(--surface2);}
-.wn-ph img{width:100%;height:100%;object-fit:cover;display:block;}
-.wn-ph .np{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
-  color:var(--muted2);font-size:.6rem;font-weight:700;letter-spacing:.4px;}
-.wn-ph .gr{top:8px;right:8px;width:26px;height:26px;border-radius:7px;font-size:.75rem;}
-.wn-rk{position:absolute;left:8px;top:8px;background:rgba(7,10,15,.85);backdrop-filter:blur(6px);
-  border:1px solid rgba(255,255,255,.12);color:var(--text);font-size:.62rem;font-weight:800;
-  padding:3px 8px;border-radius:6px;}
-.wn-b{padding:13px 15px;flex:1;min-width:0;}
-.wn-t{font-size:.95rem;font-weight:800;letter-spacing:-.3px;line-height:1.3;}
-.wn-m{color:var(--muted);font-size:.66rem;line-height:1.55;margin-top:3px;}
-.wn-f{margin-top:7px;font-size:.68rem;color:var(--warn);font-weight:700;}
-.wn-note{margin-top:9px;background:var(--surface3);border:1px solid var(--line-soft);border-radius:8px;
-  padding:6px 9px;font-size:.66rem;color:var(--muted);min-height:26px;outline:none;line-height:1.45;}
-.wn-note:focus{border-color:var(--accent);color:var(--text);}
-.wn-note:empty:before{content:'Add a note...';color:var(--muted2);}
-.wn-acts{display:flex;gap:8px;margin-top:11px;flex-wrap:wrap;}
-.wn-a{background:var(--surface2);border:1px solid var(--line);color:var(--text);padding:8px 13px;
-  border-radius:9px;font-size:.7rem;font-weight:800;text-decoration:none;cursor:pointer;}
-.wn-a.pri{background:var(--accent);color:#08111f;border-color:var(--accent);}
-.wn-pin{position:absolute;right:12px;top:11px;font-size:.54rem;font-weight:800;text-transform:uppercase;
-  letter-spacing:.5px;color:#ffd24a;background:rgba(7,10,15,.8);padding:3px 8px;border-radius:6px;
-  border:1px solid rgba(255,210,74,.3);}
-.wn-empty{color:var(--muted2);font-size:.72rem;text-align:center;padding:34px 16px;font-weight:700;
-  background:var(--surface);border:1px dashed var(--line-soft);border-radius:12px;}
-@media(max-width:640px){
-  .wn-card{flex-direction:column;}
-  .wn-ph{width:100%;aspect-ratio:16/9;}
+
 }
 .kb-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
 .kb-head h2{font-size:1.05rem;margin:0;font-weight:800;letter-spacing:-.3px;}
@@ -402,7 +371,16 @@ body.kb-winners-on #arch,body.kb-winners-on #unv,body.kb-winners-on .card-view{d
 .kb-stats b{color:var(--text);}
 .kb-q{flex:1;min-width:140px;max-width:240px;background:var(--surface2);border:1px solid var(--line);
   color:var(--text);padding:7px 11px;border-radius:8px;font-size:.72rem;}
-.kb-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;align-items:start;}
+.kb-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start;}
+/* ranked pool: horizontal rail above the decision board */
+.kb-rail-wrap{margin-bottom:12px;background:var(--surface);border:1px solid var(--line-soft);
+  border-radius:12px;overflow:hidden}
+.kb-rail{display:flex;gap:8px;overflow-x:auto;padding:9px;align-items:flex-start;
+  outline:2px dashed transparent;outline-offset:-2px;transition:background .12s,outline .12s;
+  -webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.kb-rail.over{background:var(--surface2);outline-color:var(--accent)}
+.kb-rail .kb-card{width:206px;flex:0 0 206px}
+.kb-rail .kb-empty{white-space:normal;min-width:200px;justify-content:center;text-align:center}
 @media(max-width:900px){.kb-cols{grid-template-columns:1fr;}}
 .kb-col{background:var(--surface);border:1px solid var(--line-soft);border-radius:12px;
   display:flex;flex-direction:column;min-height:220px;overflow:hidden;}
@@ -420,7 +398,7 @@ body.kb-winners-on #arch,body.kb-winners-on #unv,body.kb-winners-on .card-view{d
   overflow:hidden;cursor:grab;position:relative;}
 .kb-card:active{cursor:grabbing;}
 .kb-card.pinned{border-color:rgba(255,210,74,.45);}
-.kb-ph{position:relative;aspect-ratio:16/9;background:var(--surface3);}
+.kb-ph{position:relative;aspect-ratio:4/3;background:var(--surface3);}
 .kb-ph img{width:100%;height:100%;object-fit:cover;display:block;}
 .kb-ph .np{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
   color:var(--muted2);font-size:.6rem;font-weight:700;letter-spacing:.4px;}
@@ -428,15 +406,15 @@ body.kb-winners-on #arch,body.kb-winners-on #unv,body.kb-winners-on .card-view{d
   border:1px solid rgba(255,255,255,.12);color:var(--text);font-size:.6rem;font-weight:800;
   padding:3px 7px;border-radius:6px;}
 .kb-ph .gr{top:8px;right:8px;width:24px;height:24px;border-radius:7px;font-size:.72rem;}
-.kb-b{padding:8px 9px 9px;}
-.kb-t{font-size:.76rem;font-weight:800;letter-spacing:-.2px;line-height:1.3;}
-.kb-m{color:var(--muted);font-size:.62rem;line-height:1.5;margin-top:2px;}
-.kb-f{margin-top:5px;font-size:.62rem;color:var(--warn);font-weight:700;}
+.kb-b{padding:7px 8px 8px;}
+.kb-t{font-size:.72rem;font-weight:800;letter-spacing:-.2px;line-height:1.3;}
+.kb-m{color:var(--muted);font-size:.6rem;line-height:1.5;margin-top:2px;}
+.kb-f{margin-top:4px;font-size:.6rem;color:var(--warn);font-weight:700;}
 .kb-pin{position:absolute;right:8px;bottom:8px;font-size:.52rem;font-weight:800;text-transform:uppercase;
   letter-spacing:.5px;color:#ffd24a;background:rgba(7,10,15,.8);padding:2px 6px;border-radius:5px;
   border:1px solid rgba(255,210,74,.3);}
-.kb-note{margin-top:7px;background:var(--surface3);border:1px solid var(--line-soft);border-radius:7px;
-  padding:5px 7px;font-size:.62rem;color:var(--muted);min-height:22px;outline:none;line-height:1.4;}
+.kb-note{margin-top:5px;background:var(--surface3);border:1px solid var(--line-soft);border-radius:7px;
+  padding:4px 6px;font-size:.6rem;color:var(--muted);min-height:20px;outline:none;line-height:1.4;}
 .kb-note:focus{border-color:var(--accent);color:var(--text);}
 .kb-note:empty:before{content:'Add a note...';color:var(--muted2);}
 .kb-reset{background:var(--surface2);border:1px solid var(--line);color:var(--muted);padding:7px 11px;
@@ -462,14 +440,14 @@ body.kb-winners-on #arch,body.kb-winners-on #unv,body.kb-winners-on .card-view{d
       <div class="kb-stats" id="kbStats"></div>
       <button class="kb-reset" id="kbReset" type="button" title="Undo your drag moves (notes are kept)">Reset my sorting</button>
     </div>
+    <div class="kb-rail-wrap">
+      <div class="kb-ch p"><h3>Ranked</h3><span class="n" id="kbNp">0</span></div>
+      <div class="kb-rail" id="kbRail" data-col="p"></div>
+    </div>
     <div class="kb-cols">
       <div class="kb-col w">
         <div class="kb-ch w"><h3>Winners</h3><span class="n" id="kbNw">0</span></div>
         <div class="kb-body" data-col="w" id="kbCw"></div>
-      </div>
-      <div class="kb-col p">
-        <div class="kb-ch p"><h3>Ranked</h3><span class="n" id="kbNp">0</span></div>
-        <div class="kb-body" data-col="p" id="kbCp"></div>
       </div>
       <div class="kb-col l">
         <div class="kb-ch l"><h3>Not a fit</h3><span class="n" id="kbNl">0</span></div>
@@ -484,8 +462,16 @@ body.kb-winners-on #arch,body.kb-winners-on #unv,body.kb-winners-on .card-view{d
       <input class="kb-q" id="wnQ" type="text" placeholder="Filter names&hellip;" aria-label="Filter winners">
       <div class="kb-stats" id="wnStats"></div>
     </div>
-    <div class="wn-list" id="wnList"></div>
-    <div class="wn-empty" id="wnEmpty" style="display:none">No winners pinned yet. Tell the agent which properties to pin and they appear here for everyone who opens this page.</div>
+    <div class="kb-cols">
+      <div class="kb-col w">
+        <div class="kb-ch w"><h3>Winners</h3><span class="n" id="wnNw">0</span></div>
+        <div class="kb-body" id="wnCw"></div>
+      </div>
+      <div class="kb-col l">
+        <div class="kb-ch l"><h3>Not a fit</h3><span class="n" id="wnNl">0</span></div>
+        <div class="kb-body" id="wnCl"></div>
+      </div>
+    </div>
   </div>
 
 
@@ -2410,23 +2396,19 @@ function kbBad(o){
   if(avS(o)[2]==='no') return true;
   return false;
 }
-var KB_AUTO_W=6;
 function kbAssign(rows){
+  /* Winners and Not-a-fit hold ONLY hard-coded pins plus the reader's own drag
+     moves. Nothing is auto-promoted into Winners - KeShaun names the winners. */
   var pinW=PICK.w.map(bySlug).filter(Boolean);
   var pinL=PICK.l.map(bySlug).filter(Boolean);
-  var cols={w:pinW,l:pinL,p:[]},auto=[];
+  var cols={w:pinW,l:pinL,p:[]};
   rows.forEach(function(o){
     if(PICK.w.indexOf(o.slug)>=0||PICK.l.indexOf(o.slug)>=0)return;
     if(KBS.over[o.slug]&&cols[KBS.over[o.slug]])cols[KBS.over[o.slug]].push(o);
-    else auto.push(o);
+    else if(kbBad(o))cols.l.push(o);
+    else cols.p.push(o);
   });
-  auto.sort(function(a,b){return kbScore(b)-kbScore(a);});
-  var good=auto.filter(function(o){return !kbBad(o);});
-  var bad=auto.filter(kbBad);
-  var slots=Math.max(0,KB_AUTO_W-pinW.length);
-  cols.w=pinW.concat(good.slice(0,slots));
-  cols.p=good.slice(slots);
-  cols.l=pinL.concat(bad);
+  cols.p.sort(function(a,b){return kbScore(b)-kbScore(a);});
   KBLAST={};
   ['w','p','l'].forEach(function(k){cols[k].forEach(function(o){KBLAST[o.slug]=k;});});
   return cols;
@@ -2454,13 +2436,13 @@ document.addEventListener('keydown',function(e){
 function kbPin(o){
   return PICK.w.indexOf(o.slug)>=0 || PICK.l.indexOf(o.slug)>=0;
 }
-function kbCard(o,rank){
+function kbCard(o,rank,drag){
   var g=grade(o.sfpd);
   var photos=o.photos&&o.photos.length?o.photos:(o.photo?[o.photo]:[]);
   var pin=kbPin(o);
   var ph=photos.length?'<img src="'+esc(photos[0])+'" alt="" loading="lazy">'
                      :'<div class="np">NO PHOTO</div>';
-  return '<div class="kb-card'+(pin?' pinned':'')+'" draggable="true" tabindex="0" role="button" aria-label="'+esc(o.name)+'" data-slug="'+esc(o.slug)+'">'+
+  return '<div class="kb-card'+(pin?' pinned':'')+'" draggable="'+(drag===false?'false':'true')+'" tabindex="0" role="button" aria-label="'+esc(o.name)+'" data-slug="'+esc(o.slug)+'">'+
     '<div class="kb-ph">'+ph+'<span class="kb-rk">#'+rank+'</span>'+
       '<div class="gr '+g.c+'" title="'+esc(g.t)+'">'+g.g+'</div></div>'+
     '<div class="kb-b"><div class="kb-t">'+esc(o.name)+'</div>'+
@@ -2474,64 +2456,45 @@ function kbCard(o,rank){
 function kbRender(){
   var q=(document.getElementById('kbQ').value||'').toLowerCase().trim();
   var rows=L.filter(function(o){return !o.removed;});
-  if(q) rows=rows.filter(function(o){return (o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase().indexOf(q)>=0;});
+  if(q)rows=rows.filter(function(o){return (o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase().indexOf(q)>=0;});
   var cols=kbAssign(rows);
-  ['w','p','l'].forEach(function(k){
+  /* ranked pool rides in a horizontal rail above the decision board */
+  document.getElementById('kbRail').innerHTML=cols.p.length
+    ?cols.p.map(function(o,i){return kbCard(o,i+1);}).join('')
+    :'<div class="kb-empty">Nothing left to rank - every live listing already sits in a column.</div>';
+  document.getElementById('kbNp').textContent=cols.p.length;
+  ['w','l'].forEach(function(k){
     var el=document.getElementById('kbC'+k);
     el.innerHTML=cols[k].length?cols[k].map(function(o,i){return kbCard(o,i+1);}).join('')
-                             :'<div class="kb-empty">Drop cards here</div>';
+                           :'<div class="kb-empty">'+(k==='w'
+                               ?'No winners yet.<br>Tell the agent which properties win.'
+                               :'Nothing marked not-a-fit.')+'</div>';
     document.getElementById('kbN'+k).textContent=cols[k].length;
   });
-  var auto=rows.filter(function(o){return PICK.w.indexOf(o.slug)<0&&PICK.l.indexOf(o.slug)<0&&!KBS.over[o.slug];}).length;
   document.getElementById('kbStats').innerHTML=
     '<span><b>'+rows.length+'</b> live</span>'+
     '<span><b>'+cols.w.length+'</b> winners</span>'+
     '<span><b>'+cols.l.length+'</b> not a fit</span>'+
-    '<span><b>'+auto+'</b> auto-ranked</span>';
+    '<span><b>'+cols.p.length+'</b> ranked</span>';
 }
 /* ---------- winners page ---------- */
-function wnPicks(){
-  var pinned=PICK.w.map(bySlug).filter(Boolean);
-  if(pinned.length)return {rows:pinned,pinned:true};
-  /* nothing hard-coded yet -> automatic top picks, labelled as such */
-  var rest=L.filter(function(o){return !o.removed;})
-             .sort(function(a,b){return kbScore(b)-kbScore(a);});
-  return {rows:rest.slice(0,KB_AUTO_W),pinned:false};
-}
-function wnCard(o,rank,ispin){
-  var g=grade(o.sfpd);
-  var photos=o.photos&&o.photos.length?o.photos:(o.photo?[o.photo]:[]);
-  var ph=photos.length?'<img src="'+esc(photos[0])+'" alt="" loading="lazy">'
-                     :'<div class="np">NO PHOTO</div>';
-  var url=o.url||'';
-  return '<div class="wn-card'+(ispin?' pinned':'')+'">'+
-    '<div class="wn-ph">'+ph+'<span class="wn-rk">#'+rank+'</span>'+
-      '<div class="gr '+g.c+'" title="'+esc(g.t)+'">'+g.g+'</div></div>'+
-    '<div class="wn-b"><div class="wn-t">'+esc(o.name)+'</div>'+
-      '<div class="wn-m">$'+esc(o.price_raw)+' &middot; '+(o.beds==null?'?':o.beds)+'BR/'+(o.baths==null?'?':o.baths)+'BA &middot; '+(o.sqft||'?')+' sf &middot; '+esc(o.address||'')+'</div>'+
-      '<div class="wn-m">Deposit: '+esc(o.deposit||'unknown')+' &middot; SFPD '+g.g+' ('+(o.sfpd==null?'unscored':o.sfpd+' calls/90d')+')</div>'+
-      (o.status?'<div class="wn-m">'+esc(o.status)+'</div>':'')+
-      '<div class="wn-f">'+esc(verdict(o).txt)+'</div>'+
-      '<div class="kb-note" data-slug="'+esc(o.slug)+'" contenteditable="true">'+esc(KBS.notes[o.slug]||'')+'</div>'+
-      '<div class="wn-acts">'+
-        (url?'<a class="wn-a pri" href="'+esc(url)+'" target="_blank" rel="noopener">View listing</a>':'')+
-        '<a class="wn-a" href="#leaderboard">Open in leaderboard</a>'+
-      '</div>'+
-      (ispin?'<span class="wn-pin">pinned</span>':'')+
-    '</div></div>';
-}
 function wnRender(){
   var q=(document.getElementById('wnQ').value||'').toLowerCase().trim();
-  var pk=wnPicks(), rows=pk.rows;
-  if(q)rows=rows.filter(function(o){return (o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase().indexOf(q)>=0;});
-  document.getElementById('wnList').innerHTML=rows.length
-    ?rows.map(function(o,i){return wnCard(o,i+1,pk.pinned);}).join('')
-    :'';
-  document.getElementById('wnEmpty').style.display=rows.length?'none':'';
+  function pick(list){return list.map(bySlug).filter(Boolean)
+    .filter(function(o){return !q||(o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase().indexOf(q)>=0;});}
+  var w=pick(PICK.w), l=pick(PICK.l);
+  document.getElementById('wnCw').innerHTML=w.length
+    ?w.map(function(o,i){return kbCard(o,i+1,false);}).join('')
+    :'<div class="kb-empty">No winners pinned yet.<br>Tell the agent which properties win and they land here.</div>';
+  document.getElementById('wnCl').innerHTML=l.length
+    ?l.map(function(o,i){return kbCard(o,i+1,false);}).join('')
+    :'<div class="kb-empty">Nothing pinned as not-a-fit.</div>';
+  document.getElementById('wnNw').textContent=w.length;
+  document.getElementById('wnNl').textContent=l.length;
   document.getElementById('wnStats').innerHTML=
-    '<span><b>'+rows.length+'</b> shown</span>'+
-    '<span><b>'+PICK.w.length+'</b> hard-coded</span>'+
-    '<span>'+(pk.pinned?'pinned order':'auto-ranked top '+rows.length)+'</span>';
+    '<span><b>'+w.length+'</b> winners</span>'+
+    '<span><b>'+l.length+'</b> not a fit</span>'+
+    '<span>hard-coded pins only</span>';
 }
 
 /* ---------- view router: ONE function decides which page shows ---------- */
@@ -2576,7 +2539,7 @@ document.addEventListener('dragstart',function(e){
   e.dataTransfer.setData('text/plain',c.dataset.slug);
   e.dataTransfer.effectAllowed='move';
 },true);
-document.querySelectorAll('.kb-body').forEach(function(b){
+document.querySelectorAll('.kb-body,#kbRail').forEach(function(b){
   b.addEventListener('dragover',function(e){e.preventDefault();b.classList.add('over');});
   b.addEventListener('dragleave',function(){b.classList.remove('over');});
   b.addEventListener('drop',function(e){
