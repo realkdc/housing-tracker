@@ -2358,10 +2358,34 @@ function kbScore(o){
   s+=avS(o)[2]==='ok'?10:-10;
   return s;
 }
-function kbAuto(o){
-  if(verdict(o).cls==='hard') return 'l';
-  if(avS(o)[2]==='no') return 'l';
-  return kbScore(o)>=75?'w':'p';
+/* "Not a fit" = genuinely disqualified (over ceiling, under 2BR, excluded zip,
+   no longer available). Safety grade is NOT a disqualifier - KeShaun has chosen
+   grade-D units himself, so grade only affects the score, not eligibility. */
+function kbBad(o){
+  if(pnum(o.price)>900) return true;
+  if(o.beds!=null&&o.beds<2) return true;
+  if(o.zip==='57104') return true;
+  if(avS(o)[2]==='no') return true;
+  return false;
+}
+var KB_AUTO_W=6;
+function kbAssign(rows){
+  var pinW=PICK.w.map(bySlug).filter(Boolean);
+  var pinL=PICK.l.map(bySlug).filter(Boolean);
+  var cols={w:pinW,l:pinL,p:[]},auto=[];
+  rows.forEach(function(o){
+    if(PICK.w.indexOf(o.slug)>=0||PICK.l.indexOf(o.slug)>=0)return;
+    if(KBS.over[o.slug]&&cols[KBS.over[o.slug]])cols[KBS.over[o.slug]].push(o);
+    else auto.push(o);
+  });
+  auto.sort(function(a,b){return kbScore(b)-kbScore(a);});
+  var good=auto.filter(function(o){return !kbBad(o);});
+  var bad=auto.filter(kbBad);
+  var slots=Math.max(0,KB_AUTO_W-pinW.length);
+  cols.w=pinW.concat(good.slice(0,slots));
+  cols.p=good.slice(slots);
+  cols.l=pinL.concat(bad);
+  return cols;
 }
 function kbCol(o){
   var i=PICK.w.indexOf(o.slug); if(i>=0) return {c:'w',pin:true};
@@ -2390,10 +2414,8 @@ function kbRender(){
   var q=(document.getElementById('kbQ').value||'').toLowerCase().trim();
   var rows=L.filter(function(o){return !o.removed;});
   if(q) rows=rows.filter(function(o){return (o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase().indexOf(q)>=0;});
-  var cols={w:[],p:[],l:[]};
-  rows.forEach(function(o){cols[kbCol(o).c].push(o);});
+  var cols=kbAssign(rows);
   ['w','p','l'].forEach(function(k){
-    cols[k].sort(function(a,b){return kbScore(b)-kbScore(a);});
     var el=document.getElementById('kbC'+k);
     el.innerHTML=cols[k].length?cols[k].map(function(o,i){return kbCard(o,i+1);}).join('')
                              :'<div class="kb-empty">Drop cards here</div>';
