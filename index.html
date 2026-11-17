@@ -2120,8 +2120,8 @@ function grade(n){
 }
 function wdS(o){
   if(o.wd==='inunit')  return ['In-unit','y','Washer and dryer inside the unit'];
-  if(o.wd==='onsite')  return ['On-site','mid','Shared laundry room in the building'];
-  if(o.wd==='shared')  return ['Shared','n','Laundry is shared, not in the unit'];
+  if(o.wd==='onsite')  return ['On-site','mid','Shared laundry room in the building - acceptable when parking is included'];
+  if(o.wd==='shared')  return ['Shared','mid','Laundry is shared, not in the unit - acceptable when parking is included'];
   return ['?','u','Could not verify from any public page'];
 }
 function pkS(o){
@@ -2131,7 +2131,9 @@ function pkS(o){
   return ['?','u','Could not verify'];
 }
 function dwS(o){
-  return o.dw==='yes' ? ['Dish','y','Dishwasher in unit'] : ['?','u','Could not verify'];
+  if(o.dw==='yes') return ['Dish','y','Dishwasher in unit'];
+  if(o.dw==='no')  return ['No dish','n','The manager does not list a dishwasher for this unit'];
+  return ['?','u','Could not verify'];
 }
 function avS(o){
   var a=(o.avail||'').toLowerCase();
@@ -2143,8 +2145,9 @@ function avS(o){
 }
 function gateFails(o){
   var f=[];
-  // Lenient: allow inunit or onsite W/D
-  if(o.wd!=='inunit'&&o.wd!=='onsite') f.push('no W/D');
+  // Shared/on-site laundry is acceptable when garage or off-street parking exists.
+  if(o.wd!=='inunit'&&o.wd!=='onsite'&&o.wd!=='shared') f.push('no W/D');
+  else if(o.wd!=='inunit'&&o.park!=='garage'&&o.park!=='offstreet') f.push('no in-unit W/D');
   // Lenient: allow garage, offstreet, or parking
   if(o.park!=='garage'&&o.park!=='offstreet'&&o.park!=='parking') f.push('no parking');
   // Lenient: allow any dw value or undefined
@@ -2159,13 +2162,22 @@ function gateUnverified(o){
   var u=[];
   var ls=leaseState(o);
   if(ls.ok===null) u.push('lease unverified');
-  if(o.wd==='unknown') u.push('W/D unverified');
-  if(o.park==='unknown') u.push('parking unverified');
-  if(o.dw==='unknown') u.push('dishwasher unverified');
+  if(!o.wd||o.wd==='unknown') u.push('W/D unverified');
+  if(!o.park||o.park==='unknown') u.push('parking unverified');
+  if(!o.dw||o.dw==='unknown') u.push('dishwasher unverified');
   if(o.sfpd==null) u.push('safety not scored');
   return u;
 }
-function core(o){ return gateFails(o).length===0 && gateUnverified(o).length===0; }
+/* core = passes every gate AND clears the hard disqualifiers (budget, beds, zip,
+   availability). Without the hard checks a $1,005 unit scored as "core". */
+function core(o){
+  if(!o||o.removed) return false;
+  if(pnum(o.price)>900) return false;
+  if(o.beds!=null&&o.beds<2) return false;
+  if(o.zip==='57104') return false;
+  if(avS(o)[2]==='no') return false;
+  return gateFails(o).length===0 && gateUnverified(o).length===0;
+}
 /* near-miss = available, exactly one gate open, nothing unverified */
 function nearMiss(o){
   if(avS(o)[2]!=='ok') return 0;
@@ -2176,11 +2188,15 @@ function nearMiss(o){
 function leaseState(o){
   var s=String(o.lease||'').toLowerCase();
   if(s.indexOf('unknown')>=0||s.indexOf('not published')>=0||s.indexOf('tbd')>=0||!s) return {ok:null,why:'lease unverified'};
-  if(s.indexOf('m-to-m')>=0||s.indexOf('month-to-month')>=0) return {ok:true,why:''};
+  if(s.indexOf('m-to-m')>=0||s.indexOf('month-to-month')>=0) return {ok:true,why:'month-to-month'};
   var m=s.match(/(\d+)\s*(?:-|\u2013|to)\s*(\d+)\s*months?/);
-  if(m){var lo=+m[1],hi=+m[2];return {ok:(lo<=9&&hi>=6),why:lo<=9?'lease '+lo+'-'+hi+'mo ok':'lease '+lo+'-'+hi+'mo'};}
+  if(m){var lo=+m[1],hi=+m[2];
+    if(hi<6) return {ok:false,why:'lease '+lo+'-'+hi+'mo too short'};
+    return {ok:true,risk:lo>9,why:'lease '+lo+'-'+hi+'mo'+(lo>9?' (12mo+ risk noted)':'')};}
   m=s.match(/(\d+)\+?\s*months?/);
-  if(m){var n=+m[1];return {ok:(n>=6&&n<=9),why:'lease '+n+'mo'};}
+  if(m){var n=+m[1];
+    if(n<6) return {ok:false,why:'lease '+n+'mo too short'};
+    return {ok:true,risk:n>9,why:'lease '+n+'mo'+(n>9?' (12mo+ risk noted)':'')};}
   return {ok:null,why:'lease unverified'};
 }
 function leaseCat(o){
@@ -2223,8 +2239,9 @@ function verdict(o){
     else f.push('dishwasher unverified');
   }
   var ls=leaseState(o);
-  if(ls.ok===false){f.push(ls.why+' (need 6-9)');hard=true;}
+  if(ls.ok===false){f.push(ls.why);hard=true;}
   else if(ls.ok===null) f.push('lease unverified');
+  else if(ls.risk) f.push('12mo+ lease (accepted, risk noted)');
   var g=grade(o.sfpd);
   if(o.sfpd!=null&&(g.g==='C'||g.g==='D')){f.push('SFPD '+g.g+' ('+o.sfpd+')');hard=true;}
   if(o.sfpd==null) f.push('safety not scored');
@@ -2361,13 +2378,23 @@ var LEASE_FILTER='all',DEPOSIT_FILTER='all',TYPE_FILTER='all';
 function bucket(o){ return o.removed ? 'no' : 'ok'; }
 function pass(o){return true;}
 function render(){
-  var live=L;
   var gone=L.filter(function(o){return bucket(o)==='no';});
   var unv =L.filter(function(o){return bucket(o)==='unk';});
-  var shown=live.filter(function(o){
-    return !o.removed && (!QUERY||(o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase().indexOf(QUERY)>=0);});
+  var shown=L.filter(function(o){
+    if(o.removed) return false;
+    if(QUERY&&(o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase().indexOf(QUERY)<0) return false;
+    var g=grade(o.sfpd);
+    if(FILTER==='core'   && !core(o)) return false;
+    if(FILTER==='safe'   && !(g.g==='A'||g.g==='B')) return false;
+    if(FILTER==='budget' && !inB(o.price)) return false;
+    if(LEASE_FILTER!=='all'   && leaseCat(o)!==LEASE_FILTER) return false;
+    if(DEPOSIT_FILTER!=='all' && depositCat(o)!==DEPOSIT_FILTER) return false;
+    if(TYPE_FILTER!=='all'    && String(o.type||'').toLowerCase()!==TYPE_FILTER) return false;
+    return true;});
   document.getElementById('grid').innerHTML=shown.map(function(o){return cardHTML(o);}).join('');
-  document.getElementById('none').classList.toggle('on',shown.length===0);
+  var noneEl=document.getElementById('none');
+  noneEl.classList.toggle('on',shown.length===0);
+  noneEl.style.display=shown.length===0?'block':'none';
   var total=L.length-L.filter(function(o){return o.removed;}).length;
   var inPlay=total;
   var near1=shown.filter(function(o){return nearMiss(o)===1;}).length;
@@ -2406,7 +2433,7 @@ function sortDom(root){
     if(SORT==='safe'){var d=gord[a.dataset.gr]-gord[b.dataset.gr];
       if(d)return d; return (+a.dataset.calls)-(+b.dataset.calls);}
     if(SORT==='lease'){
-      var lo=['6-9','mtm','short','12+','unknown'];
+      var lo=['6-9','mtm','12+','short','unknown'];
       var la=leaseCat(bySlug(a.dataset.slug)||{}),lb=leaseCat(bySlug(b.dataset.slug)||{});
       var ld=lo.indexOf(la)-lo.indexOf(lb);if(ld)return ld;
     }
