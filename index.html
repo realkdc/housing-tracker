@@ -389,6 +389,7 @@ table.tb-cost .tb-cost-name{min-width:190px;}
 .tb-cap.over{background:rgba(244,103,92,.14);color:var(--bad);}
 .tb-cap.maybe{background:rgba(224,168,60,.14);color:var(--warn);}
 .tb-cost-rank{font-weight:800;color:var(--accent);}
+.pc.range .tag,.pc.range .amt{color:var(--warn);}
 @media print{
   @page{size:landscape;margin:8mm}
   .kb-nav,.tb-controls,.hd,.bar,#grid,#none,#arch,#unv,.card-view,#kbView,#wnView{display:none!important}
@@ -2775,7 +2776,9 @@ function paint(){
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){
   return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function pnum(p){var m=String(p).match(/([\d,]+)/);return m?parseInt(m[1].replace(/,/g,''),10):999999;}
-function inB(p){return pnum(p)<=800;}
+function rentRange(raw){var m=String(raw||'').match(/\$?([\d,]+)\s*[–-]\s*\$?([\d,]+)/);return m?[parseInt(m[1].replace(/,/g,''),10),parseInt(m[2].replace(/,/g,''),10)]:null;}
+function rentCapState(p,raw){var r=rentRange(raw);if(r){if(r[0]>800)return 'over';if(r[1]>800)return 'crosses';return 'within';}return pnum(p)<=800?'within':'over';}
+function inB(p,raw){return rentCapState(p,raw)==='within';}
 function grade(n){
   if(n==null) return {g:'?',c:'gN',t:'Not measured'};
   if(n<=20)  return {g:'A',c:'gA',t:n+' calls / 0.25mi / 90d'};
@@ -2844,7 +2847,7 @@ function gateUnverified(o){
    availability). Without the hard checks a $1,005 unit scored as "core". */
 function core(o){
   if(!o||o.removed) return false;
-  if(pnum(o.price)>800) return false;
+  if(!inB(o.price,o.price_raw)) return false;
   if(o.beds!=null&&o.beds<2) return false;
   if(o.zip==='57104') return false;
   if(avS(o)[2]==='no') return false;
@@ -2894,7 +2897,9 @@ function depositSortValue(o){
 }
 function verdict(o){
   var f=[],hard=false;
-  if(pnum(o.price)>800){f.push('$'+pnum(o.price)+' over ceiling');hard=true;}
+  var cap=rentCapState(o.price,o.price_raw),rr=rentRange(o.price_raw);
+  if(cap==='over'){f.push('$'+pnum(o.price)+' over ceiling');hard=true;}
+  else if(cap==='crosses')f.push('$'+rr[0]+'–$'+rr[1]+' rent range crosses $800 ceiling');
   if(o.beds!=null&&o.beds<2){f.push('only '+o.beds+'BR');hard=true;}
   if(o.zip==='57104'){f.push('zip 57104 excluded');hard=true;}
   if(o.wd!=='inunit'){
@@ -2925,7 +2930,7 @@ function verdict(o){
 /* ==================== CARD ==================== */
 function cardHTML(o,compact){
   var g=grade(o.sfpd),av=avS(o),wd=wdS(o),pk=pkS(o),dw=dwS(o),v=verdict(o);
-  var over=!inB(o.price);
+  var cap=rentCapState(o.price,o.price_raw),over=cap==='over',crosses=cap==='crosses';
   var photos=o.photos&&o.photos.length>0?o.photos:(o.photo?[o.photo]:[]);
   var photo;
   if(photos.length>1){
@@ -2939,15 +2944,15 @@ function cardHTML(o,compact){
   } else {
     photo='<div class="np">NO PHOTO</div>';
   }
-  return '<div class="c'+(core(o)?' pick':'')+(over?' over-budget':'')+'" data-slug="'+esc(o.slug)+
+  return '<div class="c'+(core(o)?' pick':'')+(over?' over-budget':'')+(crosses?' range-budget':'')+'" data-slug="'+esc(o.slug)+
     '" data-core="'+(core(o)?1:0)+'" data-avail="'+av[2]+'" data-over="'+(over?1:0)+
-    '" data-safe="'+((g.g==='A'||g.g==='B')?1:0)+'" data-budget="'+(inB(o.price)?1:0)+
+    '" data-safe="'+((g.g==='A'||g.g==='B')?1:0)+'" data-budget="'+(inB(o.price,o.price_raw)?1:0)+
     '" data-price="'+pnum(o.price)+'" data-calls="'+(o.sfpd==null?99999:o.sfpd)+
     '" data-gr="'+g.g+'" data-name="'+esc((o.name+' '+(o.zip||'')+' '+(o.address||'')).toLowerCase())+'">'+
     '<div class="ph">'+photo+
       '<div class="gr '+g.c+'" title="'+esc(g.t)+'">'+g.g+'</div>'+
-      '<div class="pc'+(over?' over':'')+'"><div class="amt">'+esc(o.price_raw)+
-        '</div><div class="tag">'+(over?'OVER':'IN BUDGET')+'</div></div>'+
+      '<div class="pc'+(over?' over':'')+(crosses?' range':'')+'"><div class="amt">'+esc(o.price_raw)+
+        '</div><div class="tag">'+(over?'OVER $800':crosses?'RANGE CROSSES $800':'IN BUDGET')+'</div></div>'+
     '</div>'+
     '<div class="b">'+
       '<div><div class="t">'+esc(o.name)+'</div>'+
@@ -3058,7 +3063,7 @@ function render(){
     var g=grade(o.sfpd);
     if(FILTER==='core'   && !core(o)) return false;
     if(FILTER==='safe'   && !(g.g==='A'||g.g==='B')) return false;
-    if(FILTER==='budget' && !inB(o.price)) return false;
+    if(FILTER==='budget' && !inB(o.price,o.price_raw)) return false;
     if(LEASE_FILTER!=='all'   && leaseCat(o)!==LEASE_FILTER) return false;
     if(DEPOSIT_FILTER!=='all' && depositCat(o)!==DEPOSIT_FILTER) return false;
     if(TYPE_FILTER!=='all'    && String(o.type||'').toLowerCase()!==TYPE_FILTER) return false;
@@ -3357,7 +3362,8 @@ function kbSave(){try{localStorage.setItem(KBK,JSON.stringify(KBS));}catch(e){}}
 function kbScore(o){
   var g=grade(o.sfpd).g, s=0;
   s+=({A:40,B:30,C:12,D:0,'?':5})[g]||0;
-  s+=inB(o.price)?22:-15;
+  var budgetState=rentCapState(o.price,o.price_raw);
+  s+=budgetState==='within'?22:(budgetState==='crosses'?0:-15);
   var dc=depositCat(o); s+=dc==='jetty'?20:(dc==='known'?6:0);
   s+=o.wd==='inunit'?14:(o.wd==='onsite'?6:0);
   s+=(o.park==='garage'||o.park==='offstreet')?10:0;
