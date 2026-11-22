@@ -388,6 +388,7 @@ body.kb-winners-on #arch,body.kb-winners-on #unv,body.kb-winners-on .card-view{d
   font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.6px;}
 .kb-ch .n{margin-left:auto;font-size:.62rem;background:var(--surface2);border-radius:6px;
   padding:2px 7px;color:var(--muted);}
+.kb-cap{font-size:.58rem;letter-spacing:0;text-transform:none;font-weight:600;color:var(--muted);}
 .kb-ch.w{color:#ffd24a;} .kb-ch.p{color:var(--accent);} .kb-ch.l{color:#f5a49c;}
 .kb-col.w .kb-ch{background:rgba(255,210,74,.06);}
 .kb-col.l .kb-ch{background:rgba(244,103,92,.06);}
@@ -446,7 +447,7 @@ body.kb-winners-on #arch,body.kb-winners-on #unv,body.kb-winners-on .card-view{d
     </div>
     <div class="kb-cols">
       <div class="kb-col w">
-        <div class="kb-ch w"><h3>Winners</h3><span class="n" id="kbNw">0</span></div>
+        <div class="kb-ch w"><h3>Winners</h3><span class="kb-cap">Shortlist · still comparing</span><span class="n" id="kbNw">0</span></div>
         <div class="kb-body" data-col="w" id="kbCw"></div>
       </div>
       <div class="kb-col l">
@@ -464,7 +465,7 @@ body.kb-winners-on #arch,body.kb-winners-on #unv,body.kb-winners-on .card-view{d
     </div>
     <div class="kb-cols">
       <div class="kb-col w">
-        <div class="kb-ch w"><h3>Winners</h3><span class="n" id="wnNw">0</span></div>
+        <div class="kb-ch w"><h3>Winners</h3><span class="kb-cap">Shortlist · still comparing</span><span class="n" id="wnNw">0</span></div>
         <div class="kb-body" id="wnCw"></div>
       </div>
       <div class="kb-col l">
@@ -664,7 +665,8 @@ var L = [
     ],
     "wd": "unknown",
     "park": "garage",
-    "dw": "yes"
+    "dw": "yes",
+    "park_included": true
   },
   {
     "slug": "2601-s-kiwanis-ave",
@@ -677,14 +679,14 @@ var L = [
     "sfpd": 28,
     "area": "B",
     "avail": "Available Now",
-    "status": "Verified 2026-11-13: Bender/AppFolio 0fb91d45. Amenities \"Laundry in Unit\" -> in-unit W/D confirmed.",
+    "status": "Verified 2026-11-13: Bender/AppFolio 0fb91d45. Amenities \"Laundry in Unit\" -> in-unit W/D confirmed. Garage is listed as available; fee/inclusion and utilities need confirmation.",
     "beds": 2,
     "baths": 1,
     "sqft": 920,
     "address": "2601 S Kiwanis Ave, Sioux Falls, SD 57105",
     "deposit": "$500",
     "lease": "unknown",
-    "utils": "None",
+    "utils": "Not stated; confirm with property.",
     "phone": "",
     "amenities": [
       "2 months free rent",
@@ -703,7 +705,8 @@ var L = [
     ],
     "wd": "inunit",
     "park": "garage",
-    "dw": "yes"
+    "dw": "yes",
+    "park_included": null
   },
   {
     "slug": "1201-e-57th-st",
@@ -1050,7 +1053,9 @@ var L = [
     "photos": [],
     "wd": "onsite",
     "park": "garage",
-    "dw": "unknown"
+    "dw": "unknown",
+    "park_included": false,
+    "park_fee_monthly": 45
   },
   {
     "slug": "3304-s-kiwanis-ave-4-sioux-falls-sd-57105-c845e8d3",
@@ -1129,14 +1134,14 @@ var L = [
     "sfpd": 103,
     "area": "C",
     "avail": "NOW",
-    "status": "Verified 2026-11-13: Bender/AppFolio 9c06ab3c. Amenities \"Laundry in Unit\" + \"Garage Included\" -> in-unit W/D confirmed.",
+    "status": "Verified 2026-11-13: Bender/AppFolio 9c06ab3c. Amenities \"Laundry in Unit\" + \"Garage Included\" -> in-unit W/D confirmed. Fee details checked 2026-11-22: garage included on these #102 units; utility bill-back $32–$61/mo, electric separate, $15 resident package and $50 internet listed.",
     "beds": 2,
     "baths": 1,
     "sqft": 920,
     "address": "3900 S Carnegie Cir - 3900-102, Sioux Falls, SD 57106",
     "deposit": "$500",
     "lease": "unknown",
-    "utils": "unknown",
+    "utils": "Gas/water/sewer/trash billed back $32–$61/mo; electricity in tenant’s name. $15/mo resident package and $50/mo internet are listed.",
     "phone": "",
     "amenities": [],
     "url": "https://bendermidwestproperties.appfolio.com/listings/detail/9c06ab3c-8b6f-486c-bf75-9b8cd377858c",
@@ -1146,7 +1151,8 @@ var L = [
     ],
     "wd": "inunit",
     "park": "garage",
-    "dw": "yes"
+    "dw": "yes",
+    "park_included": true
   },
   {
     "slug": "sioux-falls-sd-57106-c0e89b3e",
@@ -1247,14 +1253,14 @@ var L = [
     "sfpd": 103,
     "area": "C",
     "avail": "NOW",
-    "status": "Verified 2026-11-13: Bender/AppFolio 6e8c2c9f. \"Laundry in Unit\" + \"Garage Included\" -> in-unit W/D confirmed.",
+    "status": "Verified 2026-11-13: Bender/AppFolio 6e8c2c9f. \"Laundry in Unit\" + \"Garage Included\" -> in-unit W/D confirmed. Fee details checked 2026-11-22: garage included on these #102 units; utility bill-back $32–$61/mo, electric separate, $15 resident package and $50 internet listed.",
     "beds": 2,
     "baths": 1,
     "sqft": 920,
     "address": "3908 S Carnegie Cir - 3908-102, Sioux Falls, SD 57106",
     "deposit": "$500",
     "lease": "unknown",
-    "utils": "unknown",
+    "utils": "Gas/water/sewer/trash billed back $32–$61/mo; electricity in tenant’s name. $15/mo resident package and $50/mo internet are listed.",
     "phone": "",
     "amenities": [],
     "url": "https://bendermidwestproperties.appfolio.com/listings/detail/6e8c2c9f-e2fc-4546-b9a4-3b5a13206deb",
@@ -1264,7 +1270,8 @@ var L = [
     ],
     "wd": "inunit",
     "park": "garage",
-    "dw": "yes"
+    "dw": "yes",
+    "park_included": true
   },
   {
     "slug": "sioux-falls-sd-57106-4b59fdbe",
@@ -1277,14 +1284,14 @@ var L = [
     "sfpd": 78,
     "area": "C",
     "avail": "NOW",
-    "status": "Verified 2026-11-13: Bender/AppFolio 4b59fdbe. \"Laundry in Unit\" + \"Garage Included\" -> in-unit W/D confirmed.",
+    "status": "Verified 2026-11-13: Bender/AppFolio 4b59fdbe. \"Laundry in Unit\" + \"Garage Included\" -> in-unit W/D confirmed. Fee details checked 2026-11-22: garage included on these #102 units; utility bill-back $32–$61/mo, electric separate, $15 resident package and $50 internet listed.",
     "beds": 2,
     "baths": 1,
     "sqft": 920,
     "address": "3904 S Carnegie Cir - 3904-102, Sioux Falls, SD 57106",
     "deposit": "$500",
     "lease": "unknown",
-    "utils": "unknown",
+    "utils": "Gas/water/sewer/trash billed back $32–$61/mo; electricity in tenant’s name. $15/mo resident package and $50/mo internet are listed.",
     "phone": "",
     "amenities": [],
     "url": "https://bendermidwestproperties.appfolio.com/listings/detail/4b59fdbe-f6a1-4038-b262-213c4a805f98",
@@ -1294,7 +1301,8 @@ var L = [
     ],
     "wd": "inunit",
     "park": "garage",
-    "dw": "yes"
+    "dw": "yes",
+    "park_included": true
   },
   {
     "slug": "sioux-falls-sd-57106-69514ec3",
@@ -1371,15 +1379,15 @@ var L = [
     "zip": "57108",
     "sfpd": 46,
     "area": "B",
-    "avail": "Available NOW",
-    "status": "Verified 2026-11-13: realtor.com M91382-18397. Dishwasher yes; off-street parking; laundry not mentioned -> unknown; no lease term published.",
+    "avail": "Available Now; approval estimated at about 2 weeks (tour notes 2026-11-19)",
+    "status": "Tour notes 2026-11-19: $768 confirmed, $400 deposit, only electricity in resident’s name, about 2-week approval (estimated move around Dec 3). Public listing shows available now; confirm current key date.",
     "beds": 2,
     "baths": 1,
     "sqft": 923,
     "address": "1625 E Northstar Ln, Sioux Falls, SD 57108",
-    "deposit": "$400-450",
+    "deposit": "$400",
     "lease": "unknown",
-    "utils": "unknown",
+    "utils": "Tour notes: only electricity in your name; confirm lease details.",
     "phone": "",
     "amenities": [],
     "url": "https://www.realtor.com/rentals/details/1625-E-Northstar-Ln_Sioux-Falls_SD_57108_M91382-18397",
@@ -1897,7 +1905,7 @@ var L = [
   },
   {
     "slug": "rosecrest-townhomes",
-    "name": "RoseCrest Townhomes",
+    "name": "RoseCrest Townhomes — 3316 W Rambler Pl",
     "type": "Townhouse",
     "manager": "Costello Property Management",
     "price_raw": "$850",
@@ -1906,7 +1914,7 @@ var L = [
     "sfpd": 35,
     "area": "A",
     "avail": "Available Now",
-    "status": "INCOME-RESTRICTED (Affordable housing). 2BR $850 <= $900 PASS. zip 57108 != 57104 PASS. Photo PASS (12 photos). Deposit NOT RECORDED ('Deposits vary, see rep'). Lease 1 year. Total cost $850+.",
+    "status": "Current Zillow listing checked 2026-11-22: 2BR from $850+ available now; in-unit washer/dryer and dishwasher; parking lot/off-street parking. Income restricted; utilities, deposit, eligibility turnaround, and required fees need confirmation.",
     "beds": 2,
     "baths": 1.5,
     "sqft": 884,
@@ -1918,18 +1926,18 @@ var L = [
     "deposit_status": "not_recorded",
     "lease": "1 year",
     "lease_risk": false,
-    "wd": "unknown",
-    "park": "unknown",
-    "dw": "unknown",
-    "utils": "unknown",
+    "wd": "inunit",
+    "park": "offstreet",
+    "dw": "yes",
+    "utils": "Not listed; confirm with property.",
     "phone": "(605) 961-6319",
     "amenities": [
-      "Air conditioning",
-      "Grocery nearby",
-      "Internet/cable",
-      "Parking"
+      "In-unit washer/dryer",
+      "Dishwasher",
+      "Parking lot / off-street parking",
+      "Income restricted"
     ],
-    "amenity_source": "Rent.com listing page (fetched 2026-11-15): 2BR $850, 1.5 baths, 884 sqft, 12 photos. Deposit: 'Deposits vary, see rep' — not recorded.",
+    "amenity_source": "Zillow listing checked 2026-11-22: https://www.zillow.com/apartments/sioux-falls-sd/rosecrest-townhomes/5Y2ZBr/",
     "sfpd_grade": "A",
     "sfpd_calls": 35,
     "sfpd_addr": "3316 W Rambler Pl, Sioux Falls, SD 57108",
@@ -2382,6 +2390,56 @@ var L = [
     "amenity_source": "HotPads unit page (via Obscura stealth) (https://hotpads.com/1317-e-sylvan-cir-brandon-sd-57005-tumddm/5/pad) read 2026-11-18",
     "verified": false,
     "photo_status": "verified 200 at publish time"
+  },
+  {
+    "slug": "46west-apartments",
+    "name": "46West Apartments — 2301 W 46th St - 310",
+    "type": "Apartment",
+    "manager": "Granite Peak Multifamily",
+    "price_raw": "$797",
+    "price": "797",
+    "zip": "57105",
+    "sfpd": null,
+    "area": "?",
+    "avail": "Available Now",
+    "status": "Checked 2026-11-22: current listings show one 2BR unit (#310) at $797, 1,111 sq ft, available now. On-site laundry and dishwasher listed; garage available, but its fee/inclusion is unconfirmed. Trash removal is listed as included; other utilities are not stated. Prior C/80 safety proxy is unverified.",
+    "beds": 2,
+    "baths": 1,
+    "sqft": 1111,
+    "address": "2301 W 46th St - 310, Sioux Falls, SD 57105",
+    "deposit": "$497",
+    "lease": "12 months (special; confirm terms)",
+    "utils": "Trash removal included; other utilities not stated.",
+    "phone": "(605) 250-3859",
+    "amenities": [
+      "On-site laundry",
+      "Dishwasher",
+      "Garage listed; fee/inclusion unconfirmed",
+      "Trash removal included"
+    ],
+    "url": "https://www.rentable.co/sioux-falls-sd/2301-w-46th-st",
+    "photo": "https://images.rentable.co/77727/85575568/large.jpeg",
+    "photos": [
+      "https://images.rentable.co/77727/85575568/large.jpeg",
+      "https://images.rentable.co/77727/85575568/slide.jpeg",
+      "https://images.rentable.co/77727/85575571/large.jpeg",
+      "https://images.rentable.co/77727/85575567/large.jpeg",
+      "https://images.rentable.co/77727/85575573/large.jpeg",
+      "https://images.rentable.co/77727/85575574/large.jpeg",
+      "https://images.rentable.co/77727/85575575/large.jpeg",
+      "https://images.rentable.co/77727/85575572/large.jpeg"
+    ],
+    "wd": "onsite",
+    "park": "garage",
+    "park_included": null,
+    "dw": "yes",
+    "sfpd_grade": "unmeasured",
+    "sfpd_calls": null,
+    "sfpd_top": [],
+    "safety_note": "SFPD verification unavailable; cached C/80 proxy was not verified and is not a confirmed property-level count.",
+    "amenity_source": "Current Rentable listing checked 2026-11-22 (unit 310, rent/size/availability/garage/laundry) and current RentalSource listing (deposit and dishwasher): https://www.rentable.co/sioux-falls-sd/2301-w-46th-st ; https://www.rentalsource.com/details/2301-w-46th-st-sioux-falls-sd-84492236/",
+    "verified": false,
+    "photo_status": "verified_200_image"
   }
 ];
 
@@ -2479,7 +2537,14 @@ function wdS(o){
   return ['?','u','Could not verify from any public page'];
 }
 function pkS(o){
-  if(o.park==='garage')    return ['Garage','y','Garage included'];
+  if(o.park==='garage'){
+    if(o.park_included===true) return ['Garage','y','Garage included'];
+    if(o.park_included===false){
+      var fee=o.park_fee_monthly?'$'+o.park_fee_monthly+'/mo':'extra fee';
+      return ['Garage extra','mid','Garage is billed separately ('+fee+')'];
+    }
+    return ['Garage?','u','Garage is listed; whether it is included or extra is unconfirmed'];
+  }
   if(o.park==='offstreet') return ['Off-street','y','Off-street parking'];
   if(o.park==='parking')   return ['Parking','mid','Some parking, type unclear'];
   return ['?','u','Could not verify'];
@@ -2674,7 +2739,7 @@ function openModal(slug){
   am+=r('Rent',o.price_raw);
   if(o.deposit) am+=r('Deposit',o.deposit,/tbd|unknown/i.test(o.deposit));
   if(o.lease) am+=r('Lease',o.lease,/tbd|unknown/i.test(o.lease));
-  if(o.utils) am+=r('Utilities incl.',o.utils);
+  if(o.utils) am+=r('Utilities / billing',o.utils);
   am+=r('Availability',o.avail||'?');
   am+=r('Safety',g.g+' ('+(o.sfpd==null?'not measured':o.sfpd+' calls in 0.25mi / 90d')+')');
   if(o.address) am+=r('Address',o.address);
@@ -3023,10 +3088,9 @@ document.head.appendChild(style);
 
 
 /* ==================== LEADERBOARD ==================== */
-/* Hard-coded public pins. KeShaun tells the agent what belongs where; these
-   render for anyone who opens the public page and a reader cannot move them.
-   Empty arrays = fall back to the automatic ranking. */
-var PICK={w:[],l:[]};
+/* Public shortlist pins explicitly requested 2026-11-22. These are options
+   still being compared, not a final lease selection; readers cannot move them. */
+var PICK={w:["46west-apartments", "3304-s-kiwanis-ave-8-sioux-falls-sd-5710", "3304-s-kiwanis-ave-4-sioux-falls-sd-57105-c845e8d3", "rosecrest-townhomes", "2601-s-kiwanis-ave", "south-ridge-1625-e-northstar-ln-sioux-falls", "sioux-falls-sd-57106-9c06ab3c", "sioux-falls-sd-57106-4b59fdbe", "sioux-falls-sd-57106-6e8c2c9f"],l:[]};
 var KBK='housing-leaderboard-v1';
 var KBLAST={};
 function kbLoad(){
@@ -3108,7 +3172,7 @@ function kbCard(o,rank,drag){
     '<div class="kb-ph">'+ph+'<span class="kb-rk">#'+rank+'</span>'+
       '<div class="gr '+g.c+'" title="'+esc(g.t)+'">'+g.g+'</div></div>'+
     '<div class="kb-b"><div class="kb-t">'+esc(o.name)+'</div>'+
-      '<div class="kb-m">$'+esc(o.price_raw)+' &middot; '+(o.beds==null?'?':o.beds)+'BR/'+(o.baths==null?'?':o.baths)+'BA &middot; '+(o.sqft||'?')+' sf &middot; '+esc(o.zip||'')+'</div>'+
+      '<div class="kb-m">'+esc(o.price_raw)+' &middot; '+(o.beds==null?'?':o.beds)+'BR/'+(o.baths==null?'?':o.baths)+'BA &middot; '+(o.sqft||'?')+' sf &middot; '+esc(o.zip||'')+'</div>'+
       '<div class="kb-m">'+esc(o.address||'')+'</div>'+
       '<div class="kb-f">'+esc(o.deposit||'deposit unknown')+'</div>'+
       '<div class="kb-note" data-slug="'+esc(o.slug)+'" contenteditable="true">'+esc(KBS.notes[o.slug]||'')+'</div>'+
