@@ -363,6 +363,32 @@ body.kb-on .hd,body.kb-on .bar,body.kb-on #grid,body.kb-on #none,
 body.kb-on #arch,body.kb-on #unv,body.kb-on .card-view{display:none!important;}
 body.kb-winners-on .hd,body.kb-winners-on .bar,body.kb-winners-on #grid,body.kb-winners-on #none,
 body.kb-winners-on #arch,body.kb-winners-on #unv,body.kb-winners-on .card-view{display:none!important;}
+/* ---------- TABLE VIEW ---------- */
+body.kb-table-on .hd,body.kb-table-on .bar,body.kb-table-on #grid,body.kb-table-on #none,
+body.kb-table-on #arch,body.kb-table-on #unv,body.kb-table-on .card-view{display:none!important;}
+body.kb-on #tbView,body.kb-winners-on #tbView{display:none!important;}
+.tb-controls{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px;}
+.tb-controls button.on{background:var(--accent);color:#08111f;border-color:var(--accent);}
+.tb-note{color:var(--muted);font-size:.68rem;line-height:1.5;margin:0 0 10px;max-width:920px;}
+.tb-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line-soft);border-radius:12px;}
+table.tb{border-collapse:collapse;font-size:.72rem;width:max-content;min-width:100%;}
+table.tb th,table.tb td{border:1px solid var(--line-soft);padding:7px 9px;vertical-align:top;text-align:left;min-width:190px;}
+table.tb th.rowh{min-width:110px;position:sticky;left:0;background:var(--surface);z-index:2;font-weight:800;}
+table.tb thead th{background:var(--surface2);}
+table.tb thead th .tb-addr{display:block;color:var(--muted);font-weight:400;font-size:.62rem;margin-top:2px;}
+table.tb thead th .tb-top{display:block;color:#ffd24a;font-weight:800;font-size:.62rem;margin-top:2px;}
+.tb-ph img{width:100%;height:110px;object-fit:cover;border-radius:6px;display:block;}
+.tb-ph .np{color:var(--muted2);font-size:.62rem;font-weight:700;}
+.tb-half{color:var(--muted);font-size:.62rem;}
+@media print{
+  @page{size:landscape;margin:8mm}
+  .kb-nav,.tb-controls,.hd,.bar,#grid,#none,#arch,#unv,.card-view,#kbView,#wnView{display:none!important}
+  #tbView{display:block!important}
+  table.tb{font-size:7.5pt}
+  table.tb th,table.tb td{min-width:110px;padding:4px 5px}
+  table.tb th[data-top="0"],table.tb td[data-top="0"]{display:none}
+  .tb-ph img{height:60px}
+}
 
 }
 .kb-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
@@ -431,6 +457,7 @@ body.kb-winners-on #arch,body.kb-winners-on #unv,body.kb-winners-on .card-view{d
     <button data-view="board" class="on" aria-label="Show the listings board">Board</button>
     <button data-view="leaderboard" aria-label="Show the shortlist leaderboard">Leaderboard</button>
     <button data-view="winners" aria-label="Show the winners shortlist">Winners</button>
+    <button data-view="table" aria-label="Show the side-by-side comparison table">Table</button>
     <span class="kb-hint">Leaderboard = winners &middot; ranked &middot; not a fit &mdash; drag cards between columns, click a card for details.</span>
   </div>
 
@@ -473,6 +500,20 @@ body.kb-winners-on #arch,body.kb-winners-on #unv,body.kb-winners-on .card-view{d
         <div class="kb-body" id="wnCl"></div>
       </div>
     </div>
+  </div>
+
+  <div id="tbView" style="display:none">
+    <div class="kb-head">
+      <h2>Side-by-side comparison</h2>
+      <div class="kb-stats" id="tbStats"></div>
+    </div>
+    <div class="tb-controls">
+      <button class="kb-reset" id="tbAll" type="button">Show all</button>
+      <button class="kb-reset" id="tbTop" type="button">Top picks only</button>
+      <button class="kb-reset" id="tbPrint" type="button">Print</button>
+    </div>
+    <p class="tb-note">Each place is a column, photo on top, then the details underneath &mdash; scroll sideways to compare. Sorted cheapest rent first. Est. all-in = rent + known monthly fees + about $75 electric + about $60 Wi-Fi (both estimates; actuals vary). Your half is half of the est. all-in, split with your girlfriend. Safety grade from SFPD calls in 90 days within 0.25 mi: A &le;20, B &le;50, C &le;120, D &gt;120; &ldquo;?&rdquo; means not graded.</p>
+    <div class="tb-wrap" id="tbWrap"></div>
   </div>
 
 
@@ -2316,6 +2357,103 @@ var L = [
     "amenity_source": "Current Rentable listing checked 2026-11-22 (unit 310, rent/size/availability/garage/laundry) and current RentalSource listing (deposit and dishwasher): https://www.rentable.co/sioux-falls-sd/2301-w-46th-st ; https://www.rentalsource.com/details/2301-w-46th-st-sioux-falls-sd-84492236/",
     "verified": false,
     "photo_status": "verified_200_image"
+  },
+  {
+    "slug": "diplomat-apartments-1804-s-stephen-ave-sioux-falls-sd-57103",
+    "name": "Diplomat Apartments — 1800-1804 S Stephen Ave, Unit 1804-04",
+    "type": "Apartment",
+    "manager": "Unknown",
+    "price_raw": "$795",
+    "price": "795",
+    "zip": "57103",
+    "sfpd": null,
+    "area": "?",
+    "avail": "Available NOW",
+    "status": "Dishwasher listed by Zumper but omitted by Apartments.com; utilities conflict (description says heat/water/garbage included, FAQ says none included); garage price/included unknown.",
+    "beds": 2,
+    "baths": 1.5,
+    "sqft": 1050,
+    "address": "1800-1804 S Stephen Ave, Unit 1804-04, Sioux Falls, SD 57103",
+    "rent_ongoing": "795",
+    "deposit": "$500",
+    "admin_fee": "",
+    "app_fee": "unknown",
+    "deposit_status": "standard",
+    "lease": "unknown",
+    "lease_risk": false,
+    "utils": "Heat/water/garbage included per description; FAQ says none included (conflict).",
+    "amenities": [
+      "On-site laundry",
+      "Dishwasher (listed by Zumper, omitted by Apartments.com)",
+      "Garage option; price/included unknown",
+      "Heat/water/garbage included per description; FAQ says none included"
+    ],
+    "url": "https://www.apartments.com/diplomat-apartments-sioux-falls-sd/9e8xb66/",
+    "photo": "https://img.zumpercdn.com/916614767/1280x960",
+    "photos": [
+      "https://img.zumpercdn.com/916614767/1280x960",
+      "https://img.zumpercdn.com/916614768/1280x960"
+    ],
+    "wd": "onsite",
+    "park": "garage",
+    "park_included": null,
+    "dw": "yes",
+    "sfpd_grade": "unknown",
+    "sfpd_calls": null,
+    "sfpd_top": [],
+    "safety_note": "Not graded — safety_score.py could not be run; do not treat as A/B/C/D",
+    "amenity_source": "Apartments.com Diplomat page (rent $795, 2BR/1.5BA, 1050 sqft, unit 1804-04 Now, $500 deposit, on-site laundry); Zumper (dishwasher listed, garage option, heat/water/garbage included)",
+    "verified": true,
+    "photo_status": "verified_200_image",
+    "source_lane": "diplomat-bentwood-verification-2026-11-22"
+  },
+  {
+    "slug": "bentwood-manor-apartments-1901-306-sioux-falls-sd-57106",
+    "name": "Bentwood Manor Apartments — 5401 W 26th St, Unit 1901-306",
+    "type": "Apartment",
+    "manager": "Van Buskirk Companies",
+    "price_raw": "$850",
+    "price": "850",
+    "zip": "57106",
+    "sfpd": null,
+    "area": "?",
+    "avail": "Available NOW",
+    "status": "One-month-free special; ongoing rent still $850.",
+    "beds": 2,
+    "baths": 1,
+    "sqft": 927,
+    "address": "5401 W 26th St, Unit 1901-306, Sioux Falls, SD 57106",
+    "rent_ongoing": "850",
+    "deposit": "$500",
+    "admin_fee": "$50",
+    "app_fee": "$60",
+    "deposit_status": "standard",
+    "lease": "6-12 months",
+    "lease_risk": false,
+    "utils": "Water/sewer/garbage included.",
+    "amenities": [
+      "Dishwasher",
+      "On-site laundry (some units in-unit)",
+      "Water/sewer/garbage included"
+    ],
+    "url": "https://www.apartmenthomeliving.com/apartment-finder/Bentwood-Manor-Apartments-Sioux-Falls-SD-57106-190167",
+    "photo": "https://vanbuskirkco.com/wp-content/uploads/2025/05/Bentwood-2024-EXT_2-scaled.jpg",
+    "photos": [
+      "https://vanbuskirkco.com/wp-content/uploads/2025/05/Bentwood-2024-EXT_2-scaled.jpg",
+      "https://vanbuskirkco.com/img/2025/05/Bentwood-Manor-306-003.jpg?fm=webp&w=475&fit=crop&h=315&s=29fb87022fd9472465c57de817b1d989"
+    ],
+    "wd": "onsite",
+    "park": "unknown",
+    "park_included": null,
+    "dw": "yes",
+    "sfpd_grade": "unknown",
+    "sfpd_calls": null,
+    "sfpd_top": [],
+    "safety_note": "Not graded — safety_score.py could not be run; do not treat as A/B/C/D",
+    "amenity_source": "ApartmentHomeLiving Bentwood page (Maple 2BR/1BA 927 sqft, unit 1901-306 $850 Now $500 deposit, dishwasher); Van Buskirk manager page (Water/Sewer/Garbage included, dishwasher, W/D on-site some in-unit); ForRent (6-12 month leases, $60 app fee, $50 admin fee)",
+    "verified": true,
+    "photo_status": "verified_200_image",
+    "source_lane": "diplomat-bentwood-verification-2026-11-22"
   }
 ];
 
@@ -3099,22 +3237,80 @@ function wnRender(){
     '<span>hard-coded pins only</span>';
 }
 
+/* ---------- table view: side-by-side comparison, one column per listing ---------- */
+var TB_TOP=['3304-s-kiwanis-ave-8-sioux-falls-sd-5710','3709-s-cathy-avenue-3709-3-sioux-falls-sd-57106','sioux-falls-sd-57106-3ae97499','46west-apartments','diplomat-apartments-1804-s-stephen-ave-sioux-falls-sd-57103','bentwood-manor-apartments-1901-306-sioux-falls-sd-57106'];
+var TB_FEES={'3304-s-kiwanis-ave-8-sioux-falls-sd-5710':25,'3709-s-cathy-avenue-3709-3-sioux-falls-sd-57106':75,'sioux-falls-sd-57106-3ae97499':45};
+var tbTopOnly=false;
+function tbAllIn(o){return (+o.price||0)+(TB_FEES[o.slug]||0)+75+60;}
+function tbSafety(o){var g=grade(o.sfpd);return g.g==='?'?'? (not graded)':g.g+' ('+o.sfpd+')';}
+function tbCell(v){return (v==null||v==='')?'&mdash;':esc(v);}
+function tbRender(){
+  var rows=L.filter(function(o){return !o.removed;});
+  rows.sort(function(a,b){return (+a.price||0)-(+b.price||0);});
+  var cols=rows.filter(function(o){return !tbTopOnly||TB_TOP.indexOf(o.slug)>=0;});
+  function cell(o,k){
+    if(k==='photo')return o.photo?'<img src="'+esc(o.photo)+'" alt="" loading="lazy">':'<span class="np">NO PHOTO</span>';
+    if(k==='rent')return '<b>'+esc(o.price_raw||('$'+o.price))+'</b>';
+    if(k==='allin'){var a=tbAllIn(o);return '<b>$'+a+'</b><br><span class="tb-half">your half ~$'+Math.round(a/2)+'</span>';}
+    if(k==='bb')return (o.beds==null?'?':o.beds)+'bd / '+(o.baths==null?'?':o.baths)+'ba';
+    if(k==='sqft')return o.sqft?String(o.sqft):'&mdash;';
+    if(k==='wd')return esc(wdS(o)[0]);
+    if(k==='park')return o.park==='garage'?'Garage':o.park==='offstreet'?'Off-street':'?';
+    if(k==='dw'){if(o.dw==='yes')return 'Yes'+(o.slug==='diplomat-apartments-1804-s-stephen-ave-sioux-falls-sd-57103'?' (Zumper only)':'');return o.dw==='no'?'No':'?';}
+    if(k==='dep')return tbCell(o.deposit);
+    if(k==='lease')return tbCell(o.lease);
+    if(k==='safe')return esc(tbSafety(o));
+    if(k==='utils')return tbCell(o.utils);
+    if(k==='avail')return tbCell(o.avail);
+    if(k==='link')return o.url?'<a href="'+esc(o.url)+'" target="_blank" rel="noopener">Listing</a>':'&mdash;';
+    return '&mdash;';
+  }
+  var defs=[['Photo','photo'],['Rent','rent'],['Est. all-in / mo','allin'],['Beds / Baths','bb'],
+    ['Sq ft','sqft'],['Laundry','wd'],['Parking','park'],['Dishwasher','dw'],
+    ['Deposit','dep'],['Lease','lease'],['Safety','safe'],['Utilities','utils'],
+    ['Available','avail'],['Link','link']];
+  var h='<table class="tb"><thead><tr><th class="rowh">Detail</th>';
+  var i,r,c,o,top;
+  for(i=0;i<cols.length;i++){
+    o=cols[i]; top=TB_TOP.indexOf(o.slug)>=0;
+    h+='<th data-top="'+(top?'1':'0')+'"><a href="'+esc(o.url||'#')+'" target="_blank" rel="noopener">'+esc(o.name)+'</a>'
+      +'<span class="tb-addr">'+esc(o.address||'')+'</span>'
+      +(top?'<span class="tb-top">&#9733; TOP PICK</span>':'')+'</th>';
+  }
+  h+='</tr></thead><tbody>';
+  for(r=0;r<defs.length;r++){
+    h+='<tr><th class="rowh" scope="row">'+defs[r][0]+'</th>';
+    for(c=0;c<cols.length;c++){
+      o=cols[c]; top=TB_TOP.indexOf(o.slug)>=0;
+      h+='<td data-top="'+(top?'1':'0')+'"'+(defs[r][1]==='photo'?' class="tb-ph"':'')+'>'+cell(o,defs[r][1])+'</td>';
+    }
+    h+='</tr>';
+  }
+  h+='</tbody></table>';
+  document.getElementById('tbWrap').innerHTML=cols.length?h:'<div class="kb-empty">No listings to compare.</div>';
+  document.getElementById('tbStats').innerHTML='<span><b>'+cols.length+'</b> shown</span><span><b>'+rows.length+'</b> live</span>';
+  document.getElementById('tbAll').classList.toggle('on',!tbTopOnly);
+  document.getElementById('tbTop').classList.toggle('on',tbTopOnly);
+}
+
 /* ---------- view router: ONE function decides which page shows ---------- */
-var VIEWS=['board','leaderboard','winners'];
+var VIEWS=['board','leaderboard','winners','table'];
 function curView(){
   var hh=(location.hash||'').replace('#','').split('?')[0];
   return VIEWS.indexOf(hh)>=0?hh:'board';
 }
 function setView(v){
   if(VIEWS.indexOf(v)<0)v='board';
-  var lb=(v==='leaderboard'), wn=(v==='winners');
+  var lb=(v==='leaderboard'), wn=(v==='winners'), tb=(v==='table');
   document.body.classList.toggle('kb-on',lb);
   document.body.classList.toggle('kb-winners-on',wn);
+  document.body.classList.toggle('kb-table-on',tb);
   document.getElementById('kbView').style.display=lb?'':'none';
   document.getElementById('wnView').style.display=wn?'':'none';
+  document.getElementById('tbView').style.display=tb?'':'none';
   var btns=document.querySelectorAll('.kb-nav button[data-view]');
   for(var i=0;i<btns.length;i++)btns[i].classList.toggle('on',btns[i].dataset.view===v);
-  if(lb)kbRender(); else if(wn)wnRender(); else render();
+  if(lb)kbRender(); else if(wn)wnRender(); else if(tb)tbRender(); else render();
   var ch=(location.hash||'').replace('#','').split('?')[0];
   if(ch!==v&&ch!=='')history.replaceState(null,'','#'+v);
 }
@@ -3128,6 +3324,9 @@ window.addEventListener('hashchange',function(){setView(curView());});
 document.getElementById('kbQ').addEventListener('input',kbRender);
 document.getElementById('wnQ').addEventListener('input',wnRender);
 document.getElementById('kbReset').addEventListener('click',function(){KBS.over={};kbSave();kbRender();});
+document.getElementById('tbAll').addEventListener('click',function(){tbTopOnly=false;tbRender();});
+document.getElementById('tbTop').addEventListener('click',function(){tbTopOnly=true;tbRender();});
+document.getElementById('tbPrint').addEventListener('click',function(){window.print();});
 document.addEventListener('blur',function(e){
   if(!(e.target&&e.target.classList&&e.target.classList.contains('kb-note')))return;
   var sl=e.target.dataset.slug; KBS.notes[sl]=e.target.innerText.trim(); kbSave();
