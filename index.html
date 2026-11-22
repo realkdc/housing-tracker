@@ -380,6 +380,15 @@ table.tb thead th .tb-top{display:block;color:#ffd24a;font-weight:800;font-size:
 .tb-ph img{width:100%;height:110px;object-fit:cover;border-radius:6px;display:block;}
 .tb-ph .np{color:var(--muted2);font-size:.62rem;font-weight:700;}
 .tb-half{color:var(--muted);font-size:.62rem;}
+table.tb-cost{width:100%;min-width:900px;border-collapse:collapse;font-size:.72rem;}
+table.tb-cost th,table.tb-cost td{border:1px solid var(--line-soft);padding:8px 9px;vertical-align:top;text-align:left;}
+table.tb-cost th{background:var(--surface2);position:sticky;top:0;z-index:1;}
+table.tb-cost .tb-cost-name{min-width:190px;}
+.tb-cost-sub{display:block;color:var(--muted);font-size:.62rem;line-height:1.45;margin-top:3px;}
+.tb-cap{display:inline-block;font-size:.56rem;font-weight:800;padding:2px 6px;border-radius:99px;background:rgba(62,207,110,.12);color:var(--ok);margin-top:4px;}
+.tb-cap.over{background:rgba(244,103,92,.14);color:var(--bad);}
+.tb-cap.maybe{background:rgba(224,168,60,.14);color:var(--warn);}
+.tb-cost-rank{font-weight:800;color:var(--accent);}
 @media print{
   @page{size:landscape;margin:8mm}
   .kb-nav,.tb-controls,.hd,.bar,#grid,#none,#arch,#unv,.card-view,#kbView,#wnView{display:none!important}
@@ -509,10 +518,11 @@ table.tb thead th .tb-top{display:block;color:#ffd24a;font-weight:800;font-size:
     </div>
     <div class="tb-controls">
       <button class="kb-reset" id="tbAll" type="button">Show all</button>
+      <button class="kb-reset" id="tbCosts" type="button">Cost ranking</button>
       <button class="kb-reset" id="tbTop" type="button">Top picks only</button>
       <button class="kb-reset" id="tbPrint" type="button">Print</button>
     </div>
-    <p class="tb-note">Each place is a column, photo on top, then the details underneath &mdash; scroll sideways to compare. Sorted cheapest rent first. Est. all-in = rent + known monthly fees + about $75 electric + about $60 Wi-Fi (both estimates; actuals vary). Your half is half of the est. all-in, split with your girlfriend. Safety grade from SFPD calls in 90 days within 0.25 mi: A &le;20, B &le;50, C &le;120, D &gt;120; &ldquo;?&rdquo; means not graded.</p>
+    <p class="tb-note">Cost ranking sorts the discussed 2BR options by estimated recurring monthly cost. It includes quoted utilities/fees where available, plus estimated electricity ($61&ndash;$108 at 400&ndash;750 kWh), Wi-Fi ($60), and shared laundry ($40&ndash;$90 when applicable). Unquoted utilities, garage fees, and other fees stay flagged, so the range may be low. Move-in cash uses first month + known deposit/application/admin fees for two adults; it excludes possible utility setup. Sioux Falls new electric service can add $135 ($27 activation + $108 apartment deposit) when applicable. Safety shows SFPD calls in the last 90 days within 0.25 mi. Red rent is over the $800 rent cap.</p>
     <div class="tb-wrap" id="tbWrap"></div>
   </div>
 
@@ -521,9 +531,9 @@ table.tb thead th .tb-top{display:block;color:#ffd24a;font-weight:800;font-size:
     <div>
       <h1>Housing</h1>
       <div class="sub">
-        <b>2BR+</b> &bull; <b>$700&ndash;900</b> hard ceiling &bull; <b>6&ndash;9 month</b> lease &bull;
-        <b>in-unit</b> washer/dryer &bull; garage or off-street &bull; dishwasher &bull;
-        safe address &bull; no 57104 &bull; no income-restricted
+        <b>2BR+</b> &bull; <b>$700&ndash;800</b> rent ceiling &bull; <b>12-month OK</b> (shorter preferred) &bull;
+        <b>in-unit</b> washer/dryer preferred &bull; garage preferred &bull; dishwasher &bull;
+        utilities and SFPD safety calls shown &bull; income-restricted considered &bull; no 57104
       </div>
     </div>
     <div class="hd-r">
@@ -711,30 +721,32 @@ var L = [
   },
   {
     "slug": "2601-s-kiwanis-ave",
-    "name": "Terrace Hills Apartments — 2601 S Kiwanis Ave",
+    "name": "Terrace Hills Apartments — 2601 S Kiwanis Ave - 2601-205",
     "type": "Apartment",
     "manager": "Bender Midwest Properties",
-    "price_raw": "$865",
-    "price": "865",
+    "price_raw": "$921–$1,040 (current 2BR range; 2601-205 available now)",
+    "price": "921",
     "zip": "57105",
     "sfpd": 35,
     "area": "B",
-    "avail": "Available Now",
-    "status": "Verified 2026-11-13: Bender/AppFolio 0fb91d45. Amenities \"Laundry in Unit\" -> in-unit W/D confirmed. Garage is listed as available; fee/inclusion and utilities need confirmation.",
+    "avail": "Available Now (2601-205; price range only)",
+    "status": "OVER $800 RENT CEILING (current 2BR rent range $921–$1,040). The stale $865/2601-101 record is replaced with Bender’s current available unit 2601-205 (980 sf). In-unit laundry and dishwasher listed; garages available but fee not stated. Mandatory Resident Benefit Package $15/mo; utility bill-back $50–$97/mo for gas/water/sewer/trash; electric in resident name; internet $50/mo. $500 deposit, $75/adult application. Up to 2 months free requires 14+ month lease; do not count it as recurring rent. Safety grade B, 35 SFPD calls in last 90 days (0.25 mi).",
     "beds": 2,
     "baths": 1,
-    "sqft": 920,
-    "address": "2601 S Kiwanis Ave, Sioux Falls, SD 57105",
+    "sqft": 980,
+    "address": "2601 S Kiwanis Ave - 2601-205, Sioux Falls, SD 57105",
     "deposit": "$500",
-    "lease": "unknown",
-    "utils": "Not stated; confirm with property.",
+    "lease": "14+ months for advertised up-to-2-months-free special",
+    "utils": "Gas/water/sewer/trash bill-back $50–$97/mo; electricity in resident name; internet $50/mo; Resident Benefit Package $15/mo.",
     "phone": "",
     "amenities": [
-      "2 months free rent",
-      "On-site laundry",
-      "Controlled access"
+      "Deck/patio",
+      "Controlled entry",
+      "Garages available (fee not stated)",
+      "In-unit laundry",
+      "Dishwasher"
     ],
-    "url": "https://bendermidwestproperties.appfolio.com/listings/detail/0fb91d45-d63b-4ec5-b874-c3b07c1778fa",
+    "url": "https://bendermidwestproperties.appfolio.com/listings/detail/287ceb57-bc75-4af0-89c9-a837762dbc2a",
     "photo": "https://images.cdn.appfolio.com/bendermidwestproperties/images/25d05ad2-9227-455c-b050-7f2059f6c198/large.png",
     "photos": [
       "https://images.cdn.appfolio.com/bendermidwestproperties/images/25d05ad2-9227-455c-b050-7f2059f6c198/large.png",
@@ -747,7 +759,24 @@ var L = [
     "wd": "inunit",
     "park": "garage",
     "dw": "yes",
-    "park_included": null
+    "park_included": false,
+    "rent_ongoing": "921-1040",
+    "app_fee": "$75",
+    "admin_fee": "$15/mo Resident Benefit Package",
+    "lease_risk": true,
+    "park_fee": "unknown",
+    "amenity_source": "Current Bender/AppFolio unit 2601-205 (available now; 2BR $921–$1,040; $500 deposit; $75 application; utility bill-back, internet, package fee, garage availability, in-unit laundry and dishwasher): https://bendermidwestproperties.appfolio.com/listings/detail/287ceb57-bc75-4af0-89c9-a837762dbc2a",
+    "cost_estimate": {
+      "monthly_min": 1097,
+      "monthly_max": 1310,
+      "monthly_label": "$1,097–$1,310 + optional garage",
+      "move_in": "$1,571+ at the $921 rent floor (first month + $500 deposit + $150 for two applications); utility setup/garage extra",
+      "unpriced": "Garage fee is not stated; rent is a 2BR range, not a unit-specific quote; utility bill-backs vary.",
+      "basis": "Rent $921–$1,040 + $15 package + $50–$97 gas/water/sewer/trash + electric $61–$108 + $50 internet.",
+      "timing_note": "Current manager unit #205 is available now; advertised up-to-2-months-free offer requires a 14+ month lease."
+    },
+    "sfpd_grade": "B",
+    "sfpd_calls": 35
   },
   {
     "slug": "1201-e-57th-st",
@@ -862,15 +891,15 @@ var L = [
     "zip": "57105",
     "sfpd": 108,
     "area": "C",
-    "avail": "Available NOW",
-    "status": "Verified 2026-11-13: RentalSource 84265283. Coin-op shared laundry in building; off-street only (garage waitlist); no dishwasher listed.",
+    "avail": "Availability unconfirmed",
+    "status": "RentalSource checked 2026-11-22: 2BR/1BA $795, $795 deposit, $50/adult application fee, tenant electric, coin laundry, off-street parking; garage waitlist, no dishwasher listed. Gas/water and renter-insurance cost unconfirmed.",
     "beds": 2,
     "baths": 1,
     "sqft": 900,
     "address": "301 W 21st St, Sioux Falls, SD 57105",
     "deposit": "$795",
     "lease": "unknown",
-    "utils": "unknown",
+    "utils": "Tenant pays electric; gas/water not stated.",
     "phone": "",
     "amenities": [],
     "url": "https://www.rentalsource.com/details/301-w-21st-st-sioux-falls-sd-84265283/",
@@ -878,7 +907,17 @@ var L = [
     "photos": [],
     "wd": "onsite",
     "park": "offstreet",
-    "dw": "unknown"
+    "dw": "unknown",
+    "cost_estimate": {
+      "monthly_min": 956,
+      "monthly_max": 1053,
+      "monthly_label": "$956–$1,053 + unquoted gas/water/fees",
+      "move_in": "$1,690 known (first month $795 + $795 deposit + $100 for two applications); before utilities",
+      "unpriced": "Gas/water and renter insurance cost unknown; garage has a waitlist; dishwasher not listed.",
+      "basis": "Rent $795; tenant electric; Wi-Fi $60 and shared laundry $40–$90 estimated.",
+      "timing_note": "Listing page does not confirm a move-in date; screening and utility setup are unquoted."
+    },
+    "app_fee": "$50"
   },
   {
     "slug": "3304-s-kiwanis-ave-8-sioux-falls-sd-5710",
@@ -890,15 +929,15 @@ var L = [
     "zip": "57105",
     "sfpd": 98,
     "area": "C",
-    "avail": "Available Now",
-    "status": "Verified 2026-11-13 from Alpine AppFolio listing 6a0d62fd (rent $775 ongoing, on-site coin laundry, assigned off-street parking, no dishwasher listed, 12-month lease special). RentalSource 84267827 is the same unit.",
+    "avail": "Tour arranged Nov 23; availability confirmation pending",
+    "status": "Verified 2026-11-13 from Alpine AppFolio listing 6a0d62fd (rent $775 ongoing, on-site coin laundry, assigned off-street parking, no dishwasher listed, 12-month lease special). RentalSource 84267827 is the same unit. Current RentalSource listing checked 2026-11-22: $65/adult application, $500 deposit, assigned off-street parking; #8 offers $1,500 off over 12/18-month lease and #4 offers $1,500 off 12-month lease. User-reported tour scheduled tomorrow (Nov 23). Listing currently says availability: inquire; confirm exact special terms at tour.",
     "beds": 2,
     "baths": 1,
     "sqft": 794,
     "address": "3304 S Kiwanis Ave #8, Sioux Falls, SD 57105",
     "deposit": "$500",
-    "lease": "12 months",
-    "utils": "unknown",
+    "lease": "12 or 18 months (current offer)",
+    "utils": "Gas, water, garbage, lawn and snow included; tenant pays electric.",
     "phone": "",
     "amenities": [
       "On-Site Laundry",
@@ -916,7 +955,18 @@ var L = [
     ],
     "wd": "onsite",
     "park": "offstreet",
-    "dw": "unknown"
+    "dw": "unknown",
+    "cost_estimate": {
+      "monthly_min": 936,
+      "monthly_max": 1033,
+      "monthly_label": "$936–$1,033 ongoing; about $811–$908 12-month average if the $1,500 credit applies",
+      "move_in": "$1,405 known (first month $775 + $500 deposit + $130 for two applications); before utility setup",
+      "unpriced": "Confirm exact concession ledger and current availability; garage is not listed; coin laundry cost is estimated.",
+      "basis": "Rent $775; tenant electric; gas/water/garbage/lawn/snow included; Wi-Fi $60 and shared laundry $40–$90 estimated.",
+      "timing_note": "User-reported tour scheduled Monday Nov 23; current listing says inquire about availability. Confirm special terms during tour."
+    },
+    "app_fee": "$65",
+    "lease_risk": true
   },
   {
     "slug": "4308-4316-e-26th-st-sioux-falls-sd-57103",
@@ -972,7 +1022,16 @@ var L = [
     "photos": [],
     "wd": "onsite",
     "park": "garage",
-    "dw": "yes"
+    "dw": "yes",
+    "cost_estimate": {
+      "monthly_min": 986,
+      "monthly_max": 1083,
+      "monthly_label": "$986–$1,083 + unquoted gas/water/fees",
+      "move_in": "$1,325 known (first month $825 + $500 deposit); application/utilities/garage extra",
+      "unpriced": "Gas/water and garage fee/inclusion not stated; laundry cost estimated.",
+      "basis": "Rent $825 + estimated electric $61–$108 + $60 Wi-Fi + shared laundry $40–$90.",
+      "timing_note": "Listed available now; garage fee/inclusion and utility totals need confirmation."
+    }
   },
   {
     "slug": "3000-3012-s-mayfair-dr-sioux-falls-sd-57",
@@ -1096,7 +1155,17 @@ var L = [
     "park": "garage",
     "dw": "unknown",
     "park_included": false,
-    "park_fee_monthly": 45
+    "park_fee_monthly": 45,
+    "cost_estimate": {
+      "monthly_min": 1076,
+      "monthly_max": 1173,
+      "monthly_label": "$1,076–$1,173 + unquoted water/gas",
+      "move_in": "$1,370 known (first month $870 + $500 deposit); application/utility setup extra",
+      "unpriced": "Water/gas charges and application fee not published; laundry cost estimated.",
+      "basis": "Rent $870 + garage $45 + estimated electric $61–$108 + Wi-Fi $60 + shared laundry $40–$90.",
+      "timing_note": "Listed available now; rent exceeds the $800 cap and the garage adds $45/month."
+    },
+    "park_fee": "$45/mo"
   },
   {
     "slug": "3304-s-kiwanis-ave-4-sioux-falls-sd-57105-c845e8d3",
@@ -1108,15 +1177,15 @@ var L = [
     "zip": "57105",
     "sfpd": 98,
     "area": "C",
-    "avail": "Available Now",
-    "status": "Verified 2026-11-13 from Alpine AppFolio listing c845e8d3 (rent $775 ongoing, shared on-site laundry, assigned off-street parking, no dishwasher listed, 12-month lease special).",
+    "avail": "Tour arranged Nov 23; availability confirmation pending",
+    "status": "Verified 2026-11-13 from Alpine AppFolio listing c845e8d3 (rent $775 ongoing, shared on-site laundry, assigned off-street parking, no dishwasher listed, 12-month lease special). Current RentalSource listing checked 2026-11-22: $65/adult application, $500 deposit, assigned off-street parking; #8 offers $1,500 off over 12/18-month lease and #4 offers $1,500 off 12-month lease. User-reported tour scheduled tomorrow (Nov 23). Listing currently says availability: inquire; confirm exact special terms at tour.",
     "beds": 2,
     "baths": 1,
     "sqft": 794,
     "address": "3304 S Kiwanis Ave - 4, Sioux Falls, SD 57105",
     "deposit": "$500",
     "lease": "12 months",
-    "utils": "unknown",
+    "utils": "Gas, water, garbage, lawn and snow included; tenant pays electric.",
     "phone": "",
     "amenities": [
       "Shared On-Site Laundry",
@@ -1132,7 +1201,18 @@ var L = [
     ],
     "wd": "shared",
     "park": "offstreet",
-    "dw": "unknown"
+    "dw": "unknown",
+    "cost_estimate": {
+      "monthly_min": 936,
+      "monthly_max": 1033,
+      "monthly_label": "$936–$1,033 ongoing; about $811–$908 12-month average if the $1,500 credit applies",
+      "move_in": "$1,405 known (first month $775 + $500 deposit + $130 for two applications); before utility setup",
+      "unpriced": "Confirm exact concession ledger and current availability; garage is not listed; coin laundry cost is estimated.",
+      "basis": "Rent $775; tenant electric; gas/water/garbage/lawn/snow included; Wi-Fi $60 and shared laundry $40–$90 estimated.",
+      "timing_note": "User-reported tour scheduled Monday Nov 23; listing last updated Oct 30 and says inquire about availability. Confirm it is still open."
+    },
+    "app_fee": "$65",
+    "lease_risk": true
   },
   {
     "slug": "sioux-falls-sd-57106-e7ed1269",
@@ -1672,7 +1752,17 @@ var L = [
     ],
     "wd": "onsite",
     "park": "garage",
-    "dw": "yes"
+    "dw": "yes",
+    "cost_estimate": {
+      "monthly_min": 960,
+      "monthly_max": 1057,
+      "monthly_label": "$960–$1,057 + unquoted utilities",
+      "move_in": "$1,399 cash-deposit route (first month $799 + $600 deposit) + application fee; Jetty/surety cost unknown",
+      "unpriced": "Electric/gas/water and application fee not stated; surety bond premium unknown; D-grade safety tradeoff.",
+      "basis": "Rent $799; trash/snow/lawn included; electric $61–$108 + $60 Wi-Fi + shared laundry $40–$90 estimated.",
+      "timing_note": "Listed available now; surety bond premium and application charge remain unquoted. Grade D / 276 calls in the current safety record."
+    },
+    "park_included": true
   },
   {
     "slug": "vineyard-heights-2br",
@@ -1685,7 +1775,7 @@ var L = [
     "sfpd": 10,
     "area": "A",
     "avail": "Available Now",
-    "status": "INCOME-RESTRICTED (LIHTC). Verified 2026-11-15 from Rentable: 2BR/2BA $495-$1,005, 936 sf, 1 unit Available Now. 3BR $1,243. Lease 12 months. App fee $45/adult. Deposit $350-$450. In-unit laundry, dishwasher, off-street parking. Photo verified 200. Income and student status restrictions apply (LIHTC).",
+    "status": "User said they are not doing Vineyard Heights; removed from live options.",
     "beds": 2,
     "baths": 2,
     "sqft": 936,
@@ -1748,35 +1838,36 @@ var L = [
     "safety_method": "sfpd_point_90d",
     "safety_note": "Top: Disorderly Conduct 15, Traffic 12, Other 7 (90-day window, 0.25mi radius)",
     "deposit_status_note": "Security deposit $350-$450 by apartment size",
-    "url": "https://www.rentable.co/sioux-falls-sd/6101-s-vineyard-ave"
+    "url": "https://www.rentable.co/sioux-falls-sd/6101-s-vineyard-ave",
+    "removed": true
   },
   {
     "slug": "chasing-willows-apartments",
     "name": "Chasing Willows Apartments",
     "type": "Apartment",
-    "manager": "On-Site Management",
-    "price_raw": "$684",
-    "price": "684",
+    "manager": "Costello Companies",
+    "price_raw": "$718–$980 (current 2BR range; exact unit unconfirmed)",
+    "price": "718",
     "zip": "57110",
     "sfpd": 40,
     "area": "B",
-    "avail": "Available Now",
-    "status": "INCOME-RESTRICTED (LIHTC/HOME/HUD Sec 8). 2BR $684 <= $900 PASS. zip 57110 != 57104 PASS. Photo PASS (8 photos). Deposit NOT RECORDED on Zillow. Lease 1 year. Total cost $684+.",
+    "avail": "Exact unit availability unconfirmed",
+    "status": "INCOME-RESTRICTED (income limits and student restrictions apply). Current Costello page lists 2BRs 936–964 sf at $718–$980; exact unit rent/availability unconfirmed. Water/sewer/garbage/snow/lawn, washer/dryer and dishwasher included; the 2026 application lists average utilities $123 (gas/electric). Deposit $400; application $45/adult; 12-month lease; average approval 14–21 business days. That timeline may miss the move window. Off-street parking listed; garage not confirmed. Safety grade B, 38 SFPD calls in the last 90 days (0.25 mi).",
     "beds": 2,
     "baths": 2,
     "sqft": 935,
     "address": "4800 East 54th Street, Sioux Falls, SD 57110",
-    "rent_ongoing": "684",
-    "deposit": "unknown",
+    "rent_ongoing": "718-980",
+    "deposit": "$400",
     "admin_fee": "unknown",
-    "app_fee": "unknown",
-    "deposit_status": "not_recorded",
-    "lease": "1 year",
-    "lease_risk": false,
+    "app_fee": "$45",
+    "deposit_status": "standard",
+    "lease": "12 months",
+    "lease_risk": true,
     "wd": "unknown",
-    "park": "unknown",
-    "dw": "unknown",
-    "utils": "unknown",
+    "park": "offstreet",
+    "dw": "yes",
+    "utils": "Water/sewer/garbage/snow/lawn included; average utilities $123 (2026 packet); resident pays gas, electric and internet/cable.",
     "phone": "unknown",
     "amenities": [
       "Air conditioning",
@@ -1786,7 +1877,7 @@ var L = [
       "Clubhouse",
       "Park"
     ],
-    "amenity_source": "Zillow detail page (fetched 2026-11-15) + Redfin search snippet: 2BR $684, 2 baths, 935 sqft, 8 photos. Deposit not stated on Zillow page.",
+    "amenity_source": "Costello property page (current 2BR price range, amenities, utility inclusions): https://www.costelloco.com/property_locations/chasing-willows/ ; 2026 application packet (average utilities $123, $400 deposit, $45/adult, 12-month lease, 14–21 business-day processing): https://www.costelloco.com/wp-content/uploads/2026/03/Chasing-Willows-I-Application-3.18.26.pdf",
     "sfpd_grade": "B",
     "sfpd_calls": 38,
     "sfpd_addr": "4800 E 54th St, Sioux Falls, SD 57110",
@@ -1814,12 +1905,21 @@ var L = [
     ],
     "photo": "https://images.rentable.co/100003566/93625659/tile.webp",
     "photo_status": "verified_200_image",
-    "verified": false,
+    "verified": true,
     "source_lane": "zillow_sioux_falls",
     "safety_method": "sfpd_point_90d",
     "safety_note": "Top: Disorderly Conduct 15, Traffic 12, Other 7 (90-day window, 0.25mi radius)",
     "deposit_status_note": "Deposit not stated on Zillow — contact property for current deposit",
-    "url": "https://www.zillow.com/apartments/sioux-falls-sd/chasing-willows-apartments/CvSKfs/"
+    "url": "https://www.zillow.com/apartments/sioux-falls-sd/chasing-willows-apartments/CvSKfs/",
+    "cost_estimate": {
+      "monthly_min": 901,
+      "monthly_max": 1163,
+      "monthly_label": "$901–$1,163 (average gas/electric included) + any other fees",
+      "move_in": "About $1,208+ at the $718 rent floor (2 adults: first month + $400 deposit + $90 application fees)",
+      "unpriced": "Exact unit availability and internet plan/price; move-in utility setup not included.",
+      "basis": "Current manager 2BR range $718–$980 + $123 average gas/electric from 2026 application + $60 Wi-Fi.",
+      "timing_note": "Exact unit availability unconfirmed; 14–21 business-day approval is likely too slow for the current move window."
+    }
   },
   {
     "slug": "rosecrest-townhomes",
@@ -1888,35 +1988,44 @@ var L = [
     "safety_method": "sfpd_point_90d",
     "safety_note": "Top: Disorderly Conduct 14, Traffic 11, Other 6 (90-day window, 0.25mi radius)",
     "deposit_status_note": "Deposit 'varies, see rep' — not recorded",
-    "url": "https://www.rent.com/apartment/rosecrest-townhomes-sioux-falls-sd-lc5894277"
+    "url": "https://www.rent.com/apartment/rosecrest-townhomes-sioux-falls-sd-lc5894277",
+    "cost_estimate": {
+      "monthly_min": 971,
+      "monthly_max": 1018,
+      "monthly_label": "$971–$1,018 + resident-paid gas/heat",
+      "move_in": "$850 first month + deposit/application fees not published",
+      "unpriced": "Deposit, application fees, gas/heat amount, and approval time not stated.",
+      "basis": "Rent from $850; water/sewer/garbage included; electric $61–$108 + $60 Wi-Fi estimated; in-unit laundry.",
+      "timing_note": "Listed from $850 and available now; income eligibility, fees, and approval timing are not published."
+    }
   },
   {
     "slug": "grant-square-apartments",
     "name": "Grant Square Apartments",
     "type": "Apartment",
     "manager": "Costello Companies",
-    "price_raw": "$662 (2BR, income-based range $587-$886)",
-    "price": "662",
+    "price_raw": "$706–$1,087 (current manager 2BR range; exact unit unconfirmed)",
+    "price": "706",
     "zip": "57106",
     "sfpd": 58,
     "area": "C",
-    "avail": "Available Now",
-    "status": "INCOME-RESTRICTED (LIHTC affordable housing, 40/60 election; income limits apply, 60% AMI up to $40,320/yr 1 person, $46,080 2 people per AHO 2026; Section 8 vouchers accepted). 2BR $662 <= $900 PASS. zip 57106 PASS. In-unit W/D, attached garage, dishwasher. Rent includes water/sewer/garbage/snow/lawn/heat; electric unknown. Deposit $400, app fee $45/adult. 12-month lease required. Processing 14-21 business days. Availability: AHO forecasts short/no waitlist; Rentable (sister building 9408 W Karmya Cir) lists 2 units available but no move-in dates in next 2 months - confirm with office before applying. Office (605) 305-0774, grantsquare@costelloco.com.",
+    "avail": "Exact unit availability unconfirmed",
+    "status": "INCOME-RESTRICTED (LIHTC; income limits/student screening apply). Current Costello page lists 2BRs at $706–$1,087; the exact 9404 unit price/availability is unconfirmed. In-unit W/D, dishwasher and attached garage listed. Current manager page conflicts on heat inclusion; electricity/cable resident-paid. 2025 application: $400 deposit, $45/adult application fee, 12-month lease, 2–6 week average approval. That timing is too slow for the current move window. Safety grade C, 58 SFPD calls in the last 90 days (0.25 mi).",
     "beds": 2,
     "baths": 2,
     "sqft": 1026,
     "address": "9404 West Karmya Circle, Sioux Falls, SD 57106",
-    "rent_ongoing": "662",
+    "rent_ongoing": "706-1087",
     "deposit": "$400",
     "admin_fee": "unknown",
     "app_fee": "$45",
     "deposit_status": "standard",
-    "lease": "1 year",
+    "lease": "12 months",
     "lease_risk": true,
     "wd": "inunit",
     "park": "garage",
     "dw": "yes",
-    "utils": "Water, sewer, garbage, snow, lawn, heat included; electric unknown",
+    "utils": "Water/sewer/garbage/snow/lawn listed included; manager page conflicts on heat; electric/cable resident-paid.",
     "phone": "(605) 305-0774",
     "amenities": [
       "Air conditioning",
@@ -1928,7 +2037,7 @@ var L = [
       "Dishwasher",
       "Water/sewer/garbage included"
     ],
-    "amenity_source": "Costello application packet (costelloco.com/wp-content/uploads/2022/07/Grant-Square-Application.pdf): rent incl. water/sewer/garbage/snow/lawn/washer+dryer/dishwasher/microwave/attached garage; 12-month lease required; 2BR 1026-1058 sqft $587-$886, deposit $400; app fee $45/adult 18+; office (605) 305-0774, grantsquare@costelloco.com; processing 14-21 business days. AffordableHousingOnline Grant Square page (updated 07/06/2026): 2BR $504-$773, LIHTC 40/60, 60% AMI limits, Section 8 accepted, amenities incl. garage/dishwasher/washer+dryer. Rentable (9408 W Karmya Cir): in-unit laundry, heat/water/sewer/trash included, garage attached, 2 units available, no move-in dates in next 2 months. Realtor: 2BR from $662. Photo: AffordableHousingOnline S3 image, real exterior photo, verified 200 image/jpeg and viewed 2026-11-22.",
+    "amenity_source": "Current Costello property page (2BR rent $706–$1,087, W/D and dishwasher; utility inclusion conflict): https://www.costelloco.com/property_locations/grant-square/ ; Costello 2025 application (deposit, application fee, 12-month lease, 2–6 week processing, attached garage): https://www.costelloco.com/wp-content/uploads/2025/07/Grant-Square-2025-Application.pdf",
     "sfpd_grade": "C",
     "sfpd_calls": 58,
     "sfpd_addr": "9404 W Karmya Cir, Sioux Falls, SD 57106",
@@ -1964,7 +2073,17 @@ var L = [
     "source_lane": "grant-square-verification-2026-11-22",
     "safety_method": "sfpd_point_90d",
     "safety_note": "Live SFPD 90d/0.25mi scored 2026-11-22: Disorderly Conduct 26, Traffic 17, Other 13",
-    "deposit_status_note": "Deposit $400 for 2BR per Costello application packet"
+    "deposit_status_note": "Deposit $400 for 2BR per Costello application packet",
+    "park_included": true,
+    "cost_estimate": {
+      "monthly_min": 869,
+      "monthly_max": 1250,
+      "monthly_label": "$869–$1,250 + any heat not included",
+      "move_in": "About $1,196+ at the $706 rent floor (2 adults: first month + $400 deposit + $90 application fees)",
+      "unpriced": "Exact unit rent and availability; heat treatment conflicts across manager materials; utility activation not included.",
+      "basis": "Current manager 2BR range $706–$1,087 + $103 average utilities in 2025 packet + $60 Wi-Fi.",
+      "timing_note": "Exact unit availability unconfirmed; average approval is 2–6 weeks, too slow for the current move window."
+    }
   },
   {
     "slug": "bridgewood-estates-up-to-2-months-free-rent",
@@ -2055,7 +2174,16 @@ var L = [
     "dw": "yes",
     "amenity_source": "Zillow detail page (via Obscura stealth) (https://www.zillow.com/apartments/brandon-sd/arrow-ridge-townhomes-brandon-sd/CjgtXf/) read 2026-11-17",
     "verified": false,
-    "photo_status": "verified 200 at publish time"
+    "photo_status": "verified 200 at publish time",
+    "cost_estimate": {
+      "monthly_min": 883,
+      "monthly_max": 930,
+      "monthly_label": "$883–$930 + gas and any other bill-backs",
+      "move_in": "$762 first month; deposit/app/setup fees not verified for this exact unit",
+      "unpriced": "Current unit availability, garage fee, gas, utility fees, deposit and application details need verification.",
+      "basis": "Listed rent $762 + estimated electric $61–$108 + $60 Wi-Fi; rent is aggregator-sourced.",
+      "timing_note": "Exact availability, lease and fees are unverified."
+    }
   },
   {
     "slug": "williamsburg-townhomes",
@@ -2068,7 +2196,7 @@ var L = [
     "sfpd": 37,
     "area": "B",
     "avail": "Listed - details unverified",
-    "status": "AUTO-PUBLISHED 2026-11-17 from rent.com detail page. Rent $768 for the 2BR read from the listing's own page; lease unknown (not published). Availability, deposit and lease term are as-published only - confirm before applying.",
+    "status": "User previously rejected Williamsburg Townhomes; removed from live options.",
     "beds": 2,
     "baths": 1,
     "sqft": 0,
@@ -2099,7 +2227,8 @@ var L = [
     "dw": "yes",
     "amenity_source": "rent.com detail page (https://www.rent.com/apartment/williamsburg-townhomes-sioux-falls-sd-lc5902838) read 2026-11-17",
     "verified": false,
-    "photo_status": "verified 200 at publish time"
+    "photo_status": "verified 200 at publish time",
+    "removed": true
   },
   {
     "slug": "oakwood-estates",
@@ -2156,7 +2285,7 @@ var L = [
     "sfpd": 119,
     "area": "C",
     "avail": "Listed - details unverified",
-    "status": "AUTO-PUBLISHED 2026-11-17 from rent.com detail page. Rent $763 for the 2BR read from the listing's own page; 875 sqft; lease 15-21 month lease. Availability, deposit and lease term are as-published only - confirm before applying.",
+    "status": "User previously rejected Penbrooke Place; removed from live options.",
     "beds": 2,
     "baths": 1,
     "sqft": 875,
@@ -2188,7 +2317,8 @@ var L = [
     "dw": "yes",
     "amenity_source": "rent.com detail page (https://www.rent.com/apartment/penbrooke-place-sioux-falls-sd-lc6134237) read 2026-11-17",
     "verified": false,
-    "photo_status": "verified 200 at publish time"
+    "photo_status": "verified 200 at publish time",
+    "removed": true
   },
   {
     "slug": "6-flats-apartments",
@@ -2201,7 +2331,7 @@ var L = [
     "sfpd": 295,
     "area": "D",
     "avail": "Listed - details unverified",
-    "status": "AUTO-PUBLISHED 2026-11-17 from rent.com detail page. Rent $795 for the 2BR read from the listing's own page; 688 sqft; lease unknown (not published). Availability, deposit and lease term are as-published only - confirm before applying.",
+    "status": "Removed from live options: this 2BR at 300 S Lowell is grade D (276 SFPD calls in the 90-day, 0.25-mile check), below the current safety bar.",
     "beds": 2,
     "baths": 1,
     "sqft": 688,
@@ -2230,7 +2360,8 @@ var L = [
     "dw": "unknown",
     "amenity_source": "rent.com detail page (https://www.rent.com/apartment/6-flats-apartments-sioux-falls-sd-lc6882825) read 2026-11-17",
     "verified": false,
-    "photo_status": "verified 200 at publish time"
+    "photo_status": "verified 200 at publish time",
+    "removed": true
   },
   {
     "slug": "autumn-park",
@@ -2274,7 +2405,16 @@ var L = [
     "dw": "yes",
     "amenity_source": "rent.com detail page (https://www.rent.com/apartment/autumn-park-sioux-falls-sd-lc6134274) read 2026-11-17",
     "verified": false,
-    "photo_status": "verified 200 at publish time"
+    "photo_status": "verified 200 at publish time",
+    "cost_estimate": {
+      "monthly_min": 841,
+      "monthly_max": 888,
+      "monthly_label": "$841–$888 + unquoted utilities, laundry and fees",
+      "move_in": "$720 first month; deposit/app fees not published",
+      "unpriced": "Gas/water, laundry, mandatory fees, availability and deposit are unverified.",
+      "basis": "Rent $720 + estimated electric $61–$108 + $60 Wi-Fi; rent/terms from an aggregator listing.",
+      "timing_note": "Availability, deposit and screening details are not verified; 14–17 month term reported."
+    }
   },
   {
     "slug": "1317-e-sylvan-cir-5",
@@ -2368,7 +2508,16 @@ var L = [
     "safety_note": "SFPD verification unavailable; cached C/80 proxy was not verified and is not a confirmed property-level count.",
     "amenity_source": "Current Rentable listing checked 2026-11-22 (unit 310, rent/size/availability/garage/laundry) and current RentalSource listing (deposit and dishwasher): https://www.rentable.co/sioux-falls-sd/2301-w-46th-st ; https://www.rentalsource.com/details/2301-w-46th-st-sioux-falls-sd-84492236/",
     "verified": false,
-    "photo_status": "verified_200_image"
+    "photo_status": "verified_200_image",
+    "cost_estimate": {
+      "monthly_min": 958,
+      "monthly_max": 1055,
+      "monthly_label": "$958–$1,055 + utility bill-backs and garage",
+      "move_in": "$1,294 known (first month $797 + $497 deposit); application fee/utilities/garage extra",
+      "unpriced": "Water/gas/common utility bill-backs and garage fee not stated; laundry cost estimated.",
+      "basis": "Rent $797 + estimated electric $61–$108 + $60 Wi-Fi + shared laundry $40–$90; trash listed included.",
+      "timing_note": "Current 2BR unit #310 is listed available now; confirm garage charge and remaining utilities."
+    }
   },
   {
     "slug": "diplomat-apartments-1804-s-stephen-ave-sioux-falls-sd-57103",
@@ -2417,7 +2566,16 @@ var L = [
     "amenity_source": "Apartments.com Diplomat page (rent $795, 2BR/1.5BA, 1050 sqft, unit 1804-04 Now, $500 deposit, on-site laundry); Zumper (dishwasher listed, garage option, heat/water/garbage included)",
     "verified": true,
     "photo_status": "verified_200_image",
-    "source_lane": "diplomat-bentwood-verification-2026-11-22"
+    "source_lane": "diplomat-bentwood-verification-2026-11-22",
+    "cost_estimate": {
+      "monthly_min": 956,
+      "monthly_max": 1053,
+      "monthly_label": "$956–$1,053 before garage fee",
+      "move_in": "$1,295 known (first month $795 + $500 deposit); application fee and garage extra",
+      "unpriced": "Garage charge and application fee unquoted; utility inclusion conflict on listing; laundry cost estimated.",
+      "basis": "Rent $795; electric $61–$108 + Wi-Fi $60 + shared laundry $40–$90 estimated; heat/water/garbage described as included, FAQ conflicts.",
+      "timing_note": "Current Apartments.com unit 1804-04 is listed available now; confirm garage and application costs."
+    }
   },
   {
     "slug": "bentwood-manor-apartments-1901-306-sioux-falls-sd-57106",
@@ -2465,7 +2623,16 @@ var L = [
     "amenity_source": "ApartmentHomeLiving Bentwood page (Maple 2BR/1BA 927 sqft, unit 1901-306 $850 Now $500 deposit, dishwasher); Van Buskirk manager page (Water/Sewer/Garbage included, dishwasher, W/D on-site some in-unit); ForRent (6-12 month leases, $60 app fee, $50 admin fee)",
     "verified": true,
     "photo_status": "verified_200_image",
-    "source_lane": "diplomat-bentwood-verification-2026-11-22"
+    "source_lane": "diplomat-bentwood-verification-2026-11-22",
+    "cost_estimate": {
+      "monthly_min": 1011,
+      "monthly_max": 1108,
+      "monthly_label": "$1,011–$1,108 + any resident-paid gas/fees",
+      "move_in": "$1,520 known (first month $850 + $500 deposit + $120 two applications + $50 admin)",
+      "unpriced": "Parking/garage and possible gas charges not confirmed; one-month-free terms not confirmed.",
+      "basis": "Rent $850; water/sewer/garbage included; electric $61–$108 + Wi-Fi $60 + shared laundry $40–$90 estimated.",
+      "timing_note": "Listed available now; verify one-month-free terms and parking."
+    }
   },
   {
     "slug": "the-grove-at-ellis-crossing-8600-w-41st-st-sioux-falls-sd-57106",
@@ -2478,7 +2645,7 @@ var L = [
     "sfpd": null,
     "area": "?",
     "avail": "Available Now",
-    "status": "OVER $900 CEILING: only 2BR unit listed Available Now is 8600-302 at $1,040 (RentCafe, updated 5 days ago; AHL confirms 8600-302 Available Now). 2BR rent is income-based $568-$1,040 (60% AMI tax-credit). TOUR BOOKED Mon Nov 23, 2026 11:00am CT with Amirah. Availability conflict: RentCafe FAQ says 0 units available, unit table says 8600-302 Now. Deposit, parking/garage, utilities/electric unknown. Phone (605) 667-5922 per property site/Facebook; RentCafe lists (605) 501-5716. Resident review wishes there were garages — garage absence not confirmed as a fact.",
+    "status": "OVER $800 RENT CEILING: only 2BR unit listed Available Now is 8600-302 at $1,040 (RentCafe, updated 5 days ago; AHL confirms 8600-302 Available Now). 2BR rent is income-based $568-$1,040 (60% AMI tax-credit). TOUR BOOKED Mon Nov 23, 2026 11:00am CT with Amirah. Availability conflict: RentCafe FAQ says 0 units available, unit table says 8600-302 Now. Deposit, parking/garage, utilities/electric unknown. Phone (605) 667-5922 per property site/Facebook; RentCafe lists (605) 501-5716. Resident review wishes there were garages — garage absence not confirmed as a fact.",
     "beds": 2,
     "baths": 1,
     "sqft": 795,
@@ -2516,7 +2683,16 @@ var L = [
     "amenity_source": "RentCafe (2BR/1BA 795 sqft $568-$1,040, unit 8600-302 $1,040 Now, updated 5 days ago; app fees $50; W/D, dishwasher; income restricted; phone (605) 501-5716); ApartmentHomeLiving (unit 8600-302 Available Now, 35 units, 3 stories, built 2023, 12-mo lease, updated 11/20/2026); groveatellis.com (phone (605) 667-5922, hours Mon-Thu 9:30-5:30, Fri 9-5); Lloyd Companies (60% AMI tax-credit affordable, partnership with Sioux Falls Ministries/Empower)",
     "verified": true,
     "photo_status": "verified_200_image",
-    "source_lane": "grove-ellis-verification-2026-11-22"
+    "source_lane": "grove-ellis-verification-2026-11-22",
+    "cost_estimate": {
+      "monthly_min": 1161,
+      "monthly_max": 1208,
+      "monthly_label": "$1,161–$1,208 baseline + unquoted utilities/fees/parking",
+      "move_in": "$1,040 first month + unquoted deposit; $50/application if charged per adult",
+      "unpriced": "Utilities, deposit, parking/garage and exact move-in costs unknown; income eligibility applies.",
+      "basis": "Rent $1,040 + estimated electric $61–$108 + $60 Wi-Fi; no source-backed utility total yet.",
+      "timing_note": "User-booked tour Monday Nov 23 at 11:00 a.m. CT; source has an availability conflict; rent is over cap and income restrictions apply."
+    }
   }
 ];
 
@@ -2599,7 +2775,7 @@ function paint(){
 function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){
   return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
 function pnum(p){var m=String(p).match(/([\d,]+)/);return m?parseInt(m[1].replace(/,/g,''),10):999999;}
-function inB(p){return pnum(p)<=900;}
+function inB(p){return pnum(p)<=800;}
 function grade(n){
   if(n==null) return {g:'?',c:'gN',t:'Not measured'};
   if(n<=20)  return {g:'A',c:'gA',t:n+' calls / 0.25mi / 90d'};
@@ -2668,7 +2844,7 @@ function gateUnverified(o){
    availability). Without the hard checks a $1,005 unit scored as "core". */
 function core(o){
   if(!o||o.removed) return false;
-  if(pnum(o.price)>900) return false;
+  if(pnum(o.price)>800) return false;
   if(o.beds!=null&&o.beds<2) return false;
   if(o.zip==='57104') return false;
   if(avS(o)[2]==='no') return false;
@@ -2718,7 +2894,7 @@ function depositSortValue(o){
 }
 function verdict(o){
   var f=[],hard=false;
-  if(pnum(o.price)>900){f.push('$'+pnum(o.price)+' over ceiling');hard=true;}
+  if(pnum(o.price)>800){f.push('$'+pnum(o.price)+' over ceiling');hard=true;}
   if(o.beds!=null&&o.beds<2){f.push('only '+o.beds+'BR');hard=true;}
   if(o.zip==='57104'){f.push('zip 57104 excluded');hard=true;}
   if(o.wd!=='inunit'){
@@ -3193,7 +3369,7 @@ function kbScore(o){
    no longer available). Safety grade is NOT a disqualifier - KeShaun has chosen
    grade-D units himself, so grade only affects the score, not eligibility. */
 function kbBad(o){
-  if(pnum(o.price)>900) return true;
+  if(pnum(o.price)>800) return true;
   if(o.beds!=null&&o.beds<2) return true;
   if(o.zip==='57104') return true;
   if(avS(o)[2]==='no') return true;
@@ -3300,21 +3476,69 @@ function wnRender(){
     '<span>hard-coded pins only</span>';
 }
 
-/* ---------- table view: side-by-side comparison, one column per listing ---------- */
+/* ---------- table view: all listings and cost-ranked shortlist ---------- */
 var TB_TOP=['3304-s-kiwanis-ave-8-sioux-falls-sd-5710','3709-s-cathy-avenue-3709-3-sioux-falls-sd-57106','sioux-falls-sd-57106-3ae97499','46west-apartments','diplomat-apartments-1804-s-stephen-ave-sioux-falls-sd-57103','bentwood-manor-apartments-1901-306-sioux-falls-sd-57106'];
-var TB_FEES={'3304-s-kiwanis-ave-8-sioux-falls-sd-5710':25,'3709-s-cathy-avenue-3709-3-sioux-falls-sd-57106':75,'sioux-falls-sd-57106-3ae97499':45};
 var tbTopOnly=false;
-function tbAllIn(o){return (+o.price||0)+(TB_FEES[o.slug]||0)+75+60;}
+var tbCostMode=false;
 function tbSafety(o){var g=grade(o.sfpd);return g.g==='?'?'? (not graded)':g.g+' ('+o.sfpd+')';}
 function tbCell(v){return (v==null||v==='')?'&mdash;':esc(v);}
+function tbCostSafety(o){
+  var g=o.sfpd_grade;
+  var calls=o.sfpd_calls;
+  if(g==='unknown'||g==='unmeasured')return 'Not graded';
+  if(!g){g=grade(o.sfpd).g;if(calls==null&&typeof o.sfpd==='number')calls=o.sfpd;}
+  if(!g||g==='?'||g==='unknown'||g==='unmeasured')return 'Not graded';
+  return g+' &middot; '+(calls==null?'call count unavailable':esc(calls)+' calls / 90d');
+}
+function tbLaundry(o){
+  if(o.wd==='inunit')return 'In-unit W/D';
+  if(o.wd==='onsite')return 'Shared laundry';
+  if(o.wd==='shared')return 'Shared laundry';
+  return o.slug==='chasing-willows-apartments'?'Washer/dryer listed; location unconfirmed':'Unconfirmed';
+}
+function tbGarage(o){
+  if(o.park==='garage'){
+    if(o.park_included===true)return 'Garage included';
+    if(o.park_fee)return 'Garage '+esc(o.park_fee);
+    return 'Garage available; fee unknown';
+  }
+  if(o.park==='offstreet')return 'Off-street parking';
+  return 'Parking unconfirmed';
+}
+function tbRentCap(o){
+  var s=o.price_raw||'',m=s.match(/\$([\d,]+)\s*[–-]\s*\$([\d,]+)/),lo=m?parseInt(m[1].replace(/,/g,''),10):(+o.price||0),hi=m?parseInt(m[2].replace(/,/g,''),10):lo;
+  if(lo>800)return '<span class="tb-cap over">OVER $800 RENT</span>';
+  if(hi>800)return '<span class="tb-cap maybe">RANGE CROSSES $800</span>';
+  return '<span class="tb-cap">WITHIN $800 RENT</span>';
+}
+function tbRenderCosts(rows){
+  var cols=rows.filter(function(o){return o.cost_estimate&&typeof o.cost_estimate.monthly_min==='number';});
+  cols.sort(function(a,b){return a.cost_estimate.monthly_min-b.cost_estimate.monthly_min||(+a.price||0)-(+b.price||0);});
+  var h='<table class="tb-cost"><thead><tr><th>#</th><th>Listing</th><th>Rent / $800 cap</th><th>Est. monthly cost</th><th>Laundry / parking / dishwasher</th><th>Safety</th><th>Known move-in cash</th><th>Unpriced / timing</th></tr></thead><tbody>';
+  for(var i=0;i<cols.length;i++){
+    var o=cols[i],c=o.cost_estimate,sc=PICK.w.indexOf(o.slug)>=0?'Winner shortlist':(TB_TOP.indexOf(o.slug)>=0?'Top pick':'');
+    var details=[c.unpriced||'',c.timing_note||''].filter(Boolean).join(' ');
+    h+='<tr><td class="tb-cost-rank">'+(i+1)+'</td><td class="tb-cost-name">'+(o.url?'<a href="'+esc(o.url)+'" target="_blank" rel="noopener">'+esc(o.name)+'</a>':esc(o.name))+
+      (sc?'<span class="tb-cost-sub">'+esc(sc)+'</span>':'')+'<span class="tb-cost-sub">'+esc(o.address||'')+'</span></td>'+
+      '<td><b>'+esc(o.price_raw||('$'+o.price))+'</b><br>'+tbRentCap(o)+'</td>'+
+      '<td><b>'+esc(c.monthly_label||('$'+c.monthly_min+'–$'+c.monthly_max))+'</b><span class="tb-cost-sub">'+esc(c.basis||'')+'</span></td>'+
+      '<td>'+esc(tbLaundry(o))+'<span class="tb-cost-sub">'+esc(tbGarage(o))+'<br>Dishwasher: '+(o.dw==='yes'?'Yes':o.dw==='no'?'No':'Unconfirmed')+'</span></td>'+
+      '<td>'+tbCostSafety(o)+'</td><td>'+esc(c.move_in||'Not enough sourced information')+'</td><td>'+esc(details||'No extra timing note')+'</td></tr>';
+  }
+  h+='</tbody></table>';
+  var omitted=rows.filter(function(o){return (o.beds||0)>=2&&!o.cost_estimate;}).length;
+  document.getElementById('tbWrap').innerHTML=cols.length?h:'<div class="kb-empty">No cost estimates published yet.</div>';
+  document.getElementById('tbStats').innerHTML='<span><b>'+cols.length+'</b> cost-ranked options</span><span><b>'+omitted+'</b> other 2BR listings need better cost data</span><span>sorted by ongoing monthly estimate</span>';
+}
 function tbRender(){
   var rows=L.filter(function(o){return !o.removed;});
+  if(tbCostMode){tbRenderCosts(rows);document.getElementById('tbAll').classList.remove('on');document.getElementById('tbTop').classList.remove('on');document.getElementById('tbCosts').classList.add('on');return;}
   rows.sort(function(a,b){return (+a.price||0)-(+b.price||0);});
   var cols=rows.filter(function(o){return !tbTopOnly||TB_TOP.indexOf(o.slug)>=0;});
   function cell(o,k){
     if(k==='photo')return o.photo?'<img src="'+esc(o.photo)+'" alt="" loading="lazy">':'<span class="np">NO PHOTO</span>';
     if(k==='rent')return '<b>'+esc(o.price_raw||('$'+o.price))+'</b>';
-    if(k==='allin'){var a=tbAllIn(o);return '<b>$'+a+'</b><br><span class="tb-half">your half ~$'+Math.round(a/2)+'</span>';}
+    if(k==='allin')return o.cost_estimate?'<b>'+esc(o.cost_estimate.monthly_label)+'</b>':'<span class="np">Not estimated</span>';
     if(k==='bb')return (o.beds==null?'?':o.beds)+'bd / '+(o.baths==null?'?':o.baths)+'ba';
     if(k==='sqft')return o.sqft?String(o.sqft):'&mdash;';
     if(k==='wd')return esc(wdS(o)[0]);
@@ -3328,7 +3552,7 @@ function tbRender(){
     if(k==='link')return o.url?'<a href="'+esc(o.url)+'" target="_blank" rel="noopener">Listing</a>':'&mdash;';
     return '&mdash;';
   }
-  var defs=[['Photo','photo'],['Rent','rent'],['Est. all-in / mo','allin'],['Beds / Baths','bb'],
+  var defs=[['Photo','photo'],['Rent','rent'],['Est. monthly cost','allin'],['Beds / Baths','bb'],
     ['Sq ft','sqft'],['Laundry','wd'],['Parking','park'],['Dishwasher','dw'],
     ['Deposit','dep'],['Lease','lease'],['Safety','safe'],['Utilities','utils'],
     ['Available','avail'],['Link','link']];
@@ -3354,6 +3578,7 @@ function tbRender(){
   document.getElementById('tbStats').innerHTML='<span><b>'+cols.length+'</b> shown</span><span><b>'+rows.length+'</b> live</span>';
   document.getElementById('tbAll').classList.toggle('on',!tbTopOnly);
   document.getElementById('tbTop').classList.toggle('on',tbTopOnly);
+  document.getElementById('tbCosts').classList.remove('on');
 }
 
 /* ---------- view router: ONE function decides which page shows ---------- */
@@ -3387,8 +3612,9 @@ window.addEventListener('hashchange',function(){setView(curView());});
 document.getElementById('kbQ').addEventListener('input',kbRender);
 document.getElementById('wnQ').addEventListener('input',wnRender);
 document.getElementById('kbReset').addEventListener('click',function(){KBS.over={};kbSave();kbRender();});
-document.getElementById('tbAll').addEventListener('click',function(){tbTopOnly=false;tbRender();});
-document.getElementById('tbTop').addEventListener('click',function(){tbTopOnly=true;tbRender();});
+document.getElementById('tbAll').addEventListener('click',function(){tbTopOnly=false;tbCostMode=false;tbRender();});
+document.getElementById('tbCosts').addEventListener('click',function(){tbTopOnly=false;tbCostMode=true;tbRender();});
+document.getElementById('tbTop').addEventListener('click',function(){tbTopOnly=true;tbCostMode=false;tbRender();});
 document.getElementById('tbPrint').addEventListener('click',function(){window.print();});
 document.addEventListener('blur',function(e){
   if(!(e.target&&e.target.classList&&e.target.classList.contains('kb-note')))return;
